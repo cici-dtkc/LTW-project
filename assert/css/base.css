@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+/* - định nghĩa các quy tắc CSS cơ bản, chung cho toàn bộ website*/
+
+:root{
+    --color-one: #FF8484;
+    --color-two:#F7D9C4 ;
+    --color-text : #1B2026;
+    --color-user:#EFEFEF ;
+    --color-bg2:#DCE8EB  ;
+    --color-bg32:#31363B  ;
+    --color-head:white;
+    --font: 'DM Sans', serif;
+    --color-text-user: #4AA3B3;
+}
+
+body{
+    font-family: var(--font) ;
+}
+a{
+    text-decoration: none;
+}
+*{
+    box-sizing: border-box;
+}
+.container{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
