@@ -27,3 +27,13 @@ a{
     max-width: 1200px;
     margin: 0 auto;
 }
+.page-title {
+    font-family: "Quicksand", sans-serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: #444;
+    background-color: #f9f3ef;
+    padding: 10px 20px;
+    border-radius: 50px;
+    display: inline-block;
+}
