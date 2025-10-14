@@ -1,0 +1,255 @@
+/* Tổng thể */
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Bố cục chính */
+.cart-wrap {
+    padding: 50px 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+.row {
+    display: flex;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.col-lg-8 {
+    flex: 2;
+}
+
+.col-lg-4 {
+    flex: 1;
+}
+
+/* Bảng sản phẩm */
+.table-cart table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-cart thead {
+    background-color: #f8f8f8;
+}
+
+.table-cart th {
+    text-align: left;
+    padding: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+.table-cart td {
+    padding: 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #eee;
+}
+
+/* Ảnh sản phẩm */
+.table-cart img {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* Sản phẩm trống */
+.empty-cart {
+    text-align: center;
+    color: #888;
+}
+
+/* Cột sản phẩm */
+.table-cart td:nth-child(2) {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Nút tăng giảm số lượng */
+.qty-control {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.qty-control button {
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: white;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: all 0.2s;
+}
+
+.qty-control button:hover {
+    color: rgb(250, 5, 5);
+}
+
+.qty-control .quantity {
+    width: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Tổng tiền sản phẩm */
+.table-cart td:last-child {
+    font-weight: 600;
+    color: #325dca;
+    font-size: 20px;
+}
+
+/* Khu vực tổng tiền */
+.beta {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 380px;
+    position: fixed;
+    right: 80px;      /* cách mép phải */
+    top: 40%;
+    transform: translateY(-50%)
+
+}
+.cart-totals {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    z-index: 1000;
+}
+
+.cart-totals h3 {
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.cart-totals table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-totals td {
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+.cart-totals .total-row td {
+    font-weight: 600;
+    font-size: 30px;
+    color: #496dca;
+}
+.coupon-box {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.coupon-box form {
+    width: 100%;
+}
+
+.coupon-input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Ô nhập mã giảm giá */
+.coupon-input input[type="text"] {
+    flex: 1;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.coupon-input input[type="text"]:focus {
+    background-color: #ffffff;
+    color: #232323;
+    border: 1px solid black;
+}
+
+/* Nút Apply Coupon */
+.coupon-input button {
+    background-color: #1c1c1c;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.coupon-input button:hover {
+    background-color: #ffffff;
+    color: #232323;
+    border: 2px solid black;
+}
+
+/* Nút hành động */
+.btn-cart-totals {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.round-black-btn {
+    display: inline-block;
+    background-color: #232323;
+    color: #ebf6f8;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.round-black-btn:hover {
+    background-color: #ffffff;
+    color: #232323;
+    border: 2px solid black;
+}
+.delete {
+    width: 120px;
+}
+
+/* Checkbox chọn tất cả */
+#selectAll {
+    transform: scale(1.3);
+}
+
+/* Nút "Thêm sản phẩm" */
+#addProduct {
+    margin-bottom: 20px;
+    background-color: #7a5af8;
+}
+
+#addProduct:hover {
+    background-color: #6140d8;
+}
+
+
