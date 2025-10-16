@@ -1,115 +1,98 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Thanh toán — Mẫu HTML (không CSS, không JS)</title>
-    <!--
-      Tệp này chỉ chứa HTML thuần theo yêu cầu.
-      Thêm CSS/JS sau khi cần (external hoặc inline).
-    -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <link rel="stylesheet" href="assert/css/checkout.css">
+
 </head>
 <body>
-<header>
-    <h1>Shoppe - Thanh toán</h1>
-    <nav>
-        <a href="#">Trang chủ</a> • <a href="#">Giỏ hàng</a> • <a href="#">Tài khoản</a>
-    </nav>
-</header>
+<!--<header>-->
+<!--    <h1>Shoppe - Thanh toán</h1>-->
+<!--    <nav>-->
+<!--        <a href="#">Trang chủ</a> •-->
+<!--        <a href="#">Giỏ hàng</a> •-->
+<!--        <a href="#">Tài khoản</a>-->
+<!--    </nav>-->
+<!--</header>-->
 
 <main>
-    <!-- BÊN TRÁI: Thông tin giao hàng & phương thức thanh toán -->
-    <section>
-        <h3>📍 Địa Chỉ Nhận Hàng</h3>
-        <p>
-            <strong>Huỳnh Đức</strong>
-            <span>(+84) 902 275 080</span>
-        </p>
+    <!-- ĐỊA CHỈ NHẬN HÀNG -->
+    <section class="address">
+        <i class="fa-solid fa-location-dot"  ></i>  <span class = "title">Địa Chỉ Nhận Hàng </span>
+        <p><strong>Huỳnh Đức</strong> <span>(+84) 902 275 080</span></p>
         <p>
             Sau Ủy Ban Khánh Bình, Xã Khánh Bình, Huyện An Phú, An Giang
-            <span>[Mặc định]</span>
+            <span class="default">Mặc định</span>
             <a href="#">Thay đổi</a>
         </p>
     </section>
 
-            <fieldset>
-                <legend>Phương thức giao hàng</legend>
-                <p>
-                    <input type="radio" id="ship_standard" name="shipping" value="standard" checked />
-                    <label for="ship_standard">Giao tiêu chuẩn (1-3 ngày)</label>
-                </p>
-                <p>
-                    <input type="radio" id="ship_express" name="shipping" value="express" />
-                    <label for="ship_express">Giao nhanh (trong ngày / 1 ngày)</label>
-                </p>
-            </fieldset>
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <section class="products">
+        <h3>🛍️ Sản phẩm</h3>
+        <ul>
+            <li>
+                <div><strong>Tai nghe không dây X1</strong><br> Số lượng: 1 • Giá: 650.000₫</div>
+            </li>
+            <li>
+                <div><strong>Chuột gaming Z5</strong><br> Số lượng: 2 • Giá: 320.000₫</div>
+            </li>
+        </ul>
+    </section>
 
-            <fieldset>
-                <legend>Phương thức thanh toán</legend>
-                <p>
-                    <select name="payment_method">
-                        <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-                        <option value="card">Thẻ (Visa/Master/JCB)</option>
-                        <option value="momo">Ví điện tử (Momo, ZaloPay...)</option>
-                        <option value="bank">Chuyển khoản ngân hàng</option>
-                    </select>
-                </p>
+    <!-- MÃ GIẢM GIÁ -->
+    <section class="voucher">
+        <h3>🏷️ Mã giảm giá</h3>
+        <p>
+            <input type="text" id="voucher_code" placeholder="Nhập mã giảm giá (VD: SALE20)">
+            <button type="button">Áp dụng</button>
+        </p>
+    </section>
 
-                <p>
-                    <label for="note">Ghi chú cho người giao</label><br />
-                    <textarea id="note" name="note" rows="3" placeholder="Ghi chú (ví dụ: gọi trước khi giao)"></textarea>
-                </p>
-            </fieldset>
+    <!-- PHƯƠNG THỨC THANH TOÁN -->
+    <section>
+        <h2>Phương thức thanh toán</h2>
 
+        <form>
+            <label>
+                <input type="radio" name="payment" value="cod" checked>
+                Thanh toán khi nhận hàng (COD)
+            </label><br>
+
+            <label>
+                <input type="radio" name="payment" value="momo">
+                Thanh toán qua MoMo
+            </label><br>
+
+            <label>
+                <input type="radio" name="payment" value="bank">
+                Chuyển khoản ngân hàng
+            </label><br>
+
+            <label>
+                <input type="radio" name="payment" value="credit">
+                Thẻ tín dụng / Ghi nợ
+            </label>
         </form>
     </section>
 
-    <!-- BÊN PHẢI: Tóm tắt đơn hàng -->
-    <aside id="order-summary">
-        <h2>Đơn hàng</h2>
 
-        <section id="products">
-            <h3>Sản phẩm (2)</h3>
-            <ul>
-                <li>
-                    <div>
-                        <strong>Tai nghe không dây X1</strong><br />
-                        Số lượng: 1 • Giá: 650.000₫
-                    </div>
-                </li>
-                <li>
-                    <div>
-                        <strong>Chuột gaming Z5</strong><br />
-                        Số lượng: 2 • Giá: 320.000₫
-                    </div>
-                </li>
-            </ul>
-        </section>
+    <!-- TỔNG TIỀN -->
+    <section class="summary">
+        <h3>🧾 Tóm tắt đơn hàng</h3>
+        <p>Tạm tính: <strong>1.290.000₫</strong></p>
+        <p>Phí vận chuyển: <strong>25.000₫</strong></p>
+        <p>Giảm giá: <strong>0₫</strong></p>
+        <p class="total">Tổng cộng: <strong>1.315.000₫</strong></p>
+    </section>
 
-        <section id="voucher">
-            <h3>Mã giảm giá</h3>
-            <p>
-                <label for="voucher_code">Nhập mã</label><br />
-                <input type="text" id="voucher_code" name="voucher_code" placeholder="VD: SALE20" />
-                <button type="submit" formmethod="post">Áp dụng</button>
-            </p>
-        </section>
-
-        <section id="costs">
-            <h3>Tóm tắt giá</h3>
-            <p>Tạm tính: <strong>1.290.000₫</strong></p>
-            <p>Phí vận chuyển: <strong>25.000₫</strong></p>
-            <p>Giảm giá: <strong>0₫</strong></p>
-            <p class="total">Tổng cộng: <strong>1.315.000₫</strong></p>
-        </section>
-
-        <form action="#" method="post">
-            <p>
-                <button type="submit">Đặt hàng</button>
-            </p>
-        </form>
-
-    </aside>
+    <!-- NÚT ĐẶT HÀNG -->
+    <section class="action">
+        <button type="submit">Đặt hàng</button>
+    </section>
 </main>
 </body>
 </html>

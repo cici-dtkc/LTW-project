@@ -1,0 +1,120 @@
+
+
+
+
+
+/* ===== MAIN ===== */
+main {
+    background: #fff;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+section {
+    margin-bottom: 25px;
+}
+
+/* ===== TIÊU ĐỀ MỤC ===== */
+.section span {
+    color: #ee4d2d;
+    margin-bottom: 10px;
+}
+
+
+/* ===== ĐỊA CHỈ ===== */
+.address i , .address .title{
+    font-size: 24px;
+}
+.address p {
+    line-height: 1.6;
+}
+
+.address .default {
+    border: 1px solid #ee4d2d;
+    color: #ee4d2d;
+    font-size: 12px;
+    padding: 2px 4px;
+    border-radius: 3px;
+    margin-left: 6px;
+}
+
+.address a {
+    color: #007aff;
+    text-decoration: none;
+    margin-left: 8px;
+}
+
+/* ===== SẢN PHẨM ===== */
+.products ul {
+    list-style: none;
+}
+
+.products li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* ===== VOUCHER ===== */
+.voucher input {
+    width: 65%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.voucher button {
+    width: 30%;
+    margin-left: 5%;
+    background: #ee4d2d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.voucher button:hover {
+    background: #d73211;
+}
+
+/* ===== PHƯƠNG THỨC THANH TOÁN ===== */
+.payment select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* ===== TÓM TẮT ===== */
+.summary p {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+
+.summary .total strong {
+    color: #ee4d2d;
+    font-size: 18px;
+}
+
+/* ===== NÚT ===== */
+.action {
+    text-align: center;
+}
+
+.action button {
+    background: #ee4d2d;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.action button:hover {
+    background: #d73211;
+}
