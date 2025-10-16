@@ -26,9 +26,11 @@ body {
 .payment .container {
     width: 450px;
     background: #fff;
-    padding: 30px;
+    padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 1px solid #888888;
+
 }
 
 .payment .container .inner-wrap {
@@ -41,9 +43,9 @@ body {
 }
 
 .payment .container .inner-wrap .inner-title h1 {
-    font-weight: 600;
-    color: #333;
-    font-size: 24px;
+    font-weight: bold;
+    color: var(--color-text-user);
+    font-size: 40px;
 }
 
 /* ----- BOX CHỨA TOÀN BỘ FORM ----- */
@@ -60,7 +62,7 @@ body {
     display: block;
     font-weight: 600;
     margin-bottom: 10px;
-    color: #333;
+    color: #040404;
 }
 
 .payment .container .inner-wrap .box .section-one .options {
@@ -80,6 +82,7 @@ body {
     transform: scale(1.2);
     margin-right: 5px;
 }
+
 
 .payment .container .inner-wrap .box .section-one .options img {
     width: 45px;
@@ -117,7 +120,7 @@ body {
 }
 
 .payment .container .inner-wrap .box .section-two .field input:focus {
-    border-color: #2d89ef;
+    border-color: #888888;
     outline: none;
 }
 
