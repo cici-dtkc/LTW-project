@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <title>Thanh Toán</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Thanh toán — Mẫu HTML (không CSS, không JS)</title>
+    <!--
+      Tệp này chỉ chứa HTML thuần theo yêu cầu.
+      Thêm CSS/JS sau khi cần (external hoặc inline).
+    -->
 </head>
 <body>
-Trang thanh toán
+<header>
+    <h1>Shoppe - Thanh toán</h1>
+    <nav>
+        <a href="#">Trang chủ</a> • <a href="#">Giỏ hàng</a> • <a href="#">Tài khoản</a>
+    </nav>
+</header>
+
+<main>
+    <!-- BÊN TRÁI: Thông tin giao hàng & phương thức thanh toán -->
+    <section>
+        <h3>📍 Địa Chỉ Nhận Hàng</h3>
+        <p>
+            <strong>Huỳnh Đức</strong>
+            <span>(+84) 902 275 080</span>
+        </p>
+        <p>
+            Sau Ủy Ban Khánh Bình, Xã Khánh Bình, Huyện An Phú, An Giang
+            <span>[Mặc định]</span>
+            <a href="#">Thay đổi</a>
+        </p>
+    </section>
+
+            <fieldset>
+                <legend>Phương thức giao hàng</legend>
+                <p>
+                    <input type="radio" id="ship_standard" name="shipping" value="standard" checked />
+                    <label for="ship_standard">Giao tiêu chuẩn (1-3 ngày)</label>
+                </p>
+                <p>
+                    <input type="radio" id="ship_express" name="shipping" value="express" />
+                    <label for="ship_express">Giao nhanh (trong ngày / 1 ngày)</label>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Phương thức thanh toán</legend>
+                <p>
+                    <select name="payment_method">
+                        <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                        <option value="card">Thẻ (Visa/Master/JCB)</option>
+                        <option value="momo">Ví điện tử (Momo, ZaloPay...)</option>
+                        <option value="bank">Chuyển khoản ngân hàng</option>
+                    </select>
+                </p>
+
+                <p>
+                    <label for="note">Ghi chú cho người giao</label><br />
+                    <textarea id="note" name="note" rows="3" placeholder="Ghi chú (ví dụ: gọi trước khi giao)"></textarea>
+                </p>
+            </fieldset>
+
+        </form>
+    </section>
+
+    <!-- BÊN PHẢI: Tóm tắt đơn hàng -->
+    <aside id="order-summary">
+        <h2>Đơn hàng</h2>
+
+        <section id="products">
+            <h3>Sản phẩm (2)</h3>
+            <ul>
+                <li>
+                    <div>
+                        <strong>Tai nghe không dây X1</strong><br />
+                        Số lượng: 1 • Giá: 650.000₫
+                    </div>
+                </li>
+                <li>
+                    <div>
+                        <strong>Chuột gaming Z5</strong><br />
+                        Số lượng: 2 • Giá: 320.000₫
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section id="voucher">
+            <h3>Mã giảm giá</h3>
+            <p>
+                <label for="voucher_code">Nhập mã</label><br />
+                <input type="text" id="voucher_code" name="voucher_code" placeholder="VD: SALE20" />
+                <button type="submit" formmethod="post">Áp dụng</button>
+            </p>
+        </section>
+
+        <section id="costs">
+            <h3>Tóm tắt giá</h3>
+            <p>Tạm tính: <strong>1.290.000₫</strong></p>
+            <p>Phí vận chuyển: <strong>25.000₫</strong></p>
+            <p>Giảm giá: <strong>0₫</strong></p>
+            <p class="total">Tổng cộng: <strong>1.315.000₫</strong></p>
+        </section>
+
+        <form action="#" method="post">
+            <p>
+                <button type="submit">Đặt hàng</button>
+            </p>
+        </form>
+
+    </aside>
+</main>
 </body>
 </html>
