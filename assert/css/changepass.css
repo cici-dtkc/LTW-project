@@ -143,6 +143,6 @@ p {
     position: relative;
 }
 
-/*.hidden {*/
-/*    display: none;*/
-/*}*/
+.hidden {
+    display: none;
+}
