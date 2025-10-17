@@ -1,15 +1,20 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    const usernameInput = document.getElementById("username");
-    const passwordInput = document.getElementById("password");
-    const checkboxRemember = document.querySelector(".checkbox input[type='checkbox']");
-    const loginButton = document.querySelector(".btn");
+    const form = document.getElementById("login-form");
+    const usernameInput = document.getElementById("login-username");
+    const passwordInput = document.getElementById("login-password");
+    const checkboxRemember = document.getElementById("remember-checkbox");
+    const loginButton = document.getElementById("btn-login");
 
-    // --- Tự động điền username nếu đã ghi nhớ ---
+    // --- Chỉ tự động điền username nếu đã ghi nhớ và checkbox còn được bật ---
     const rememberedUsername = localStorage.getItem("rememberedUsername");
-    if (rememberedUsername) {
+    const rememberChecked = localStorage.getItem("rememberChecked");
+
+    if (rememberChecked === "true" && rememberedUsername) {
         usernameInput.value = rememberedUsername;
         checkboxRemember.checked = true;
+    } else {
+        checkboxRemember.checked = false;
+        usernameInput.value = ""; // đảm bảo không còn hiển thị "admin"
     }
 
     // --- Xử lý khi nhấn Đăng nhập ---
@@ -32,8 +37,10 @@ document.addEventListener("DOMContentLoaded", function () {
             // Lưu hoặc xóa tên người dùng theo checkbox
             if (checkboxRemember.checked) {
                 localStorage.setItem("rememberedUsername", username);
+                localStorage.setItem("rememberChecked", "true");
             } else {
                 localStorage.removeItem("rememberedUsername");
+                localStorage.removeItem("rememberChecked");
             }
 
             // Giả lập chuyển hướng sau khi đăng nhập
@@ -45,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // --- Cho phép nhấn Enter trong input để đăng nhập ---
+    // --- Cho phép nhấn Enter để đăng nhập ---
     form.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
             e.preventDefault();
@@ -53,9 +60,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // --- Hàm hiển thị thông báo đẹp và mượt ---
+    // --- Hàm hiển thị thông báo ---
     function showAlert(message, type = "error") {
-        // Xóa alert cũ (nếu có)
         const oldAlert = document.querySelector(".alert");
         if (oldAlert) oldAlert.remove();
 
@@ -63,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
         alert.className = `alert ${type}`;
         alert.textContent = message;
 
-        // Style thông báo
         Object.assign(alert.style, {
             position: "fixed",
             top: "20px",
