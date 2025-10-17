@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thanh toán</title>
     <link rel="stylesheet" href="assert/css/checkout.css">
+    <link rel="stylesheet" href="assert/css/cart.css">
 
 </head>
 <body>
@@ -63,16 +64,20 @@
 
     <!-- MÃ GIẢM GIÁ -->
     <section class="voucher">
-        <h3>🏷️ Mã giảm giá</h3>
-        <p>
-            <input type="text" id="voucher_code" placeholder="Nhập mã giảm giá (VD: SALE20)">
-            <button type="button">Áp dụng</button>
-        </p>
+        <h3 class="title">Mã Khuyến Mãi</h3>
+        <div class="coupon-box" style="box-shadow:none ; width: 500px ;margin: 0">
+            <form action="#" method="get" accept-charset="utf-8">
+                <div class="coupon-input"  >
+                    <input type="text" name="coupon" placeholder="Mã Khuyến Mãi">
+                    <button type="submit" class="round-black-btn">Áp Dụng</button>
+                </div>
+            </form>
+        </div>
     </section>
 
     <!-- PHƯƠNG THỨC THANH TOÁN -->
-    <section>
-        <h2>Phương thức thanh toán</h2>
+    <section class ="payment">
+        <h3 class="title">Phương thức thanh toán</h3>
 
         <form>
             <label>
@@ -100,17 +105,18 @@
 
     <!-- TỔNG TIỀN -->
     <section class="summary">
-        <h3>🧾 Tóm tắt đơn hàng</h3>
+        <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
         <p>Tạm tính: <strong>1.290.000₫</strong></p>
         <p>Phí vận chuyển: <strong>25.000₫</strong></p>
         <p>Giảm giá: <strong>0₫</strong></p>
         <p class="total">Tổng cộng: <strong>1.315.000₫</strong></p>
+        <div class="action">
+            <button type="submit" class = "round-black-btn" style="width: 150px" >Đặt hàng</button>
+        </div>
     </section>
 
     <!-- NÚT ĐẶT HÀNG -->
-    <section class="action">
-        <button type="submit">Đặt hàng</button>
-    </section>
+
 </main>
 </body>
 </html>
