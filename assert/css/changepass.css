@@ -7,18 +7,19 @@
     margin: 50px auto;
     text-align: center;
 }
-h2 {
+#verify-step h2, #confirm-step h2, #reset-step h2 {
     text-transform: uppercase;
     color: var(--color-text-user);
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 20px;
     margin-bottom: 20px;
 }
 
-p {
-    font-size: 0.9rem;
-    color: #6b7280;
-    margin-bottom: 25px;
+#verify-step p, #confirm-step p, #reset-step p {
+    font-size: 16px;
+    color: var(--color-text);
+    margin-bottom: 20px;
+    line-height: 1.2;
 }
 
 #verify-step .code-inputs {
@@ -107,6 +108,7 @@ p {
     font-size: 0.9rem;
     color: #374151;
     margin-bottom: 6px;
+    text-align: left;
 }
 
 #reset-step .input-group input {
