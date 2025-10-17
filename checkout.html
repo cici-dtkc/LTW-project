@@ -21,7 +21,7 @@
 <main>
     <!-- ĐỊA CHỈ NHẬN HÀNG -->
     <section class="address">
-        <i class="fa-solid fa-location-dot"  ></i>  <span class = "title">Địa Chỉ Nhận Hàng </span>
+        <i class="fa-solid fa-location-dot"></i><span class="title">Địa Chỉ Nhận Hàng </span>
         <p><strong>Huỳnh Đức</strong> <span>(+84) 902 275 080</span></p>
         <p>
             Sau Ủy Ban Khánh Bình, Xã Khánh Bình, Huyện An Phú, An Giang
@@ -32,15 +32,33 @@
 
     <!-- DANH SÁCH SẢN PHẨM -->
     <section class="products">
-        <h3>🛍️ Sản phẩm</h3>
-        <ul>
-            <li>
-                <div><strong>Tai nghe không dây X1</strong><br> Số lượng: 1 • Giá: 650.000₫</div>
-            </li>
-            <li>
-                <div><strong>Chuột gaming Z5</strong><br> Số lượng: 2 • Giá: 320.000₫</div>
-            </li>
-        </ul>
+        <h3 class="title"> Sản phẩm</h3>
+        <!-- Bảng sản phẩm -->
+        <table class="product-table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sản phẩm 1 -->
+            <tr class="product-item">
+                <td class="product-info">
+                    <img src="assert/img/amex.png" alt="Áo Baby Doll"/>
+                    <div class="details">
+                        <p class="name">Áo Baby Doll Hàn Quốc – Mẫu Mới Dành Cho Nữ</p>
+                        <p class="type">Phân loại: Áo thun ôm màu trắng</p>
+                    </div>
+                </td>
+                <td class="price">32.000₫</td>
+                <td class="quantity">2</td>
+                <td class="total">64.000₫</td>
+            </tr>
+            </tbody>
+        </table>
     </section>
 
     <!-- MÃ GIẢM GIÁ -->

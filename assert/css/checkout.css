@@ -1,16 +1,13 @@
 
-
-
-
-
 /* ===== MAIN ===== */
 main {
     background: #fff;
-    max-width: 700px;
+    max-width: 1200px;
     margin: 30px auto;
     padding: 20px 25px;
     border-radius: 8px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
 }
 
 section {
@@ -20,13 +17,21 @@ section {
 /* ===== TIÊU ĐỀ MỤC ===== */
 .section span {
     color: #ee4d2d;
-    margin-bottom: 10px;
 }
 
 
 /* ===== ĐỊA CHỈ ===== */
-.address i , .address .title{
+.address {
+    border-bottom: 1px solid rgba(135, 136, 136, 0.27);
+    margin: 20px;
+}
+.address i , main .title{
     font-size: 24px;
+    color: #1641af;
+    padding: 5px;
+}
+main .title {
+    font-weight: 600;
 }
 .address p {
     line-height: 1.6;
@@ -48,14 +53,77 @@ section {
 }
 
 /* ===== SẢN PHẨM ===== */
-.products ul {
-    list-style: none;
+.products {
+    border-top: 1px solid #eee;
+    padding: 20px;
+    font-family: Arial, sans-serif;
 }
 
-.products li {
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+.title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
+
+.shop-info {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.shop-info .chat {
+    margin-left: 15px;
+    color: #00bfa5;
+    cursor: pointer;
+}
+
+.product-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+.product-table th {
+    text-align: center;
+    padding-bottom: 10px;
+    color: #666;
+}
+
+.product-table td {
+    padding: 15px 0;
+    border-top: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.product-info img {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.details .name {
+    font-weight: 500;
+}
+
+.details .type {
+    font-size: 13px;
+    color: #777;
+}
+
+.price, .quantity, .total {
+    text-align: center;
+}
+
 
 /* ===== VOUCHER ===== */
 .voucher input {
