@@ -13,9 +13,10 @@
     --color-text-user: #4AA3B3;
 }
 
-body{
-    font-family: var(--font) ;
+html, body, * {
+    font-family: var(--font);
 }
+
 a{
     text-decoration: none;
 }

@@ -1,6 +1,6 @@
 .login{
     background-color: var(--color-user);
-    font: var(--font);
+
 }
 .login .container {
     width: 992px;
