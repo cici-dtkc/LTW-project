@@ -1,5 +1,6 @@
 .login{
     background-color: var(--color-user);
+
 }
 .login .container {
     width: 992px;
@@ -69,7 +70,6 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    color: #777777;
 }
 
 .login .container .inner-wrap .checkbox input[type="checkbox"] {
@@ -132,7 +132,6 @@
 .login .container .inner-wrap .social label {
     display: block;
     margin-bottom: 10px;
-    color: #666;
     font-size: 15px;
 }
 
