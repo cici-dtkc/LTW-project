@@ -1,0 +1,88 @@
+
+
+.container {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.container .page-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header input,
+.header select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.header input:focus,
+.header select:focus {
+    border-color: #888888;
+}
+
+#add-user-btn {
+    background: var(--color-text-user);
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#add-user-btn:hover {
+    background-color: rgba(0, 163, 200, 0.71);
+    border: 1px solid var(--color-text-user);
+}
+
+.container table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.container th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.container th {
+    background-color: #f7f9fb;
+    color: #444;
+}
+
+.container td {
+    color: #333;
+}
+
+.container .footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+.container .pagination {
+    background: #2b7de9;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+}
