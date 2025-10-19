@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Giả lập chuyển hướng sau khi đăng nhập
             setTimeout(() => {
-                window.location.href = "info-user.html";
+                window.location.href = "../info-user.html";
             }, 1500);
         } else {
             showAlert("Tên đăng nhập hoặc mật khẩu không đúng!", "error");
