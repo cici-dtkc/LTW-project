@@ -81,7 +81,7 @@
 }
 
 .container .pagination {
-    background: #2b7de9;
+    background: var(--color-text-user);
     color: white;
     padding: 4px 10px;
     border-radius: 6px;
