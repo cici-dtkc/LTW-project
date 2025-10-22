@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Form</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assert/css/reset.css">
+  <link rel="stylesheet" href="assert/css/base.css">
+  <link rel="stylesheet" href="assert/css/paymentForm.css">
+</head>
+<body>
+<div class="payment">
+  <div class="container">
+    <div class="inner-wrap">
+      <div class="inner-title">
+        <h1>Trang Thanh toán</h1>
+      </div>
+      <form class="payment-form">
+        <div class="box">
+          <!-- SECTION 1 -->
+          <div class="section-one">
+            <label>Các phương thức thanh toán</label>
+            <div class="options">
+              <label>
+                <input type="radio" name="payment" value="card">
+                <img src="assert/img/visa.png" alt="Visa">
+                <img src="assert/img/mastercard.png" alt="MasterCard">
+                <img src="assert/img/jcb.png" alt="JCB">
+                <img src="assert/img/amex.png" alt="Amex">
+              </label>
+              <label>
+                <input type="radio" name="payment" value="paypal">
+                <img src="assert/img/paypal.png" alt="PayPal">
+              </label>
+            </div>
+          </div>
+
+          <!-- SECTION 2 -->
+          <div class="section-two">
+            <label>Chi Tiết Thẻ Tín Dụng</label>
+
+            <div class="field">
+              <label for="card_name">Tên Thẻ</label>
+              <input type="text" id="card_name" name="card_name" placeholder="John Doe">
+            </div>
+
+            <div class="field">
+              <label for="card_number">Số Thẻ</label>
+              <input type="text" id="card_number" name="card_number" placeholder="0000 0000 0000 0000" maxlength="19">
+            </div>
+
+            <div class="determine">
+              <div class="expiry">
+                <label for="year">Hạn Thẻ</label>
+                <div class="select">
+                  <select name="year" id="year">
+                    <option>-</option>
+                    <option>2024</option>
+                    <option>2025</option>
+                    <option>2026</option>
+                    <option>2027</option>
+                  </select>
+                  /
+                  <select name="month" id="month">
+                    <option>-</option>
+                    <option>01</option>
+                    <option>02</option>
+                    <option>03</option>
+                    <option>04</option>
+                    <option>05</option>
+                    <option>06</option>
+                    <option>07</option>
+                    <option>08</option>
+                    <option>09</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="cvv">
+                <label for="cvv2">Mã Bảo Mật</label>
+                <input type="text" id="cvv2" name="cvv2" maxlength="3" placeholder="123">
+                <img src="assert/img/cvv2.jpg" alt="CVV">
+              </div>
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+          <div class="section submit">
+            <button type="submit" class="btn">Gửi Thanh Toán</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- LINK JS -->
+<script src="js/paymentForm.js"></script>
+</body>
+</html>

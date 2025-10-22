@@ -1,0 +1,109 @@
+/* ----- Tổng thể trang ----- */
+
+.info-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f4f6f8;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* ----- Khối container chính ----- */
+.info-user .container {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 40px;
+    width: 600px;
+    text-align: center;
+}
+
+/* ----- Tiêu đề ----- */
+.info-user .container .inner-wrap .title span {
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--color-text-user);
+    display: inline-block;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+/* ----- Ảnh đại diện ----- */
+.info-user .container .inner-wrap .info-img {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.info-user .container .inner-wrap .info-img img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #777777;
+}
+
+/* ----- Tên người dùng ----- */
+.info-user .container .inner-wrap .info-name span {
+    font-size: 30px;
+    font-weight: 600;
+    color: black;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* ----- Email, SĐT, Ngày sinh ----- */
+.info-user .container .inner-wrap .info-email,
+.info-user .container .inner-wrap .info-phone,
+.info-user .container .inner-wrap .info-birthday {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    margin: 20px 40px;
+
+
+}
+
+.info-user .container .inner-wrap i {
+    color: #777777;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+
+/* ----- Nhóm nút ----- */
+.info-user .container .inner-wrap .info-button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+/* ----- Nút bấm ----- */
+.info-user .container .inner-wrap .info-button .btn {
+    width: 48%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.info-user .container .inner-wrap .info-button .btn.left {
+    background-color: var(--color-text-user);
+    color: white;
+}
+
+.info-user .container .inner-wrap .info-button .btn.right {
+    background-color: var(--color-text-user);
+    color: white;
+}
+
+/* ----- Hiệu ứng hover ----- */
+.info-user .container .inner-wrap .info-button .btn:hover {
+    background-color: rgba(0, 163, 200, 0.71);
+    border: 1px solid var(--color-text-user);
+}
