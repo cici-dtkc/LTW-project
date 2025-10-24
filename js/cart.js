@@ -1,9 +1,10 @@
 const cartBody = document.getElementById("cart-body");
 const cartHeader = document.getElementById("cart-header");
-const totalDisplay = document.getElementById("totalDisplay");
+const subTotal = document.getElementById("sub-total");
 const selectAll = document.getElementById("selectAll");
 const deleteSelected = document.getElementById("deleteSelected");
-
+const Pricetotal = document.getElementById("price-total");
+const discount = document.getElementById("discount");
 const products = [
     { id: 1, name: "Apple iPad Mini G2356", price: 1250000, image: "img/anh-mo-ta.jpg" },
     { id: 2, name: "MacBook Air M3", price: 29990000, image: "https://cdn.tgdd.vn/Products/Images/44/299444/macbook-air-13-inch-m3-bac-thumb-600x600.jpg" },
@@ -44,6 +45,7 @@ document.getElementById("addProduct").addEventListener("click", () => {
 
     // đảm bảo checkbox "chọn tất cả" reset
     selectAll.checked = false;
+    updateSubTotal();
     updateTotal();
 });
 
@@ -56,6 +58,7 @@ cartBody.addEventListener("click", e => {
     if (e.target.classList.contains("delete")) {
         row.remove();
         if (cartBody.querySelectorAll("tr").length === 0) showEmptyMessage();
+        updateSubTotal();
         updateTotal();
         return;
     }
@@ -78,6 +81,7 @@ cartBody.addEventListener("click", e => {
         } else {
             updateRowTotal(row, basePrice, qty);
         }
+        updateSubTotal();
         updateTotal();
     }
 });
@@ -85,6 +89,7 @@ cartBody.addEventListener("click", e => {
 // Checkbox chọn tất cả
 selectAll.addEventListener("change", e => {
     document.querySelectorAll(".select-item").forEach(chk => chk.checked = e.target.checked);
+    updateSubTotal();
     updateTotal();
 });
 
@@ -95,6 +100,7 @@ cartBody.addEventListener("change", e => {
         const all = document.querySelectorAll(".select-item");
         const checked = document.querySelectorAll(".select-item:checked");
         selectAll.checked = all.length > 0 && all.length === checked.length;
+        updateSubTotal();
         updateTotal();
     }
 });
@@ -103,6 +109,7 @@ cartBody.addEventListener("change", e => {
 deleteSelected.addEventListener("click", () => {
     document.querySelectorAll(".select-item:checked").forEach(chk => chk.closest("tr").remove());
     if (cartBody.querySelectorAll("tr").length === 0) showEmptyMessage();
+    updateSubTotal();
     updateTotal();
 });
 
@@ -134,7 +141,7 @@ function getBasePrice(row) {
 }
 
 // Cập nhật tổng cả giỏ
-function updateTotal() {
+function updateSubTotal() {
     let total = 0;
     document.querySelectorAll(".select-item:checked").forEach(chk => {
         const row = chk.closest("tr");
@@ -148,5 +155,13 @@ function updateTotal() {
             total += Number(raw);
         }
     });
-    totalDisplay.textContent = "Tổng: " + total.toLocaleString("vi-VN") + "₫";
+    subTotal.textContent = total.toLocaleString("vi-VN") + "₫";
+}
+function updateTotal () {
+    const subTotalValue = Number(subTotal.textContent.replace(/[^\d]/g, "")) || 0;
+
+    const discountValue = Number(discount.textContent.replace(/[^\d]/g, "")) || 0;
+    // const discountValue= 12;
+    let price = subTotalValue - discountValue;
+    Pricetotal.textContent = price.toLocaleString("vi-VN") + "₫";
 }

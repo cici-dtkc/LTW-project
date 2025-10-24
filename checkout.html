@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <link rel="stylesheet" href="assert/css/checkout.css">
+    <link rel="stylesheet" href="assert/css/cart.css">
+
+</head>
+<body>
+<!--<header>-->
+<!--    <h1>Shoppe - Thanh toán</h1>-->
+<!--    <nav>-->
+<!--        <a href="#">Trang chủ</a> •-->
+<!--        <a href="#">Giỏ hàng</a> •-->
+<!--        <a href="#">Tài khoản</a>-->
+<!--    </nav>-->
+<!--</header>-->
+
+<main>
+    <!-- ĐỊA CHỈ NHẬN HÀNG -->
+    <section class="address">
+        <i class="fa-solid fa-location-dot"></i><span class="title">Địa Chỉ Nhận Hàng </span>
+        <p><strong>Huỳnh Đức</strong> <span>(+84) 902 275 080</span></p>
+        <p>
+            Sau Ủy Ban Khánh Bình, Xã Khánh Bình, Huyện An Phú, An Giang
+            <span class="default">Mặc định</span>
+            <a href="#">Thay đổi</a>
+        </p>
+    </section>
+
+    <!-- DANH SÁCH SẢN PHẨM -->
+    <section class="products">
+        <h3 class="title"> Sản phẩm</h3>
+        <!-- Bảng sản phẩm -->
+        <table class="product-table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Sản phẩm 1 -->
+            <tr class="product-item">
+                <td class="product-info">
+                    <img src="assert/img/amex.png" alt="Áo Baby Doll"/>
+                    <div class="details">
+                        <p class="name">Áo Baby Doll Hàn Quốc – Mẫu Mới Dành Cho Nữ</p>
+                        <p class="type">Phân loại: Áo thun ôm màu trắng</p>
+                    </div>
+                </td>
+                <td class="price">32.000₫</td>
+                <td class="quantity">2</td>
+                <td class="total">64.000₫</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- MÃ GIẢM GIÁ -->
+    <section class="voucher">
+        <h3 class="title">Mã Khuyến Mãi</h3>
+        <div class="coupon-box" style="box-shadow:none ; width: 500px ;margin: 0">
+            <form action="#" method="get" accept-charset="utf-8">
+                <div class="coupon-input"  >
+                    <input type="text" name="coupon" placeholder="Mã Khuyến Mãi">
+                    <button type="submit" class="round-black-btn">Áp Dụng</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- PHƯƠNG THỨC THANH TOÁN -->
+    <section class ="payment">
+        <h3 class="title">Phương thức thanh toán</h3>
+
+        <form>
+            <label>
+                <input type="radio" name="payment" value="cod" checked>
+                Thanh toán khi nhận hàng (COD)
+            </label><br>
+
+            <label>
+                <input type="radio" name="payment" value="momo">
+                Thanh toán qua MoMo
+            </label><br>
+
+            <label>
+                <input type="radio" name="payment" value="bank">
+                Chuyển khoản ngân hàng
+            </label><br>
+
+            <label>
+                <input type="radio" name="payment" value="credit">
+                Thẻ tín dụng / Ghi nợ
+            </label>
+        </form>
+    </section>
+
+
+    <!-- TỔNG TIỀN -->
+    <section class="summary">
+        <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
+        <p>Tạm tính: <strong>1.290.000₫</strong></p>
+        <p>Phí vận chuyển: <strong>25.000₫</strong></p>
+        <p>Giảm giá: <strong>0₫</strong></p>
+        <p class="total">Tổng cộng: <strong>1.315.000₫</strong></p>
+        <div class="action">
+            <button type="submit" class = "round-black-btn" style="width: 150px" >Đặt hàng</button>
+        </div>
+    </section>
+
+    <!-- NÚT ĐẶT HÀNG -->
+
+</main>
+</body>
+</html>

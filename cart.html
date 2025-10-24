@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Giỏ Hàng</title>
     <link rel="stylesheet" href="assert/css/base.css">
-<!--    <link rel="stylesheet" href="assert/css/reset.css">-->
+    <!--    <link rel="stylesheet" href="assert/css/reset.css">-->
     <link rel="stylesheet" href="assert/css/cart.css">
 </head>
 <body>
@@ -12,7 +12,6 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <h1 class="page-title">Giỏ hàng</h1>
                 <button id="addProduct" class="round-black-btn">Thêm sản phẩm</button>
                 <div class="table-cart">
                     <table>
@@ -37,7 +36,7 @@
             </div>
             <!--            PHAN TONG TIEN-->
             <div class="col-lg-4">
-                <div class ="beta">
+                <div class="beta">
                     <div class="coupon-box">
                         <form action="#" method="get" accept-charset="utf-8">
                             <div class="coupon-input">
@@ -47,27 +46,25 @@
                         </form>
                     </div>
                     <div class="cart-totals">
-                        <h3>Tổng Tiền</h3>
                         <form action="#" method="get" accept-charset="utf-8">
                             <table>
                                 <tbody>
                                 <tr>
                                     <td>Tạm Tính:</td>
-                                    <td class="subtotal"></td>
+                                    <td class="subtotal" id="sub-total"></td>
                                 </tr>
                                 <tr>
                                     <td>Giảm Giá</td>
-                                    <td class="free-shipping"></td>
+                                    <td class="discount" id="discount"></td>
                                 </tr>
                                 <tr class="total-row">
-                                    <td>Thanh Toán:</td>
-                                    <td class="price-total">0₫</td>
+                                    <td>Tổng Tiền:</td>
+                                    <td class="price-total" id="price-total"></td>
                                 </tr>
                                 </tbody>
                             </table>
                             <div class="btn-cart-totals">
-                                <a href="#" class="update round-black-btn" title="">Thanh Toán</a>
-                                <a href="#" class="checkout round-black-btn" title="">Proceed to Checkout</a>
+                                <a href="checkout.html" class="update round-black-btn" title="">Thanh Toán</a>
                             </div>
                         </form>
                     </div>
