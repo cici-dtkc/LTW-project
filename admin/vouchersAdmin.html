@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../assert/css/reset.css">
     <link rel="stylesheet" href="../assert/css/base.css">
     <link rel="stylesheet" href="../assert/css/vouchersAdmin.css">
+    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
 </head>
 <body>
 <div class="app">
@@ -32,6 +33,7 @@
                     </div>
                 </div>
             </div>
+        <div class="table-container">
         <div class="toolbar">
             <div class="left">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm khuyến mãi...">
@@ -43,7 +45,6 @@
             </div>
             <button class="btn-add" id="btnOpenModal">+ Thêm Khuyến mãi</button>
         </div>
-
         <table id="promoTable">
             <thead>
             <tr>
@@ -112,9 +113,11 @@
                 <div class="pagination" id="pagination-number">1</div>
             </div>
         </div>
+    </div>
 </div>
 <!-- Toast Message -->
 <div id="toast"></div>
 </body>
+    <script src="../js/sidebarAdmin.js"></script>
     <script src="../js/voucherAdmin.js"></script>
 </html>

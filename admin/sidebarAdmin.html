@@ -18,11 +18,10 @@
 
 </head>
 <body>
-<div class="app">
-    <aside class="sidebar collapsed open" id="sidebar">
+<aside class="sidebar" id="sidebar">
         <div class="brand">
             <button
-                    class="toggle-icon"
+                    class="toggle-icon sidebar-toggle"
                     id="sidebarToggle"
                     style="cursor: pointer"
             >
@@ -34,53 +33,55 @@
         </div>
 
         <div class="section-title">Điều hướng</div>
-        <ul class="nav" id="nav">
-            <li>
-                <a href="" data-target="dashboard" class="active"
+    <nav class="nav-section" id="nav-section">
+        <ul class="nav-list primary-nav" id="nav">
+            <li class="nav-item">
+                <a class="nav-link" data-target="dashboard" href=""
                 ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
-                    <span>Tổng Quan</span></a
+                    <span class="nav-label">Tổng Quan</span></a
                 >
             </li>
-            <li>
-                <a href="#" data-target="products"
+            <li class="nav-item">
+                <a class="nav-link" data-target="products" href="#"
                 ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
-                    <span>Sản phẩm</span></a
+                    <span class="nav-label">Sản phẩm</span></a
                 >
             </li>
-            <li>
-                <a href="#" data-target="orders"
-                ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span>Đơn
+            <li class="nav-item">
+                <a class="nav-link" data-target="orders" href="#"
+                ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
               hàng</span></a
                 >
             </li>
-            <li>
-                <a href="#" data-target="customers"
-                ><span class="icon"><i class="fa-solid fa-users"></i></span> <span>Khách
+            <li class="nav-item">
+                <a class="nav-link" data-target="customers" href="#"
+                ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Khách
               hàng</span></a
                 >
             </li>
-            <li>
-                <a href="vouchersAdmin.html" data-target="promotions"
-                ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span>Khuyến
+            <li class="nav-item">
+                <a class="nav-link" data-target="promotions" href="vouchersAdmin.html"
+                ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span class="nav-label">Khuyến
               mãi</span></a
                 >
             </li>
-
-            <li style="margin-top: 12px">
-                <a href="#" data-target="settings"
-                ><span class="icon"><i class="fa-solid fa-cog"></i></span> <span>Cài
-              đặt</span></a
+        </ul>
+        <ul class="nav-list second-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-target="info" href="#"
+                ><span class="icon"><i class="fa-solid fa-user-tie"></i></span> <span class="nav-label">Thông tin</span></a
                 >
             </li>
-            <li class="bottom-spacer">
-                <a href="#" data-target="logout">
-                    <span><i class="fa-solid fa-user-tie"></i>Admin</span><span class="icon">
+            <li class="nav-item">
+                <a class="nav-link" data-target="logout" href="#">
+                    <span class="icon">
                     <i class="fa-solid fa-right-from-bracket"></i></span>
-                    </a>
+                    <span class="nav-label">Đăng xuất</span>
+                </a>
             </li>
         </ul>
+    </nav>
     </aside>
-</div>
 </body>
     <script src="../js/sidebarAdmin.js"></script>
 </html>

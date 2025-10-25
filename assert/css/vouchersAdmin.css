@@ -80,6 +80,12 @@
 .btn-add:hover {
     background-color: #157347;
 }
+.table-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 50px;
+}
 #promoTable {
     width: 100%;
     border-collapse: collapse;
