@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trang quản lý - Admin</title>
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../assert/css/reset.css" />
+    <link rel="stylesheet" href="../assert/css/base.css" />
+    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css" />
+
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar collapsed open" id="sidebar">
+        <div class="brand">
+            <button
+                    class="toggle-icon"
+                    id="sidebarToggle"
+                    style="cursor: pointer"
+            >
+                <i class="fa-solid fa-bars" style="font-size: 16px"></i>
+            </button>
+            <div>
+                <div class="muted">Quản lý bán hàng</div>
+            </div>
+        </div>
+
+        <div class="section-title">Điều hướng</div>
+        <ul class="nav" id="nav">
+            <li>
+                <a href="" data-target="dashboard" class="active"
+                ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+                    <span>Tổng Quan</span></a
+                >
+            </li>
+            <li>
+                <a href="#" data-target="products"
+                ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
+                    <span>Sản phẩm</span></a
+                >
+            </li>
+            <li>
+                <a href="#" data-target="orders"
+                ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span>Đơn
+              hàng</span></a
+                >
+            </li>
+            <li>
+                <a href="#" data-target="customers"
+                ><span class="icon"><i class="fa-solid fa-users"></i></span> <span>Khách
+              hàng</span></a
+                >
+            </li>
+            <li>
+                <a href="vouchersAdmin.html" data-target="promotions"
+                ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span>Khuyến
+              mãi</span></a
+                >
+            </li>
+
+            <li style="margin-top: 12px">
+                <a href="#" data-target="settings"
+                ><span class="icon"><i class="fa-solid fa-cog"></i></span> <span>Cài
+              đặt</span></a
+                >
+            </li>
+            <li class="bottom-spacer">
+                <a href="#" data-target="logout">
+                    <span><i class="fa-solid fa-user-tie"></i>Admin</span><span class="icon">
+                    <i class="fa-solid fa-right-from-bracket"></i></span>
+                    </a>
+            </li>
+        </ul>
+    </aside>
+</div>
+</body>
+    <script src="../js/sidebarAdmin.js"></script>
+</html>
