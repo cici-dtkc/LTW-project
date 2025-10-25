@@ -84,26 +84,8 @@
 .info-user .container .inner-wrap .info-button .btn {
     width: 48%;
     padding: 10px 0;
-    border: none;
-    border-radius: 8px;
-    font-size: 20px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s ease;
+
 }
 
-.info-user .container .inner-wrap .info-button .btn.left {
-    background-color: var(--color-text-user);
-    color: white;
-}
 
-.info-user .container .inner-wrap .info-button .btn.right {
-    background-color: var(--color-text-user);
-    color: white;
-}
 
-/* ----- Hiệu ứng hover ----- */
-.info-user .container .inner-wrap .info-button .btn:hover {
-    background-color: rgba(0, 163, 200, 0.71);
-    border: 1px solid var(--color-text-user);
-}
