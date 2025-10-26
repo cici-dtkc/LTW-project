@@ -9,7 +9,7 @@
 }
 #register-form h2 {
     text-align: center;
-    color: var(--color-text-user);
+    color: var(--color-button);
     margin-bottom: 20px;
     text-transform: uppercase;
     font-weight: bold;
@@ -78,7 +78,7 @@
 #register-form button {
     width: 100%;
     padding: 12px;
-    background: var(--color-text-user);
+    background: var(--color-button);
     border: none;
     border-radius: 4px;
     color: #fff;

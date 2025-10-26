@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Trang quản lý - Admin</title>
+    <!-- Font Awesome -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../assert/css/reset.css" />
+    <link rel="stylesheet" href="../assert/css/base.css" />
+    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css" />
+
+</head>
+<body>
+<aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <button
+                    class="toggle-icon sidebar-toggle"
+                    id="sidebarToggle"
+                    style="cursor: pointer"
+            >
+                <i class="fa-solid fa-bars" style="font-size: 16px"></i>
+            </button>
+            <div>
+                <div class="muted">Quản lý bán hàng</div>
+            </div>
+        </div>
+
+        <div class="section-title">Điều hướng</div>
+    <nav class="nav-section" id="nav-section">
+        <ul class="nav-list primary-nav" id="nav">
+            <li class="nav-item">
+                <a class="nav-link" data-target="dashboard" href=""
+                ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+                    <span class="nav-label">Tổng Quan</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="products" href="#"
+                ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
+                    <span class="nav-label">Sản phẩm</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="orders" href="#"
+                ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
+              hàng</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="customers" href="#"
+                ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Khách
+              hàng</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="promotions" href="vouchersAdmin.html"
+                ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span class="nav-label">Khuyến
+              mãi</span></a
+                >
+            </li>
+        </ul>
+        <ul class="nav-list second-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-target="info" href="#"
+                ><span class="icon"><i class="fa-solid fa-user-tie"></i></span> <span class="nav-label">Thông tin</span></a
+                >
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="logout" href="#">
+                    <span class="icon">
+                    <i class="fa-solid fa-right-from-bracket"></i></span>
+                    <span class="nav-label">Đăng xuất</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    </aside>
+</body>
+    <script src="../js/sidebarAdmin.js"></script>
+</html>
