@@ -9,7 +9,7 @@
 }
 #verify-step h2, #confirm-step h2, #reset-step h2 {
     text-transform: uppercase;
-    color: var(--color-text-user);
+    color: var(--color-button);
     font-weight: bold;
     font-size: 20px;
     margin-bottom: 20px;
@@ -17,7 +17,7 @@
 
 #verify-step p, #confirm-step p, #reset-step p {
     font-size: 16px;
-    color: var(--color-text);
+    color: var(--color-grey);
     margin-bottom: 20px;
     line-height: 1.2;
 }
@@ -47,7 +47,7 @@
 
 #verify-step .btn , #confirm-step .btn, #reset-step .btn{
     width: 100%;
-    background: var(--color-text-user);
+    background: var(--color-button);
     margin-top: 20px;
     color: white;
     border: none;

@@ -18,7 +18,7 @@
     box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 #forgot-password h2{
-    color: var(--color-text-user);
+    color: var(--color-button);
     margin-bottom: 20px;
     text-transform: uppercase;
     font-weight: bold;
@@ -34,7 +34,7 @@
 #forgot-password button {
     width: 100%;
     padding: 12px;
-    background: var(--color-text-user);
+    background: var(--color-button);
     border: none;
     border-radius: 4px;
     color: #fff;

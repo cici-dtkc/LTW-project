@@ -4,12 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý Khuyến mãi - Admin</title>
+<!--    import để lấy icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="../assert/css/reset.css">
     <link rel="stylesheet" href="../assert/css/base.css">
     <link rel="stylesheet" href="../assert/css/vouchersAdmin.css">
+<!--    import để có css sidebar-->
+    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
 </head>
 <body>
+<div class="app">
+<!--    import để chứa sidebar-->
+    <div id="sidebarContainer"></div>
     <div class="container">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div>
+                        <h2 class="page-title" id="pageTitle">Khuyến mãi</h2>
+                        <div class="muted" id="pageDesc">
+                            Quản lý mã khuyến mãi
+                        </div>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <div class="muted">Xin chào, Admin</div>
+                    <div class="card notification-card">
+                        <i class="fa-solid fa-bell"></i><span class="muted">3</span>
+                    </div>
+                </div>
+            </div>
+        <div class="table-container">
         <div class="toolbar">
             <div class="left">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm khuyến mãi...">
@@ -21,7 +48,6 @@
             </div>
             <button class="btn-add" id="btnOpenModal">+ Thêm Khuyến mãi</button>
         </div>
-
         <table id="promoTable">
             <thead>
             <tr>
@@ -85,10 +111,17 @@
                 </form>
             </div>
         </div>
+            <div class="footer" id="footer-pagination">
+                <p id="record-info">Hiển thị 2 mã khuyến mãi</p>
+                <div class="pagination" id="pagination-number">1</div>
+            </div>
+        </div>
     </div>
-
+</div>
 <!-- Toast Message -->
 <div id="toast"></div>
 </body>
+<!--  import chứa logic sidebar-->
+    <script src="../js/sidebarAdmin.js"></script>
     <script src="../js/voucherAdmin.js"></script>
 </html>
