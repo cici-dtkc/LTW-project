@@ -1,0 +1,122 @@
+/* ====================== */
+/* 🎨 HEADER TỔNG THỂ */
+/* ====================== */
+#header {
+    background: linear-gradient(135deg, #4DA8DA, #0077B6); /* Hiệu ứng chuyển màu xanh */
+    padding: 18px 0;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* Căn giữa nội dung */
+.container {
+    width: 90%;
+    max-width: 992px;
+    margin: 0 auto;
+}
+
+/* Bố cục header */
+.inner-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ====================== */
+/* 🐋 LOGO */
+/* ====================== */
+.logo img {
+    width: 130px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+/* ====================== */
+/* 📱 MENU CHÍNH */
+/* ====================== */
+.menu ul {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 17px;
+    position: relative;
+    padding: 5px 0;
+    transition: all 0.3s ease;
+}
+
+/* Gạch chân động khi hover */
+.menu ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: black;
+    transition: width 0.3s ease;
+}
+
+.menu ul li a:hover::after {
+    width: 100%;
+}
+
+/* ====================== */
+/* 🎯 ICON BOX */
+/* ====================== */
+.box ul {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.box ul li a {
+    color: black;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.box ul li a:hover {
+    color: #777777; /* xanh nhạt sáng hơn */
+    transform: scale(1.15);
+}
+
+/* ====================== */
+/* 📱 RESPONSIVE MOBILE */
+/* ====================== */
+@media (max-width: 768px) {
+    .inner-wrap {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .menu ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .menu ul li a {
+        font-size: 16px;
+    }
+
+    .box ul {
+        gap: 15px;
+    }
+}
