@@ -1,20 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inria+Serif:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 /* - định nghĩa các quy tắc CSS cơ bản, chung cho toàn bộ website*/
 
 :root{
-    --color-one: #FF8484;
-    --color-two:#F7D9C4 ;
-    --color-text : #1B2026;
-    --color-user:#EFEFEF ;
-    --color-bg2:#DCE8EB  ;
-    --color-bg32:#31363B  ;
+    /*--color-one: #FF8484;*/
+    /*--color-two:#F7D9C4 ;*/
+    /*--color-text : #1B2026;*/
+    /*--color-user:#EFEFEF ;*/
+    /*--color-bg2:#DCE8EB  ;*/
+    /*--color-bg32:#31363B  ;*/
+    --color-bg:#EFEFEF;
+    --color-bg-main: rgba(6, 84, 122, 0.87);
     --color-head:white;
-    --font: 'DM Sans', serif;
-    --color-text-user: #4AA3B3;
-}
+    --font: Sans-serif;
+    --color-red: #d92d20;
+    --color-grey:  #777777;
+    --size-icon: 20px;
+    --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    --color-button: #4AA3B3;
 
+}
+button{
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--color-button);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+button:hover{
+    background-color: rgba(0, 163, 200, 0.71);
+    border: 1px solid var(--color-button);
+}
 html, body, * {
     font-family: var(--font);
+
 }
 
 a{
@@ -28,13 +48,4 @@ a{
     max-width: 1200px;
     margin: 0 auto;
 }
-.page-title {
-    font-family: "Quicksand", sans-serif;
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: #444;
-    background-color: #f9f3ef;
-    padding: 10px 20px;
-    border-radius: 50px;
-    display: inline-block;
-}
+
