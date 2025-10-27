@@ -1,20 +1,23 @@
 /* ====================== */
-/* 🎨 HEADER TỔNG THỂ */
+/*  HEADER TỔNG THỂ */
 /* ====================== */
 #header {
-    background: linear-gradient(135deg, #4DA8DA, #0077B6); /* Hiệu ứng chuyển màu xanh */
-    padding: 18px 0;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 15px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     position: sticky;
     top: 0;
     z-index: 999;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Căn giữa nội dung */
 .container {
-    width: 90%;
-    max-width: 992px;
+    width: 95%;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 }
 
 /* Bố cục header */
@@ -25,20 +28,22 @@
 }
 
 /* ====================== */
-/* 🐋 LOGO */
+/*   LOGO */
 /* ====================== */
 .logo img {
-    width: 130px;
+    width: 140px;
     height: auto;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
 }
 
 .logo img:hover {
-    transform: scale(1.05);
+    transform: scale(1.08);
+    filter: brightness(1.2);
 }
 
 /* ====================== */
-/* 📱 MENU CHÍNH */
+/*    MENU CHÍNH */
 /* ====================== */
 .menu ul {
     display: flex;
@@ -52,31 +57,40 @@
 .menu ul li a {
     text-decoration: none;
     color: black;
-    font-weight: 500;
-    font-size: 17px;
+    font-weight: 600;
+    font-size: 16px;
     position: relative;
-    padding: 5px 0;
+    padding: 8px 12px;
     transition: all 0.3s ease;
+    border-radius: 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng hover cho menu */
+.menu ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
 }
 
 /* Gạch chân động khi hover */
 .menu ul li a::after {
     content: "";
     position: absolute;
-    bottom: -4px;
-    left: 0;
+    bottom: 2px;
+    left: 50%;
     width: 0;
     height: 2px;
-    background-color: black;
-    transition: width 0.3s ease;
+    background-color: #000000;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
 }
 
 .menu ul li a:hover::after {
-    width: 100%;
+    width: 80%;
 }
 
 /* ====================== */
-/* 🎯 ICON BOX */
+/*   ICON BOX */
 /* ====================== */
 .box ul {
     display: flex;
@@ -87,36 +101,213 @@
 }
 
 .box ul li a {
-    color: black;
+    color: #0e0e0e;
     font-size: 20px;
     transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .box ul li a:hover {
-    color: #777777; /* xanh nhạt sáng hơn */
-    transform: scale(1.15);
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+
 /* ====================== */
-/* 📱 RESPONSIVE MOBILE */
+/* 🔍 Ô TÌM KIẾM ĐỘNG */
 /* ====================== */
+.search-input {
+    position: absolute;
+    top: 65px;
+    right: 100px;
+    width: 0;
+    opacity: 0;
+    padding: 10px 40px 10px 15px;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    font-size: 16px;
+    transition: all 0.4s ease;
+    z-index: 999;
+}
+
+/* Khi ô được thêm vào (và JS focus vào nó) → hiệu ứng bung ra */
+.search-input.show {
+    width: 220px;
+    opacity: 1;
+}
+
+/* Thêm icon giả trong ô tìm kiếm */
+.search-input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+/* ====================== */
+/*   RESPONSIVE DESIGN */
+/* ====================== */
+
+/* Tablet */
 @media (max-width: 768px) {
-    .inner-wrap {
-        flex-direction: column;
-        gap: 15px;
+    .container {
+        width: 100%;
+        padding: 0 15px;
     }
 
     .menu ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
+        gap: 20px;
     }
 
     .menu ul li a {
-        font-size: 16px;
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+
+    .logo img {
+        width: 120px;
     }
 
     .box ul {
         gap: 15px;
     }
+
+    .box ul li a {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+    }
 }
+
+/* Mobile */
+@media (max-width: 480px) {
+    #header {
+        padding: 10px 0;
+    }
+
+    .inner-wrap {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .logo {
+        order: 1;
+        flex: 1;
+    }
+
+    .box {
+        order: 2;
+    }
+
+    .menu {
+        order: 3;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .menu ul {
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .menu ul li a {
+        font-size: 13px;
+        padding: 5px 6px;
+    }
+
+    .logo img {
+        width: 100px;
+    }
+
+    .box ul li a {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+}
+
+/* ====================== */
+/*   NÚT MENU DI ĐỘNG */
+/* ====================== */
+.mobile-menu-btn {
+    background: none;
+    border: none;
+    color: black;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+@media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: flex; /* hiện ra giống các icon khác */
+    }
+    .menu {
+        display: none !important; /* Ẩn mặc định */
+    }
+
+    .menu.active {
+        display: flex !important; /* ✅ Dùng flex để show menu */
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 20px;
+        border-radius: 0 0 15px 15px;
+        z-index: 999;
+        animation: slideDown 0.3s ease forwards;
+    }
+
+    /* Hiệu ứng trượt xuống mượt */
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .menu.active ul {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .menu.active ul li a {
+        display: block;
+        text-align: center;
+        padding: 12px;
+        border-radius: 8px;
+        width: 100%;
+    }
+}
+
+
+
