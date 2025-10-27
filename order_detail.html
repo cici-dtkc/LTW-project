@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Chi Tiết Đơn Hàng</title>
     <link rel="stylesheet" href="assert/css/order_detail.css">
+
 </head>
 
 <body>
@@ -32,10 +33,6 @@
             <div class="step" data-step="confirmed" role="listitem">
                 <div class="dot"></div>
                 <div class="small">Đã xác nhận</div>
-            </div>
-            <div class="step" data-step="packed" role="listitem">
-                <div class="dot"></div>
-                <div class="small">Đóng gói</div>
             </div>
             <div class="step" data-step="shipped" role="listitem">
                 <div class="dot"></div>
@@ -88,12 +85,11 @@
             <div class="row total-amount"><div>Tổng cộng</div><div id="total">1.732.000₫</div></div>
 
             <div class="actions" role="group" aria-label="Hành động đơn hàng">
-                <button id="btn-mark-paid" class="btn btn-primary">Đã thanh toán</button>
                 <button id="btn-request-cancel" class="btn btn-ghost">Yêu cầu hủy</button>
                 <button id="btn-reorder" class="btn btn-ghost">Mua lại</button>
             </div>
 
-            <footer class="note">Ghi chú: Bạn có thể yêu cầu hủy nếu đơn hàng chưa được đóng gói.</footer>
+            <footer class="note">Ghi chú: Bạn có thể yêu cầu hủy nếu đơn hàng chưa giao.</footer>
         </div>
     </section>
 
@@ -104,10 +100,6 @@
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
                 <div>
                     <div id="payment-method">Thanh toán khi nhận hàng (COD)</div>
-                    <div class="muted" style="font-size:13px;margin-top:6px" id="payment-note">Chưa thu tiền</div>
-                </div>
-                <div>
-                    <span id="payment-badge" class="badge unpaid">Chưa thu</span>
                 </div>
             </div>
         </div>
@@ -121,15 +113,9 @@
             </div>
         </div>
 
-        <div class="card block">
-            <div class="label">Phương thức thanh toán</div>
-            <div class="payment">
-                <div id="pmethod">Thanh toán khi nhận hàng (COD)</div>
-                <div class="note" style="margin-top:8px">Trạng thái thanh toán: <strong id="paid-state">Chưa</strong></div>
-            </div>
-        </div>
     </aside>
 </main>
 </div>
+<script src="js/orderDetail.js"></script>
 </body>
 </html>
