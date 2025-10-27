@@ -1,7 +1,7 @@
 .app {
     display: flex;
     height: 100vh;
-    background: var(--color-bg);
+    background: white;
 }
 .container {
     flex-grow: 1;
@@ -16,7 +16,7 @@
 
     width: calc(100% - 250px);
     height: 5rem;
-    background-color: #c2b5b5;
+    background-color: var(--color-bg);
     border-bottom: 1px solid #e5e7eb;
     z-index: 40;
     padding: 0 1.5rem;
