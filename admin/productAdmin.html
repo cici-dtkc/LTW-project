@@ -89,7 +89,32 @@
         </tbody>
       </table>
       <!-- Modal Form -->
-
+      <div class="modal" id="promoModal">
+        <div class="modal-content">
+          <h3>Thêm Sản phẩm mới</h3>
+          <form id="promoForm">
+            <label>Mã KM</label>
+            <input type="text" id="promoCode" required>
+            <label>Tên khuyến mãi</label>
+            <input type="text" id="promoName" required>
+            <label>Giảm (%)</label>
+            <input type="number" id="promoDiscount" required>
+            <label>Ngày bắt đầu</label>
+            <input type="date" id="promoStart" required>
+            <label>Ngày kết thúc</label>
+            <input type="date" id="promoEnd" required>
+            <div class="modal-buttons">
+              <button type="submit" class="btn-save">Lưu</button>
+              <button type="button" class="btn-cancel" id="btnCloseModal">Hủy</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="footer" id="footer-pagination">
+        <p id="record-info">Hiển thị 2 sản phẩm</p>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="../js/sidebarAdmin.js"></script>
 </body>
