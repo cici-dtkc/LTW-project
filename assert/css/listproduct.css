@@ -1,0 +1,100 @@
+body {
+    font-family: var(--font);
+    background: var(--color-bg);
+    margin: 0px auto;
+    color: #373737;
+    width: 1200px;
+}
+
+/* --- Thanh lọc hãng --- */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #dce3eb;
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.filter-btn:hover {
+    background: #f3f6fa;
+}
+
+.filter-btn i {
+    color: #0071e3;
+    font-size: 14px;
+}
+
+/* Danh sách hãng */
+.brand-list {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand {
+    background: #f3f5f7;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.brand:hover {
+    background: #e7ebf0;
+}
+
+.brand img {
+    height: 22px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* --- Sắp xếp theo --- */
+.sort-section {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-section span {
+    font-weight: 500;
+}
+
+.sort-section ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+}
+
+.sort-section li {
+    cursor: pointer;
+    color: #000;
+    font-weight: 500;
+    transition: 0.2s;
+}
+
+/*.sort-section li:hover {*/
+/*    text-decoration: underline;*/
+/*}*/
+
+.sort-section li.active {
+    color: #0071e3; /* xanh khi được chọn */
+    font-weight: 150;
+}

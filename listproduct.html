@@ -6,6 +6,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="assert/css/listproduct.css">
+
 </head>
 <body>
 
@@ -44,41 +45,43 @@
   <!-- Danh sách sản phẩm -->
   <div class="product-list">
     <div class="product-card">
-      <img src="assert/img/product1.png" alt="Điện thoại 1">
-      <h3>Samsung Galaxy S24 Ultra</h3>
-      <div class="price">28.990.000₫</div>
-      <button class="buy-btn">Mua ngay</button>
+      <div class="product-img">
+        <img src="assert/img/iphone_17_pro_max.png" alt="iPhone 17 Pro Max">
+        <span class="discount-badge">-12%</span>
+      </div>
+
+      <div class="product-info">
+        <h3>iPhone 17 Pro Max 2TB</h3>
+
+        <div class="price">63.990.000₫</div>
+
+        <div class="colors">
+          <div class="color active" style="background:#eab308"></div>
+          <div class="color" style="background:#f1f1f1"></div>
+          <div class="color" style="background:#1f2937"></div>
+        </div>
+
+        <div class="capacity">
+          <button>256 GB</button>
+          <button>512 GB</button>
+          <button>1 TB</button>
+          <button class="active">2 TB</button>
+        </div>
+        <div class="rating-cart">
+          <div class="rating">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-regular fa-star"></i>
+          </div>
+          <button class="cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
+        </div>
+      </div>
     </div>
 
-    <div class="product-card">
-      <img src="assert/img/product2.png" alt="Điện thoại 2">
-      <h3>iPhone 15 Pro Max</h3>
-      <div class="price">33.990.000₫</div>
-      <button class="buy-btn">Mua ngay</button>
-    </div>
-
-    <div class="product-card">
-      <img src="assert/img/product3.png" alt="Điện thoại 3">
-      <h3>Oppo Reno 12</h3>
-      <div class="price">10.490.000₫</div>
-      <button class="buy-btn">Mua ngay</button>
-    </div>
-
-    <div class="product-card">
-      <img src="assert/img/product4.png" alt="Điện thoại 4">
-      <h3>Vivo V30e</h3>
-      <div class="price">8.990.000₫</div>
-      <button class="buy-btn">Mua ngay</button>
-    </div>
-
-    <div class="product-card">
-      <img src="assert/img/product5.png" alt="Điện thoại 5">
-      <h3>Xiaomi Redmi Note 13</h3>
-      <div class="price">6.490.000₫</div>
-      <button class="buy-btn">Mua ngay</button>
-    </div>
   </div>
 </main>
-
+<script src="js/listProduct.js"></script>
 </body>
 </html>
