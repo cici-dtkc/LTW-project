@@ -24,13 +24,13 @@
             <div class="topbar-left">
                 <div>
                     <h2 class="page-title" id="pageTitle">Tổng Quan</h2>
-                    <div class="muted" id="pageDesc">
+                    <div class="muted hidden" id="pageDesc">
                         Tổng quan nhanh về cửa hàng và hiệu suất bán hàng
                     </div>
                 </div>
             </div>
             <div class="topbar-right">
-                <div class="muted">Xin chào, Admin</div>
+                <div class="muted hidden">Xin chào, Admin</div>
                 <div class="card notification-card">
                     <i class="fa-solid fa-bell"></i><span class="muted">3</span>
                 </div>
@@ -69,39 +69,12 @@
                     </div>
                 </div>
                 <div class="charts-grid">
-                    <div class="chart-card card">
+                    <div id="chart-cart" class="chart-card card">
                         <strong>Doanh thu theo ngày (30 ngày)</strong>
                         <canvas id="salesLine"></canvas>
 
-                        <!-- Recent orders under the big chart -->
-                        <div class="recent-orders">
-                            <h4>Đơn hàng gần nhất</h4>
-                            <table class="table-reset">
-                                <thead class="table-head">
-                                <tr>
-                                    <th>Mã DH</th>
-                                    <th>Khách</th>
-                                    <th>Trạng thái</th>
-                                    <th>Tổng</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>DH1005</td>
-                                    <td>Nguyễn Văn C</td>
-                                    <td>Đang giao</td>
-                                    <td>₫2,100,000</td>
-                                </tr>
-                                <tr>
-                                    <td>DH1004</td>
-                                    <td>Phạm D</td>
-                                    <td>Hoàn thành</td>
-                                    <td>₫850,000</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+
 
                     <div class="right-column">
                         <div class="chart-card card">
@@ -175,56 +148,42 @@
                             </div>
                         </div>
                     </div>
+
+                </div>
+                <!-- Recent orders under the big chart -->
+                <div class="recent-orders">
+                    <h4>Đơn hàng gần nhất</h4>
+                    <table class="table-reset">
+                        <thead class="table-head">
+                        <tr>
+                            <th>Mã DH</th>
+                            <th>Khách</th>
+                            <th>Trạng thái</th>
+                            <th>Tổng</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>DH1005</td>
+                            <td>Nguyễn Văn C</td>
+                            <td>Đang giao</td>
+                            <td>₫2,100,000</td>
+                            <td><button style="width: 100%">Xem chi tiết</button></td>
+                        </tr>
+                        <tr>
+                            <td>DH1004</td>
+                            <td>Phạm D</td>
+                            <td>Hoàn thành</td>
+                            <td>₫850,000</td>
+                            <td><button style="width: 100%">Xem chi tiết</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-            <div class="page card" id="page-products" style="display: none">
-                <h3>Sản phẩm</h3>
-                <div class="muted">
-                    Quản lý sản phẩm, thêm, sửa, xóa, phân loại.
-                </div>
-                <div class="card">
-                    <button class="btn">
-                        <i class="fa-solid fa-plus"></i> Thêm sản phẩm
-                    </button>
-                </div>
 
-                <table class="table-reset">
-                    <thead class="table-head">
-                    <tr>
-                        <th>Mã</th>
-                        <th>Tên</th>
-                        <th>Kho</th>
-                        <th>Giá</th>
-                        <th>Hành động</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>SP001</td>
-                        <td>Điện thoại A</td>
-                        <td>12</td>
-                        <td>₫5,000,000</td>
-                        <td>
-                            <button class="btn btn-outline-accent">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>SP002</td>
-                        <td>Ốp lưng</td>
-                        <td>34</td>
-                        <td>₫150,000</td>
-                        <td>
-                            <button class="btn btn-outline-accent">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
 
         </section>
     </main>
@@ -232,4 +191,5 @@
 </div>
 </body>
 <script src="../js/sidebarAdmin.js"></script>
+<script src="../js/dashboardAdmin.js"></script>
 </html>

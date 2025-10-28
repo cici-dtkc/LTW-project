@@ -5,20 +5,22 @@
 .container {
     flex-grow: 1;
     padding-top: 5rem;
+    justify-content: center;
+    margin-left: 250px;
+
 }
 .content {
-    margin-left: 50px;
     overflow-y: auto;
+    padding: 6rem 20px 20px;
 }
 /*header dashboard*/
-.topbar {
+.container .content .topbar {
     position: fixed;
     top: 0;
     right: 0;
     width: calc(100% - 250px);
     height: 5rem;
     background-color: var(--color-bg);
-    border-bottom: 1px solid #e5e7eb;
     z-index: 40;
     padding: 0 1.5rem;
     display: flex;
@@ -26,43 +28,49 @@
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.topbar .page-title {
+.container .content .topbar.transparent {
+    background-color: transparent; /* Khi cuộn xuống */
+    box-shadow: none;
+}
+.container .content .topbar.transparent .hidden,.container .content .topbar.transparent .page-title {
+    display: none;
+}
+
+.container .content .topbar .page-title {
     font-size: 25px;
     margin: 5px 0;
 }
-.topbar-left {
+.container .content .topbar-left {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.topbar-right {
+.container .content .topbar-right {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.notification-card {
+.container .content .notification-card {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 8px 10px;
 }
 /*thống kê tổng*/
-#pages {
+.content #pages {
     background: white;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     padding: 10px;
-    margin: 20px 10px 0 90px ;
+    margin: 20px 10px 0 50px ;
 }
-.page h3 {
+.content .page h3 {
     font-size: 23px;
     color: var(--color-button);
     font-weight: bold;
-    text-align: center;
     text-transform: uppercase;
 }
 /* action buttons row */
-.actions-row {
+.content #pages .actions-row {
     display: flex;
     gap: 10px;
     margin-top: 10px;
@@ -71,7 +79,7 @@
 }
 
 /* outline / ghost buttons used in HTML */
-.btn-ghost-accent {
+.content #pages .btn-ghost-accent {
     border: 1px solid rgba(255, 255, 255, 0.03);
     padding: 8px;
     border-radius: 8px;
@@ -79,19 +87,19 @@
     align-items: center;
     gap: 8px;
 }
-.btn-outline-accent {
+.content #pages .btn-outline-accent {
     padding: 8px 12px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin: 0 10px;
 }
-.grid {
+.content #pages .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
 }
-.grid .card {
+.content #pages .grid .card {
     flex-direction: column;
     padding: 10px;
     border: 1px solid;
@@ -102,34 +110,43 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
     background: #d3dcd1;
 }
-.grid .card .muted {
+.content #pages .grid .card .muted {
     margin-top: 5px;
 }
 /* KPI area spacing */
-.kpi-grid {
+.content #pages .kpi-grid {
     margin-top: 12px;
 }
- /*khung biểu đồ*/
-.table-reset {
+ /*bảng sản phẩm mới*/
+.content #pages .recent-orders{
+    margin-top: 12px;
+    background: #d3dcd1;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+.content #pages .table-reset {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid #ccc;
     margin-top: 10px;
 }
-.table-reset th,
-.table-reset td {
+.content #pages .table-reset th,
+.content #pages .table-reset td {
     padding: 10px;
     text-align: left;
     border: 1px solid #ccc;
 }
-.table-head {
+.content #pages .table-head {
+    background: #becba2;
 }
 
 /* users list / avatars */
-.users-list {
+.content #pages .users-list {
     margin-top: 8px;
 }
-.user-item {
+.content #pages .user-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -137,10 +154,10 @@
     border-bottom: 1px dashed rgba(255, 255, 255, 0.02);
     cursor: pointer;
 }
-.user-item.last {
+.content #pages .user-item.last {
     border-bottom: none;
 }
-.avatar {
+.content #pages .avatar {
     width: 40px;
     height: 40px;
     border-radius: 8px;
@@ -151,62 +168,66 @@
 }
 
 /* avatar variants used in HTML */
-.avatar.variant-1 {
+.content #pages .avatar.variant-1 {
     background: linear-gradient(135deg, var(--color-bg), var(--color-head));
 }
-.avatar.variant-2 {
+.content #pages .avatar.variant-2 {
     background: linear-gradient(135deg, #f97316, #fb923c);
 }
-.avatar.variant-3 {
+.content #pages .avatar.variant-3 {
     background: linear-gradient(135deg, #a78bfa, #7c3aed);
 }
-.avatar.variant-4 {
+.content #pages .avatar.variant-4 {
     background: linear-gradient(135deg, #10b981, #34d399);
 }
-.avatar.variant-5 {
+.content #pages .avatar.variant-5 {
     background: linear-gradient(135deg, #f43f5e, #fb7185);
 }
 
-.user-name {
+.content #pages .user-name {
     font-weight: 700;
 }
-.user-meta {
+.content #pages .user-meta {
     font-size: 13px;
 }
 
-.view-all-wrap {
+.content #pages .view-all-wrap {
     margin-top: 10px;
     display: flex;
     justify-content: center;
 }
-.view-all-wrap .btn-outline-accent {
+.content #pages .view-all-wrap .btn-outline-accent {
     background: var(--color-button);
 }
 /* Charts layout */
-.charts-grid {
+.content #pages .charts-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 16px;
     margin-top: 12px;
 }
-.right-column {
+.content #pages .right-column {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
-.charts-grid .chart-card {
+.content #pages .charts-grid .chart-card {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+
 }
-.chart-card {
+.content #pages .chart-card {
     padding: 12px;
     border-radius: 12px;
     background: var(--color-bg);
     border: 1px solid rgba(255, 255, 255, 0.03);
 }
-.chart-card canvas {
+.content #pages .chart-card canvas {
     width: 100% !important;
     height: 260px !important;
 }
-.short-canvas {
+.content #pages .short-canvas {
     height: 180px !important;
 }
+
+
+
