@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const passwordInput = document.getElementById("login-password");
     const checkboxRemember = document.getElementById("remember-checkbox");
     const loginButton = document.getElementById("btn-login");
+    const register = document.getElementById("link-create-account")
+    const forgotPassword = document.getElementById("link-forgot-password");
 
     // --- Chỉ tự động điền username nếu đã ghi nhớ và checkbox còn được bật ---
     const rememberedUsername = localStorage.getItem("rememberedUsername");
@@ -96,4 +98,15 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(() => alert.remove(), 500);
         }, 2500);
     }
+
+    // chuyển trang đăng kí
+    register.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = "../register.html";
+    })
+
+    forgotPassword.addEventListener("click", function (e) {
+        e.preventDefault();
+        window.location.href = "../changepassword.html";
+    })
 });
