@@ -7,6 +7,35 @@ document.addEventListener("DOMContentLoaded", function () {
     const register = document.getElementById("link-create-account")
     const forgotPassword = document.getElementById("link-forgot-password");
 
+    // --- Seed 1 user mặc định để test nếu chưa có dữ liệu ---
+    try {
+        const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+        if (!Array.isArray(existingUsers) || existingUsers.length === 0) {
+            const seededUsers = [
+                {
+                    username: "testuser",
+                    password: "123456",
+                    name: "Test User",
+                    email: "testuser@example.com",
+                    phone: "+84 901234567"
+                }
+            ];
+            localStorage.setItem("users", JSON.stringify(seededUsers));
+        }
+    } catch (_) {
+        // nếu dữ liệu hỏng, khởi tạo lại với user mặc định
+        const seededUsers = [
+            {
+                username: "testuser",
+                password: "123456",
+                name: "Test User",
+                email: "testuser@example.com",
+                phone: "+84 901234567"
+            }
+        ];
+        localStorage.setItem("users", JSON.stringify(seededUsers));
+    }
+
     // --- Chỉ tự động điền username nếu đã ghi nhớ và checkbox còn được bật ---
     const rememberedUsername = localStorage.getItem("rememberedUsername");
     const rememberChecked = localStorage.getItem("rememberChecked");
@@ -47,10 +76,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Giả lập chuyển hướng sau khi đăng nhập
             setTimeout(() => {
-                window.location.href = "../info-user.html";
+                window.location.href = "./info-user.html";
             }, 1500);
         } else {
-            showAlert("Tên đăng nhập hoặc mật khẩu không đúng!", "error");
+            // lấy thông tin người dùng đăng kí để đăng nhập
+            const users = JSON.parse(localStorage.getItem("users")) || [];
+            const user = users.find((u) => u.username === username && u.password === password);
+
+            if (user) {
+                showAlert("Đăng nhập thành công!", "success");
+
+                // ghi nhận người dùng hiện tại
+                localStorage.setItem("currentUser", JSON.stringify(user));
+
+                // lưu hoặc xóa tên người dùng theo checkbox
+                if (checkboxRemember.checked) {
+                    localStorage.setItem("rememberedUsername", username);
+                    localStorage.setItem("rememberChecked", "true");
+                } else {
+                    localStorage.removeItem("rememberedUsername");
+                    localStorage.removeItem("rememberChecked");
+                }
+
+                // chuyển hướng user về trang chủ
+                setTimeout(() => {
+                    window.location.href = "./index.html";
+                }, 1500);
+            } else {
+                showAlert("Tên đăng nhập hoặc mật khẩu không đúng!", "error");
+            }
         }
     });
 
@@ -102,11 +156,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // chuyển trang đăng kí
     register.addEventListener("click", function (e) {
         e.preventDefault();
-        window.location.href = "../register.html";
+        window.location.href = "./register.html";
     })
 
     forgotPassword.addEventListener("click", function (e) {
         e.preventDefault();
-        window.location.href = "../changepassword.html";
+        window.location.href = "./changepassword.html";
     })
 });
