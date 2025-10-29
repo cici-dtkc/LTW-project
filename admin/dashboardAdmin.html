@@ -70,6 +70,13 @@
                 </div>
                 <div class="charts-grid">
                     <div id="chart-cart" class="chart-card card">
+                        <div class="filter-container">
+                            <div class="filter-time">
+                                <button class="filter-btn" data-days="7">7 ngày</button>
+                                <button class="filter-btn active" data-days="30">30 ngày</button>
+                                <button class="filter-btn" data-days="90">90 ngày</button>
+                            </div>
+                        </div>
                         <strong>Doanh thu theo ngày (30 ngày)</strong>
                         <canvas id="salesLine"></canvas>
 
@@ -189,6 +196,7 @@
     </main>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 <script src="../js/sidebarAdmin.js"></script>
 <script src="../js/dashboardAdmin.js"></script>
