@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Website bán điện thoại và phụ kiện di động">
     <meta name="keywords" content="điện thoại, phụ kiện, mobile, smartphone">
-    <title>Trang chủ - Cửa hàng điện thoại</title>
+    <title> Cửa hàng điện thoại</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assert/css/reset.css">
     <link rel="stylesheet" href="assert/css/base.css">
@@ -24,17 +24,20 @@
                     <li><a href="#" id="nav-home">Trang chủ</a></li>
                     <li><a href="#" id="nav-phone">Điện thoại</a></li>
                     <li><a href="#" id="nav-accessory">Phụ kiện</a></li>
-                    <li><a href="#" id="nav-contact">Liên hệ chúng tôi</a></li>
+                    <li><a href="#" id="nav-contact">Liên hệ</a></li>
                 </ul>
             </nav>
             <div class="box" id="icon-box">
                 <ul>
-                    <li><a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    <li class="search-item">
+                        <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                        <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                    </li>
                     <li><a href="#" id="btn-cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
-                    <li><a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a></li>
-                    <li><button class="mobile-menu-btn" id="mobile-menu-btn">
-                        <i class="fa-solid fa-bars"></i>
-                    </button></li>
+                    <li id="user-area" class="user-area">
+                        <a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a>
+
+                    </li>
                 </ul>
             </div>
         </div>

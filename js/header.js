@@ -22,31 +22,23 @@ function loadHeader() {
 function initializeHeaderEvents() {
     // === 1️⃣ TÌM KIẾM ===
     const searchBtn = document.getElementById("btn-search");
-    let searchBox;
-
-    if (searchBtn) {
+    const searchInput = document.getElementById("header-search");
+    if (searchBtn && searchInput) {
         searchBtn.addEventListener("click", (e) => {
             e.preventDefault();
-
-            if (!searchBox) {
-                searchBox = document.createElement("input");
-                searchBox.type = "text";
-                searchBox.placeholder = "🔍 Tìm kiếm sản phẩm...";
-                searchBox.className = "search-input";
-                document.body.appendChild(searchBox);
-
-                // Hiển thị với animation
-                setTimeout(() => {
-                    searchBox.classList.add("show");
-                    searchBox.focus();
-                }, 50);
+            const willShow = !searchInput.classList.contains("show");
+            if (willShow) {
+                searchInput.classList.add("show");
+                setTimeout(() => searchInput.focus(), 30);
             } else {
-                // Nếu đã có -> ẩn với hiệu ứng ngược
-                searchBox.classList.remove("show");
-                setTimeout(() => {
-                    searchBox.remove();
-                    searchBox = null;
-                }, 300);
+                searchInput.classList.remove("show");
+            }
+        });
+
+        // Tự ẩn khi blur nếu trống
+        searchInput.addEventListener("blur", () => {
+            if (searchInput.value.trim() === "") {
+                searchInput.classList.remove("show");
             }
         });
     }
@@ -61,13 +53,7 @@ function initializeHeaderEvents() {
     }
 
     // === 3️⃣ NGƯỜI DÙNG / LOGIN ===
-    const userBtn = document.getElementById("btn-user");
-    if (userBtn) {
-        userBtn.addEventListener("click", (e) => {
-            e.preventDefault();
-            window.location.href = "./login.html";
-        });
-    }
+    renderUserArea();
 
     // === 4️⃣ MENU MOBILE ===
     const menu = document.getElementById("menu");
@@ -120,3 +106,62 @@ function initializeHeaderEvents() {
 document.addEventListener("DOMContentLoaded", () => {
     loadHeader();
 });
+
+// ===== User helpers =====
+function getCurrentUser() {
+    try {
+        const raw = localStorage.getItem("currentUser");
+        if (raw) return JSON.parse(raw);
+    } catch {}
+    const remembered = localStorage.getItem("rememberedUsername");
+    if (remembered) return { username: remembered };
+    return null;
+}
+
+function renderUserArea() {
+    const userArea = document.getElementById("user-area");
+    if (!userArea) return;
+
+    const user = getCurrentUser();
+    if (!user) {
+        userArea.innerHTML = '<a href="../login.html" id="login-link" class="user-profile"><i class="fa-solid fa-user"></i><span class="username">Đăng nhập</span></a>';
+
+        return;
+    }
+
+    userArea.innerHTML = `
+        <div class="user-profile" id="user-profile">
+            <i class="fa-solid fa-user"></i>
+            <span class="username">${user.username}</span>
+        </div>
+        <div class="user-dropdown" id="user-dropdown">
+            <a href="./info-user.html">Tài Khoản Của Tôi</a>
+            <a href="./order_detail.html">Đơn Mua</a>
+            <a href="../login.html" id="logout-link">Đăng Xuất</a>
+        </div>
+    `;
+
+    const profile = document.getElementById("user-profile");
+    const dropdown = document.getElementById("user-dropdown");
+    const logoutLink = document.getElementById("logout-link");
+
+    if (profile && dropdown) {
+        profile.addEventListener("click", (e) => {
+            e.preventDefault();
+            userArea.classList.toggle("open");
+        });
+
+        document.addEventListener("click", (e) => {
+            if (!userArea.contains(e.target)) userArea.classList.remove("open");
+        });
+    }
+
+    if (logoutLink) {
+        logoutLink.addEventListener("click", (e) => {
+            e.preventDefault();
+            localStorage.removeItem("currentUser");
+            localStorage.removeItem("rememberedUsername");
+            window.location.href = "./login.html"; // hoặc "../login.html" tùy cấp thư mục
+        });
+    }
+}
