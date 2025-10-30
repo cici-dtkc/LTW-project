@@ -45,8 +45,8 @@
   </div>
 
   <!-- Danh sách sản phẩm -->
-  <div class="product-list">
-    <div class="product-card">
+  <div id="product-list" class="product-list">
+    <div class="product-card" id="product-card">
       <div class="product-img">
         <img src="assert/img/iphone_17_pro_max.png" alt="iPhone 17 Pro Max">
         <span class="discount-badge">-12%</span>
@@ -64,10 +64,10 @@
         </div>
 
         <div class="capacity">
-          <button>256 GB</button>
+          <button class="active">256 GB</button>
           <button>512 GB</button>
           <button>1 TB</button>
-          <button class="active">2 TB</button>
+          <button>2 TB</button>
         </div>
 
         <div class="rating-cart">
@@ -90,6 +90,12 @@
     </div>
 
   </div>
+  <!-- nút xem thêm -->
+  <div class="load-more-wrap">
+    <button id="loadMoreBtn" class="btn">Xem thêm</button>
+    <span id="loadMoreSpinner" class="spinner" style="display:none">Đang tải...</span>
+  </div>
+
 </main>
 <script src="js/listProduct.js"></script>
 </body>

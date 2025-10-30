@@ -7,15 +7,20 @@ body {
 }
 
 /* --- Thanh lọc hãng --- */
+.product-filter-bar{
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 10px;
+
+}
 .filter-bar {
     display: flex;
     align-items: center;
     gap: 10px;
     overflow-x: auto;
-    padding: 10px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+
+
 }
 
 .filter-btn {
@@ -69,6 +74,7 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+
 }
 
 .sort-section span {
@@ -98,14 +104,32 @@ body {
     color: #0071e3; /* xanh khi được chọn */
     font-weight: 150;
 }
+.product-list {
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    padding: 20px;
 
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    justify-items: center;
+}
+
+/* CARD SẢN PHẨM */
 .product-card {
-    position: relative;
+    width: 100%;
+    max-width: 300px;
+    min-height: 500px;
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
 }
 
 .product-card:hover {
@@ -113,47 +137,59 @@ body {
     box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
+/* ẢNH */
 .product-img {
     position: relative;
+    flex: 0 0 55%;
+    background: #f9fafb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-img img {
     width: 100%;
-    display: block;
+    height: 100%;
+    object-fit: contain;
 }
 
+/* HUY HIỆU GIẢM GIÁ */
 .discount-badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
-
+    top: 0px;
+    left: 0px;
     width: 35px;
     height: 35px;
     background: #ef4444;
     color: #fff;
     font-size: 13px;
     font-weight: 600;
-
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
+/* THÔNG TIN */
 .product-info {
-    padding: 16px;
-    position: relative;
+    flex: 1;
+    padding: 16px ;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
+/* GIÁ */
 .price {
     color: #e11d48;
     font-size: 1.2rem;
     font-weight: 700;
-    margin: 8px 0;
+
 }
 
+/* MÀU SẮC */
 .colors {
     display: flex;
     gap: 6px;
@@ -172,6 +208,7 @@ body {
     border-color: #000;
 }
 
+/* DUNG LƯỢNG */
 .capacity {
     display: flex;
     gap: 6px;
@@ -180,11 +217,13 @@ body {
 
 .capacity button {
     padding: 6px 10px;
+    color: black;
     border-radius: 8px;
     border: 1px solid #ccc;
     background: #f9f9f9;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-size: 12px;
 }
 
 .capacity button.active {
@@ -197,25 +236,29 @@ body {
     border-color: #2563eb;
 }
 
-.rating-cart {
+/* --- PHẦN RATING --- */
+.rating {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    margin-top: 10px;
+    /*margin-bottom: 10px;*/
+    gap: 2px;
 }
 
 .rating i {
     color: #facc15;
 }
 
-/* --- phần dưới cùng (bán / giỏ hàng) --- */
+/* --- PHẦN DƯỚI (ĐÃ BÁN + GIỎ HÀNG) --- */
 .bottom-info {
-    position: relative;
-    height: 40px;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-end;
-    margin-top: 8px;
+    /*margin-top: auto;*/
+    margin-bottom: 10px;
+
 }
+
 
 .sold-count {
     font-size: 0.9rem;
@@ -224,11 +267,8 @@ body {
 }
 
 .cart-btn {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    width: 42px;
-    height: 42px;
+    width: 35px;
+    height: 35px;
     background: var(--color-button);
     color: #fff;
     border: none;
@@ -239,23 +279,13 @@ body {
     align-items: center;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-
-    /* Ẩn ban đầu */
-    opacity: 0;
     transform: scale(0.8);
     transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* Hover vào card → ẩn số lượng bán, hiện nút giỏ hàng */
-.product-card:hover .sold-count {
-    opacity: 0;
-}
-
-.product-card:hover .cart-btn {
-    opacity: 1;
-    transform: scale(1);
 }
 
 .cart-btn:hover {
     background: var(--color-bg-main);
 }
+.load-more-wrap { text-align:center; margin:20px 0; }
+.btn[disabled] { opacity:0.6; cursor:not-allowed; }
+.spinner { font-size:14px; color:#666; margin-left:8px; }
