@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Mocked user data (replace with real data source when available)
     const user = {
-        username: "aaaaa",
+        username: "abc",
         name: "Admin",
         email: "admin@example.com",
         phone: "+84 12345678",
