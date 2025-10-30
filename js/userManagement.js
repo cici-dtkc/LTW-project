@@ -11,35 +11,11 @@ const recordInfo = document.getElementById("record-info");
 const pagination = document.getElementById("pagination-number");
 const addUserBtn = document.getElementById("add-user-btn");
 
-// Mock data (sau này thay bằng dữ liệu từ database)
+// Mock data
 let users = [
-    {
-        id: 1,
-        avatar: "./assert/img/admin.jpg",
-        name: "Đỗ Thị",
-        email: "chi@example.com",
-        phone: "0987xxxxxx",
-        role: "Admin",
-        status: "Hoạt động",
-    },
-    {
-        id: 2,
-        avatar: "./assert/img/admin.jpg",
-        name: "Hé Mầm",
-        email: "mam@example.com",
-        phone: "0997xxxxxx",
-        role: "Admin",
-        status: "Tạm khóa",
-    },
-    {
-        id: 3,
-        avatar: "./assert/img/admin.jpg",
-        name: "Da Vân",
-        email: "van@example.com",
-        phone: "0987xxxxxx",
-        role: "User",
-        status: "Hoạt động",
-    },
+    { id: 1, avatar: "./assert/img/admin.jpg", name: "Đỗ Thị", email: "chi@example.com", phone: "0987xxxxxx", role: "Admin", status: "Hoạt động"},
+    { id: 2, avatar: "./assert/img/admin.jpg", name: "Hé Mầm", email: "mam@example.com", phone: "0997xxxxxx", role: "Admin", status: "Tạm khóa"},
+    { id: 3, avatar: "./assert/img/admin.jpg", name: "Da Vân", email: "van@example.com", phone: "0987xxxxxx", role: "User", status: "Hoạt động"},
 ];
 
 // ==============================
@@ -56,19 +32,21 @@ function renderUsers(list) {
 
     list.forEach((user, index) => {
         const row = document.createElement("tr");
-        row.dataset.id = user.id; // lưu id để dùng khi sửa/xóa
+        row.dataset.id = user.id;
         row.innerHTML = `
             <td>${index + 1}</td>
-            <td><img src="${user.avatar}" alt="avatar" style="width:32px; height:32px; border-radius:50%;"></td>
+            <td><img src="${user.avatar}" style="width:32px; height:32px; border-radius:50%;"></td>
             <td>${user.name}</td>
             <td>${user.email}</td>
             <td>${user.phone}</td>
-            <td>${user.role}</td>
-            <td>${user.status}</td>
+
+            <td class="role-cell">${user.role}</td>
+            <td class="status-cell">${user.status}</td>
+
             <td>
-                <i class="fa-solid fa-pen edit-icon" style="color:var(--color-text-user); cursor:pointer;" title="Sửa"></i>
-                &nbsp;
-                <i class="fa-solid fa-trash delete-icon" style="color:#888888; cursor:pointer;" title="Xóa"></i>
+                <i class="fa-solid fa-pen edit-icon" style="cursor:pointer;"></i>
+                <i class="fa-solid fa-floppy-disk save-icon" style="cursor:pointer; display:none;"></i>
+                <i class="fa-solid fa-xmark cancel-icon" style="cursor:pointer; display:none;"></i>
             </td>
         `;
         userTableBody.appendChild(row);
@@ -78,81 +56,79 @@ function renderUsers(list) {
 }
 
 // ==============================
-//   Lọc và tìm kiếm
+// Lọc và tìm kiếm
 // ==============================
 function applyFilters() {
     const searchValue = searchInput.value.toLowerCase();
     const selectedRole = roleFilter.value;
     const selectedStatus = statusFilter.value;
 
-    let filtered = users.filter(user => {
-        const matchSearch =
-            user.name.toLowerCase().includes(searchValue) ||
+    const filtered = users.filter(user =>
+        (user.name.toLowerCase().includes(searchValue) ||
             user.email.toLowerCase().includes(searchValue) ||
-            user.phone.toLowerCase().includes(searchValue);
-
-        const matchRole = selectedRole === "" || user.role === selectedRole;
-        const matchStatus = selectedStatus === "" || user.status === selectedStatus;
-
-        return matchSearch && matchRole && matchStatus;
-    });
+            user.phone.includes(searchValue)) &&
+        (selectedRole === "" || user.role === selectedRole) &&
+        (selectedStatus === "" || user.status === selectedStatus)
+    );
 
     renderUsers(filtered);
 }
 
 // ==============================
-//  Xử lý sự kiện icon sửa / xóa
+//  Inline Edit
 // ==============================
 userTableBody.addEventListener("click", (e) => {
     const target = e.target;
     const row = target.closest("tr");
-    const userId = parseInt(row.dataset.id);
+    if (!row) return;
 
-    // ---- Xóa người dùng ----
-    if (target.classList.contains("delete-icon")) {
-        const confirmDelete = confirm("Bạn có chắc muốn xóa người dùng này?");
-        if (confirmDelete) {
-            users = users.filter(user => user.id !== userId);
-            renderUsers(users);
-        }
+    const userId = parseInt(row.dataset.id);
+    const user = users.find(u => u.id === userId);
+
+    const roleCell = row.querySelector(".role-cell");
+    const statusCell = row.querySelector(".status-cell");
+    const editBtn = row.querySelector(".edit-icon");
+    const saveBtn = row.querySelector(".save-icon");
+    const cancelBtn = row.querySelector(".cancel-icon");
+
+    // Click Edit
+    if (target.classList.contains("edit-icon")) {
+        roleCell.innerHTML = `
+            <select id="edit-role">
+                <option ${user.role === "Admin" ? "selected" : ""}>Admin</option>
+                <option ${user.role === "User" ? "selected" : ""}>User</option>
+            </select>`;
+
+        statusCell.innerHTML = `
+            <select id="edit-status">
+                <option ${user.status === "Hoạt động" ? "selected" : ""}>Hoạt động</option>
+                <option ${user.status === "Tạm khóa" ? "selected" : ""}>Tạm khóa</option>
+            </select>`;
+
+        editBtn.style.display = "none";
+        saveBtn.style.display = "inline";
+        cancelBtn.style.display = "inline";
     }
 
-    // ---- Sửa người dùng ----
-    if (target.classList.contains("edit-icon")) {
-        const user = users.find(u => u.id === userId);
-        if (!user) return;
+    // Click Save
+    if (target.classList.contains("save-icon")) {
+        user.role = row.querySelector("#edit-role").value;
+        user.status = row.querySelector("#edit-status").value;
 
-        const newName = prompt("Nhập tên mới:", user.name);
-        const newEmail = prompt("Nhập email mới:", user.email);
-        const newPhone = prompt("Nhập số điện thoại mới:", user.phone);
-        const newRole = prompt("Nhập vai trò (Admin/User):", user.role);
-        const newStatus = prompt("Nhập trạng thái (Hoạt động/Tạm khóa):", user.status);
+        renderUsers(users);
+    }
 
-        if (newName && newEmail && newPhone && newRole && newStatus) {
-            user.name = newName;
-            user.email = newEmail;
-            user.phone = newPhone;
-            user.role = newRole;
-            user.status = newStatus;
-            renderUsers(users);
-        }
+    // Click Cancel
+    if (target.classList.contains("cancel-icon")) {
+        renderUsers(users);
     }
 });
 
 // ==============================
-//  Xử lý sự kiện khác
+// Events
 // ==============================
 searchInput.addEventListener("input", applyFilters);
 roleFilter.addEventListener("change", applyFilters);
 statusFilter.addEventListener("change", applyFilters);
 
-addUserBtn.addEventListener("click", () => {
-    alert("Tính năng thêm người dùng sẽ được kết nối với database sau!");
-});
-
-// ==============================
-//  Khởi tạo ban đầu
-// ==============================
-document.addEventListener("DOMContentLoaded", () => {
-    renderUsers(users);
-});
+document.addEventListener("DOMContentLoaded", () => renderUsers(users));
