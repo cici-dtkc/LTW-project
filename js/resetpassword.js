@@ -1,56 +1,21 @@
 
 // Hỗ trợ luồng: forgotpassword.html -> changepassword.html -> login.html
 
-// ----------- Trang forgotpassword.html -----------
-var forgotForm = document.querySelector('#forgot-password form');
-
-if (forgotForm) {
-    forgotForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const emailInput = forgotForm.querySelector('input[type="email"]');
-        const email = emailInput.value.trim();
-
-        if (!email) {
-            alert("Vui lòng nhập email của bạn!");
-            return;
-        }
-
-        // Sinh mã 6 chữ số và lưu tạm trong sessionStorage
-        const code = Math.floor(100000 + Math.random() * 900000).toString();
-        sessionStorage.setItem('resetEmail', email);
-        sessionStorage.setItem('resetCode', code);
-        sessionStorage.setItem('resetCodeCreatedAt', Date.now().toString());
-
-        // Giả lập gửi email — để tiện test hiển thị luôn mã trong alert (bỏ phần này khi chạy thực tế)
-        alert(`Mã xác nhận đã được gửi tới ${email}. Mã (thử): ${code}`);
-
-        // Chuyển sang trang nhập mã (lưu ý: file tên hiện tại là changepassword.html)
-        window.location.href = 'changepassword.html';
-    });
-}
-
-
 // ----------- Trang changepasswsord.html -----------
 const verifyStep = document.getElementById('verify-step');
 const confirmStep = document.getElementById('confirm-step');
-const resetStep = document.getElementById('reset-step');
 
 if (verifyStep) {
     // Hiển thị email đã lưu (nếu có)
     const savedEmail = sessionStorage.getItem('resetEmail');
     const infoBold = verifyStep.querySelector('p b');
-    if (!savedEmail) {
-        // Nếu người dùng vào trực tiếp trang verif không qua form thì quay lại nhập email
-        alert('Vui lòng nhập email trước khi đặt lại mật khẩu.');
-        window.location.href = 'forgotpassword.html';
-    } else if (infoBold) {
+    if (infoBold) {
         infoBold.textContent = savedEmail;
     }
 
     const verifyBtn = document.getElementById('verify-btn');
     const confirmBtn = document.getElementById('confirm-btn');
-    const updateBtn = document.getElementById('update-btn');
+
     const resendLink = document.getElementById('resend-link');
 
     //mã hiệu lực trong 1 phút
@@ -60,7 +25,7 @@ if (verifyStep) {
         const ss = (s % 60).toString().padStart(2, '0');
         return `${m}:${ss}`;
     }
-
+//Yêu cầu gửi lại mã nếu hết thời gian
     function setResendDisabled(remainingSec) {
         if (!resendLink) return;
         resendLink.classList.add('disabled');
@@ -83,7 +48,7 @@ if (verifyStep) {
             }
         }, 1000);
     }
-
+//đếm ngược thời gian mã có hiệu lực
     // Nếu đã có mã vừa được tạo trong vòng 60s -> bắt đầu cooldown với phần thời gian còn lại
     (function initResendState() {
         if (!resendLink) return;
@@ -174,40 +139,9 @@ if (verifyStep) {
     // Bấm "Xác nhận" → sang bước nhập mật khẩu
     confirmBtn.addEventListener('click', function () {
         confirmStep.classList.add('hidden');
-        resetStep.classList.remove('hidden');
+        window.location.href = 'formChangePass.html';
     });
 
-    // Cập nhật mật khẩu mới
-    updateBtn.addEventListener('click', function () {
-        const newPassInput = document.getElementById('new-pass');
-        const confirmPassInput = document.getElementById('confirm-pass');
-        const newPass = newPassInput ? newPassInput.value.trim() : '';
-        const confirmPass = confirmPassInput ? confirmPassInput.value.trim() : '';
-
-        if (!newPass || !confirmPass) {
-            alert('Vui lòng nhập đầy đủ thông tin!');
-            return;
-        }
-
-        if (newPass.length < 6) {
-            alert('Mật khẩu mới cần ít nhất 6 ký tự.');
-            return;
-        }
-
-        if (newPass !== confirmPass) {
-            alert('Mật khẩu xác nhận không khớp!');
-            return;
-        }
-
-        // Giả lập lưu mật khẩu mới (thực tế: gọi API backend ở đây)
-        // Xóa thông tin tạm và chuyển về trang đăng nhập
-        sessionStorage.removeItem('resetCode');
-        sessionStorage.removeItem('resetCodeCreatedAt');
-        sessionStorage.removeItem('resetEmail');
-
-        alert('Cập nhật mật khẩu thành công!');
-        window.location.href = 'login.html';
-    });
 
     // Tự động focus qua ô kế tiếp khi nhập mã
     const codeInputs = document.querySelectorAll('#verify-step .code-inputs input');
@@ -220,33 +154,6 @@ if (verifyStep) {
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Backspace' && !input.value && index > 0) {
                 codeInputs[index - 1].focus();
-            }
-        });
-    });
-
-    // Ẩn / hiện mật khẩu (icon mắt)
-    // đảm bảo trạng thái icon ban đầu
-    document.querySelectorAll('.toggle').forEach(toggle => {
-        const eye = toggle.querySelector('.fa-eye');
-        const eyeSlash = toggle.querySelector('.fa-eye-slash');
-        if (eye) eye.style.display = 'inline';
-        if (eyeSlash) eyeSlash.style.display = 'none';
-
-        toggle.addEventListener('click', () => {
-            const input = toggle.parentElement.querySelector('input');
-            const eye = toggle.querySelector('.fa-eye');
-            const eyeSlash = toggle.querySelector('.fa-eye-slash');
-
-            if (!input) return;
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                if (eye) eye.style.display = 'none';
-                if (eyeSlash) eyeSlash.style.display = 'inline';
-            } else {
-                input.type = 'password';
-                if (eye) eye.style.display = 'inline';
-                if (eyeSlash) eyeSlash.style.display = 'none';
             }
         });
     });
