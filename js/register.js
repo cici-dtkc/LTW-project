@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const email = document.getElementById("email");
     const firstName = document.getElementById("fname");
     const lastName = document.getElementById("lname");
+    const emailInput = registerForm.querySelector('input[type="email"]');
 
     // --- Xử lý khi nhấn nút "Tạo tài khoản" ---
     registerForm.addEventListener("submit", function (e) {
@@ -30,7 +31,14 @@ document.addEventListener("DOMContentLoaded", function () {
             showAlert("Mật khẩu và xác nhận mật khẩu không khớp!", "error");
             return;
         }
-
+        // Regex kiểm tra email hợp lệ
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(emailVal)) {
+            e.preventDefault();
+            alert("Email không hợp lệ! Vui lòng nhập đúng định dạng.");
+            emailInput.focus();
+            return;
+        }
         // --- Lấy danh sách người dùng hiện có ---
         let users = JSON.parse(localStorage.getItem("users")) || [];
 
@@ -58,12 +66,12 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("users", JSON.stringify(users));
 
         // --- Hiển thị thông báo và chuyển hướng ---
-        showAlert("Đăng ký thành công! Đang chuyển hướng đến trang đăng nhập...", "success");
+        showAlert("Đăng ký thành công! Đang chuyển hướng đến trang trang chủ...", "success");
 
         // Xóa form và chuyển hướng sau 1.5s
         setTimeout(() => {
             registerForm.reset();
-            window.location.href = "login.html"; // ⚠️ Cùng cấp với register.html
+            window.location.href = "login.html";
         }, 1500);
     });
 
