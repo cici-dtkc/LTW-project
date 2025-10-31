@@ -16,7 +16,7 @@
     --size-icon: 20px;
     --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     --color-button: #4AA3B3;
-
+    --color-bg-header:#FFFFC5;
 }
 button{
     padding: 12px;

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Thông tin người dùng</title>
+  <title>Hồ Sơ Của Tôi</title>
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assert/css/reset.css">
@@ -13,37 +13,64 @@
 <body>
 <div class="info-user" id="info-user">
   <div class="container">
-    <div class="inner-wrap">
-      <div class="title" id="title">
-        <span>Thông tin người dùng</span>
+    <div class="title" id="title">
+      <span>Hồ Sơ Của Tôi</span>
+    </div>
+
+    <div class="profile">
+      <div class="left">
+        <div class="row">
+          <label class="label">Tên đăng nhập</label>
+          <div class="readonly" id="username-view">zyyy2809</div>
+        </div>
+
+        <div class="row">
+          <label for="fullName" class="label">Tên</label>
+          <input type="text" id="fullName" class="input" placeholder="Nhập tên" disabled>
+        </div>
+
+        <div class="row">
+          <label class="label" for="emailInput">Email</label>
+          <input type="email" id="emailInput" class="input" placeholder="Nhập email" disabled>
+          <span class="error" id="emailError"></span>
+        </div>
+
+        <div class="row">
+          <label class="label" for="phoneInput">Số điện thoại</label>
+          <input type="text" id="phoneInput" class="input" placeholder="Nhập số điện thoại" disabled>
+          <span class="error" id="phoneError"></span>
+        </div>
+
+        <div id="password-fields" class="hidden">
+          <div class="row">
+            <label for="currentPassword" class="label">Mật khẩu hiện tại</label>
+            <input type="password" id="currentPassword" class="input" placeholder="Nhập mật khẩu hiện tại">
+            <span class="error" id="currentPwError"></span>
+          </div>
+          <div class="row">
+            <label for="newPassword" class="label">Mật khẩu mới</label>
+            <input type="password" id="newPassword" class="input" placeholder="Ít nhất 6 ký tự">
+            <span class="error" id="newPwError"></span>
+          </div>
+          <div class="row">
+            <label for="confirmPassword" class="label">Xác nhận mật khẩu</label>
+            <input type="password" id="confirmPassword" class="input" placeholder="Nhập lại mật khẩu mới">
+            <span class="error" id="confirmPwError"></span>
+          </div>
+        </div>
+
+        <div class="buttons">
+          <button type="button" class="btn primary" id="btn-edit">Chỉnh sửa thông tin</button>
+          <button type="button" class="btn outline" id="btn-logout">Đăng xuất</button>
+        </div>
       </div>
 
-      <div class="info-img" id="info-img">
-        <img id="user-avatar" src="./assert/img/admin.jpg" alt="erro">
-      </div>
-
-      <div class="info-name" id="info-name">
-        <span id="user-name">Admin</span>
-      </div>
-
-      <div class="info-email" id="info-email">
-        <i class="fa-solid fa-envelope"></i>
-        <span id="user-email">admin@example.com</span>
-      </div>
-
-      <div class="info-phone" id="info-phone">
-        <i class="fa-solid fa-phone"></i>
-        <span id="user-phone">(+84) 12345678</span>
-      </div>
-
-      <div class="info-birthday" id="info-birthday">
-        <i class="fa-solid fa-calendar"></i>
-        <span id="user-birthday">September 1, 1990</span>
-      </div>
-
-      <div class="info-button" id="info-button">
-        <button type="button" class="btn left" id="btn-edit">Chỉnh sửa thông tin</button>
-        <button type="button" class="btn right" id="btn-logout">Đăng xuất</button>
+      <div class="right">
+        <div class="avatar">
+          <img id="user-avatar" src="./assert/img/admin.jpg" alt="avatar">
+        </div>
+        <label for="avatarInput" class="btn small">Chọn Ảnh</label>
+        <input id="avatarInput" type="file" accept="image/png, image/jpeg" class="hidden-input">
       </div>
     </div>
   </div>
