@@ -1,0 +1,268 @@
+
+.app-wrapper {
+    border: 1px solid #ddd;
+    background: #ccc;
+}
+
+/* ====== HEADER + BREADCRUMB ====== */
+.container-header {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.container-header .breadcrumb {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.container-header .breadcrumb a {
+    color: #2d85f3;
+    text-decoration: none;
+}
+.container-header .breadcrumb a:hover {
+    text-decoration: underline;
+}
+.container-header .breadcrumb span {
+    margin: 0 5px;
+    color: #aaa;
+}
+
+.container-header .product-title {
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.container-header .sold-info {
+    font-size: 14px;
+    color: #666;
+}
+.container-header .rating {
+    font-size: 14px;
+    color: #f5a623;
+}
+.container-header .spec-link {
+    font-size: 14px;
+    color: #2d85f3;
+    text-decoration: none;
+}
+.container-header .spec-link:hover {
+    text-decoration: underline;
+}
+
+/*main*/
+.box-main {
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    margin: auto;
+}
+.box-main  .product-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    background: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 40px;
+    border-radius: 10px;
+}
+.box-main  .product-detail  .product-gallery .main {
+    position: relative;
+}
+/* --- CỘT TRÁI: SLIDESHOW --- */
+.box-main  .product-detail .product-gallery {
+    flex: 1;
+    min-width: 650px;
+    position: relative;
+    text-align: center;
+}
+.box-main  .product-detail .img-feature {
+    width: 100%;
+    border-radius: 10px;
+    max-height: 400px;
+    object-fit: contain;
+    background: #fafafa;
+}
+.box-main .product-detail .list-image {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.box-main  .product-detail .list-image div {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: 0.3s;
+}
+.box-main  .product-detail .list-image div:hover {
+    border-color: #007aff;
+}
+.box-main  .product-detail .list-image img {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+}
+.box-main  .product-detail .control {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: #333;
+    cursor: pointer;
+    background: rgba(255,255,255,0.7);
+    border-radius: 50%;
+    padding: 8px;
+    transition: 0.3s;
+}
+
+.box-main  .product-detail .product-gallery .control {
+    position: absolute;
+    top: 50%; /* Căn giữa theo chiều dọc */
+    transform: translateY(-50%);
+    font-size: 28px;
+    color: #333;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.box-main  .product-detail .product-gallery .control:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.box-main  .product-detail .product-gallery .control.prev {
+    left: 10px;
+}
+
+.box-main  .product-detail .product-gallery .control.next {
+    right: 10px
+}
+
+/* --- CỘT PHẢI: THÔNG TIN & MÀU --- */
+.box-main .product-info {
+    flex: 1;
+    min-width: 350px;
+    text-align: center;
+    background: white;
+    margin: 20px 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0 10px 10px 10px;
+}
+.box-main .product-info h2 {
+    font-size: 18px;
+    justify-content: flex-start;
+    margin: 15px 0 10px;
+    font-weight: bold;
+    color: #333;
+    display: flex;
+}
+.box-main .product-info .price-box {
+    margin-top: 25px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+.box-main .product-info .price-content {
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: 10px;
+}
+.box-main .product-info .old-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 10px;
+}
+.box-main .product-info .current-price {
+    color: #e53935;
+    font-weight: bold;
+    font-size: 25px;
+}
+.box-main .product-info .discount {
+    background: #ff4747;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.box-main .product-info .version-select {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+.box-main .product-info .version {
+    border: 1px solid #ccc;
+    padding: 10px 15px;
+    border-radius: 8px;
+    background: var(--color-bg);
+    cursor: pointer;
+    transition: 0.2s;
+    color: black;
+}
+.box-main .product-info .version:hover {
+    border-color: #007aff;
+    background: var(--color-button);
+    color: white;
+}
+.box-main .product-info .version.active {
+    border-color: #007aff;
+    background: var(--color-button);
+    color: white;
+}
+
+.box-main .product-info .color-options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.box-main .product-info .color-item {
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 5px;
+    width: 90px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.box-main .product-info .color-item.active {
+    border-color: #007aff;
+    background: #e8f1ff;
+}
+.box-main .product-info .color-item:hover {
+    border-color: #007aff;
+    background: #e8f1ff;
+}
+.box-main .product-info .color-item .color-list {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.box-main .product-info .color-item span {
+    font-size: 13px;
+    margin-top: 4px;
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assert/css/reset.css">
+    <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/header.css">
+    <link rel="stylesheet" href="assert/css/productDetail.css">
+</head>
+<body>
+    <div class="app-wrapper">
+<!--        header mặc định-->
+        <header id="header-container"></header>
+<!--header chi tiết sản phẩm-->
+        <div class="container-header">
+            <div class="breadcrumb">
+                <a href="#">Điện thoại</a>
+                <span>›</span>
+                <a href="#">Điện thoại OPPO</a>
+            </div>
+            <h1 class="product-title">
+                Điện thoại OPPO Reno13 5G 12GB/256GB
+                <span class="sold-info">Đã bán 22,4k</span>
+                <span class="rating"><i class="fa-solid fa-star" style="color: #f5a623;"></i> 4.9</span>
+                <a href="#" class="spec-link">Thông số</a>
+            </h1>
+        </div>
+<!--        main nội dung-->
+        <div class="box-main">
+<!--            cột trái-->
+            <div class="product-detail">
+                <div class="product-gallery">
+                    <div class="main">
+                        <img src="assert/img/product/iphone15.jpg" alt="Ảnh chính" class="img-feature" />
+                        <div class="control prev"><i class="fas fa-angle-left"></i></div>
+                        <div class="control next"><i class="fas fa-angle-right"></i></div>
+                    </div>
+
+                    <div class="list-image">
+                        <div><img src="assert/img/product/iphone15.jpg" alt="" /></div>
+                        <div><img src="assert/img/product/iphone15_behind.jpg" alt="" /></div>
+                        <div><img src="assert/img/product/iphone15_after.jpg" alt="" /></div>
+                        <div><img src="assert/img/product/iphone15_camera.jpg" alt="" /></div>
+                        <div><img src="assert/img/product/iphone15.jpg" alt="" /></div>
+                    </div>
+                </div>
+            </div>
+<!--            cột phải-->
+            <div class="product-info">
+                <div class="info">
+                    <!-- 🔹 Giá & khuyến mãi -->
+                    <h2 class="price-label">Giá sản phẩm</h2>
+                    <div class="price-box">
+                        <div class="price-content">
+                            <span class="current-price">8.490.000₫</span>
+                            <span class="old-price">9.990.000₫</span>
+                            <span class="discount">-15%</span>
+                        </div>
+                    </div>
+                    <h2>Chọn phiên bản</h2>
+                    <div class="version-select">
+                        <button class="version active">12GB / 256GB</button>
+                        <button class="version">8GB / 256GB</button>
+                    </div>
+
+                    <h2>Chọn màu sắc</h2>
+                    <div class="color-options">
+                        <div class="color-item">
+                            <span class="color-list" style="background: #2d85f3"></span>
+                            <span>Xanh biển</span>
+                        </div>
+                        <div class="color-item active">
+                            <span class="color-list" style="background: #a19999"></span>
+                            <span>Bạc ánh sao</span>
+                        </div>
+                        <div class="color-item">
+                            <span class="color-list" style="background: mediumpurple"></span>
+                            <span>Tím mộng mơ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="js/header.js"></script>
+</html>
