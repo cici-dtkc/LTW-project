@@ -1,9 +1,8 @@
 /* Tổng thể */
 body {
-    font-family: "Poppins", sans-serif;
+    font-family: var(--font);
     background-color: #fff;
     color: #333;
-    margin: 0;
     padding: 0;
 }
 
@@ -84,6 +83,9 @@ body {
 }
 
 .qty-control button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 30px;
     height: 30px;
     border: none;
@@ -92,6 +94,7 @@ body {
     font-size: 20px;
     line-height: 1;
     transition: all 0.2s;
+    color: black;
 }
 
 .qty-control button:hover {
@@ -103,7 +106,6 @@ body {
     text-align: center;
     font-weight: bold;
 }
-
 /* Tổng tiền sản phẩm */
 .table-cart td:last-child {
     font-weight: 600;
@@ -190,8 +192,8 @@ body {
 
 /* Nút Apply Coupon */
 .coupon-input button {
-    background-color: #1c1c1c;
-    color: #fff;
+    background-color: var(--color-button);
+    color: white;
     border: none;
     padding: 12px 25px;
     border-radius: 15px;
@@ -203,9 +205,9 @@ body {
 }
 
 .coupon-input button:hover {
-    background-color: #ffffff;
-    color: #232323;
-    border: 2px solid black;
+    background-color: rgba(0, 163, 200, 0.71);
+    color: #ffffff;
+    border: 1px solid black;
 }
 
 /* Nút hành động */
@@ -218,7 +220,7 @@ body {
 
 .round-black-btn {
     display: inline-block;
-    background-color: #232323;
+    background-color: var(--color-button);
     color: #ebf6f8;
     padding: 12px 25px;
     text-align: center;
@@ -229,9 +231,9 @@ body {
 }
 
 .round-black-btn:hover {
-    background-color: #ffffff;
-    color: #232323;
-    border: 2px solid black;
+    background-color: rgba(0, 163, 200, 0.71);
+    color: #ffffff;
+    border: 1px solid black;
 }
 .delete {
     width: 120px;
