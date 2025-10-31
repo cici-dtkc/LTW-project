@@ -1,5 +1,27 @@
+document.querySelectorAll('.filter-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-filter');
+        const dropdown = document.getElementById(id);
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+        dropdown.classList.toggle('active');
+    });
+});
+
+document.querySelectorAll('.btn-close, .btn-apply').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.closest('.dropdown').classList.remove('active');
+    });
+});
+
+window.addEventListener('click', e => {
+    if (!e.target.closest('.filter-item') && !e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+    }
+});
+
+
 // ========================
-// 1️⃣ Xử lý menu sắp xếp
+// Xử lý menu sắp xếp
 // ========================
 document.querySelectorAll("#sortList li").forEach(item => {
     item.addEventListener("click", () => {
@@ -9,7 +31,7 @@ document.querySelectorAll("#sortList li").forEach(item => {
 });
 
 // ========================
-// 2️⃣ Xử lý chọn màu & dung lượng
+//  Xử lý chọn màu & dung lượng
 // ========================
 function initProductCard(productCard) {
     initColorSelection(productCard);
@@ -43,7 +65,7 @@ function initAllProductCards() {
 }
 
 // ========================
-// 3️⃣ Giả lập dữ liệu sản phẩm (chỉ dùng cho load thêm)
+//  Giả lập dữ liệu sản phẩm (chỉ dùng cho load thêm)
 // ========================
 const allProducts = [
     { name: "Samsung S24 Ultra", price: "36.000.000₫", discount: "-8%", sold: "Đã bán 980" },
@@ -60,7 +82,7 @@ const allProducts = [
 ];
 
 // ========================
-// 4️⃣ Chức năng "Xem thêm" sản phẩm
+// Chức năng "Xem thêm" sản phẩm
 // ========================
 const productList = document.getElementById("product-list");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -151,7 +173,7 @@ function loadMore() {
 }
 
 // ========================
-// 5️⃣ Khởi động
+// Khởi động
 // ========================
 document.addEventListener("DOMContentLoaded", () => {
     initAllProductCards(); // khởi tạo các card có sẵn trong HTML
