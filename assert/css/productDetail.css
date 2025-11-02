@@ -154,6 +154,7 @@
 .box-main  .product-detail .product-gallery .control.next {
     right: 10px
 }
+/*Thông số kỹ thuật*/
 .box-main .product-info-left .tech-specs {
     width: 100%;
     max-width: 750px;
@@ -214,6 +215,7 @@
     max-width: 700px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.03);
     display: flex;
+    margin-left: auto;
 }
 
 .related-products h3 {
@@ -235,6 +237,8 @@
     font-size: 13px;
     display: flex;
     flex-direction: column;
+    margin-right: 10px;
+    border: 1px solid #ccc;
 }
 
 .related-products .product-card .product-card:hover {
@@ -279,11 +283,11 @@
 /* THÔNG TIN */
 .related-products .product-card .product-info {
     flex: 1;
-    padding: 16px ;
-    padding-bottom: 0;
+    padding: 16px 0 0 0 ;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    margin: 10px;
 }
 
 /* GIÁ */
@@ -293,33 +297,6 @@
     font-weight: 700;
 
 }
-
-/* MÀU SẮC */
-.related-products .product-card .colors {
-    display: flex;
-    gap: 6px;
-    margin: 10px 0;
-}
-
-.related-products .product-card .color {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid #ccc;
-    cursor: pointer;
-}
-
-.related-products .product-card .color.active {
-    border-color: #000;
-}
-
-/* DUNG LƯỢNG */
-.related-products .product-card .capacity {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 10px;
-}
-
 .related-products .product-card .capacity button {
     padding: 6px 10px;
     color: black;
