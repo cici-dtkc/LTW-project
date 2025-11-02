@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Cửa hàng điện thoại</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assert/css/reset.css">
+    <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/header.css">
+    <link rel="stylesheet" href="assert/css/footer.css">
+    <link rel="stylesheet" href="assert/css/home.css">
 </head>
 <body>
+<div id="header-container"></div>
+<script src="js/header.js"></script>
 
+<div id="main-content">
+    <!-- Slider Banner -->
+    <section id="banner-slider" class="slider-banner">
+        <div id="slider-container" class="slider">
+
+            <!-- Slide item -->
+            <div class="slide active" id="slide-1">
+                <a href="#"><img src="./assert/img/banner-1.png" alt=""></a>
+            </div>
+            <div class="slide" id="slide-2">
+                <a href="#"> <img src="./assert/img/banner-3.png" alt=""></a>
+            </div>
+            <div class="slide" id="slide-3">
+                <a href="#"><img src="./assert/img/banner-2.png" alt=""></a>
+            </div>
+            <div class="slide" id="slide-4">
+                <a href="#">  <img src="./assert/img/banner-4.png" alt=""></a>
+            </div>
+
+            <!-- Navigation buttons -->
+            <button id="btn-prev" class="prev">&#10094;</button>
+            <button id="btn-next" class="next">&#10095;</button>
+        </div>
+    </section>
+    <!--    End slider banner-->
+
+</div>
+<script src="js/home.js"></script>
+
+<div id="footer"></div>
+<script src="js/footer.js" defer></script>
 </body>
 </html>

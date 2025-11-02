@@ -1,0 +1,65 @@
+/*banner*/
+#banner-slider .slider-banner {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+}
+
+#banner-slider .slider {
+    position: relative;
+    width: 95%;
+    max-width: 992px;
+    margin: 10px auto 30px; /* căn giữa */
+    height: 400px; /* ngắn lại một xíu */
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#banner-slider .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: 0.7s ease;
+}
+
+#banner-slider .slide.active {
+    opacity: 1;
+}
+
+#banner-slider .slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 🔥 scale & crop để đầy khung */
+    object-position: center; /* căn giữa */
+    background: #000; /* màu nền nếu thiếu ảnh */
+}
+
+
+/* Buttons */
+#banner-slider .prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 12px 15px;
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    transition: .3s;
+}
+#banner-slider .prev:hover, .next:hover {
+    background: rgba(0,0,0,0.7);
+    border: #787a80;
+}
+
+#banner-slider .prev { left: 15px; }
+#banner-slider .next { right: 15px; }
+
+/*End banner*/
+
