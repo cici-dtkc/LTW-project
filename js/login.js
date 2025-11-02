@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // chuyển hướng user về trang chủ
                 setTimeout(() => {
-                    window.location.href = "./index.html";
+                    window.location.href = "./home.html";
                 }, 1500);
             } else {
                 showAlert("Tên đăng nhập hoặc mật khẩu không đúng!", "error");

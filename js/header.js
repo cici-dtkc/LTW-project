@@ -96,7 +96,7 @@ function initializeHeaderEvents() {
     const navAccessory = document.getElementById("nav-accessory");
     const navContact = document.getElementById("nav-contact");
 
-    if (navHome) navHome.addEventListener("click", (e) => { e.preventDefault(); window.location.href = "./index.html"; });
+    if (navHome) navHome.addEventListener("click", (e) => { e.preventDefault(); window.location.href = "./home.html"; });
     if (navPhone) navPhone.addEventListener("click", (e) => { e.preventDefault(); /* Add phone page */ });
     if (navAccessory) navAccessory.addEventListener("click", (e) => { e.preventDefault(); /* Add accessory page */ });
     if (navContact) navContact.addEventListener("click", (e) => { e.preventDefault(); /* Add contact page */ });
@@ -124,7 +124,7 @@ function renderUserArea() {
 
     const user = getCurrentUser();
     if (!user) {
-        userArea.innerHTML = '<a href="../login.html" id="login-link" class="user-profile"><i class="fa-solid fa-user"></i><span class="username">Đăng nhập</span></a>';
+        userArea.innerHTML = '<a href="./login.html" id="login-link" class="user-profile"><i class="fa-solid fa-user"></i><span class="username">Đăng nhập</span></a>';
 
         return;
     }
@@ -137,7 +137,7 @@ function renderUserArea() {
         <div class="user-dropdown" id="user-dropdown">
             <a href="./info-user.html">Tài Khoản Của Tôi</a>
             <a href="./order_detail.html">Đơn Mua</a>
-            <a href="../login.html" id="logout-link">Đăng Xuất</a>
+            <a href="./login.html" id="logout-link">Đăng Xuất</a>
         </div>
     `;
 
