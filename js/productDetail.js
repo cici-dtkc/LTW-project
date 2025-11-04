@@ -48,6 +48,35 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 });
+function updateGalleryEvents() {
+    const listImgs = document.querySelectorAll('.list-image img');
+    let currentIndexq = 0;
+
+    function showImage(index) {
+        listImgs.forEach(img => img.parentElement.classList.remove('active'));
+        mainImg.src = listImgs[index].src;
+        listImgs[index].parentElement.classList.add('active');
+        currentIndexq = index;
+    }
+
+    // Gắn click cho thumbnail mới
+    listImgs.forEach((img, index) => {
+        img.addEventListener('click', () => showImage(index));
+    });
+
+    // Cập nhật lại hành vi prev/next
+    prevBtn.onclick = () => {
+        currentIndexq = (currentIndexq - 1 + listImgs.length) % listImgs.length;
+        showImage(currentIndexq);
+    };
+    nextBtn.onclick = () => {
+        currentIndexq = (currentIndexq + 1) % listImgs.length;
+        showImage(currentIndexq);
+    };
+
+    // Hiển thị ảnh đầu tiên
+    showImage(0);
+}
 
 
 //Thay đổi màu ảnh theo lựa chọn
@@ -55,27 +84,23 @@ document.addEventListener("DOMContentLoaded", function () {
     const colorItems = document.querySelectorAll(".color-item");
     const imgFeature = document.querySelector(".img-feature");
     const listImageContainer = document.querySelector(".list-image");
-
     // Dữ liệu ảnh theo màu
     const colorImages = {
-        "Xanh biển": ["assert/img/product/OppoReno13_blue.png", "assert/img/product/OppoReno13_blue.png", "assert/img/product/OppoReno13_blue.png"],
+        "Xanh biển": ["assert/img/product/iphone-15-xanh.jpg" ,"assert/img/product/iphone-15-blue-2.jpg", "assert/img/product/iphone-15-xanh.jpg" , "assert/img/product/iphone-15-2blue-camera.jpg","assert/img/product/iphone-15-blue-2.jpg"],
         "Bạc ánh sao": ["assert/img/product/iphone15.jpg", "assert/img/product/iphone15_behind.jpg", "assert/img/product/iphone15_after.jpg", "assert/img/product/iphone15_camera.jpg", "assert/img/product/iphone15.jpg",
 
         ],
-        "Tím mộng mơ": ["assert/img/product/OppoReno13_purple.png", "assert/img/product/OppoReno13_purple.png", "assert/img/product/OppoReno13_purple.png"]
+        "Vàng mộng mơ": ["assert/img/product/iphone-15-plus-vang-126gb.jpg","assert/img/product/iphone-15-plus-yellow-2.jpg", "assert/img/product/iphone-15-plus-128gb-vang.jpg","assert/img/product/iphone-15-plus-vang-126gb.jpg","assert/img/product/iphone-15-plus-yellow-2.jpg"]
     };
 
     // Khi chọn màu
     colorItems.forEach(item => {
         item.addEventListener("click", () => {
-            // Xóa active cũ
             document.querySelector(".color-item.active")?.classList.remove("active");
             item.classList.add("active");
 
-            // Lấy tên màu
             const colorName = item.querySelector("span:last-child").textContent.trim();
             const images = colorImages[colorName];
-
             if (!images || images.length === 0) return;
 
             // Đổi ảnh chính (hiệu ứng mượt)
@@ -96,8 +121,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 div.appendChild(img);
                 listImageContainer.appendChild(div);
             });
+
+            //  Sau khi thay đổi màu, cập nhật lại listImgs và gắn sự kiện Prev/Next
+            updateGalleryEvents();
         });
     });
+
 
     // Cho phép click ảnh nhỏ đổi ảnh chính
     document.addEventListener("click", e => {
@@ -121,7 +150,7 @@ if (ratingElement) {
     ratingElement.addEventListener('click', () => {
         const reviewSection = document.querySelector('.review-section');
         if (reviewSection) {
-            reviewSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            reviewSection.scrollIntoView({behavior: 'smooth', block: 'start'});
         }
     });
 }
@@ -157,8 +186,7 @@ nextBtn.addEventListener('click', () => {
     showImage(currentIndex);
 });
 
-// Khởi tạo ảnh đầu tiên
-showImage(0);
+
 
 // //Thêm vào giỏ hàng
 // document.addEventListener("DOMContentLoaded", function () {
