@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tổng quan</title>
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+            integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="../assert/css/reset.css" />
+    <link rel="stylesheet" href="../assert/css/base.css" />
+    <link rel="stylesheet" href="../assert/css/dashboardAdmin.css" />
+    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css" />
+</head>
+<body>
+<div class="app">
+    <div id="sidebarContainer"></div>
+    <div class="container">
+    <main class="content">
+        <div class="topbar">
+            <div class="topbar-left">
+                <div>
+                    <h2 class="page-title" id="pageTitle">Tổng Quan</h2>
+                    <div class="muted hidden" id="pageDesc">
+                        Tổng quan nhanh về cửa hàng và hiệu suất bán hàng
+                    </div>
+                </div>
+            </div>
+            <div class="topbar-right">
+                <div class="muted hidden">Xin chào, Admin</div>
+                <div class="card notification-card">
+                    <i class="fa-solid fa-bell"></i><span class="muted">3</span>
+                </div>
+            </div>
+        </div>
+        <section id="pages">
+            <div class="page card" id="page-dashboard">
+                <h3>Thống kê</h3>
+
+                <div class="actions-row">
+                    <button id="dashAddProduct" class="btn btn-outline-accent">
+                        <i class="fa-solid fa-plus"></i> Thêm sản phẩm
+                    </button>
+                    <button id="dashAddPromo" class="btn btn-outline-accent">
+                        <i class="fa-solid fa-tags"></i> Thêm khuyến mãi
+                    </button>
+                </div>
+
+                <!-- KPI cards -->
+                <div class="grid kpi-grid">
+                    <div class="card">
+                        <strong>Doanh thu hôm nay</strong>
+                        <div class="muted">₫12,345,000</div>
+                    </div>
+                    <div class="card">
+                        <strong>Đơn hàng mới</strong>
+                        <div class="muted">12</div>
+                    </div>
+                    <div class="card">
+                        <strong>Số khách truy cập</strong>
+                        <div class="muted">1,243</div>
+                    </div>
+                    <div class="card">
+                        <strong>Sản phẩm hết hàng</strong>
+                        <div class="muted">3</div>
+                    </div>
+                </div>
+                <div class="charts-grid">
+                    <div id="chart-cart" class="chart-card card">
+                        <div class="filter-container">
+                            <div class="filter-time">
+                                <button class="filter-btn" data-days="7">7 ngày</button>
+                                <button class="filter-btn active" data-days="30">30 ngày</button>
+                                <button class="filter-btn" data-days="90">90 ngày</button>
+                            </div>
+                        </div>
+                        <strong>Doanh thu theo ngày (30 ngày)</strong>
+                        <canvas id="salesLine"></canvas>
+
+                    </div>
+
+
+                    <div class="right-column">
+                        <div class="chart-card card">
+                            <strong>Doanh thu theo danh mục</strong>
+                            <canvas id="categoryPie"></canvas>
+                        </div>
+
+                        <div class="chart-card card">
+                            <strong>Sản phẩm bán chạy</strong>
+                            <canvas id="topProductsBar" class="short-canvas"></canvas>
+                        </div>
+
+                        <div class="chart-card card">
+                            <strong>5 người dùng mới</strong>
+                            <div class="users-list">
+                                <div class="user-item">
+                                    <div class="avatar variant-1">NT</div>
+                                    <div>
+                                        <div class="user-name">Nguyễn Minh Trí</div>
+                                        <div class="muted user-meta">
+                                            minhtri@example.com · Đăng ký 2 ngày trước
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="user-item">
+                                    <div class="avatar variant-2">LH</div>
+                                    <div>
+                                        <div class="user-name">Lê Hương</div>
+                                        <div class="muted user-meta">
+                                            lehuong@example.com · Đăng ký 3 ngày trước
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="user-item">
+                                    <div class="avatar variant-3">TV</div>
+                                    <div>
+                                        <div class="user-name">Trần Văn A</div>
+                                        <div class="muted user-meta">
+                                            tranva@example.com · Đăng ký 4 ngày trước
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="user-item">
+                                    <div class="avatar variant-4">PB</div>
+                                    <div>
+                                        <div class="user-name">Phạm Thị B</div>
+                                        <div class="muted user-meta">
+                                            phamtb@example.com · Đăng ký 5 ngày trước
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="user-item last">
+                                    <div class="avatar variant-5">HA</div>
+                                    <div>
+                                        <div class="user-name">Hoàng An</div>
+                                        <div class="muted user-meta">
+                                            hoangan@example.com · Đăng ký 7 ngày trước
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="view-all-wrap">
+                                <button id="viewAllUsers" class="btn btn-outline-accent">
+                                    Xem tất cả
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Recent orders under the big chart -->
+                <div class="recent-orders">
+                    <h4>Đơn hàng gần nhất</h4>
+                    <table class="table-reset">
+                        <thead class="table-head">
+                        <tr>
+                            <th>Mã DH</th>
+                            <th>Khách</th>
+                            <th>Trạng thái</th>
+                            <th>Tổng</th>
+                            <th>Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>DH1005</td>
+                            <td>Nguyễn Văn C</td>
+                            <td>Đang giao</td>
+                            <td>₫2,100,000</td>
+                            <td><button style="width: 100%">Xem chi tiết</button></td>
+                        </tr>
+                        <tr>
+                            <td>DH1004</td>
+                            <td>Phạm D</td>
+                            <td>Hoàn thành</td>
+                            <td>₫850,000</td>
+                            <td><button style="width: 100%">Xem chi tiết</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+        </section>
+    </main>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+<script src="../js/sidebarAdmin.js"></script>
+<script src="../js/dashboardAdmin.js"></script>
+</html>

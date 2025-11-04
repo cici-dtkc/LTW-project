@@ -1,22 +1,23 @@
 .app {
     display: flex;
     height: 100vh;
-    background: var(--color-bg);
+    background: white;
 }
 .container {
     flex-grow: 1;
     margin-left: 250px;
     overflow-y: auto;
     padding-top: 5rem;
+    height: 1000px;
 }
-.topbar {
+.container .topbar {
     position: fixed;
     top: 0;
     right: 0;
 
     width: calc(100% - 250px);
     height: 5rem;
-    background-color: #c2b5b5;
+    background-color: var(--color-bg);
     border-bottom: 1px solid #e5e7eb;
     z-index: 40;
     padding: 0 1.5rem;
@@ -26,28 +27,28 @@
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.topbar .page-title {
+.container .topbar .page-title {
     font-size: 25px;
     margin: 5px 0;
 }
-.topbar-left {
+.container .topbar-left {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.topbar-right {
+.container .topbar-right {
     display: flex;
     align-items: center;
     gap: 12px;
 }
-.notification-card {
+.container .notification-card {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 8px 10px;
 }
 /* --- Toolbar --- */
-.toolbar {
+.container .toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,18 +56,24 @@
 
 }
 
-.toolbar .left {
+.container .toolbar .left {
     display: flex;
     gap: 10px;
 }
 
-.toolbar input[type="text"],
-.toolbar select {
+.container .toolbar input[type="text"],
+.container .toolbar select {
     padding: 8px 10px;
     border: 1px solid #ccc;
     border-radius: 6px;
 }
-
+.container .topbar.transparent {
+    background-color: transparent; /* Khi cuộn xuống */
+    box-shadow: none;
+}
+.container .topbar.transparent .hidden,.container .topbar.transparent .page-title {
+    display: none;
+}
 /* --- Button Add --- */
 .btn-add {
     background-color: var(--color-button);

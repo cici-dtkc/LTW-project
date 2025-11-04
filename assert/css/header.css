@@ -1,0 +1,272 @@
+/* ====================== */
+/*  HEADER TỔNG THỂ */
+/* ====================== */
+#header {
+    background:var(--color-bg-header);
+    padding: 15px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Căn giữa nội dung */
+#header .container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Bố cục header */
+#header .inner-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ====================== */
+/*   LOGO */
+/* ====================== */
+#header .logo img {
+    width: 140px;
+    height: auto;
+    transition: all 0.3s ease;
+    filter: brightness(1.1);
+}
+
+#header .logo img:hover {
+    transform: scale(1.08);
+    filter: brightness(1.2);
+}
+
+/* ====================== */
+/*    MENU CHÍNH */
+/* ====================== */
+#header .menu ul {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#header .menu ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: 400;
+    font-size: 16px;
+    position: relative;
+    padding: 8px 12px;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+
+
+/* Gạch chân động khi hover */
+#header .menu ul li a::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #000000;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+#header .menu ul li a:hover::after {
+    width: 80%;
+}
+
+/* ====================== */
+/*   ICON BOX */
+/* ====================== */
+#header .box ul {
+    display: flex;
+    align-items: center; /* align icons vertically */
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#header .box ul li {
+    display: flex;
+    align-items: center;
+}
+
+#header .box ul li a:not(.user-profile) {
+    color: #0e0e0e;
+    font-size:20px;
+    transition: all 0.3s ease;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    line-height: 1;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+
+}
+
+#header .box ul li a:not(.user-profile):hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ====================== */
+/* 🔍 Ô TÌM KIẾM INLINE  */
+/* ====================== */
+#header .box .search-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+#header .search-input {
+    position: absolute;
+    right: 0;
+    width: 0;
+    opacity: 0;
+    padding: 10px 12px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    font-size: 14px;
+    transition: width 0.3s ease, opacity 0.25s ease;
+    outline: none;
+    z-index: 10;
+}
+
+#header .search-input.show {
+    width: 220px;
+    opacity: 1;
+    /* Mở rộng chiều rộng sang trái */
+    right: 40px;
+}
+
+/* Thêm icon giả trong ô tìm kiếm */
+#header .search-input::placeholder {
+    color: #888;
+    font-style: italic;
+}
+/* ====================== */
+/* 👤 USER AREA DROPDOWN */
+/* ====================== */
+#header .user-area {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== PROFILE BUTTON ===== */
+#header .user-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 6px 12px;
+    height: 40px;
+    transition: all 0.25s ease;
+}
+
+#header .user-profile:hover,
+#header .user-profile:focus {
+    background: #f8f9fa;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+}
+
+#header .user-profile i {
+    font-size: 16px;
+    color: #000;
+}
+
+#header .user-profile .username {
+    font-size: 14px;
+    color: #111;
+    font-weight: 500;
+    white-space: nowrap; /* tránh xuống dòng "Đăng nhập" */
+}
+
+/* ===== DROPDOWN MENU ===== */
+#header .user-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: all 0.25s ease;
+    z-index: 1000;
+}
+
+/* Tam giác nhỏ */
+#header .user-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 22px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    transform: rotate(45deg);
+    box-shadow: -2px -2px 6px rgba(0,0,0,0.05);
+}
+
+/* ===== ITEM ===== */
+#header .user-dropdown a {
+    display: block;
+    color: #111;
+    font-size: 13px;
+}
+
+/* ===== HIỆU ỨNG MỞ MENU ===== */
+#header .user-area.open .user-dropdown {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Sửa lỗi chữ dọc trong dropdown */
+#header .user-dropdown {
+    display: flex;
+    flex-direction: column; /* 🔹 Xếp các item theo chiều dọc */
+    align-items: flex-start; /* Canh trái tự nhiên */
+    text-align: left;        /* Đảm bảo chữ không bị giữa */
+}
+
+#header .user-dropdown a {
+    display: block;          /* 🔹 Mỗi link chiếm nguyên dòng */
+    width: 100%;
+    white-space: nowrap;     /* Giữ chữ trên một dòng */
+    text-align: left;
+    line-height: 1.4;
+}
+#header .user-dropdown a {
+    background: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    font-size: 13px !important; /* 👈 cỡ chữ nhỏ gọn */
+    color: #111;
+}
