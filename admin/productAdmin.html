@@ -17,7 +17,77 @@
 <body>
 <div class="app">
   <!--    import để chứa sidebar-->
-  <div id="sidebarContainer"></div>
+  <div id="sidebarContainer"><aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <button
+              class="toggle-icon sidebar-toggle"
+              id="sidebarToggle"
+              style="cursor: pointer"
+      >
+        <i class="fa-solid fa-bars" style="font-size: 16px"></i>
+      </button>
+      <div>
+        <div class="muted">Quản lý bán hàng</div>
+      </div>
+    </div>
+
+    <div class="section-title">Điều hướng</div>
+    <nav class="nav-section" id="nav-section">
+      <ul class="nav-list primary-nav" id="nav">
+        <li class="nav-item">
+          <a class="nav-link" data-target="dashboard" href="dashboardAdmin.html"
+          ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
+            <span class="nav-label">Tổng Quan</span></a
+          >
+          <span class="nav-tooltip">Tổng Quan</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="products" href="productAdmin.html"
+          ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
+            <span class="nav-label">Sản phẩm</span></a
+          >
+          <span class="nav-tooltip">Sản phẩm</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="orders" href="#"
+          ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
+              hàng</span></a
+          >
+          <span class="nav-tooltip">Đơn hàng</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="customers" href="#"
+          ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Khách
+              hàng</span></a
+          >
+          <span class="nav-tooltip">Khách hàng</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="promotions" href="vouchersAdmin.html"
+          ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span class="nav-label">Khuyến
+              mãi</span></a
+          >
+          <span class="nav-tooltip">Khuyến mãi</span>
+        </li>
+      </ul>
+      <ul class="nav-list second-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-target="info" href="#"
+          ><span class="icon"><i class="fa-solid fa-user-tie"></i></span> <span class="nav-label">Thông tin</span></a
+          >
+          <span class="nav-tooltip">Thông tin</span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-target="logout" href="#">
+                    <span class="icon">
+                    <i class="fa-solid fa-right-from-bracket"></i></span>
+            <span class="nav-label">Đăng xuất</span>
+          </a>
+          <span class="nav-tooltip">Đăng xuất</span>
+        </li>
+      </ul>
+    </nav>
+  </aside></div>
   <div class="container">
     <div class="topbar">
       <div class="topbar-left">
@@ -47,43 +117,58 @@
         </div>
         <button class="btn-add" id="btnOpenModal">+ Thêm sản phẩm</button>
       </div>
-      <table id="promoTable">
+      <table class="table-view" id="promoTable">
         <thead>
         <tr>
-          <th>Mã KM</th>
-          <th>Tên khuyến mãi</th>
-          <th>Giảm (%)</th>
-          <th>Ngày bắt đầu</th>
-          <th>Ngày kết thúc</th>
-          <th>Trạng thái</th>
-          <th>Thao tác</th>
+          <th>Hình ảnh</th>
+          <th>Tên sản phẩm</th>
+          <th>Giá</th>
+          <th>Danh mục</th>
+          <th>Phiên bản</th>
+          <th>Tồn kho</th>
+          <th>Hành động</th>
         </tr>
         </thead>
-        <tbody id="promoBody">
+        <tbody>
         <tr>
-          <td>KM01</td>
-          <td>Giảm 20% toàn bộ sản phẩm</td>
-          <td>20</td>
-          <td>2025-10-01</td>
-          <td>2025-10-31</td>
-          <td><span class="status active">Đang áp dụng</span></td>
-          <td>
-            <button class="btn-toggle">Tắt</button>
-            <button class="btn-edit">Sửa</button>
-            <button class="btn-delete">Xóa</button>
+          <td><img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-gold-thumb-600x600.jpg" alt="iPhone 16 Pro Max"></td>
+          <td>iPhone 16 Pro Max</td>
+          <td>34.990.000₫</td>
+          <td>Điện thoại</td>
+          <td>256GB</td>
+          <td>25</td>
+          <td class="actions">
+            <button class="btn-edit">✏️</button>
+            <button class="btn-delete">🗑️</button>
+            <button class="btn-view">👁️</button>
           </td>
         </tr>
+
         <tr>
-          <td>KM02</td>
-          <td>Mua 1 tặng 1</td>
-          <td>0</td>
-          <td>2025-09-15</td>
-          <td>2025-09-30</td>
-          <td><span class="status inactive">Hết hạn</span></td>
-          <td>
-            <button class="btn-toggle">Bật</button>
-            <button class="btn-edit">Sửa</button>
-            <button class="btn-delete">Xóa</button>
+          <td><img src="https://cdn.tgdd.vn/Products/Images/54/236782/sac-du-phong-xiaomi-20000mah-thumb-600x600.jpg" alt="Pin sạc dự phòng Xiaomi"></td>
+          <td>Pin sạc dự phòng Xiaomi 20000mAh</td>
+          <td>690.000₫</td>
+          <td>Phụ kiện</td>
+          <td>20W</td>
+          <td>120</td>
+          <td class="actions">
+            <button class="btn-edit">✏️</button>
+            <button class="btn-delete">🗑️</button>
+            <button class="btn-view">👁️</button>
+          </td>
+        </tr>
+
+        <tr>
+          <td><img src="https://cdn.tgdd.vn/Products/Images/57/238152/tai-nghe-bluetooth-apple-airpods-pro-2-thumb-600x600.jpg" alt="AirPods Pro 2"></td>
+          <td>AirPods Pro 2</td>
+          <td>5.990.000₫</td>
+          <td>Phụ kiện</td>
+          <td>Type-C</td>
+          <td>48</td>
+          <td class="actions">
+            <button class="btn-edit">✏️</button>
+            <button class="btn-delete">🗑️</button>
+            <button class="btn-view">👁️</button>
           </td>
         </tr>
         </tbody>
