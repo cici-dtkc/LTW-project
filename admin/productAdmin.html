@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="../assert/css/vouchersAdmin.css">
   <!--    import để có css sidebar-->
   <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
+  <link rel="stylesheet" href="../assert/css/productAdmin.css">
 
 </head>
 <body>
@@ -88,6 +89,7 @@
       </ul>
     </nav>
   </aside></div>
+
   <div class="container">
     <div class="topbar">
       <div class="topbar-left">
@@ -109,11 +111,19 @@
       <div class="toolbar">
         <div class="left">
           <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+          <label for="filterStatus">Trạng thái:</label>
           <select id="filterStatus">
             <option value="all">Tất cả</option>
-            <option value="active">Đang áp dụng</option>
-            <option value="inactive">Hết hạn</option>
+            <option value="active">Đang hiển thị</option>
+            <option value="inactive">Đang ẩn</option>
           </select>
+          <label for="filterCategory">Danh mục:</label>
+          <select id="filterCategory">
+            <option value="all">Tất cả</option>
+            <option value="active">Điện thoại</option>
+            <option value="inactive">Phụ kiện</option>
+          </select>
+          <button class="btn-filter" id="btnFilter">Tìm kiếm</button>
         </div>
         <button class="btn-add" id="btnOpenModal">+ Thêm sản phẩm</button>
       </div>
@@ -121,7 +131,7 @@
         <thead>
         <tr>
           <th>Hình ảnh</th>
-          <th>Tên sản phẩm</th>
+          <th>Tên sản phẩm </th>
           <th>Giá</th>
           <th>Danh mục</th>
           <th>Phiên bản</th>
@@ -131,44 +141,43 @@
         </thead>
         <tbody>
         <tr>
-          <td><img src="https://cdn.tgdd.vn/Products/Images/42/329149/iphone-16-pro-max-gold-thumb-600x600.jpg" alt="iPhone 16 Pro Max"></td>
+          <td><img src="../assert/img/iphone_17_pro_max.png" alt="iPhone 16 Pro Max"></td>
           <td>iPhone 16 Pro Max</td>
           <td>34.990.000₫</td>
           <td>Điện thoại</td>
           <td>256GB</td>
           <td>25</td>
-          <td class="actions">
-            <button class="btn-edit">✏️</button>
-            <button class="btn-delete">🗑️</button>
-            <button class="btn-view">👁️</button>
+          <td class="actionsProduct">
+            <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
+            <button class="btn-delete"><i class="fa-solid fa-eye"></i></button>
           </td>
         </tr>
 
         <tr>
-          <td><img src="https://cdn.tgdd.vn/Products/Images/54/236782/sac-du-phong-xiaomi-20000mah-thumb-600x600.jpg" alt="Pin sạc dự phòng Xiaomi"></td>
-          <td>Pin sạc dự phòng Xiaomi 20000mAh</td>
+          <td><img src="../assert/img/iphone_17_pro_max.png" alt="Pin sạc dự phòng Xiaomi"></td>
+          <td>Pin sạc dự phòng Xiaomi 20000mAh </td>
           <td>690.000₫</td>
           <td>Phụ kiện</td>
           <td>20W</td>
           <td>120</td>
-          <td class="actions">
-            <button class="btn-edit">✏️</button>
-            <button class="btn-delete">🗑️</button>
-            <button class="btn-view">👁️</button>
+          <td class="actionsProduct">
+            <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
+            <span class="tooltiptext">Chỉnh sửa sản phẩm</span>
+            <button class="btn-delete"><i class="fa-solid fa-eye"></i></button>
+            <span class="tooltiptext">Ẩn hiện sản phẩm</span>
           </td>
         </tr>
 
         <tr>
-          <td><img src="https://cdn.tgdd.vn/Products/Images/57/238152/tai-nghe-bluetooth-apple-airpods-pro-2-thumb-600x600.jpg" alt="AirPods Pro 2"></td>
+          <td><img src="../assert/img/iphone_17_pro_max.png" alt="AirPods Pro 2"></td>
           <td>AirPods Pro 2</td>
           <td>5.990.000₫</td>
           <td>Phụ kiện</td>
           <td>Type-C</td>
           <td>48</td>
-          <td class="actions">
-            <button class="btn-edit">✏️</button>
-            <button class="btn-delete">🗑️</button>
-            <button class="btn-view">👁️</button>
+          <td class="actionsProduct">
+            <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
+            <button class="btn-delete"><i class="fa-solid fa-eye"></i></button>
           </td>
         </tr>
         </tbody>
