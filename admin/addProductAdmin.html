@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thêm sản phẩm</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <h2>Thêm sản phẩm mới</h2>
+  <form id="productForm">
+    <div class="form-group">
+      <label for="productName">Tên sản phẩm:</label>
+      <input type="text" id="productName" name="productName" required>
+    </div>
+    <div class="form-group">
+      <label for="brand">Hãng:</label>
+      <input type="text" id="brand" name="brand" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Mô tả:</label>
+      <textarea id="description" name="description"></textarea>
+    </div>
+
+    <h3>Phiên bản sản phẩm</h3>
+    <div id="variantsContainer">
+      <!-- Phiên bản đầu tiên -->
+      <div class="variant">
+        <input type="text" name="variantName[]" placeholder="Tên phiên bản" required>
+        <input type="number" name="price[]" placeholder="Giá" required>
+        <input type="text" name="color[]" placeholder="Màu sắc" required>
+        <input type="text" name="ram[]" placeholder="RAM" required>
+        <input type="text" name="storage[]" placeholder="Bộ nhớ" required>
+        <button type="button" class="removeVariantBtn" onclick="removeVariant(this)">Xóa</button>
+      </div>
+    </div>
+    <button type="button" id="addVariantBtn">Thêm phiên bản mới</button>
+    <br><br>
+    <button type="submit">Lưu sản phẩm</button>
+  </form>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

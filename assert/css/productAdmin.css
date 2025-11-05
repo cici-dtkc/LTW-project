@@ -54,6 +54,49 @@
     transform: scale(1.08);
 }
 
-/* === Màu riêng cho từng nút === */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Tooltip */
+.tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10;
+    max-width: 200px; /* giới hạn chiều rộng tooltip */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Hiển thị tooltip */
+.tooltip:hover::after {
+    opacity: 1;
+}
+
+/* Tooltip nếu gần lề phải hoặc trái */
+.tooltip-left::after {
+    left: 0;
+    transform: none;
+}
+
+.tooltip-right::after {
+    left: auto;
+    right: 0;
+    transform: none;
+}
+
 
 

@@ -13,6 +13,8 @@
   <!--    import để có css sidebar-->
   <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
   <link rel="stylesheet" href="../assert/css/productAdmin.css">
+  <!-- Nút ẩn/hiện sản phẩm -->
+<!--  <div class="tooltip" class="toggleVisibilityBtn" data-tooltip="Ẩn sản phẩm"> đổi id="toggleVisibilityBtn"-->
 
 </head>
 <body>
@@ -148,8 +150,15 @@
           <td>256GB</td>
           <td>25</td>
           <td class="actionsProduct">
-            <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
-            <button class="btn-delete"><i class="fa-solid fa-eye"></i></button>
+            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
+            </div>
+            <!-- Nút ẩn/hiện sản phẩm -->
+            <div class="tooltip" class="toggleVisibilityBtn" data-tooltip="Ẩn sản phẩm">
+              <button class="btn-delete" onclick="toggleVisibility(this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
           </td>
         </tr>
 
@@ -161,10 +170,15 @@
           <td>20W</td>
           <td>120</td>
           <td class="actionsProduct">
+          <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
             <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
-            <span class="tooltiptext">Chỉnh sửa sản phẩm</span>
-            <button class="btn-delete"><i class="fa-solid fa-eye"></i></button>
-            <span class="tooltiptext">Ẩn hiện sản phẩm</span>
+          </div>
+          <!-- Nút ẩn/hiện sản phẩm -->
+          <div class="tooltip" class="toggleVisibilityBtn" data-tooltip="Ẩn sản phẩm">
+            <button class="btn-delete" onclick="toggleVisibility(this)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
           </td>
         </tr>
 
@@ -176,40 +190,28 @@
           <td>Type-C</td>
           <td>48</td>
           <td class="actionsProduct">
-            <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
-            <button class="btn-delete"><i class="fa-solid fa-eye"></i></button>
+            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
+            </div>
+            <!-- Nút ẩn/hiện sản phẩm -->
+            <div class="tooltip" class="toggleVisibilityBtn" data-tooltip="Ẩn sản phẩm">
+              <button class="btn-delete" onclick="toggleVisibility(this)">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+            </div>
           </td>
         </tr>
         </tbody>
       </table>
       <!-- Modal Form -->
-      <div class="modal" id="promoModal">
-        <div class="modal-content">
-          <h3>Thêm Sản phẩm mới</h3>
-          <form id="promoForm">
-            <label>Mã KM</label>
-            <input type="text" id="promoCode" required>
-            <label>Tên khuyến mãi</label>
-            <input type="text" id="promoName" required>
-            <label>Giảm (%)</label>
-            <input type="number" id="promoDiscount" required>
-            <label>Ngày bắt đầu</label>
-            <input type="date" id="promoStart" required>
-            <label>Ngày kết thúc</label>
-            <input type="date" id="promoEnd" required>
-            <div class="modal-buttons">
-              <button type="submit" class="btn-save">Lưu</button>
-              <button type="button" class="btn-cancel" id="btnCloseModal">Hủy</button>
-            </div>
-          </form>
-        </div>
-      </div>
+
       <div class="footer" id="footer-pagination">
-        <p id="record-info">Hiển thị 2 sản phẩm</p>
+        <p id="record-info">Hiển thị 3 sản phẩm</p>
       </div>
     </div>
   </div>
 </div>
 <script src="../js/sidebarAdmin.js"></script>
+<script src="../js/productAdmin.js"></script>
 </body>
 </html>
