@@ -1,19 +1,30 @@
 const categorySelect = document.getElementById("category");
+const productInfo = document.getElementById("productInfo");
 const variantsSection = document.getElementById("variantsSection");
 const attributesOnlySection = document.getElementById("attributesOnlySection");
+const submitBtn = document.getElementById("submitBtn");
 
-// Ẩn/hiện section theo category
+// Khi chọn danh mục
 categorySelect.addEventListener("change", function() {
     const value = this.value;
-    if (value === "Điện thoại" || value === "Tai nghe" || value === "Laptop") {
+
+    if (!value) {
+        productInfo.style.display = "none";
+        variantsSection.style.display = "none";
+        attributesOnlySection.style.display = "none";
+        submitBtn.style.display = "none";
+        return;
+    }
+
+    productInfo.style.display = "block";
+    submitBtn.style.display = "inline-block";
+
+    if (value === "Điện thoại" || value === "Laptop") {
         variantsSection.style.display = "block";
         attributesOnlySection.style.display = "none";
-    } else if (value === "Linh kiện" || value === "Phụ kiện") {
+    } else { // Tai nghe, Linh kiện, Phụ kiện
         variantsSection.style.display = "none";
         attributesOnlySection.style.display = "block";
-    } else {
-        variantsSection.style.display = "none";
-        attributesOnlySection.style.display = "none";
     }
 });
 
@@ -45,7 +56,7 @@ function removeVariant(button) {
     }
 }
 
-// Thêm attribute (key-value) trong phiên bản hoặc linh kiện
+// Thêm attribute key-value
 function addAttribute(button) {
     const attrContainer = button.parentElement;
     const row = document.createElement("div");
@@ -61,7 +72,6 @@ function addAttribute(button) {
 function removeAttribute(button) {
     button.parentElement.remove();
 }
-
 // Submit form
 document.getElementById("productForm").addEventListener("submit", function(e) {
     e.preventDefault();

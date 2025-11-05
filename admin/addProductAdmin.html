@@ -13,37 +13,37 @@
 <div class="container">
   <h2>Thêm sản phẩm mới</h2>
   <form id="productForm">
-    <!-- Thông tin chung -->
+
+    <!-- Chọn danh mục trước -->
     <div class="form-group">
       <label for="category">Danh mục:</label>
       <select id="category" name="category" required>
         <option value="">--Chọn danh mục--</option>
         <option value="Điện thoại">Điện thoại</option>
-        <option value="Tai nghe">Tai nghe</option>
-        <option value="Laptop">Laptop</option>
         <option value="Linh kiện">Linh kiện</option>
-        <option value="Phụ kiện">Phụ kiện</option>
       </select>
     </div>
-    <div class="form-group">
-      <label for="productName">Tên sản phẩm:</label>
-      <input type="text" id="productName" name="productName" required>
+
+    <!-- Thông tin sản phẩm chung, ẩn ban đầu -->
+    <div id="productInfo" style="display:none;">
+      <div class="form-group">
+        <label for="productName">Tên sản phẩm:</label>
+        <input type="text" id="productName" name="productName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="brand">Hãng:</label>
+        <input type="text" id="brand" name="brand">
+      </div>
+
+      <div class="form-group">
+        <label for="description">Mô tả:</label>
+        <textarea id="description" name="description"></textarea>
+      </div>
     </div>
 
-    <div class="form-group">
-      <label for="brand">Hãng:</label>
-      <input type="text" id="brand" name="brand" required>
-    </div>
-
-
-
-    <div class="form-group">
-      <label for="description">Mô tả:</label>
-      <textarea id="description" name="description"></textarea>
-    </div>
-
-    <!-- Phiên bản (chỉ show cho sản phẩm phức tạp) -->
-    <div id="variantsSection">
+    <!-- Phiên bản + attributes (hiện khi điện thoại/laptop) -->
+    <div id="variantsSection" style="display:none;">
       <h3>Phiên bản sản phẩm</h3>
       <div id="variantsContainer">
         <div class="variant">
@@ -59,7 +59,7 @@
       <button type="button" id="addVariantBtn">Thêm phiên bản mới</button>
     </div>
 
-    <!-- Phần attributes cho linh kiện/phụ kiện -->
+    <!-- Attributes only (hiện khi tai nghe/linh kiện/phụ kiện) -->
     <div id="attributesOnlySection" style="display:none;">
       <h3>Thông số kỹ thuật</h3>
       <div class="attributesContainer">
@@ -68,7 +68,7 @@
     </div>
 
     <br>
-    <button type="submit">Lưu sản phẩm</button>
+    <button type="submit" id="submitBtn" style="display:none;">Lưu sản phẩm</button>
   </form>
 </div>
 <script src="../js/addProductAdmin.js"></script>
