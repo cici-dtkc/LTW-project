@@ -1,6 +1,4 @@
 
-
-
 // Thực hiện tao tác logout -> thoát ra trang đăng nhập
 document.addEventListener("click", function(e) {
     const logoutLink = e.target.closest('a[data-target="logout"]');
@@ -12,30 +10,8 @@ document.addEventListener("click", function(e) {
     }
 });
 
-// Load sidebarAdmin cho các trang của admin
-// (async function loadSidebar() {
-//     const container = document.getElementById("sidebarContainer");
-//     if (!container) return;
-//
-//     try {
-//         const res = await fetch("sideBarAdmin.html");
-//         if (!res.ok) throw new Error("Không thể load Sidebar");
-//
-//         const html = await res.text();
-//         const doc = new DOMParser().parseFromString(html, "text/html");
-//         const aside = doc.querySelector("aside");
-//
-//         if (!aside) return console.error("Không tìm thấy thẻ <aside> trong sidebar");
-//
-//         container.replaceWith(aside);
-//         // gọi hàm đóng mở khi load sidebar
-//         toggleSidebar();
-//         activeSidebar();
-//
-//     } catch (err) {
-//         console.error(err);
-//     }
-// })();
+toggleSidebar();
+activeSidebar();
 
 // đóng mở menu
 function toggleSidebar() {
