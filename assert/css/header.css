@@ -1,6 +1,11 @@
 /* ====================== */
 /*  HEADER TỔNG THỂ */
 /* ====================== */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
 #header {
     background:var(--color-bg-header);
     padding: 15px 0;

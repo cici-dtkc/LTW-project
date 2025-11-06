@@ -98,10 +98,13 @@ function initializeHeaderEvents() {
     const navAccessory = document.getElementById("nav-accessory");
     const navContact = document.getElementById("nav-contact");
 
-    if (navHome) navHome.addEventListener("click", (e) => { e.preventDefault(); window.location.href = "./home.html"; });
-    if (navPhone) navPhone.addEventListener("click", (e) => { e.preventDefault(); /* Add phone page */ });
-    if (navAccessory) navAccessory.addEventListener("click", (e) => { e.preventDefault(); /* Add accessory page */ });
-    if (navContact) navContact.addEventListener("click", (e) => { e.preventDefault(); /* Add contact page */ });
+    if (navHome) navHome.addEventListener("click", (e) => { e.preventDefault(); window.location.href = "../home.html"; });
+    if (navPhone) navPhone.addEventListener("click", (e) => { e.preventDefault();  });
+    if (navAccessory) navAccessory.addEventListener("click", (e) => { e.preventDefault();   });
+    if (navContact) navContact.addEventListener("click", () => {
+        window.location.hash = "footer";
+    });
+
 }
 
 // Chờ DOM tải xong
