@@ -6,13 +6,43 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
   <link rel="stylesheet" href="assert/css/base.css">
+  <link rel="stylesheet" href="assert/css/header.css">
   <link rel="stylesheet" href="assert/css/listproduct.css">
 
 
 </head>
 <body>
 
+<header id="header">
+  <div class="container">
+    <div class="inner-wrap">
+      <div class="logo" id="logo">
+        <a href="#"><img src="./assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+      </div>
+      <nav class="menu" id="menu">
+        <ul>
+          <li><a href="#" id="nav-home">Trang chủ</a></li>
+          <li><a href="#" id="nav-phone">Điện thoại</a></li>
+          <li><a href="#" id="nav-accessory">Phụ kiện</a></li>
+          <li><a href="#" id="nav-contact">Liên hệ</a></li>
+        </ul>
+      </nav>
+      <div class="box" id="icon-box">
+        <ul>
+          <li class="search-item">
+            <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+          </li>
+          <li><a href="#" id="btn-cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+          <li id="user-area" class="user-area">
+            <a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a>
 
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
 <main class="product-page">
   <!-- Thanh lọc & sắp xếp -->
   <div class="product-filter-bar">
@@ -159,8 +189,8 @@
     <button id="loadMoreBtn" class="btn">Xem thêm</button>
     <span id="loadMoreSpinner" class="spinner" style="display:none">Đang tải...</span>
   </div>
-
 </main>
 <script src="js/listProduct.js"></script>
+<script src="js/header.js"></script>
 </body>
 </html>
