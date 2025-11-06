@@ -1,5 +1,64 @@
+// Khi click vào nút lọc (Giá, Bộ nhớ, Màu sắc, Năm ra mắt)
+document.querySelectorAll('.filter-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-filter');
+        const dropdown = document.getElementById(id);
+
+        // Bỏ active ở tất cả filter-item và dropdown khác
+        document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+
+        // Thêm active cho filter hiện tại
+        btn.classList.add('active');
+        dropdown.classList.add('active');
+        // 🔹 Căn vị trí trái cho dropdown khớp với nút lọc
+        const filterBarRect = document.querySelector('.filter-options').getBoundingClientRect();
+        const btnRect = btn.getBoundingClientRect();
+
+        // Tính khoảng cách từ đầu thanh filter đến nút
+        const leftOffset = btnRect.left - filterBarRect.left;
+
+        dropdown.style.left = `${leftOffset}px`;
+    });
+});
+
+// Khi bấm "Đóng" hoặc "Xem kết quả" → tắt dropdown và bỏ active ở filter
+document.querySelectorAll('.btn-close, .btn-apply').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const dropdown = btn.closest('.dropdown');
+        dropdown.classList.remove('active');
+
+        // Bỏ active ở nút filter tương ứng
+        const id = dropdown.getAttribute('id');
+        document.querySelector(`.filter-item[data-filter="${id}"]`)?.classList.remove('active');
+    });
+});
+
+// Khi click ra ngoài → tắt tất cả dropdown và bỏ active filter
+window.addEventListener('click', e => {
+    if (!e.target.closest('.filter-item') && !e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+        document.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+    }
+});
+
+// Toggle chọn trong các button option (bộ nhớ, màu sắc, năm, ...)
+document.querySelectorAll('.option-group button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+    });
+});
+
+// Khi chọn thương hiệu → có hiệu ứng active
+document.querySelectorAll('.brand').forEach(brand => {
+    brand.addEventListener('click', () => {
+        document.querySelectorAll('.brand').forEach(b => b.classList.remove('active'));
+        brand.classList.add('active');
+    });
+});
+
 // ========================
-// 1️⃣ Xử lý menu sắp xếp
+// Xử lý menu sắp xếp
 // ========================
 document.querySelectorAll("#sortList li").forEach(item => {
     item.addEventListener("click", () => {
@@ -9,7 +68,7 @@ document.querySelectorAll("#sortList li").forEach(item => {
 });
 
 // ========================
-// 2️⃣ Xử lý chọn màu & dung lượng
+//  Xử lý chọn màu & dung lượng
 // ========================
 function initProductCard(productCard) {
     initColorSelection(productCard);
@@ -43,7 +102,7 @@ function initAllProductCards() {
 }
 
 // ========================
-// 3️⃣ Giả lập dữ liệu sản phẩm (chỉ dùng cho load thêm)
+//  Giả lập dữ liệu sản phẩm (chỉ dùng cho load thêm)
 // ========================
 const allProducts = [
     { name: "Samsung S24 Ultra", price: "36.000.000₫", discount: "-8%", sold: "Đã bán 980" },
@@ -60,7 +119,7 @@ const allProducts = [
 ];
 
 // ========================
-// 4️⃣ Chức năng "Xem thêm" sản phẩm
+// Chức năng "Xem thêm" sản phẩm
 // ========================
 const productList = document.getElementById("product-list");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -151,7 +210,7 @@ function loadMore() {
 }
 
 // ========================
-// 5️⃣ Khởi động
+// Khởi động
 // ========================
 document.addEventListener("DOMContentLoaded", () => {
     initAllProductCards(); // khởi tạo các card có sẵn trong HTML
