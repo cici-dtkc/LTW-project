@@ -68,59 +68,76 @@
 .featured-products {
     width: 95%;
     max-width: 1200px;
-    margin: 20px auto 40px;
+    margin: 40px auto;
 }
 
 #featured-products .section-title {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-transform: uppercase;
-    color: #d0021b;
+    color: #000;
 }
 
+/* Grid sản phẩm */
 #featured-products .product-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(4, 1fr); /* 4 cột */
+    gap: 20px; /* khoảng cách giữa các card */
+    margin: 0; /* loại bỏ margin lớn của flex */
 }
 
+/* Card sản phẩm */
 #featured-products .product-card {
     background: #fff;
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 15px;
     text-align: center;
-    transition: 0.3s;
-    border: 1px solid #eee;
+    transition: 0.3s ease;
+    border: 1px solid #eaeaea;
+    margin: 0; /* loại bỏ margin 20px cũ */
 }
+
 
 #featured-products .product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 18px rgba(0,0,0,0.15);
+    transform: translateY(-6px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
 }
 
+/* Ảnh */
 #featured-products .product-card img {
     width: 100%;
     height: 220px;
     object-fit: contain;
 }
 
+/* Tên sản phẩm */
 #featured-products .product-card h3 {
     font-size: 16px;
+    font-weight: 600;
     margin: 8px 0;
 }
 
+/* Giá */
 #featured-products .price {
     color: #e60023;
     font-weight: bold;
-    margin: 6px 0;
     font-size: 18px;
+    margin-bottom: 10px;
 }
 
+/* Container nút */
+#featured-products .product-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* Nút mua ngay */
 #featured-products .btn-buy {
-    background: #ff3b30;
+    background: #ff6600;
+    color: white;
     padding: 8px 15px;
-    color: #fff;
     border: none;
     border-radius: 6px;
     cursor: pointer;
@@ -129,7 +146,24 @@
 }
 
 #featured-products .btn-buy:hover {
-    background: #d0021b;
+    background: #e65500;
 }
 
-/*End section */
+/* Nút giỏ hàng */
+#featured-products .btn-cart {
+    width: 38px;
+    height: 38px;
+    background: #ffd700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#featured-products .btn-cart:hover {
+    background: #ffbe00;
+}
