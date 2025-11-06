@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Giả lập chuyển hướng sau khi đăng nhập
             setTimeout(() => {
-                window.location.href = "./info-user.html";
+                window.location.href = "info-user.html";
             }, 1500);
         } else {
             // lấy thông tin người dùng đăng kí để đăng nhập
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 // chuyển hướng user về trang chủ
                 setTimeout(() => {
-                    window.location.href = "./home.html";
+                    window.location.href = "home.html";
                 }, 1500);
             } else {
                 showAlert("Tên đăng nhập hoặc mật khẩu không đúng!", "error");
@@ -156,11 +156,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // chuyển trang đăng kí
     register.addEventListener("click", function (e) {
         e.preventDefault();
-        window.location.href = "./register.html";
+        window.location.href = "register.html";
     })
 
     forgotPassword.addEventListener("click", function (e) {
         e.preventDefault();
-        window.location.href = "./changepassword.html";
+        window.location.href = "forgorpassword.html";
     })
 });
