@@ -16,11 +16,11 @@
 <main class="product-page">
   <!-- Thanh lọc & sắp xếp -->
   <div class="product-filter-bar">
-    <!-- Phần lọc -->
-    <div class="filter-bar">
+    <!-- Hàng 1: Bộ lọc + thương hiệu -->
+    <div class="filter-top">
       <div class="filter-btn">
         <i class="fa-solid fa-filter"></i>
-        <span>Lọc</span>
+        <span>Bộ lọc</span>
       </div>
 
       <div class="brand-list">
@@ -31,7 +31,71 @@
       </div>
     </div>
 
-    <!-- Phần sắp xếp -->
+    <!-- Hàng 2: Các nút lọc -->
+    <div class="filter-options">
+      <div class="filter-item" data-filter="gia">Giá </div>
+      <div class="filter-item" data-filter="bonho">Bộ nhớ </div>
+      <div class="filter-item" data-filter="mausac">Màu sắc </div>
+      <div class="filter-item" data-filter="namramat">Năm ra mắt </div>
+    </div>
+
+    <!-- Menu phụ cho từng bộ lọc -->
+    <div class="dropdown" id="gia">
+      <h4 style="margin-top: 0">Hãy chọn mức giá phù hợp với bạn</h4>
+      <div class="price-input">
+        <input type="number" placeholder="Từ">
+        <span>-</span>
+        <input type="number" placeholder="Đến">
+      </div>
+      <div class="dropdown-actions">
+        <button class="btn-close">Đóng</button>
+        <button class="btn-apply">Xem kết quả</button>
+      </div>
+    </div>
+
+    <div class="dropdown" id="bonho">
+      <div class="option-group">
+        <button>64GB</button>
+        <button>128GB</button>
+        <button>256GB</button>
+        <button>512GB</button>
+      </div>
+      <div class="dropdown-actions">
+        <button class="btn-close">Đóng</button>
+        <button class="btn-apply">Xem kết quả</button>
+      </div>
+    </div>
+
+    <div class="dropdown" id="mausac">
+      <div class="option-group">
+        <button>Đen</button>
+        <button>Trắng</button>
+        <button>Xanh</button>
+        <button>Hồng</button>
+        <button>Bạc</button>
+      </div>
+      <div class="dropdown-actions">
+        <button class="btn-close">Đóng</button>
+        <button class="btn-apply">Xem kết quả</button>
+      </div>
+    </div>
+
+    <div class="dropdown" id="namramat">
+      <div class="option-group">
+        <button>2021</button>
+        <button>2022</button>
+        <button>2023</button>
+        <button>2024</button>
+        <button>2025</button>
+      </div>
+      <div class="dropdown-actions">
+        <button class="btn-close">Đóng</button>
+        <button class="btn-apply">Xem kết quả</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phần sắp xếp -->
     <div class="sort-section">
       <span>Sắp xếp theo:</span>
       <ul id="sortList">
