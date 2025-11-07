@@ -1,31 +1,26 @@
-const categorySelect = document.getElementById("category");
+const categoryRadios = document.querySelectorAll('input[name="category"]');
 const productInfo = document.getElementById("productInfo");
 const variantsSection = document.getElementById("variantsSection");
 const attributesOnlySection = document.getElementById("attributesOnlySection");
 const submitBtn = document.getElementById("submitBtn");
 
-// Khi chọn danh mục
-categorySelect.addEventListener("change", function() {
-    const value = this.value;
+// Khi click chọn danh mục
+categoryRadios.forEach(radio => {
+    radio.addEventListener("change", function() {
+        const value = this.value;
 
-    if (!value) {
-        productInfo.style.display = "none";
-        variantsSection.style.display = "none";
-        attributesOnlySection.style.display = "none";
-        submitBtn.style.display = "none";
-        return;
-    }
+        // Hiển thị phần chung
+        productInfo.style.display = "block";
+        submitBtn.style.display = "inline-block";
 
-    productInfo.style.display = "block";
-    submitBtn.style.display = "inline-block";
-
-    if (value === "Điện thoại" || value === "Laptop") {
-        variantsSection.style.display = "block";
-        attributesOnlySection.style.display = "none";
-    } else { // Tai nghe, Linh kiện, Phụ kiện
-        variantsSection.style.display = "none";
-        attributesOnlySection.style.display = "block";
-    }
+        if (value === "Điện thoại" || value === "Laptop") {
+            variantsSection.style.display = "block";
+            attributesOnlySection.style.display = "none";
+        } else { // Linh kiện, phụ kiện
+            variantsSection.style.display = "none";
+            attributesOnlySection.style.display = "block";
+        }
+    });
 });
 
 // Thêm phiên bản mới
@@ -35,14 +30,14 @@ document.getElementById("addVariantBtn").addEventListener("click", function() {
     const variantDiv = document.createElement("div");
     variantDiv.className = "variant";
     variantDiv.innerHTML = `
-        <input type="text" name="version[]" placeholder="Tên phiên bản" required>
-        <input type="number" name="price[]" placeholder="Giá" required>
-        <button type="button" class="removeVariantBtn" onclick="removeVariant(this)">Xóa phiên bản</button>
-        <div class="attributesContainer">
-            <h4>Thông số kỹ thuật</h4>
-            <button type="button" class="addAttrBtn" onclick="addAttribute(this)">Thêm thông số</button>
-        </div>
-    `;
+      <input type="text" name="version[]" placeholder="Tên phiên bản" required>
+      <input type="number" name="price[]" placeholder="Giá" required>
+      <button type="button" class="removeVariantBtn" onclick="removeVariant(this)">Xóa phiên bản</button>
+      <div class="attributesContainer">
+          <h4>Thông số kỹ thuật</h4>
+          <button type="button" class="addAttrBtn" onclick="addAttribute(this)">Thêm thông số</button>
+      </div>
+  `;
     container.appendChild(variantDiv);
 });
 
@@ -62,19 +57,19 @@ function addAttribute(button) {
     const row = document.createElement("div");
     row.className = "attributeRow";
     row.innerHTML = `
-        <input type="text" placeholder="Tên thông số" required>
-        <input type="text" placeholder="Giá trị" required>
-        <button type="button" onclick="removeAttribute(this)">Xóa</button>
-    `;
+      <input type="text" placeholder="Tên thông số" required>
+      <input type="text" placeholder="Giá trị" required>
+      <button type="button" onclick="removeAttribute(this)">Xóa</button>
+  `;
     attrContainer.appendChild(row);
 }
 
 function removeAttribute(button) {
     button.parentElement.remove();
 }
+
 // Submit form
 document.getElementById("productForm").addEventListener("submit", function(e) {
     e.preventDefault();
-
     alert("Đã thêm sản phẩm");
 });

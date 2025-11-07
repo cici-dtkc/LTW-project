@@ -15,13 +15,15 @@
   <form id="productForm">
 
     <!-- Chọn danh mục trước -->
-    <div class="form-group">
-      <label for="category">Danh mục:</label>
-      <select id="category" name="category" required>
-        <option value="">--Chọn danh mục--</option>
-        <option value="Điện thoại">Điện thoại</option>
-        <option value="Linh kiện">Linh kiện</option>
-      </select>
+    <div class="form-group category-group">
+      <label>Danh mục:</label>
+      <div class="category-options">
+        <input type="radio" id="phone" name="category" value="Điện thoại" hidden>
+        <label for="phone" class="category-btn">📱 Điện thoại</label>
+
+        <input type="radio" id="part" name="category" value="Linh kiện" hidden>
+        <label for="part" class="category-btn">🔌 Linh kiện</label>
+      </div>
     </div>
 
     <!-- Thông tin sản phẩm chung, ẩn ban đầu -->
