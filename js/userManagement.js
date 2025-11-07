@@ -13,9 +13,9 @@ const addUserBtn = document.getElementById("add-user-btn");
 
 // Mock data
 let users = [
-    { id: 1, avatar: "./assert/img/admin.jpg", name: "Đỗ Thị", email: "chi@example.com", phone: "0987xxxxxx", role: "Admin", status: "Hoạt động"},
-    { id: 2, avatar: "./assert/img/admin.jpg", name: "Hé Mầm", email: "mam@example.com", phone: "0997xxxxxx", role: "Admin", status: "Tạm khóa"},
-    { id: 3, avatar: "./assert/img/admin.jpg", name: "Da Vân", email: "van@example.com", phone: "0987xxxxxx", role: "User", status: "Hoạt động"},
+    { id: 1, avatar: "../assert/img/admin.jpg", name: "Đỗ Thị", email: "chi@example.com", role: "Admin", status: "Hoạt động"},
+    { id: 2, avatar: "../assert/img/admin.jpg", name: "Hé Mầm", email: "mam@example.com", role: "Admin", status: "Tạm khóa"},
+    { id: 3, avatar: "../assert/img/admin.jpg", name: "Da Vân", email: "van@example.com", role: "User", status: "Hoạt động"},
 ];
 
 // ==============================
@@ -25,7 +25,7 @@ function renderUsers(list) {
     userTableBody.innerHTML = "";
 
     if (!list || list.length === 0) {
-        userTableBody.innerHTML = `<tr><td colspan="8" style="text-align:center; color:#888;">Không có người dùng nào</td></tr>`;
+        userTableBody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#888;">Không có người dùng nào</td></tr>`;
         recordInfo.textContent = "Hiển thị 0 người dùng";
         return;
     }
@@ -38,7 +38,6 @@ function renderUsers(list) {
             <td><img src="${user.avatar}" style="width:32px; height:32px; border-radius:50%;"></td>
             <td>${user.name}</td>
             <td>${user.email}</td>
-            <td>${user.phone}</td>
 
             <td class="role-cell">${user.role}</td>
             <td class="status-cell">${user.status}</td>
@@ -65,8 +64,7 @@ function applyFilters() {
 
     const filtered = users.filter(user =>
         (user.name.toLowerCase().includes(searchValue) ||
-            user.email.toLowerCase().includes(searchValue) ||
-            user.phone.includes(searchValue)) &&
+            user.email.toLowerCase().includes(searchValue)) &&
         (selectedRole === "" || user.role === selectedRole) &&
         (selectedStatus === "" || user.status === selectedStatus)
     );
