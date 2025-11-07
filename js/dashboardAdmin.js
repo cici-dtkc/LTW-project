@@ -1,3 +1,11 @@
+
+document.getElementById("dashAddPromo").addEventListener("click", function() {
+    window.location.href = "vouchersAdmin.html?addPromo=true";
+});
+
+
+
+
 window.addEventListener('scroll', function () {
     const topbar = document.querySelector('.topbar');
 
