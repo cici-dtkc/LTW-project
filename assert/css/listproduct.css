@@ -3,10 +3,13 @@ body {
     background: var(--color-bg);
     margin: 0px auto;
     color: #373737;
-    width: 1200px;
+
 }
 
-
+.product-page{
+    width: 1200px;
+    margin: 0px auto;
+}
 .product-filter-bar {
     background: #fff;
     border-radius: 10px;
@@ -239,7 +242,7 @@ body {
     padding: 20px;
 
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
     justify-items: center;
 }
@@ -309,12 +312,26 @@ body {
 }
 
 /* GIÁ */
-.price {
-    color: #e11d48;
-    font-size: 1.2rem;
-    font-weight: 700;
-
+/* --- GIÁ MỚI & GIÁ CŨ --- */
+.price-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
 }
+
+.price-new {
+    color: #e11d48;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.price-old {
+    color: #9ca3af;
+    font-size: 1 rem;
+    text-decoration: line-through;
+}
+
 
 /* MÀU SẮC */
 .colors {
