@@ -328,7 +328,7 @@ body {
 
 .price-old {
     color: #9ca3af;
-    font-size: 1 rem;
+    font-size: 1rem;
     text-decoration: line-through;
 }
 
@@ -337,7 +337,7 @@ body {
 .colors {
     display: flex;
     gap: 6px;
-    margin: 10px 0;
+    margin: 10px 20px;
 }
 
 .color {
