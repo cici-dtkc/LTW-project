@@ -1,165 +1,91 @@
-/* Reset cơ bản */
-
 body {
-    background: #f4f6f8;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    background-color: var(--color-bg);
+    margin: 0;
 }
 
-/* ----- BẮT ĐẦU TỪ THẺ CHA ----- */
-/* Thẻ cha bao quanh form */
-.payment {
+#contentArea {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.bank-form {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.payment .container {
-    width: 450px;
+    max-width: 720px;
     background: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    border: 1px solid #888888;
-
+    padding: 28px 32px 32px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-.payment .container .inner-wrap {
-    width: 100%;
-}
-
-.payment .container .inner-wrap .inner-title {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.payment .container .inner-wrap .inner-title h1 {
-    font-weight: bold;
-    color: var(--color-text-user);
-    font-size: 40px;
-}
-
-/* ----- BOX CHỨA TOÀN BỘ FORM ----- */
-.payment .container .inner-wrap .box {
-    width: 100%;
-}
-
-/* ----- SECTION ONE: CHỌN HÌNH THỨC THANH TOÁN ----- */
-.payment .container .inner-wrap .box .section-one {
+/* Title */
+.bank-form h2 {
+    font-size: 22px;
     margin-bottom: 25px;
+    font-weight: bold;
 }
 
-.payment .container .inner-wrap .box .section-one label {
+/* Fields */
+.field {
+    margin-bottom: 18px;
+}
+
+.field label {
     display: block;
+    margin-bottom: 8px;
     font-weight: 600;
-    margin-bottom: 10px;
-    color: #040404;
 }
 
-.payment .container .inner-wrap .box .section-one .options {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+.field input,
+.field select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 15px;
 }
 
-.payment .container .inner-wrap .box .section-one .options label {
+.field input:focus,
+.field select:focus {
+    border-color: #777;
+    outline: none;
+    box-shadow: var(--box-shadow);
+}
+
+/* Checkbox */
+.checkbox {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    margin: 12px 0 2px;
+}
+
+/* Buttons */
+.btn-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.btn-group button {
+    padding: 12px 32px;
+    border-radius: 6px;
+    font-size: 15px;
     cursor: pointer;
+    border: none;
 }
 
-.payment .container .inner-wrap .box .section-one .options input[type="radio"] {
-    transform: scale(1.2);
-    margin-right: 5px;
-}
-
-
-.payment .container .inner-wrap .box .section-one .options img {
-    width: 45px;
-    height: auto;
-    transition: transform 0.2s;
-}
-
-.payment .container .inner-wrap .box .section-one .options img:hover {
-    transform: scale(1.1);
-}
-
-/* ----- SECTION TWO: NHẬP THÔNG TIN THẺ ----- */
-.payment .container .inner-wrap .box .section-two {
-    margin-bottom: 25px;
-}
-
-.payment .container .inner-wrap .box .section-two label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
+.btn-group .back {
+    background: #e0e0e0;
     color: #333;
 }
 
-.payment .container .inner-wrap .box .section-two .field {
-    margin-bottom: 15px;
+.btn-group .back:hover {
+    background: #d5d5d5;
 }
 
-.payment .container .inner-wrap .box .section-two .field input {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 14px;
-    transition: border-color 0.3s;
-}
 
-.payment .container .inner-wrap .box .section-two .field input:focus {
-    border-color: #888888;
-    outline: none;
-}
 
-/* ----- EXPIRY + CVV ----- */
-.payment .container .inner-wrap .box .section-two .determine {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-}
-
-.payment .container .inner-wrap .box .section-two .determine .field-group {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.payment .container .inner-wrap .box .section-two .determine .expiry label,
-.payment .container .inner-wrap .box .section-two .determine .cvv label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 6px;
-}
-
-.payment .container .inner-wrap .box .section-two .determine .expiry .select select {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-}
-
-.payment .container .inner-wrap .box .section-two .determine .cvv input {
-    width: 100px;
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-.payment .container .inner-wrap .box .section-two .determine .cvv img {
-    width: 40px;
-    vertical-align: middle;
-    margin-left: 5px;
-}
-
-/* ----- NÚT SUBMIT ----- */
-.payment .container .inner-wrap .box .section.submit {
-    text-align: center;
-    margin-top: 20px;
-}
