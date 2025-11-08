@@ -188,27 +188,4 @@ nextBtn.addEventListener('click', () => {
 
 
 
-// //Thêm vào giỏ hàng
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Lấy tất cả các nút thêm vào giỏ hàng trên trang chi tiết
-//     const cartButtons = document.querySelectorAll(".btn-cart, .cart-btn, .rb-cart-btn");
-//
-//     cartButtons.forEach(button => {
-//         button.addEventListener("click", function (e) {
-//             e.preventDefault();
-//
-//             // Lấy phần tử hiển thị số lượng giỏ hàng
-//             let cartCount = document.getElementById("cart-count");
-//             let count = parseInt(localStorage.getItem("cartCount")) || 0;
-//             count++;
-//
-//             // Cập nhật giao diện và lưu vào localStorage
-//             cartCount.textContent = count;
-//             localStorage.setItem("cartCount", count);
-//
-//             // Thêm hiệu ứng nhỏ cho vui mắt
-//             cartCount.classList.add("animate");
-//             setTimeout(() => cartCount.classList.remove("animate"), 500);
-//         });
-//     });
-// });
+
