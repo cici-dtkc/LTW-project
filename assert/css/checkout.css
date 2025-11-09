@@ -15,6 +15,7 @@ section {
     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     margin-bottom: 15px;
     padding: 20px;
+    border-radius: 15px;
 }
 
 /* ===== TIÊU ĐỀ MỤC ===== */
@@ -24,31 +25,68 @@ section {
 }
 
 /* ===== ĐỊA CHỈ ===== */
-.address i,
-main .title {
-    font-size: 22px;
-    color: #1641af;
-    padding: 5px;
+.address {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin: 15px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
-main .title {
+
+.address .title {
     font-weight: 600;
-}
-.address p {
-    line-height: 1.6;
-}
-.address .default {
-    border: 1px solid #ee4d2d;
-    color: #ee4d2d;
-    font-size: 12px;
-    padding: 2px 6px;
-    border-radius: 3px;
-    margin-left: 6px;
-}
-.address a {
-    color: #007aff;
-    text-decoration: none;
     margin-left: 8px;
 }
+
+.address a {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.address a:hover {
+    text-decoration: underline;
+}
+
+.default {
+    background: #eee;
+    padding: 3px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.address-list {
+    margin-top: 10px;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    background: #fafafa;
+    border-radius: 6px;
+}
+
+.address-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.address-list li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.address-list li:hover {
+    background: #f0f8ff;
+    border-color: #007bff;
+}
+
+.hidden {
+    display: none;
+}
+
 
 /* ===== SẢN PHẨM ===== */
 .products .title {
