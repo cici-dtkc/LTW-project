@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="assert/css/header.css">
     <link rel="stylesheet" href="assert/css/productDetail.css">
     <link rel="stylesheet" href="assert/css/footer.css">
+    <link rel="stylesheet" href="assert/css/listproduct.css">
 </head>
 <body>
 <div class="app-wrapper">
@@ -25,7 +26,8 @@
                         <li><a href="#" id="nav-home">Trang chủ</a></li>
                         <li><a href="#" id="nav-phone">Điện thoại</a></li>
                         <li class="has-mega" id="nav-accessory-item">
-                            <a href="#" id="nav-accessory">Phụ kiện <i class="fa-solid fa-chevron-down" style="font-size:12px; margin-left:6px;"></i></a>
+                            <a href="#" id="nav-accessory">Phụ kiện <i class="fa-solid fa-chevron-down"
+                                                                       style="font-size:12px; margin-left:6px;"></i></a>
                             <div class="mega-menu" id="mega-accessory">
                                 <div class="mega-inner">
                                     <div class="mega-col">
@@ -60,7 +62,8 @@
                     <ul>
                         <li class="search-item">
                             <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
-                            <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                            <input id="header-search" class="search-input" type="text"
+                                   placeholder="Tìm kiếm sản phẩm..."/>
                         </li>
                         <li class="cart-item">
                             <a href="#" id="btn-cart">
@@ -155,97 +158,6 @@
                     </tr>
                 </table>
             </div>
-            <!-- Sản phẩm thường mua kèm -->
-            <div class="related-products">
-                <h3>Sản phẩm thường mua cùng</h3>
-                <div class="product-card" id="product-card">
-                    <div class="product-img">
-                        <img src="assert/img/product/Anker2C1A.jpg" alt="iPhone 17 Pro Max">
-                        <span class="discount-badge">-12%</span>
-                    </div>
-
-                    <div class="product-info">
-                        <h3>Anker2C1A</h3>
-
-                        <div class="price">990.000₫</div>
-
-                        <div class="rating-cart">
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-
-                        <div class="bottom-info">
-                            <span class="sold-count">Đã bán 1.2k</span>
-                            <button class="cart-btn">
-                                <i class="fa-solid fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card" id="">
-                    <div class="product-img">
-                        <img src="assert/img/product/Anker2C1B.jpg" alt="iPhone 17 Pro Max">
-                        <span class="discount-badge">-12%</span>
-                    </div>
-
-                    <div class="product-info">
-                        <h3>Sạc dự phòng</h3>
-
-                        <div class="price">630.000₫</div>
-
-                        <div class="rating-cart">
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-
-                        <div class="bottom-info">
-                            <span class="sold-count">Đã bán 1.2k</span>
-                            <button class="cart-btn">
-                                <i class="fa-solid fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-card" id="">
-                    <div class="product-img">
-                        <img src="assert/img/product/AnkerA1256.jpg" alt="iPhone 17 Pro Max">
-                        <span class="discount-badge">-12%</span>
-                    </div>
-
-                    <div class="product-info">
-                        <h3>Sạc AKA1256</h3>
-
-                        <div class="price">690.000₫</div>
-
-                        <div class="rating-cart">
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
-                            </div>
-                        </div>
-
-                        <div class="bottom-info">
-                            <span class="sold-count">Đã bán 1.2k</span>
-                            <button class="cart-btn">
-                                <i class="fa-solid fa-cart-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <!--            cột phải-->
         <div class="product-info-right">
@@ -306,7 +218,7 @@
                                 <i class="fa-solid fa-percent"></i>
                                 <div class="promo-content">
                                     <p class="discount">MIỄN PHÍ VẬN CHUYỂN</p>
-                                    <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
                                 </div>
                                 <div class="promo-status remain">Còn 20 suất</div>
                             </div>
@@ -324,7 +236,7 @@
                                 <i class="fa-solid fa-percent"></i>
                                 <div class="promo-content">
                                     <p class="discount">TẶNG QUÀ PHỤ KIỆN</p>
-                                    <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
                                 </div>
                                 <div class="promo-status remain">Còn 45 suất</div>
                             </div>
@@ -342,7 +254,7 @@
                                 <i class="fa-solid fa-percent"></i>
                                 <div class="promo-content">
                                     <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                                    <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
                                 </div>
                                 <div class="promo-status remain">Còn 10 suất</div>
                             </div>
@@ -380,6 +292,8 @@
                 </div>
             </div>
 
+        </div>
+    </div>
     <!--  Mô tả nổi bật -->
     <div class="product-highlights">
         <h3>Đặc điểm nổi bật</h3>
@@ -390,8 +304,6 @@
             <li>Thiết kế sang trọng với khung viền nhôm, mặt kính bền bỉ.</li>
             <li>Hỗ trợ sạc nhanh và kết nối USB Type-C tiện lợi.</li>
         </ul>
-    </div>
-        </div>
     </div>
     <!--  Đánh giá sản phẩm -->
     <section class="review-section">
@@ -495,214 +407,295 @@
         </div>
     </section>
     <!-- Sản phẩm liên quan -->
-    <section class="related-bottom">
+    <section class="product-related">
         <h2>Sản phẩm liên quan</h2>
-        <div class="related-bottom-list">
-
-            <div class="related-bottom-item" data-id="p1">
-                <div class="rb-sale">-16%</div>
-                <img src="assert/img/product/OppoReno13_blue.png" alt="OPPO Reno13 5G 8GB/256GB"/>
-                <p class="rb-title">OPPO Reno13 5G 8GB/256GB</p>
-
-                <div class="rb-choices">
-                    <!-- color swatches -->
-                    <div class="rb-colors" role="list" aria-label="Chọn màu">
-                        <button class="color-swatch active" style="background:#f5c542" data-color="Vàng"
-                                title="Vàng"></button>
-                        <button class="color-swatch" style="background:#e0e0e0" data-color="Bạc" title="Bạc"></button>
-                        <button class="color-swatch" style="background:#1f2937" data-color="Đen" title="Đen"></button>
-                    </div>
-
-                    <!-- storage options -->
-                    <div class="rb-storage" role="list" aria-label="Chọn dung lượng">
-                        <button class="storage-pill active" data-storage="256 GB">256 GB</button>
-                        <button class="storage-pill" data-storage="512 GB">512 GB</button>
-                        <button class="storage-pill" data-storage="1 TB">1 TB</button>
-                    </div>
+        <div id="product-list" class="product-list">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/iphone_17_pro_max.png" alt="iPhone 17 Pro Max">
+                    <span class="discount-badge">-12%</span>
                 </div>
 
-                <div class="rb-price-row">
-                    <div>
-                        <div class="rb-price">7.990.000₫</div>
-                        <div class="rb-old-price">9.490.000₫</div>
+                <div class="product-info">
+                    <h2>iPhone 17 Pro Max 2TB</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
                     </div>
                 </div>
-
-                <div class="rb-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-half-alt"></i>
-                    <span>Đã bán 18,2k</span>
-                </div>
-
-                <button class="rb-cart-btn" aria-label="Thêm vào giỏ"><i class="fa fa-shopping-cart"></i></button>
             </div>
 
-            <!-- copy tương tự cho item 2 -->
-            <div class="related-bottom-item" data-id="p2">
-                <div class="rb-sale">-18%</div>
-                <img src="assert/img/product/OppoReno13_purple.png" alt="OPPO Reno12 5G"/>
-                <p class="rb-title">OPPO Reno12 5G</p>
-
-                <div class="rb-choices">
-                    <div class="rb-colors" role="list" aria-label="Chọn màu">
-                        <button class="color-swatch active" style="background:#ffcc80" data-color="Cam"
-                                title="Cam"></button>
-                        <button class="color-swatch" style="background:#f4f4f4" data-color="Bạc" title="Bạc"></button>
-                        <button class="color-swatch" style="background:#0f172a" data-color="Đen" title="Đen"></button>
-                    </div>
-
-                    <div class="rb-storage" role="list" aria-label="Chọn dung lượng">
-                        <button class="storage-pill active" data-storage="128 GB">128 GB</button>
-                        <button class="storage-pill" data-storage="256 GB">256 GB</button>
-                        <button class="storage-pill" data-storage="512 GB">512 GB</button>
-                    </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/iphone14.jpg" alt="iPhone 14x">
+                    <span class="discount-badge">-10%</span>
                 </div>
 
-                <div class="rb-price-row">
-                    <div>
-                        <div class="rb-price">6.990.000₫</div>
-                        <div class="rb-old-price">8.490.000₫</div>
+                <div class="product-info">
+                    <h2>iPhone 14 128GB</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">15.990.000₫</span>
+                        <span class="price-old">17.990.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
                     </div>
                 </div>
-
-                <div class="rb-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-half-alt"></i>
-                    <span>Đã bán 20,5k</span>
-                </div>
-
-                <button class="rb-cart-btn" aria-label="Thêm vào giỏ"><i class="fa fa-shopping-cart"></i></button>
             </div>
 
-            <!-- item 3 -->
-            <div class="related-bottom-item" data-id="p3">
-                <div class="rb-sale">-17%</div>
-                <img src="assert/img/product/iphone14.jpg" alt="OPPO Reno11 F 5G"/>
-                <p class="rb-title">Iphone 14</p>
-
-                <div class="rb-choices">
-                    <div class="rb-colors" role="list" aria-label="Chọn màu">
-                        <button class="color-swatch active" style="background:#ffd6e0" data-color="Hồng"
-                                title="Hồng"></button>
-                        <button class="color-swatch" style="background:#e6eef5" data-color="Xanh" title="Xanh"></button>
-                        <button class="color-swatch" style="background:#0b1220" data-color="Đen" title="Đen"></button>
-                    </div>
-
-                    <div class="rb-storage" role="list" aria-label="Chọn dung lượng">
-                        <button class="storage-pill active" data-storage="64 GB">64 GB</button>
-                        <button class="storage-pill" data-storage="128 GB">128 GB</button>
-                        <button class="storage-pill" data-storage="256 GB">256 GB</button>
-                    </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/iphone15.jpg" alt="iPhone 15">
+                    <span class="discount-badge">-12%</span>
                 </div>
 
-                <div class="rb-price-row">
-                    <div>
-                        <div class="rb-price">6.590.000₫</div>
-                        <div class="rb-old-price">7.990.000₫</div>
+                <div class="product-info">
+                    <h2>iPhone 15</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
                     </div>
                 </div>
-
-                <div class="rb-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-half-alt"></i>
-                    <span>Đã bán 11,3k</span>
-                </div>
-
-                <button class="rb-cart-btn" aria-label="Thêm vào giỏ"><i class="fa fa-shopping-cart"></i></button>
             </div>
-            <!-- item 4 -->
-            <div class="related-bottom-item" data-id="p3">
-                <div class="rb-sale">-17%</div>
-                <img src="assert/img/product/Iphone14Pro.jpg" alt="OPPO Reno11 F 5G"/>
-                <p class="rb-title">Iphone 14 Pro</p>
 
-                <div class="rb-choices">
-                    <div class="rb-colors" role="list" aria-label="Chọn màu">
-                        <button class="color-swatch active" style="background:#ffd6e0" data-color="Hồng"
-                                title="Hồng"></button>
-                        <button class="color-swatch" style="background:#e6eef5" data-color="Xanh" title="Xanh"></button>
-                        <button class="color-swatch" style="background:#0b1220" data-color="Đen" title="Đen"></button>
-                    </div>
-
-                    <div class="rb-storage" role="list" aria-label="Chọn dung lượng">
-                        <button class="storage-pill active" data-storage="64 GB">64 GB</button>
-                        <button class="storage-pill" data-storage="128 GB">128 GB</button>
-                        <button class="storage-pill" data-storage="256 GB">256 GB</button>
-                    </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/realme14T.jpg" alt="Realme 14T">
+                    <span class="discount-badge">-12%</span>
                 </div>
 
-                <div class="rb-price-row">
-                    <div>
-                        <div class="rb-price">6.590.000₫</div>
-                        <div class="rb-old-price">7.990.000₫</div>
+                <div class="product-info">
+                    <h2>Realme 14T</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
                     </div>
                 </div>
-
-                <div class="rb-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-half-alt"></i>
-                    <span>Đã bán 11,3k</span>
-                </div>
-
-                <button class="rb-cart-btn" aria-label="Thêm vào giỏ"><i class="fa fa-shopping-cart"></i></button>
             </div>
-            <!-- item 5 -->
-            <div class="related-bottom-item" data-id="p3">
-                <div class="rb-sale">-17%</div>
-                <img src="assert/img/product/iphone17.webp" alt="OPPO Reno11 F 5G"/>
-                <p class="rb-title">Iphone 17</p>
 
-                <div class="rb-choices">
-                    <div class="rb-colors" role="list" aria-label="Chọn màu">
-                        <button class="color-swatch active" style="background:#ffd6e0" data-color="Hồng"
-                                title="Hồng"></button>
-                        <button class="color-swatch" style="background:#e6eef5" data-color="Xanh" title="Xanh"></button>
-                        <button class="color-swatch" style="background:#0b1220" data-color="Đen" title="Đen"></button>
-                    </div>
-
-                    <div class="rb-storage" role="list" aria-label="Chọn dung lượng">
-                        <button class="storage-pill active" data-storage="64 GB">64 GB</button>
-                        <button class="storage-pill" data-storage="128 GB">128 GB</button>
-                        <button class="storage-pill" data-storage="256 GB">256 GB</button>
-                    </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/realmeC71.jpg" alt="realme C71">
+                    <span class="discount-badge">-12%</span>
                 </div>
 
-                <div class="rb-price-row">
-                    <div>
-                        <div class="rb-price">6.590.000₫</div>
-                        <div class="rb-old-price">7.990.000₫</div>
+                <div class="product-info">
+                    <h2>realme C71</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
                     </div>
                 </div>
+            </div>
 
-                <div class="rb-rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star-half-alt"></i>
-                    <span>Đã bán 11,3k</span>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/vivoV30e.jpg" alt="vivo V30e">
+                    <span class="discount-badge">-12%</span>
                 </div>
 
-                <button class="rb-cart-btn" aria-label="Thêm vào giỏ"><i class="fa fa-shopping-cart"></i></button>
+                <div class="product-info">
+                    <h2>vivo V30e</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/vivoY19.jpg" alt="vivo Y19">
+                    <span class="discount-badge">-12%</span>
+                </div>
+
+                <div class="product-info">
+                    <h2>vivo Y19</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="view-all-btn">
             <a href="#"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
         </div>
-
     </section>
+</div>
+<section class="footer-section">
     <footer id="footer">
         <div class="container">
             <div id="footer-content" class="footer-content">
@@ -786,7 +779,7 @@
             </div>
         </div>
     </footer>
-</div>
+</section>
 </body>
 <script src="js/header.js"></script>
 <script src="js/productDetail.js"></script>
