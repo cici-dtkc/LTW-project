@@ -3,30 +3,44 @@ body {
     margin: 0;
 }
 
+#pageWrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 24px;
+}
+
+/* ===== SIDEBAR ===== */
+#accountSidebar {
+    width: 260px;
+    flex-shrink: 0;
+}
+
+/* ===== NỘI DUNG CHÍNH ===== */
 #contentArea {
     flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
 }
 
+/* ===== FORM NGÂN HÀNG ===== */
 .bank-form {
     width: 100%;
-    max-width: 720px;
+    max-width: 992px;
     background: #fff;
     padding: 28px 32px 32px;
-    border-radius: 10px;
+    border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
-/* Title */
+/* Tiêu đề */
 .bank-form h2 {
-    font-size: 22px;
+    font-size: 20px;
     margin-bottom: 25px;
     font-weight: bold;
 }
 
-/* Fields */
+/* Trường nhập */
 .field {
     margin-bottom: 18px;
 }
@@ -43,7 +57,7 @@ body {
     padding: 14px;
     border: 1px solid #dcdcdc;
     border-radius: 6px;
-    font-size: 15px;
+    font-size: 13px;
 }
 
 .field input:focus,
@@ -61,7 +75,7 @@ body {
     margin: 12px 0 2px;
 }
 
-/* Buttons */
+/* Nút bấm */
 .btn-group {
     display: flex;
     justify-content: space-between;
@@ -73,7 +87,6 @@ body {
 .btn-group button {
     padding: 12px 32px;
     border-radius: 6px;
-    font-size: 15px;
     cursor: pointer;
     border: none;
 }
@@ -86,6 +99,3 @@ body {
 .btn-group .back:hover {
     background: #d5d5d5;
 }
-
-
-
