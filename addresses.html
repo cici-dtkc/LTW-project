@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Địa chỉ của tôi</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="assert/css/reset.css">
+  <link rel="stylesheet" href="assert/css/base.css">
+  <link rel="stylesheet" href="assert/css/accountSidebar.css">
+  <link rel="stylesheet" href="assert/css/addresses.css">
+</head>
+<body>
+<div id="pageWrapper">
+  <!-- SIDEBAR -->
+  <div id="accountSidebar">
+    <!-- USER INFO -->
+    <div id="userBox">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" id="userAvatar" alt="User avatar">
+
+      <div id="userInfo">
+        <span id="usernameDisplay">user1</span>
+        <a href="info-user.html" id="editProfileBtn">
+          <i class="fa-solid fa-pen"></i> Sửa Hồ Sơ
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <ul id="menuList">
+      <!-- TÀI KHOẢN CỦA TÔI -->
+      <li class="menu-category">
+        <a href="#" id="menuAccountMain">
+          <i class="fa-solid fa-user"></i> Tài Khoản Của Tôi
+        </a>
+
+        <ul id="accountSubmenu" class="submenu">
+          <li class="menu-item">
+            <a href="info-user.html" id="menuProfile">Hồ Sơ</a>
+          </li>
+
+          <li class="menu-item">
+            <a href="#" id="menuBank">Ngân Hàng</a>
+          </li>
+
+          <li class="menu-item active">
+            <a href="addresses.html" id="menuAddress">Địa Chỉ</a>
+          </li>
+
+          <li class="menu-item">
+            <a href="formChangePass.html" id="menuPassword">Đổi Mật Khẩu</a>
+          </li>
+        </ul>
+      </li>
+
+      <!-- ĐƠN MUA -->
+      <li class="menu-category">
+        <a href="#" id="menuOrders">
+          <i class="fa-solid fa-bag-shopping"></i> Đơn Mua
+        </a>
+      </li>
+
+      <!-- VOUCHER -->
+      <li class="menu-category">
+        <a href="voucherDetail.html" id="menuVoucher">
+          <i class="fa-solid fa-ticket"></i> Kho Voucher
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ADDRESS CONTENT -->
+  <div class="address-content">
+    <div class="address-header">
+      <h1 class="address-title">Địa chỉ của tôi</h1>
+      <button class="btn-add-address" id="btnAddAddress">
+        <i class="fa-solid fa-plus"></i> Thêm địa chỉ mới
+      </button>
+    </div>
+
+    <div class="address-section">
+      <h2 class="section-title">Địa chỉ</h2>
+      <div class="address-list" id="addressList">
+        <!-- Address items will be dynamically loaded here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Add Address -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-content">
+    <h2 class="modal-title">Địa chỉ mới (dùng thông tin trước sáp nhập)</h2>
+
+    <form class="address-form" id="addressForm">
+      <div class="form-row">
+        <label for="fullName" class="form-label">Họ và tên</label>
+        <input type="text" id="fullName" class="form-input" placeholder="Nhập họ và tên" required>
+      </div>
+
+      <div class="form-row">
+        <label for="phoneNumber" class="form-label">Số điện thoại</label>
+        <input type="text" id="phoneNumber" class="form-input" placeholder="Nhập số điện thoại" required>
+      </div>
+
+      <div class="form-row">
+        <label for="location" class="form-label">Tỉnh/ Thành phố, Quận/Huyện, Phường/Xã</label>
+        <select id="location" class="form-select" required>
+          <option value="">Chọn địa điểm</option>
+          <option value="Phường Đông Hòa, Thành Phố Dĩ An, Bình Dương">Phường Đông Hòa, Thành Phố Dĩ An, Bình Dương</option>
+          <option value="Xã Hòa Hiệp, Huyện Cư Kuin, Đắk Lắk">Xã Hòa Hiệp, Huyện Cư Kuin, Đắk Lắk</option>
+          <option value="Xã Long Phước, Huyện Long Thành, Đồng Nai">Xã Long Phước, Huyện Long Thành, Đồng Nai</option>
+          <option value="Phường Bình Thuận, Quận 7, TP. Hồ Chí Minh">Phường Bình Thuận, Quận 7, TP. Hồ Chí Minh</option>
+          <option value="Phường 5, Quận Tân Bình, TP. Hồ Chí Minh">Phường 5, Quận Tân Bình, TP. Hồ Chí Minh</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="specificAddress" class="form-label">Địa chỉ cụ thể</label>
+        <textarea id="specificAddress" class="form-textarea" placeholder="Nhập địa chỉ cụ thể" rows="3" required></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="location-map">
+          <button type="button" class="btn-add-location">
+            <i class="fa-solid fa-plus"></i> Thêm vị trí
+          </button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Loại địa chỉ:</label>
+        <div class="address-type-group">
+          <button type="button" class="address-type-btn active" data-type="home">
+            Nhà Riêng
+          </button>
+          <button type="button" class="address-type-btn" data-type="office">
+            Văn Phòng
+          </button>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="checkbox-label">
+          <input type="checkbox" id="setDefault" class="checkbox-input">
+          <span>Đặt làm địa chỉ mặc định</span>
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-back" id="btnBack">Trở Lại</button>
+        <button type="submit" class="btn-complete">Hoàn thành</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="js/s"></script>
+<script src="js/addresses.js"></script>
+</body>
+</html>
+
