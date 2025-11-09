@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /** Xử lý khi người dùng chọn Mua lại */
     function handleReorder() {
-        alert("Các sản phẩm trong đơn hàng đã được thêm lại vào giỏ hàng!");
         window.location.href = "cart.html";
     }
 
