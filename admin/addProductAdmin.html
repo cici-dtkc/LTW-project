@@ -26,53 +26,68 @@
       </div>
     </div>
 
-    <!-- Thông tin sản phẩm chung, ẩn ban đầu -->
-    <div id="productInfo" style="display:none;">
-      <div class="form-group">
-        <label for="productName">Tên sản phẩm:</label>
-        <input type="text" id="productName" name="productName" required>
-      </div>
+    <!-- THÔNG TIN CHUNG -->
+    <div class="flex-row">
+      <div class="flex-col">
+        <div class="card">
+          <h3>Thông tin chung</h3>
+          <input type="text" name="productName" placeholder="Tên sản phẩm" required>
+          <input type="text" name="brand" placeholder="Hãng">
+          <textarea name="description" placeholder="Mô tả"></textarea>
+          <input type="date" name="release_date" placeholder="Ngày phát hành">
+          <input type="number" name="warranty" placeholder="Bảo hành (tháng)">
+        </div>
 
-      <div class="form-group">
-        <label for="brand">Hãng:</label>
-        <input type="text" id="brand" name="brand">
-      </div>
-
-      <div class="form-group">
-        <label for="description">Mô tả:</label>
-        <textarea id="description" name="description"></textarea>
-      </div>
-    </div>
-
-    <!-- Phiên bản + attributes (hiện khi điện thoại/laptop) -->
-    <div id="variantsSection" style="display:none;">
-      <h3>Phiên bản sản phẩm</h3>
-      <div id="variantsContainer">
-        <div class="variant">
-          <input type="text" name="version[]" placeholder="Tên phiên bản" required>
-          <input type="number" name="price[]" placeholder="Giá" required>
-          <button type="button" class="removeVariantBtn" onclick="removeVariant(this)">Xóa phiên bản</button>
+        <!-- Thông số kỹ thuật chung -->
+        <div class="card" id="attributesOnlySection" style="display:none;">
+          <h3>
+            Thông số kỹ thuật
+            <span class="tooltip">ℹ️
+              <span class="tooltiptext">
+                Các thông số kỹ thuật chung áp dụng cho toàn bộ sản phẩm. Ví dụ: kích thước, pin, RAM…
+              </span>
+            </span>
+          </h3>
           <div class="attributesContainer">
-            <h4>Thông số kỹ thuật</h4>
-            <button type="button" class="addAttrBtn" onclick="addAttribute(this)">Thêm thông số</button>
+            <button type="button" class="addBtn addAttrBtn" onclick="addAttribute(this)">+ Thêm thông số</button>
           </div>
         </div>
+
+        <!-- VARIANTS -->
+        <div class="card" id="variantsSection" style="display:none;">
+          <h3>
+            Phiên bản sản phẩm
+            <span class="tooltip">ℹ️
+              <span class="tooltiptext">
+                Phiên bản có thể là màu, dung lượng hoặc kiểu khác nhau. Mỗi phiên bản có giá và số lượng riêng.
+              </span>
+            </span>
+          </h3>
+          <div id="variantsContainer">
+            <div class="variant">
+              <input type="text" name="variant_name[]" placeholder="Tên phiên bản (màu/dung lượng)" required>
+              <input type="number" name="variant_price[]" placeholder="Giá" required>
+              <input type="number" name="variant_quantity[]" placeholder="Số lượng" required>
+              <button type="button" class="removeBtn" onclick="removeVariant(this)">Xóa</button>
+            </div>
+          </div>
+          <button type="button" id="addVariantBtn" class="addBtn">+ Thêm phiên bản mới</button>
+        </div>
       </div>
-      <button type="button" id="addVariantBtn">Thêm phiên bản mới</button>
+
+      <!-- ẢNH -->
+      <div class="flex-col">
+        <div class="card">
+          <h3>Ảnh sản phẩm</h3>
+          <input type="file" name="images[]" multiple>
+        </div>
+      </div>
     </div>
 
-    <!-- Attributes only (hiện khi tai nghe/linh kiện/phụ kiện) -->
-    <div id="attributesOnlySection" style="display:none;">
-      <h3>Thông số kỹ thuật</h3>
-      <div class="attributesContainer">
-        <button type="button" class="addAttrBtn" onclick="addAttribute(this)">Thêm thông số</button>
-      </div>
-    </div>
-
-    <br>
     <button type="submit" id="submitBtn" style="display:none;">Lưu sản phẩm</button>
   </form>
 </div>
+
 <script src="../js/addProductAdmin.js"></script>
 
 </body>
