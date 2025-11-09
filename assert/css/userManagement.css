@@ -5,8 +5,18 @@
     padding: 20px 25px;
     border-radius: 12px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-    max-width: 1100px;
-    margin: 0 auto;
+}
+
+/* Đẩy nội dung theo kích thước sidebar */
+.app .container {
+    margin-left: 250px !important;
+    width: calc(100% - 250px);
+    max-width: none; /* override base.css */
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+.sidebar.collapsed ~ .container {
+    margin-left: 60px !important;
+    width: calc(100% - 60px);
 }
 
 .container .page-title {
@@ -37,18 +47,10 @@
 }
 
 #add-user-btn {
-    background: var(--color-text-user);
-    color: #fff;
-    border: none;
     padding: 8px 14px;
     border-radius: 6px;
     cursor: pointer;
     transition: background 0.3s ease;
-}
-
-#add-user-btn:hover {
-    background-color: rgba(0, 163, 200, 0.71);
-    border: 1px solid var(--color-text-user);
 }
 
 .container table {

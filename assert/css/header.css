@@ -1,15 +1,37 @@
 /* ====================== */
 /*  HEADER TỔNG THỂ */
 /* ====================== */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
 #header {
     background:var(--color-bg-header);
     padding: 15px 0;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
     z-index: 999;
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Thêm padding-top cho body để tránh nội dung bị che bởi header fixed */
+body:has(#header) {
+    padding-top: 40px;
+}
+
+/* Hoặc nếu dùng header-container */
+#header-container ~ * {
+    margin-top: 40px;
+}
+
+#main-content {
+    padding-top: 40px;
 }
 
 /* Căn giữa nội dung */
@@ -60,7 +82,7 @@
     font-weight: 400;
     font-size: 16px;
     position: relative;
-    padding: 8px 12px;
+    padding: 6px 10px; /* nhỏ gọn hơn */
     transition: all 0.3s ease;
     border-radius: 6px;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -68,8 +90,12 @@
 
 
 
+
 /* Gạch chân động khi hover */
-#header .menu ul li a::after {
+#nav-home::after,
+#nav-phone::after,
+#nav-accessory::after,
+#nav-contact::after {
     content: "";
     position: absolute;
     bottom: 2px;
@@ -81,8 +107,94 @@
     transform: translateX(-50%);
 }
 
-#header .menu ul li a:hover::after {
+#nav-home:hover::after,
+#nav-phone:hover::after,
+#nav-accessory:hover::after,
+#nav-contact:hover::after {
     width: 80%;
+}
+
+/* ====================== */
+/*  MEGA MENU PHỤ KIỆN   */
+/* ====================== */
+#header .menu ul li.has-mega {
+    position: relative;
+}
+
+#header .mega-menu {
+    position: absolute;
+    left: 50%;
+    top: 100%; /* ngay dưới item, không tạo khoảng trống */
+    transform: translateX(-50%);
+    width: min(600px, calc(100vw - 32px)); /* thu hẹp box ~600px */
+    max-width: 600px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 14px 36px rgba(0,0,0,0.18); /* đổ bóng rõ hơn */
+    border: 1px solid rgba(0,0,0,0.06);
+    padding: 16px 20px;
+    display: none;
+    opacity: 0;
+    transform-origin: top;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 1000;
+}
+
+#header .mega-menu::before { /* cầu nối để di chuột xuống không bị mất hover */
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 0;
+    right: 0;
+    height: 10px;
+}
+
+#header .mega-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 1fr)); /* phù hợp bề rộng 600px */
+    gap: 24px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#header .mega-col h4 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#header .mega-col a {
+    display: block;
+    color: #111;
+    padding: 6px 0;
+    font-size: 14px;
+}
+
+#header .mega-col a:hover {
+    color: #0b8fc6;
+}
+
+/* Show on hover */
+#header .menu ul li.has-mega:hover .mega-menu {
+    display: block;
+    opacity: 1;
+}
+
+/* Responsive: stack columns */
+@media (max-width: 768px) {
+    #header .mega-menu {
+        position: static;
+        transform: none;
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 12px 0;
+    }
+    #header .mega-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        padding: 0 16px;
+    }
 }
 
 /* ====================== */
@@ -119,6 +231,42 @@
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ====================== */
+/*  CART BADGE           */
+/* ====================== */
+#header .cart-item {
+    position: relative;
+}
+
+#header .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #dc3545;
+    color: #fff;
+    border-radius: 12px;
+    min-width: 20px;
+    height: 20px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    border: 2px solid var(--color-bg-header);
+    padding: 0 5px;
+    box-sizing: border-box;
+    line-height: 1;
+    z-index: 10;
+}
+
+#header .cart-badge:empty {
+    display: none !important;
+}
+
+#header .cart-badge.hidden {
+    display: none !important;
 }
 
 
