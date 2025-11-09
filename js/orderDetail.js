@@ -1,82 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const orderStatus = document.getElementById("order-status");
-    const timelineSteps = document.querySelectorAll(".timeline .step");
     const btnCancel = document.getElementById("btn-request-cancel");
-    const btnReorder = document.getElementById("btn-reorder");
-
-    // Danh sách thứ tự các bước trong timeline
-    const stepOrder = ["ordered", "confirmed", "shipped", "delivered"];
-
-    /** Cập nhật trạng thái đơn hàng (hiển thị + timeline) */
-    function updateOrderStatus(status) {
-        orderStatus.textContent = status;
-        orderStatus.style.color = "#222";
-
-        switch (status) {
-            case "Đã đặt":
-                setActiveStep("ordered");
-                break;
-            case "Đã xác nhận":
-                setActiveStep("confirmed");
-                break;
-            case "Đang giao":
-                setActiveStep("shipped");
-                break;
-            case "Đã giao":
-                setActiveStep("delivered");
-                break;
-            case "Đã hủy":
-                resetTimeline();
-                orderStatus.style.color = "#c00";
-                break;
-            default:
-                console.warn("Trạng thái không hợp lệ:", status);
-        }
-    }
-
-    /** Đặt các bước active trong timeline */
-    function setActiveStep(stepName) {
-        const currentIndex = stepOrder.indexOf(stepName);
-
-        timelineSteps.forEach((step, index) => {
-            // Sáng tất cả các bước từ đầu đến current
-            if (index <= currentIndex) {
-                step.classList.add("active");
-                step.style.opacity = "1";
-            } else {
-                step.classList.remove("active");
-                step.style.opacity = "0.5";
-            }
-        });
-    }
-
-    /** Làm mờ toàn bộ timeline khi hủy đơn */
-    function resetTimeline() {
-        timelineSteps.forEach(step => {
-            step.classList.remove("active");
-            step.style.opacity = "0.5";
-        });
-    }
+    const actionsContainer = document.querySelector(".actions");
 
     /** Xử lý khi người dùng yêu cầu hủy đơn */
     function handleCancelOrder() {
         const confirmCancel = confirm("Bạn có chắc muốn yêu cầu hủy đơn hàng này không?");
         if (!confirmCancel) return;
 
-        updateOrderStatus("Đã hủy");
+        // Cập nhật trạng thái hiển thị
+        const orderStatus = document.getElementById("order-status");
+        const paidText = document.getElementById("paid-text");
+
+        orderStatus.textContent = "Đã hủy";
+        orderStatus.style.color = "#c00";
+        paidText.textContent = "Đã hủy";
+
+        // Cập nhật nút hủy
         btnCancel.disabled = true;
         btnCancel.textContent = "Đã yêu cầu hủy";
+        btnCancel.classList.add("disabled-btn");
+
+        // Tạo nút "Mua lại"
+        const btnReorder = document.createElement("button");
+        btnReorder.textContent = "Mua lại";
+        btnReorder.className = "btn btn-ghost";
+        btnReorder.id = "btn-reorder";
+        btnReorder.addEventListener("click", handleReorder);
+
+        // Thêm nút vào giao diện, ngay sau nút hủy
+        actionsContainer.appendChild(btnReorder);
+
         alert("Yêu cầu hủy đơn hàng đã được gửi!");
     }
 
     /** Xử lý khi người dùng chọn Mua lại */
     function handleReorder() {
         alert("Các sản phẩm trong đơn hàng đã được thêm lại vào giỏ hàng!");
+        window.location.href = "cart.html";
     }
 
-    // ===== GẮN SỰ KIỆN =====
+    // Gắn sự kiện
     btnCancel?.addEventListener("click", handleCancelOrder);
-    btnReorder?.addEventListener("click", handleReorder);
-
-    updateOrderStatus("Đang giao");
 });

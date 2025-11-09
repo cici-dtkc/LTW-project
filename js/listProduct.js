@@ -125,7 +125,7 @@ const productList = document.getElementById("product-list");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 const spinner = document.getElementById("loadMoreSpinner");
 
-const pageSize = 6;
+const pageSize = 8;
 let currentIndex = 0;
 
 /**
