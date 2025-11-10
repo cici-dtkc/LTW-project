@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Dữ liệu giả định cho từng phiên bản
     const versionPrices = {
-        "12GB / 256GB": {
+        "12GB": {
             current: 8490000, old: 9990000
-        }, "8GB / 256GB": {
+        }, "8GB": {
             current: 7990000, old: 9490000
         }
     };
@@ -186,6 +186,19 @@ nextBtn.addEventListener('click', () => {
     showImage(currentIndex);
 });
 
+
+// Xử lý chọn sao
+const stars = document.querySelectorAll('.star');
+stars.forEach(star => {
+    star.addEventListener('click', () => {
+        stars.forEach(s => s.classList.remove('active'));
+        star.classList.add('active');
+        let val = star.getAttribute('data-value');
+        for (let i = 0; i < val; i++) {
+            stars[i].classList.add('active');
+        }
+    });
+});
 
 
 
