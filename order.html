@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đơn Mua - Cửa hàng điện thoại</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="assert/css/reset.css">
+  <link rel="stylesheet" href="assert/css/base.css">
+  <link rel="stylesheet" href="assert/css/accountSidebar.css">
+  <link rel="stylesheet" href="assert/css/order.css">
+
+
+
+</head>
+
+<body>
+<div id="pageWrapper">
+  <!-- SIDEBAR -->
+  <div id="accountSidebar">
+
+    <!-- USER INFO -->
+    <div id="userBox">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" id="userAvatar">
+
+      <div id="userInfo">
+        <span id="usernameDisplay">user1</span>
+        <a href="#" id="editProfileBtn">
+          <i class="fa-solid fa-pen"></i> Sửa Hồ Sơ
+        </a>
+      </div>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <ul id="menuList">
+
+      <!-- TÀI KHOẢN CỦA TÔI -->
+      <li class="menu-category">
+
+        <a href="#" id="menuAccountMain">
+          <i class="fa-solid fa-user"></i> Tài Khoản Của Tôi
+        </a>
+
+        <!-- ✅ submenu phải nằm trong LI -->
+        <ul id="accountSubmenu" class="submenu">
+
+          <li class="menu-item">
+            <a href="info-user.html" id="menuProfile">Hồ Sơ</a>
+          </li>
+
+          <li class="menu-item active">
+            <a href="#" id="menuBank">Ngân Hàng</a>
+          </li>
+
+          <li class="menu-item">
+            <a href="#" id="menuAddress">Địa Chỉ</a>
+          </li>
+
+          <li class="menu-item">
+            <a href="formChangePass.html" id="menuPassword">Đổi Mật Khẩu</a>
+          </li>
+        </ul>
+
+      </li>
+
+      <!-- ĐƠN MUA -->
+      <li class="menu-category">
+        <a href="#" id="menuOrders">
+          <i class="fa-solid fa-bag-shopping"></i> Đơn Mua
+        </a>
+      </li>
+
+      <!-- VOUCHER -->
+      <li class="menu-category">
+        <a href="voucherDetail.html" id="menuVoucher">
+          <i class="fa-solid fa-ticket"></i> Kho Voucher
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+  <!-- ================== MAIN CONTENT ================== -->
+  <div class="orders-section">
+    <h2>Đơn Mua Của Tôi</h2>
+
+    <!-- Thanh trạng thái -->
+    <div class="status-tabs">
+      <button class="tab active" data-status="all">Tất cả</button>
+      <button class="tab" data-status="shipping">Đang giao</button>
+      <button class="tab" data-status="delivered">Đã giao</button>
+      <button class="tab" data-status="cancelled">Đã hủy</button>
+    </div>
+
+    <!-- Danh sách đơn -->
+    <div class="orders-list">
+
+      <!-- Đơn 1 -->
+      <div class="order-card" data-status="shipping">
+        <div class="order-info">
+          <img src="" alt="iPhone 15">
+          <div class="order-detail">
+            <h3>iPhone 15 Pro Max 256GB</h3>
+            <p>Số lượng: 1</p>
+            <p>Giá: <span class="price">34.990.000đ</span></p>
+          </div>
+        </div>
+        <div class="order-footer">
+          <p class="total">Tổng cộng: <span class="total-price">0đ</span></p>
+          <div class="order-status">
+            <span class="status shipping"><i class="fa-solid fa-truck"></i> Đang giao</span>
+            <div class="actions">
+              <button class="btn repurchase">Hủy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Đơn 2 (nhiều sản phẩm) -->
+      <div class="order-card" data-status="delivered">
+        <div class="order-items">
+          <div class="order-info">
+            <img src="" alt="Samsung S23 Ultra">
+            <div class="order-detail">
+              <h3>Samsung Galaxy S23 Ultra</h3>
+              <p>Số lượng: 1</p>
+              <p>Giá: <span class="price">28.490.000đ</span></p>
+            </div>
+          </div>
+
+          <div class="order-info">
+            <img src="" alt="Samsung S25 Ultra">
+            <div class="order-detail">
+              <h3>Samsung Galaxy S25 Ultra</h3>
+              <p>Số lượng: 1</p>
+              <p>Giá: <span class="price">47.490.000đ</span></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-footer">
+          <p class="total">Tổng cộng: <span class="total-price">0đ</span></p>
+          <div class="order-status">
+            <span class="status delivered"><i class="fa-solid fa-box"></i> Đã giao</span>
+            <div class="actions">
+              <button class="btn repurchase">Mua lại</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Đơn 3 -->
+      <div class="order-card" data-status="cancelled">
+        <div class="order-info">
+          <img src="" alt="Redmi 12">
+          <div class="order-detail">
+            <h3>Redmi Note 12</h3>
+            <p>Số lượng: 2</p>
+            <p>Giá: <span class="price">6.990.000đ</span></p>
+          </div>
+        </div>
+        <div class="order-footer">
+          <p class="total">Tổng cộng: <span class="total-price">0đ</span></p>
+          <div class="order-status">
+            <span class="status cancelled"><i class="fa-solid fa-xmark"></i> Đã hủy</span>
+            <div class="actions">
+              <button class="btn repurchase">Mua lại</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/order.js"></script>
+
+
+</body>
+</html>
