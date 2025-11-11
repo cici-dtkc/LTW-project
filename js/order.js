@@ -20,7 +20,6 @@ tabs.forEach(tab => {
   });
 });
 
-
 // ===========================
 // TÍNH TỔNG TIỀN MỖI ĐƠN
 // ===========================
@@ -29,46 +28,43 @@ orders.forEach(order => {
   let total = 0;
 
   priceEls.forEach(p => {
-    // Lấy giá trị số (bỏ ký tự đ, .)
     const priceText = p.textContent.replace(/[^\d]/g, '');
     const quantityText = p.parentElement.textContent.match(/Số lượng:\s*(\d+)/);
     const quantity = quantityText ? parseInt(quantityText[1]) : 1;
     total += parseInt(priceText) * quantity;
   });
 
-  // Định dạng lại tiền
   const formattedTotal = total.toLocaleString('vi-VN') + 'đ';
   const totalEl = order.querySelector('.total-price');
   if (totalEl) totalEl.textContent = formattedTotal;
 });
 
+// ===========================
+// NÚT HỦY & MUA LẠI
+// ===========================
+document.querySelectorAll('.order-card').forEach(order => {
+  const btn = order.querySelector('.btn');
 
-// ===========================
-// NÚT MUA LẠI
-// ===========================
-document.querySelectorAll('.btn.repurchase').forEach(btn => {
   btn.addEventListener('click', () => {
-    window.location.href = 'payment.html';
-  });
-});
+    const statusEl = order.querySelector('.status');
 
-
-// ===========================
-// NÚT HỦY ĐƠN
-// ===========================
-document.querySelectorAll('.btn.cancel').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const confirmCancel = confirm("Bạn có chắc muốn hủy đơn này?");
-    if (confirmCancel) {
-      const order = btn.closest('.order-card');
-      order.dataset.status = 'cancelled';
-      order.querySelector('.status').className = 'status cancelled';
-      order.querySelector('.status').innerHTML = '<i class="fa-solid fa-xmark"></i> Đã hủy';
-      alert("Đơn hàng đã được hủy!");
+    // Nếu đơn đang giao → hủy
+    if (order.dataset.status === 'shipping') {
+      const confirmCancel = confirm("Bạn có chắc muốn hủy đơn này?");
+      if (confirmCancel) {
+        order.dataset.status = 'cancelled';
+        statusEl.className = 'status cancelled';
+        statusEl.innerHTML = '<i class="fa-solid fa-xmark"></i> Đã hủy';
+        btn.textContent = 'Mua lại';
+        alert("Đơn hàng đã được hủy!");
+      }
+    }
+    // Nếu đơn đã giao hoặc đã hủy → mua lại
+    else if (order.dataset.status === 'cancelled' || order.dataset.status === 'delivered') {
+      window.location.href = 'payment.html';
     }
   });
 });
-
 
 // ===========================
 // SIDEBAR submenu toggle
@@ -78,7 +74,6 @@ const accountSubmenu = document.getElementById("accountSubmenu");
 
 if (menuAccountMain && accountSubmenu) {
   accountSubmenu.classList.add("open");
-
   menuAccountMain.addEventListener("click", (e) => {
     e.preventDefault();
     accountSubmenu.classList.toggle("open");
