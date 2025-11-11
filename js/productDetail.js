@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Dữ liệu giả định cho từng phiên bản
     const versionPrices = {
-        "12GB": {
+        "256GB": {
             current: 8490000, old: 9990000
-        }, "8GB": {
+        }, "128GB": {
             current: 7990000, old: 9490000
         }
     };

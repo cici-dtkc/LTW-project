@@ -251,6 +251,20 @@
     gap: 10px;
     justify-content: center;
     margin-bottom: 15px;
+    position: relative;
+}
+.box-main .product-info-right .product-info .price-box  .soldout-label {
+    position: absolute;
+    top: -44px;
+    right: 0;
+    background: #d9534f;
+    color: #fff;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 0 4px 0 4px;
+    font-size: 13px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 .box-main .product-info-right .product-info .price-content {
     display: flex;
@@ -565,7 +579,7 @@
     background: #d0021b;
     color: #fff;
     border: none;
-    padding: 12px 0;
+    padding: 12px 50px;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
@@ -576,7 +590,7 @@
     background: #2d85f3;
     color: #fff;
     border: none;
-    padding: 12px 0;
+    padding: 12px 20px;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;

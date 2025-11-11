@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             e.preventDefault();
             count++;
             cartCount.textContent = count;
+            window.location.href = "cart.html";
         });
     });
 });
