@@ -117,30 +117,7 @@
 .content #pages .kpi-grid {
     margin-top: 12px;
 }
- /*bảng sản phẩm mới*/
-.content #pages .recent-orders{
-    margin-top: 12px;
-    background: #d3dcd1;
-    width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
-}
-.content #pages .table-reset {
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-    margin-top: 10px;
-}
-.content #pages .table-reset th,
-.content #pages .table-reset td {
-    padding: 10px;
-    text-align: left;
-    border: 1px solid #ccc;
-}
-.content #pages .table-head {
-    background: #becba2;
-}
+
 
 /* users list / avatars */
 .content #pages .users-list {
