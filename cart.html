@@ -10,67 +10,82 @@
 <body>
 <div class="cart-wrap">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-8">
-                <button id="addProduct" class="round-black-btn">Thêm sản phẩm</button>
-                <div class="table-cart">
-                    <table>
-                        <thead id="cart-header">
-                        <tr>
-                            <th><input type="checkbox" id="selectAll"></th>
-                            <th>Sản Phẩm</th>
-                            <th>Số Lượng</th>
-                            <th>Thành Tiền</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody id="cart-body">
-                        <tr id="empty-row">
-                            <td colspan="4" class="empty-cart">
-                                <h3> Không có sản phẩm nào được thêm vào giỏ hàng </h3>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!--            PHAN TONG TIEN-->
-            <div class="col-lg-4">
-                <div class="beta">
-                    <div class="coupon-box">
-                        <form action="#" method="get" accept-charset="utf-8">
-                            <div class="coupon-input">
-                                <input type="text" name="coupon" placeholder="Mã Khuyến Mãi">
-                                <button type="submit" class="round-black-btn">Áp Dụng</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="cart-totals">
-                        <form action="#" method="get" accept-charset="utf-8">
-                            <table>
-                                <tbody>
-                                <tr>
-                                    <td>Tạm Tính:</td>
-                                    <td class="subtotal" id="sub-total"></td>
-                                </tr>
-                                <tr>
-                                    <td>Giảm Giá</td>
-                                    <td class="discount" id="discount"></td>
-                                </tr>
-                                <tr class="total-row">
-                                    <td>Tổng Tiền:</td>
-                                    <td class="price-total" id="price-total"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <div class="btn-cart-totals">
-                                <a href="checkout.html" class="update round-black-btn" title="">Thanh Toán</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+        <h2 class="cart-title">Giỏ Hàng Của Bạn</h2>
+
+        <div class="table-cart">
+            <table>
+                <thead id="cart-header">
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Sản Phẩm</th>
+                    <th>Số Lượng</th>
+                    <th>Thành Tiền</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="cart-body">
+                <!-- Sản phẩm 1 -->
+                <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td class="product-info">
+                        <img src="assert/img/product/iphone_17_pro_max.png" alt="iphone_17_pro_max">
+                        <span class="product-name">iPhone 17 Pro Max</span>
+                    </td>
+                    <td>
+                        <div class="qty-control">
+                            <button class="minus">-</button>
+                            <span class="quantity">1</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </td>
+                    <td class="price" data-base="63990000">63.990.000₫</td>
+                    <td><button class="delete">Xóa</button></td>
+                </tr>
+                <!-- Sản phẩm 2 -->
+                <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td class="product-info">
+                        <img src="assert/img/product/iphone15.jpg" alt="iPhone 15 Pro Max">
+                        <span class="product-name">iPhone 15 Pro Max 256GB</span>
+                    </td>
+                    <td>
+                        <div class="qty-control">
+                            <button class="minus">-</button>
+                            <span class="quantity">1</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </td>
+                    <td class="price" data-base="8490000">8.490.000₫</td>
+                    <td><button class="delete">Xóa</button></td>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" class="select-item"></td>
+                    <td class="product-info">
+                        <img src="assert/img/product/iphone15.jpg" alt="iPhone 15 Pro Max">
+                        <span class="product-name">iPhone 15 Pro Max 256GB</span>
+                    </td>
+                    <td>
+                        <div class="qty-control">
+                            <button class="minus">-</button>
+                            <span class="quantity">1</span>
+                            <button class="plus">+</button>
+                        </div>
+                    </td>
+                    <td class="price" data-base="8490000">8.490.000₫</td>
+                    <td><button class="delete">Xóa</button></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
+
+<!-- PHẦN THANH TOÁN  -->
+<div class="sticky-summary-bottom">
+    <div class="summary-box">
+        <span class="summary-item">Tạm tính: <span id="sub-total" class="subtotal"></span></span>
+        <a href="checkout.html"><button class="checkout-btn">Thanh Toán</button></a>
     </div>
 </div>
 <script src="js/cart.js"></script>

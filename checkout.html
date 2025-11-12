@@ -7,20 +7,29 @@
     <title>Thanh toán</title>
     <link rel="stylesheet" href="assert/css/checkout.css">
     <link rel="stylesheet" href="assert/css/cart.css">
-
+    <link rel="stylesheet" href="assert/css/voucherDetail.css">
+    <link rel="stylesheet" href="assert/css/base.css">
 </head>
 <body>
 
 <main>
     <!-- ĐỊA CHỈ NHẬN HÀNG -->
     <section class="address">
-        <i class="fa-solid fa-location-dot"></i><span class="title">Địa Chỉ Nhận Hàng </span>
-        <p><strong>Huỳnh Đức</strong> <span>(+84) 902 275 080</span></p>
+        <i class="fa-solid fa-location-dot"></i>
+        <span class="title">Địa Chỉ Nhận Hàng </span>
+
         <p>
+            <strong id="receiver-name">Huỳnh Đức</strong>
+            <span id="receiver-phone">(+84) 902 275 080</span>
+        </p>
+
+        <p id="receiver-address">
             Sau Ủy Ban Khánh Bình, Xã Khánh Bình, Huyện An Phú, An Giang
             <span class="default">Mặc định</span>
-            <a href="#">Thay đổi</a>
+            <a href="#" id="changeAddressBtn">Thay đổi</a>
         </p>
+
+        <div class="address-list hidden" id="addressList"></div>
     </section>
 
     <!-- DANH SÁCH SẢN PHẨM -->
@@ -55,17 +64,115 @@
     </section>
 
     <!-- MÃ GIẢM GIÁ -->
-    <section class="voucher">
-        <h3 class="title">Mã Khuyến Mãi</h3>
-        <div class="coupon-box" style="box-shadow:none ; width: 500px ;margin: 0">
-            <form action="#" method="get" accept-charset="utf-8">
-                <div class="coupon-input"  >
-                    <input type="text" name="coupon" placeholder="Mã Khuyến Mãi">
-                    <button type="submit" class="round-black-btn">Áp Dụng</button>
+    <section class="voucher-section">
+        <h3 class ="title">Voucher Ưu Đãi</h3>
+
+        <div class="voucher-wrapper">
+            <button class="nav-btn nav-prev" id="prevBtn">&#10094;</button>
+
+            <div class="voucher-scroll" id="voucherScroll">
+                <div class="voucher-container">
+                    <!-- Voucher 1 -->
+                    <div class="voucher">
+                        <div class="voucher-left">
+                            <div class="icon"><img src="assert/img/logo.png" alt="logo"></div>
+                        </div>
+                        <div class="voucher-right">
+                            <div>
+                                <h3>Giảm 20%</h3>
+                                <p>Giảm tối đa 100kđ</p>
+                                <p>Đơn tối thiểu 70kđ</p>
+                            </div>
+                            <div>
+                                <button>Áp dụng</button>
+                                <a href="#">Điều kiện</a>
+                            </div>
+                        </div>
+                        <div class="badge">x5</div>
+                    </div>
+
+                    <!-- Voucher 2 -->
+                    <div class="voucher">
+                        <div class="voucher-left">
+                            <div class="icon"><img src="assert/img/logo.png" alt="logo"></div>
+                        </div>
+                        <div class="voucher-right">
+                            <div>
+                                <h3>Giảm 25%</h3>
+                                <p>Giảm tối đa 150kđ</p>
+                                <p>Đơn tối thiểu 100kđ</p>
+                            </div>
+                            <div>
+                                <button>Áp dụng</button>
+                                <a href="#">Điều kiện</a>
+                            </div>
+                        </div>
+                        <div class="badge">x3</div>
+                    </div>
+
+                    <!-- Voucher 3 -->
+                    <div class="voucher">
+                        <div class="voucher-left">
+                            <div class="icon"><img src="assert/img/logo.png" alt="logo"></div>
+                        </div>
+                        <div class="voucher-right">
+                            <div>
+                                <h3>Giảm 30%</h3>
+                                <p>Giảm tối đa 200kđ</p>
+                                <p>Đơn tối thiểu 150kđ</p>
+                            </div>
+                            <div>
+                                <button>Áp dụng</button>
+                                <a href="#">Điều kiện</a>
+                            </div>
+                        </div>
+                        <div class="badge">x5</div>
+                    </div>
+
+                    <!-- Voucher 4 -->
+                    <div class="voucher">
+                        <div class="voucher-left">
+                            <div class="icon"><img src="assert/img/logo.png" alt="logo"></div>
+                        </div>
+                        <div class="voucher-right">
+                            <div>
+                                <h3>Giảm 10%</h3>
+                                <p>Giảm tối đa 50kđ</p>
+                                <p>Đơn tối thiểu 50kđ</p>
+                            </div>
+                            <div>
+                                <button>Áp dụng</button>
+                                <a href="#">Điều kiện</a>
+                            </div>
+                        </div>
+                        <div class="badge">x10</div>
+                    </div>
+
+                    <!-- Voucher 5 -->
+                    <div class="voucher">
+                        <div class="voucher-left">
+                            <div class="icon"><img src="assert/img/logo.png" alt="logo"></div>
+                        </div>
+                        <div class="voucher-right">
+                            <div>
+                                <h3>Giảm 15%</h3>
+                                <p>Giảm tối đa 80kđ</p>
+                                <p>Đơn tối thiểu 80kđ</p>
+                            </div>
+                            <div>
+                                <button>Áp dụng</button>
+                                <a href="#">Điều kiện</a>
+                            </div>
+                        </div>
+                        <div class="badge">x2</div>
+                    </div>
                 </div>
-            </form>
+            </div>
+
+            <button class="nav-btn nav-next" id="nextBtn">&#10095;</button>
         </div>
     </section>
+
 
     <!-- PHƯƠNG THỨC THANH TOÁN -->
     <section class ="payment">
@@ -98,17 +205,19 @@
     <!-- TỔNG TIỀN -->
     <section class="summary">
         <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
-        <p>Tạm tính: <strong>1.290.000₫</strong></p>
-        <p>Phí vận chuyển: <strong>25.000₫</strong></p>
-        <p>Giảm giá: <strong>0₫</strong></p>
-        <p class="total">Tổng cộng: <strong>1.315.000₫</strong></p>
-        <div class="action">
-            <button type="submit" class = "round-black-btn" style="width: 150px" >Đặt hàng</button>
+        <p>Tạm tính: <strong id="subtotal">1.290.000₫</strong></p>
+        <p>Phí vận chuyển: <strong id="shipping">25.000₫</strong></p>
+        <p>Giảm giá: <strong id="discount">0₫</strong></p>
+        <p class="total">Tổng cộng: <strong id="grandTotal">1.315.000₫</strong></p>
+        <a href="order_detail.html">
+            <div class="action">
+            <button type="submit" class="round-black-btn" style="width: 150px;">Đặt hàng</button>
         </div>
+        </a>
     </section>
 
-    <!-- NÚT ĐẶT HÀNG -->
 
 </main>
+<script src="js/checkout.js"></script>
 </body>
 </html>
