@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Sản Phẩm</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/header.css">
+    <link rel="stylesheet" href="assert/css/listproduct.css">
+
+
+</head>
+<body>
+<main class="product-page">
+    <!-- Thanh lọc & sắp xếp -->
+    <div class="product-filter-bar">
+        <!-- Hàng 1: Bộ lọc + thương hiệu -->
+        <div class="filter-top">
+            <div class="filter-btn">
+                <i class="fa-solid fa-filter"></i>
+                <span>Bộ lọc</span>
+            </div>
+
+            <div class="brand-list">
+                <div class="brand"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
+                <div class="brand"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
+                <div class="brand"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
+                <div class="brand"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
+            </div>
+        </div>
+
+        <!-- Hàng 2: Các nút lọc -->
+        <div class="filter-options">
+            <div class="filter-item" data-filter="gia">Giá </div>
+            <div class="filter-item" data-filter="bonho">Bộ nhớ </div>
+            <div class="filter-item" data-filter="mausac">Màu sắc </div>
+            <div class="filter-item" data-filter="namramat">Năm ra mắt </div>
+        </div>
+
+        <!-- Menu phụ cho từng bộ lọc -->
+        <div class="dropdown" id="gia">
+            <h4 style="margin-top: 0">Hãy chọn mức giá phù hợp với bạn</h4>
+            <div class="price-input">
+                <input type="number" placeholder="Từ">
+                <span>-</span>
+                <input type="number" placeholder="Đến">
+            </div>
+            <div class="dropdown-actions">
+                <button class="btn-close">Đóng</button>
+                <button class="btn-apply">Xem kết quả</button>
+            </div>
+        </div>
+
+        <div class="dropdown" id="bonho">
+            <div class="option-group">
+                <button>64GB</button>
+                <button>128GB</button>
+                <button>256GB</button>
+                <button>512GB</button>
+            </div>
+            <div class="dropdown-actions">
+                <button class="btn-close">Đóng</button>
+                <button class="btn-apply">Xem kết quả</button>
+            </div>
+        </div>
+
+        <div class="dropdown" id="mausac">
+            <div class="option-group">
+                <button>Đen</button>
+                <button>Trắng</button>
+                <button>Xanh</button>
+                <button>Hồng</button>
+                <button>Bạc</button>
+            </div>
+            <div class="dropdown-actions">
+                <button class="btn-close">Đóng</button>
+                <button class="btn-apply">Xem kết quả</button>
+            </div>
+        </div>
+
+        <div class="dropdown" id="namramat">
+            <div class="option-group">
+                <button>2021</button>
+                <button>2022</button>
+                <button>2023</button>
+                <button>2024</button>
+                <button>2025</button>
+            </div>
+            <div class="dropdown-actions">
+                <button class="btn-close">Đóng</button>
+                <button class="btn-apply">Xem kết quả</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phần sắp xếp -->
+    <div class="sort-section">
+        <span>Sắp xếp theo:</span>
+        <ul id="sortList">
+            <li class="active">Nổi bật</li>
+            <li>Bán chạy</li>
+            <li>Giảm giá</li>
+            <li>Mới</li>
+            <li>Giá <i class="arrow"></i></li>
+        </ul>
+    </div>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <div id="product-list" class="product-list">
+        <div class="product-card" >
+            <div class="product-img">
+                <img src="assert/img/product/iphone_17_pro_max.png" alt="iPhone 17 Pro Max">
+                <span class="discount-badge">-12%</span>
+            </div>
+
+            <div class="product-info">
+                <h2>iPhone 17 Pro Max 2TB</h2>
+
+                <div class="price-wrap">
+                    <span class="price-new">63.990.000₫</span>
+                    <span class="price-old">72.790.000₫</span>
+                </div>
+
+                <div class="capacity">
+                    <button class="active">256 GB</button>
+                    <button>512 GB</button>
+                    <button>1 TB</button>
+                    <button>2 TB</button>
+                </div>
+
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 1.2k</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" >
+            <div class="product-img">
+                <img src="assert/img/product/iphone14.jpg" alt="iPhone 14x">
+                <span class="discount-badge">-10%</span>
+            </div>
+
+            <div class="product-info">
+                <h2>iPhone 14 128GB</h2>
+
+                <div class="price-wrap">
+                    <span class="price-new">15.990.000₫</span>
+                    <span class="price-old">17.990.000₫</span>
+                </div>
+
+                <div class="capacity">
+                    <button class="active">256 GB</button>
+                    <button>512 GB</button>
+                    <button>1 TB</button>
+                    <button>2 TB</button>
+                </div>
+
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 1.2k</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- nút xem thêm -->
+    <div class="load-more-wrap">
+        <button id="loadMoreBtn" class="btn">Xem thêm</button>
+        <span id="loadMoreSpinner" class="spinner" style="display:none">Đang tải...</span>
+    </div>
+</main>
+<script src="js/listProduct.js"></script>
+<script src="js/header.js"></script>
+</body>
+</html>
