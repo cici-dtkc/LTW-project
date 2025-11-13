@@ -23,36 +23,49 @@
   <!-- ===== FORM ĐIỆN THOẠI ===== -->
   <form id="phoneForm" style="display:none;" enctype="multipart/form-data">
     <h3>Thông tin điện thoại</h3>
-    <input type="text" name="name" placeholder="Tên điện thoại" required title="Tên sản phẩm hiển thị trong danh sách và chi tiết sản phẩm">
+    <input type="text" name="name" placeholder="Tên điện thoại" required>
+    <span class="hint">Tên sản phẩm hiển thị trong danh sách và chi tiết sản phẩm</span>
 
     <!-- Brand điện thoại -->
-    <select name="brand_id" required title="Chọn hãng sản xuất điện thoại">
+    <select name="brand_id" required>
       <option value="">Chọn hãng</option>
       <option value="1">Apple</option>
       <option value="2">Samsung</option>
       <option value="3">Xiaomi</option>
     </select>
+    <span class="hint">Chọn hãng sản xuất điện thoại</span>
 
-    <textarea name="description" placeholder="Mô tả sản phẩm" title="Mô tả chi tiết sản phẩm, ví dụ: cấu hình, tính năng nổi bật"></textarea>
-    <input type="date" name="release_date" title="Ngày phát hành sản phẩm">
-    <input type="number" name="warranty_period" placeholder="Bảo hành (tháng)" title="Thời gian bảo hành tính theo tháng">
-    <input type="number" name="discount_percentage" placeholder="Giảm giá (%)" min="0" max="100" title="Nhập giá trị giảm giá từ 0 đến 100">
+    <textarea name="description" placeholder="Mô tả sản phẩm"></textarea>
+    <span class="hint">Mô tả chi tiết sản phẩm, ví dụ: cấu hình, tính năng nổi bật</span>
 
-    <label title="Ảnh chính hiển thị trên danh sách sản phẩm">Ảnh chính:</label>
+    <input type="date" name="release_date">
+    <span class="hint">Ngày phát hành sản phẩm</span>
+
+    <input type="number" name="warranty_period" placeholder="Bảo hành (tháng)">
+    <span class="hint">Thời gian bảo hành tính theo tháng</span>
+
+    <input type="number" name="discount_percentage" placeholder="Giảm giá (%)" min="0" max="100">
+    <span class="hint">Nhập giá trị giảm giá từ 0 đến 100</span>
+
+    <label>Ảnh chính:</label>
     <input type="file" name="main_image" accept="image/*" required>
+    <span class="hint">Ảnh chính hiển thị trên danh sách sản phẩm</span>
 
-    <label title="Các ảnh bổ sung hiển thị trong chi tiết sản phẩm">Ảnh bổ sung:</label>
+    <label>Ảnh bổ sung:</label>
     <input type="file" name="images[]" multiple>
+    <span class="hint">Các ảnh bổ sung hiển thị trong chi tiết sản phẩm</span>
 
     <!-- Tech Specs -->
     <h4>Thông số kỹ thuật</h4>
     <div id="phoneAttributesContainer"></div>
-    <button type="button" id="addPhoneAttribute" title="Thêm thông số kỹ thuật như RAM, pin, kích thước">+ Thêm thông số</button>
+    <button type="button" id="addPhoneAttribute">+ Thêm thông số</button>
+    <span class="hint">Thêm thông số kỹ thuật như RAM, pin, kích thước</span>
 
     <!-- Variants -->
     <h4>Phiên bản</h4>
     <div id="phoneVariantsContainer"></div>
-    <button type="button" id="addPhoneVariant" title="Thêm phiên bản khác nhau, ví dụ màu sắc hoặc dung lượng với giá và số lượng riêng">+ Thêm phiên bản</button>
+    <button type="button" id="addPhoneVariant">+ Thêm phiên bản</button>
+    <span class="hint">Thêm phiên bản khác nhau, ví dụ màu sắc hoặc dung lượng với giá và số lượng riêng</span>
 
     <br><br>
     <button type="submit">Lưu điện thoại</button>
@@ -61,41 +74,54 @@
   <!-- ===== FORM LINH KIỆN ===== -->
   <form id="partForm" style="display:none;" enctype="multipart/form-data">
     <h3>Thông tin linh kiện</h3>
-    <input type="text" name="name" placeholder="Tên linh kiện" required title="Tên sản phẩm hiển thị trong danh sách và chi tiết sản phẩm">
+    <input type="text" name="name" placeholder="Tên linh kiện" required>
+    <span class="hint">Tên sản phẩm hiển thị trong danh sách và chi tiết sản phẩm</span>
 
     <!-- Brand linh kiện -->
-    <select name="brand_id" required title="Chọn hãng sản xuất linh kiện">
+    <select name="brand_id" required>
       <option value="">Chọn hãng</option>
       <option value="4">Anker</option>
       <option value="5">Energizer</option>
     </select>
+    <span class="hint">Chọn hãng sản xuất linh kiện</span>
 
     <!-- Danh mục phụ -->
-    <select name="subcategory_id" required title="Chọn loại linh kiện, ví dụ Pin, Cáp, Ốp lưng">
+    <select name="subcategory_id" required>
       <option value="">Chọn danh mục phụ</option>
       <option value="3">Pin</option>
       <option value="4">Cáp</option>
       <option value="5">Ốp lưng</option>
     </select>
+    <span class="hint">Chọn loại linh kiện, ví dụ Pin, Cáp, Ốp lưng</span>
 
-    <textarea name="description" placeholder="Mô tả linh kiện" title="Mô tả chi tiết sản phẩm, ví dụ: công suất, kích thước, chất liệu"></textarea>
-    <input type="number" name="warranty_period" placeholder="Bảo hành (tháng)" title="Thời gian bảo hành tính theo tháng">
-    <input type="number" name="discount_percentage" placeholder="Giảm giá (%)" min="0" max="100" title="Nhập giá trị giảm giá từ 0 đến 100">
+    <textarea name="description" placeholder="Mô tả linh kiện"></textarea>
+    <span class="hint">Mô tả chi tiết sản phẩm, ví dụ: công suất, kích thước, chất liệu</span>
 
-    <label title="Ảnh chính hiển thị trên danh sách sản phẩm">Ảnh chính:</label>
+    <input type="number" name="warranty_period" placeholder="Bảo hành (tháng)">
+    <span class="hint">Thời gian bảo hành tính theo tháng</span>
+
+    <input type="number" name="discount_percentage" placeholder="Giảm giá (%)" min="0" max="100">
+    <span class="hint">Nhập giá trị giảm giá từ 0 đến 100</span>
+
+    <label>Ảnh chính:</label>
     <input type="file" name="main_image" accept="image/*" required>
-    <label title="Các ảnh bổ sung hiển thị trong chi tiết sản phẩm">Ảnh bổ sung:</label>
+    <span class="hint">Ảnh chính hiển thị trên danh sách sản phẩm</span>
+
+    <label>Ảnh bổ sung:</label>
     <input type="file" name="images[]" multiple>
+    <span class="hint">Các ảnh bổ sung hiển thị trong chi tiết sản phẩm</span>
 
     <!-- Tech Specs -->
     <h4>Thông số kỹ thuật</h4>
     <div id="partAttributesContainer"></div>
-    <button type="button" id="addPartAttribute" title="Thêm thông số kỹ thuật như dung lượng pin, chuẩn kết nối">+ Thêm thông số</button>
+    <button type="button" id="addPartAttribute">+ Thêm thông số</button>
+    <span class="hint">Thêm thông số kỹ thuật như dung lượng pin, chuẩn kết nối</span>
 
     <!-- Variants -->
     <h4>Phiên bản</h4>
     <div id="partVariantsContainer"></div>
-    <button type="button" id="addPartVariant" title="Thêm phiên bản khác nhau, ví dụ màu sắc hoặc dung lượng với giá và số lượng riêng">+ Thêm phiên bản</button>
+    <button type="button" id="addPartVariant">+ Thêm phiên bản</button>
+    <span class="hint">Thêm phiên bản khác nhau, ví dụ màu sắc hoặc dung lượng với giá và số lượng riêng</span>
 
     <br><br>
     <button type="submit">Lưu linh kiện</button>
@@ -105,20 +131,31 @@
 <!-- ===== TEMPLATES ===== -->
 <template id="variantTemplate">
   <div class="variant">
-    <input type="text" name="variant_name[]" placeholder="Tên phiên bản" required title="Tên phiên bản như màu sắc, dung lượng...">
-    <input type="number" name="variant_price[]" placeholder="Giá" required title="Giá của phiên bản này">
-    <input type="number" name="variant_quantity[]" placeholder="Số lượng" required title="Số lượng tồn kho của phiên bản này">
+    <input type="text" name="variant_name[]" placeholder="Tên phiên bản" required>
+    <span class="hint">Tên phiên bản như màu sắc, dung lượng...</span>
+
+    <input type="number" name="variant_price[]" placeholder="Giá" required>
+    <span class="hint">Giá của phiên bản này</span>
+
+    <input type="number" name="variant_quantity[]" placeholder="Số lượng" required>
+    <span class="hint">Số lượng tồn kho của phiên bản này</span>
+
     <button type="button" class="removeBtn">Xóa</button>
   </div>
 </template>
 
 <template id="attributeTemplate">
   <div class="attributeRow">
-    <input type="text" name="tech_name[]" placeholder="Tên thông số" required title="Tên thông số kỹ thuật, ví dụ RAM, Pin, Kích thước">
-    <input type="text" name="tech_value[]" placeholder="Giá trị" required title="Giá trị thông số, ví dụ 4GB, 5000mAh">
+    <input type="text" name="tech_name[]" placeholder="Tên thông số" required>
+    <span class="hint">Tên thông số kỹ thuật, ví dụ RAM, Pin, Kích thước</span>
+
+    <input type="text" name="tech_value[]" placeholder="Giá trị" required>
+    <span class="hint">Giá trị thông số, ví dụ 4GB, 5000mAh</span>
+
     <button type="button" class="removeBtn">Xóa</button>
   </div>
 </template>
+
 
 
 <script src="../js/addProductAdmin.js"></script>
