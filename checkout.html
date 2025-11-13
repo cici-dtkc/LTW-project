@@ -11,7 +11,69 @@
     <link rel="stylesheet" href="assert/css/base.css">
 </head>
 <body>
+<header id="header">
+    <div class="container">
+        <div class="inner-wrap">
+            <div class="logo" id="logo">
+                <a href="#"><img src="./assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+            </div>
+            <nav class="menu" id="menu">
+                <ul>
+                    <li><a href="#" id="nav-home">Trang chủ</a></li>
+                    <li><a href="#" id="nav-phone">Điện thoại</a></li>
+                    <li class="has-mega" id="nav-accessory-item">
+                        <a href="#" id="nav-accessory">Phụ kiện <i class="fa-solid fa-chevron-down" style="font-size:12px; margin-left:6px;"></i></a>
+                        <div class="mega-menu" id="mega-accessory">
+                            <div class="mega-inner">
+                                <div class="mega-col">
+                                    <h4>Phụ kiện di động</h4>
+                                    <a href="#">Sạc dự phòng</a>
+                                    <a href="#">Sạc, cáp</a>
+                                    <a href="#">Ốp lưng điện thoại</a>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>&nbsp;</h4>
+                                    <a href="#">Miếng dán màn hình</a>
+                                    <a href="#">Kính cường lực</a>
+                                    <a href="#">Giá đỡ điện thoại</a>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>&nbsp;</h4>
+                                    <a href="#">Thẻ nhớ</a>
+                                    <a href="#">Tai nghe Bluetooth</a>
+                                    <a href="#">Tai nghe có dây</a>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>&nbsp;</h4>
+                                    <a href="#">Dây đeo đồng hồ</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#footer" id="nav-contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+            <div class="box" id="icon-box">
+                <ul>
+                    <li class="search-item">
+                        <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                        <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                    </li>
+                    <li class="cart-item">
+                        <a href="#" id="btn-cart">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="cart-badge" id="cart-badge"></span>
+                        </a>
+                    </li>
+                    <li id="user-area" class="user-area">
+                        <a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a>
 
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 <main>
     <!-- ĐỊA CHỈ NHẬN HÀNG -->
     <section class="address">
@@ -193,11 +255,7 @@
                 <input type="radio" name="payment" value="bank">
                 Chuyển khoản ngân hàng
             </label><br>
-
-            <label>
-                <input type="radio" name="payment" value="credit">
-                Thẻ tín dụng / Ghi nợ
-            </label>
+            
         </form>
     </section>
 
