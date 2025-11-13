@@ -22,13 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // --- Kiểm tra thông tin rỗng ---
         if (!usernameVal || !passwordVal || !emailVal) {
-            showAlert("Vui lòng nhập đầy đủ thông tin!", "error");
+            alert("Vui lòng nhập đầy đủ thông tin!", "error");
             return;
         }
 
         // --- Kiểm tra mật khẩu khớp ---
         if (passwordVal !== confirmVal) {
-            showAlert("Mật khẩu và xác nhận mật khẩu không khớp!", "error");
+            alert("Mật khẩu và xác nhận mật khẩu không khớp!", "error");
             return;
         }
         // Regex kiểm tra email hợp lệ
@@ -44,13 +44,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // --- Kiểm tra trùng username ---
         if (users.some(u => u.username === usernameVal)) {
-            showAlert("Tên đăng nhập đã tồn tại!", "error");
+            alert("Tên đăng nhập đã tồn tại!", "error");
             return;
         }
 
         // --- Kiểm tra trùng email ---
         if (users.some(u => u.email === emailVal)) {
-            showAlert("Email này đã được sử dụng!", "error");
+            alert("Email này đã được sử dụng!", "error");
             return;
         }
 
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("users", JSON.stringify(users));
 
         // --- Hiển thị thông báo và chuyển hướng ---
-        showAlert("Đăng ký thành công! Đang chuyển hướng đến trang trang chủ...", "success");
+        alert("Đăng ký thành công! Đang chuyển hướng đến trang trang chủ...", "success");
 
         // Xóa form và chuyển hướng sau 1.5s
         setTimeout(() => {
@@ -74,42 +74,4 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "login.html";
         }, 1500);
     });
-
-    // --- Hàm hiển thị thông báo ---
-    function showAlert(message, type = "error") {
-        // Xóa thông báo cũ (nếu có)
-        const oldAlert = document.querySelector(".alert");
-        if (oldAlert) oldAlert.remove();
-
-        const alert = document.createElement("div");
-        alert.textContent = message;
-        alert.className = `alert ${type}`;
-
-        Object.assign(alert.style, {
-            position: "fixed",
-            top: "20px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            padding: "12px 20px",
-            borderRadius: "6px",
-            backgroundColor: type === "success" ? "#28a745" : "#dc3545",
-            color: "#fff",
-            zIndex: "9999",
-            fontSize: "15px",
-            boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-            opacity: "0",
-            transition: "opacity 0.5s ease",
-        });
-
-        document.body.appendChild(alert);
-
-        // Hiện mượt
-        setTimeout(() => (alert.style.opacity = "1"), 10);
-
-        // Tự ẩn sau 2.5s
-        setTimeout(() => {
-            alert.style.opacity = "0";
-            setTimeout(() => alert.remove(), 500);
-        }, 2500);
-    }
 });

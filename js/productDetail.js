@@ -20,9 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Dữ liệu giả định cho từng phiên bản
     const versionPrices = {
-        "12GB / 256GB": {
+        "256GB": {
             current: 8490000, old: 9990000
-        }, "8GB / 256GB": {
+        }, "128GB": {
             current: 7990000, old: 9490000
         }
     };
@@ -187,28 +187,18 @@ nextBtn.addEventListener('click', () => {
 });
 
 
+// Xử lý chọn sao
+const stars = document.querySelectorAll('.star');
+stars.forEach(star => {
+    star.addEventListener('click', () => {
+        stars.forEach(s => s.classList.remove('active'));
+        star.classList.add('active');
+        let val = star.getAttribute('data-value');
+        for (let i = 0; i < val; i++) {
+            stars[i].classList.add('active');
+        }
+    });
+});
 
-// //Thêm vào giỏ hàng
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Lấy tất cả các nút thêm vào giỏ hàng trên trang chi tiết
-//     const cartButtons = document.querySelectorAll(".btn-cart, .cart-btn, .rb-cart-btn");
-//
-//     cartButtons.forEach(button => {
-//         button.addEventListener("click", function (e) {
-//             e.preventDefault();
-//
-//             // Lấy phần tử hiển thị số lượng giỏ hàng
-//             let cartCount = document.getElementById("cart-count");
-//             let count = parseInt(localStorage.getItem("cartCount")) || 0;
-//             count++;
-//
-//             // Cập nhật giao diện và lưu vào localStorage
-//             cartCount.textContent = count;
-//             localStorage.setItem("cartCount", count);
-//
-//             // Thêm hiệu ứng nhỏ cho vui mắt
-//             cartCount.classList.add("animate");
-//             setTimeout(() => cartCount.classList.remove("animate"), 500);
-//         });
-//     });
-// });
+
+

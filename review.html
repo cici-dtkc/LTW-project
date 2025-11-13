@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh giá sản phẩm</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="assert/css/reset.css">
+    <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/review.css">
+</head>
+<body>
+<div class="overlay">
+    <form class="review-modal">
+        <a href="feedbackDetail.html"><button class="close-btn"><i class="fa-solid fa-xmark"></i></button></a>
+        <h2>Đánh giá sản phẩm</h2>
+
+        <div class="product-info">
+            <img src="assert/img/product/iphone15.jpg" alt="iPhone 17 Pro">
+            <h3>Điện thoại iPhone 17 Pro 256GB</h3>
+        </div>
+
+        <div class="rating">
+            <span class="star" data-value="1"><i class="fa-regular fa-star"></i><p>Rất tệ</p></span>
+            <span class="star" data-value="2"><i class="fa-regular fa-star"></i><p>Tệ</p></span>
+            <span class="star" data-value="3"><i class="fa-regular fa-star"></i><p>Tạm ổn</p></span>
+            <span class="star" data-value="4"><i class="fa-regular fa-star"></i><p>Tốt</p></span>
+            <span class="star" data-value="5"><i class="fa-regular fa-star"></i><p>Rất tốt</p></span>
+        </div>
+
+        <textarea placeholder="Mời bạn chia sẻ thêm cảm nhận..."></textarea>
+
+        <div class="options">
+            <label><input type="checkbox"> Tôi sẽ giới thiệu sản phẩm cho bạn bè, người thân</label>
+        </div>
+
+        <label class="policy">
+            <input type="checkbox"> Tôi đồng ý với
+            <a href="#">Chính sách xử lý dữ liệu cá nhân</a> của Phone&Accessory
+        </label>
+
+        <button class="submit-btn">Gửi đánh giá</button>
+
+        <div class="links">
+            <a href="#">Quy định đánh giá</a> |
+            <a href="#">Chính sách bảo mật thông tin</a>
+        </div>
+    </form>
+</div>
+
+<script src="js/productDetail.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <title>Hồ Sơ Của Tôi</title>
@@ -7,74 +7,123 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assert/css/reset.css">
   <link rel="stylesheet" href="assert/css/base.css">
+  <link rel="stylesheet" href="assert/css/accountSidebar.css">k
   <link rel="stylesheet" href="assert/css/info-user.css">
-
 </head>
+
 <body>
-<div class="info-user" id="info-user">
-  <div class="container">
-    <div class="title" id="title">
-      <span>Hồ Sơ Của Tôi</span>
+
+<div id="pageWrapper">
+  <!-- SIDEBAR -->
+  <div id="accountSidebar">
+
+    <!-- USER INFO -->
+    <div id="userBox">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" id="userAvatar">
+
+      <div id="userInfo">
+        <span id="usernameDisplay">user1</span>
+        <a href="info-user.html" id="editProfileBtn">
+          <i class="fa-solid fa-pen"></i> Sửa Hồ Sơ
+        </a>
+      </div>
     </div>
 
-    <div class="profile">
-      <div class="left">
-        <div class="row">
-          <label class="label">Tên đăng nhập</label>
-          <div class="readonly" id="username-view">zyyy2809</div>
-        </div>
+    <div class="sidebar-divider"></div>
 
-        <div class="row">
-          <label for="fullName" class="label">Tên</label>
-          <input type="text" id="fullName" class="input" placeholder="Nhập tên" disabled>
-        </div>
+    <ul id="menuList">
 
-        <div class="row">
-          <label class="label" for="emailInput">Email</label>
-          <input type="email" id="emailInput" class="input" placeholder="Nhập email" disabled>
-          <span class="error" id="emailError"></span>
-        </div>
+      <!-- TÀI KHOẢN CỦA TÔI -->
+      <li class="menu-category">
 
-        <div class="row">
-          <label class="label" for="phoneInput">Số điện thoại</label>
-          <input type="text" id="phoneInput" class="input" placeholder="Nhập số điện thoại" disabled>
-          <span class="error" id="phoneError"></span>
-        </div>
+        <a href="#" id="menuAccountMain">
+          <i class="fa-solid fa-user"></i> Tài Khoản Của Tôi
+        </a>
 
-        <div id="password-fields" class="hidden">
-          <div class="row">
-            <label for="currentPassword" class="label">Mật khẩu hiện tại</label>
-            <input type="password" id="currentPassword" class="input" placeholder="Nhập mật khẩu hiện tại">
-            <span class="error" id="currentPwError"></span>
-          </div>
-          <div class="row">
-            <label for="newPassword" class="label">Mật khẩu mới</label>
-            <input type="password" id="newPassword" class="input" placeholder="Ít nhất 6 ký tự">
-            <span class="error" id="newPwError"></span>
-          </div>
-          <div class="row">
-            <label for="confirmPassword" class="label">Xác nhận mật khẩu</label>
-            <input type="password" id="confirmPassword" class="input" placeholder="Nhập lại mật khẩu mới">
-            <span class="error" id="confirmPwError"></span>
-          </div>
-        </div>
+        <ul id="accountSubmenu" class="submenu">
 
-        <div class="buttons">
-          <button type="button" class="btn primary" id="btn-edit">Chỉnh sửa thông tin</button>
-          <button type="button" class="btn outline" id="btn-logout">Đăng xuất</button>
-        </div>
+          <li class="menu-item">
+            <a href="info-user.html" id="menuProfile">Hồ Sơ</a>
+          </li>
+
+          <li class="menu-item active">
+            <a href="paymentForm.html" id="menuBank">Ngân Hàng</a>
+          </li>
+
+          <li class="menu-item">
+            <a href="addresses.html" id="menuAddress">Địa Chỉ</a>
+          </li>
+
+          <li class="menu-item">
+            <a href="formChangePass.html" id="menuPassword">Đổi Mật Khẩu</a>
+          </li>
+        </ul>
+
+      </li>
+
+      <!-- ĐƠN MUA -->
+      <li class="menu-category">
+        <a href="order.html" id="menuOrders">
+          <i class="fa-solid fa-bag-shopping"></i> Đơn Mua
+        </a>
+      </li>
+
+      <!-- VOUCHER -->
+      <li class="menu-category">
+        <a href="voucherDetail.html" id="menuVoucher">
+          <i class="fa-solid fa-ticket"></i> Kho Voucher
+        </a>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <div class="info-user" id="info-user">
+    <div class="container">
+      <div class="title">
+        <span>Hồ Sơ Của Tôi</span>
       </div>
 
-      <div class="right">
-        <div class="avatar">
-          <img id="user-avatar" src="./assert/img/admin.jpg" alt="avatar">
+      <div class="profile">
+        <!-- Cột trái -->
+        <div class="left">
+          <div class="row">
+            <label class="label">Tên đăng nhập</label>
+            <div class="readonly" id="username-view">zyyy2809</div>
+          </div>
+
+          <div class="row">
+            <label class="label" for="fullName">Tên</label>
+            <input type="text" id="fullName" class="input" value="Chi Đỗ" disabled>
+          </div>
+
+          <div class="row">
+            <label class="label" for="emailInput">Email</label>
+            <input type="email" id="emailInput" class="input" value="chi@example.com" disabled>
+            <span class="error" id="emailError"></span>
+          </div>
+
+          <div class="buttons">
+            <button type="button" class="btn primary" id="btn-edit">Chỉnh sửa</button>
+            <button type="button" class="btn outline" id="btn-logout">Đăng xuất</button>
+            <button type="button" class="btn primary hidden" id="btn-save">Lưu thay đổi</button>
+          </div>
         </div>
-        <label for="avatarInput" class="btn small">Chọn Ảnh</label>
-        <input id="avatarInput" type="file" accept="image/png, image/jpeg" class="hidden-input">
+
+        <!-- Cột phải -->
+        <div class="right">
+          <div class="avatar">
+            <img id="user-avatar" src="./assert/img/admin.jpg" alt="avatar">
+          </div>
+          <button for="avatarInput" class="btn small outline">Chọn Ảnh</button>
+          <input id="avatarInput" type="file" accept="image/png, image/jpeg" class="hidden-input">
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 <script src="js/info-user.js"></script>
 </body>
 </html>
