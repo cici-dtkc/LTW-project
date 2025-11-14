@@ -1,63 +1,79 @@
+/* ===== BODY ===== */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f4f7;
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
 .container {
-    max-width: 700px;
-    margin: 50px auto;
+    max-width: 720px;
+    margin: 40px auto;
     background-color: #fff;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
+/* ===== HEADINGS ===== */
 h2, h3, h4 {
+    margin-bottom: 15px;
+    color: #222;
+}
+
+h3 {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
     margin-bottom: 15px;
 }
 
-/* TOOLTIP */
-.tooltip {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-    color: #007BFF;
-    border-radius: 50%;
+/* ===== CATEGORY BUTTONS ===== */
+.category-options {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 25px;
 }
 
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 200px;
-    background-color: #333;
-    color: #fff;
-    text-align: left;
-    padding: 8px;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 10;
-    top: 120%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    font-size: 13px;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* FORM */
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
+.category-btn {
+    flex: 1;
+    padding: 14px 0;
+    text-align: center;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    background-color: #fafafa;
+}
+
+.category-btn:hover {
+    background-color: #e8e8e8;
+}
+
+input[type="radio"]:checked + .category-btn {
+    border-color: #007BFF;
+    background-color: #007BFF;
+    color: #fff;
+    font-weight: bold;
+}
+
+/* ===== FORM ELEMENTS ===== */
+input, textarea, select {
+    width: 100%;
+    padding: 10px 12px;
+    margin-top: 6px;
+    margin-bottom: 4px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #007BFF;
+    outline: none;
 }
 
 textarea {
@@ -65,44 +81,20 @@ textarea {
     resize: vertical;
 }
 
-.category-options {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.category-btn {
-    flex: 1;
-    padding: 12px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.category-btn:hover {
-    background: #e0e0e0;
-}
-
-input[type="radio"]:checked + .category-btn {
-    border-color: #007BFF;
-    background: #007BFF;
-    color: #fff;
-}
-
+/* ===== CARD ===== */
 .card {
     background: #fafafa;
-    padding: 15px;
+    padding: 20px 18px;
     border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
+/* ===== VARIANTS & ATTRIBUTES ===== */
 .variant, .attributeRow {
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     flex-wrap: wrap;
 }
 
@@ -110,43 +102,70 @@ input[type="radio"]:checked + .category-btn {
     flex: 1;
 }
 
+button.removeBtn {
+    flex: 0 0 auto;
+}
+
+/* ===== BUTTONS ===== */
 button {
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 9px 16px;
     border: none;
-    border-radius: 6px;
-    background: #007BFF;
+    border-radius: 8px;
+    background-color: #007BFF;
     color: #fff;
     transition: 0.3s;
+    font-size: 14px;
+    font-weight: 500;
 }
 
 button:hover {
-    background: #0056b3;
-}
-
-.removeBtn {
-    background: #dc3545;
-}
-
-.removeBtn:hover {
-    background: #a71d2a;
+    background-color: #0056b3;
 }
 
 .addBtn {
-    background: #28a745;
+    background-color: #28a745;
+    margin-top: 8px;
 }
 
 .addBtn:hover {
-    background: #1e7e34;
+    background-color: #1e7e34;
 }
 
-#submitBtn {
+.removeBtn {
+    background-color: #dc3545;
+}
+
+.removeBtn:hover {
+    background-color: #a71d2a;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+#submitBtn, form button[type="submit"] {
     width: 100%;
-    padding: 12px;
+    padding: 14px 0;
     font-size: 16px;
-    background: #ff6600;
+    background-color: #ff6600;
+    margin-top: 20px;
+    font-weight: 600;
 }
 
-#submitBtn:hover {
-    background: #e65c00;
+#submitBtn:hover, form button[type="submit"]:hover {
+    background-color: #e65c00;
 }
+
+/* ===== FILE INPUT ===== */
+input[type="file"] {
+    padding: 5px;
+}
+
+/* ===== HINT ===== */
+.hint {
+    display: block;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+
