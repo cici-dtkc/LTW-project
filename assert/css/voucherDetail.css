@@ -1,45 +1,24 @@
 
-.voucher-wrapper {
-    position: relative;
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.voucher-scroll {
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-}
-
-.voucher-scroll::-webkit-scrollbar {
-    display: none;
-}
-
 .voucher-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px auto;
     padding: 20px;
 }
 
-.voucher {
+.voucher-container .voucher {
     background: #fff;
     border-radius: 10px;
     display: flex;
     overflow: hidden;
     position: relative;
-    /*box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);*/
-    min-width: 250px;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
-.voucher:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.voucher-left {
+.voucher-container .voucher-left {
     background: #f53d2d;
     color: white;
     padding: 25px 10px;
@@ -48,36 +27,38 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
+    font-size: 14px;
 }
 
-.voucher-left img {
+.voucher-container .voucher-left img {
     width: 60px;
     height: 60px;
     object-fit: cover;
+    margin-bottom: 5px;
 }
 
-.voucher-right {
+.voucher-container .voucher-right {
     flex: 1;
     padding: 15px 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    text-align: left;
 }
 
-.voucher-right h3 {
+.voucher-container .voucher-right h3 {
     margin: 0;
     font-size: 18px;
     font-weight: bold;
 }
 
-.voucher-right p {
+.voucher-container .voucher-right p {
     margin: 5px 0;
     font-size: 14px;
     color: #333;
 }
 
-.voucher-right button {
+.voucher-container .voucher-right button {
     background: #f53d2d;
     color: white;
     border: none;
@@ -89,7 +70,7 @@
     cursor: pointer;
 }
 
-.voucher-right a {
+.voucher-container .voucher-right a {
     text-decoration: none;
     color: #007bff;
     font-weight: bold;
@@ -98,7 +79,7 @@
     text-align: center;
 }
 
-.badge {
+.voucher-container .badge {
     position: absolute;
     top: 8px;
     right: 12px;
@@ -109,50 +90,33 @@
     padding: 3px 8px;
     font-size: 14px;
 }
-
-/* Nút điều hướng */
-.nav-btn {
+/* Con dấu “Hết lượt sử dụng” */
+.voucher-container .expired::after {
+    content: "Hết lượt sử dụng";
     position: absolute;
+    right: 40px;
     top: 50%;
-    transform: translateY(-50%);
-    background: #eeeeee;
-    border: none;
-    color: #0b0b0b;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 20px;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s ease;
+    transform: rotate(-25deg) translateY(-50%);
+    background: rgba(200, 200, 200, 0.2);
+    border: 2px solid rgba(180, 180, 180, 0.4);
+    color: #999;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    pointer-events: none;
 }
 
-.nav-btn:hover {
-    background: var(--color-button);
-}
-
-.nav-prev {
-    left: 8px;
-}
-
-.nav-next {
-    right: -5px;
-}
 
 /* Responsive */
-@media (max-width: 768px) {
-    .voucher {
-        min-width: 220px;
+@media (max-width: 992px) {
+    .voucher-container {
+        grid-template-columns: repeat(2, 1fr);
     }
+}
 
-    .nav-prev {
-        left: 5px;
-    }
-
-    .nav-next {
-        right: 5px;
+@media (max-width: 576px) {
+    .voucher-container {
+        grid-template-columns: 1fr;
     }
 }
