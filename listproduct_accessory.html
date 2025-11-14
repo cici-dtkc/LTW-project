@@ -8,10 +8,41 @@
     <link rel="stylesheet" href="assert/css/base.css">
     <link rel="stylesheet" href="assert/css/header.css">
     <link rel="stylesheet" href="assert/css/listproduct.css">
+    <link rel="stylesheet" href="assert/css/footer.css">
 
 
 </head>
 <body>
+<header id="header">
+    <div class="container">
+        <div class="inner-wrap">
+            <div class="logo" id="logo">
+                <a href="#"><img src="./assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+            </div>
+            <nav class="menu" id="menu">
+                <ul>
+                    <li><a href="#" id="nav-home">Trang chủ</a></li>
+                    <li><a href="#" id="nav-phone">Điện thoại</a></li>
+                    <li><a href="#" id="nav-accessory">Phụ kiện</a></li>
+                    <li><a href="#" id="nav-contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+            <div class="box" id="icon-box">
+                <ul>
+                    <li class="search-item">
+                        <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                        <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                    </li>
+                    <li><a href="#" id="btn-cart"><i class="fa-solid fa-cart-shopping"></i></a></li>
+                    <li id="user-area" class="user-area">
+                        <a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 <main class="product-page">
     <!-- Thanh lọc & sắp xếp -->
     <div class="product-filter-bar">
@@ -22,11 +53,13 @@
                 <span>Bộ lọc</span>
             </div>
 
-            <div class="brand-list">
-                <div class="brand"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
-                <div class="brand"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
-                <div class="brand"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
-                <div class="brand"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
+            <div class="category-list">
+                <div class="category">Màn hình cảm ứng</div>
+                <div class="category">Pin</div>
+                <div class="category">Cáp sạc/ Cổng sạc</div>
+                <div class="category">Camera</div>
+                <div class="category">Loa/ Mic</div>
+                <div class="category">Vỏ và khung sườn</div>
             </div>
         </div>
 
@@ -130,6 +163,89 @@
         <span id="loadMoreSpinner" class="spinner" style="display:none">Đang tải...</span>
     </div>
 </main>
+<footer id="footer">
+    <div class="container">
+        <div id="footer-content" class="footer-content">
+
+            <!-- Company Info Section -->
+            <div id="footer-company" class="footer-section">
+                <div id="footer-logo" class="footer-logo">
+                    <img src="assert/img/logo.png" alt="Logo công ty">
+                </div>
+                <p id="footer-description" class="company-description">
+                    Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
+                </p>
+                <div id="footer-social" class="social-links">
+                    <a href="#" class="social-link" title="Facebook" id="social-facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Instagram" id="social-instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link" title="Twitter" id="social-twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="social-link" title="YouTube" id="social-youtube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div id="footer-links" class="footer-section">
+                <h3 class="footer-title">Liên kết nhanh</h3>
+                <ul id="quick-links" class="footer-links">
+                    <li><a href="home.html" id="link-home">Trang chủ</a></li>
+                    <li><a href="cart.html" id="link-cart">Giỏ hàng</a></li>
+                    <li><a href="checkout.html" id="link-checkout">Thanh toán</a></li>
+                    <li><a href="order_detail.html" id="link-orders">Đơn hàng</a></li>
+                    <li><a href="info-user.html" id="link-user">Thông tin cá nhân</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Service Section -->
+            <div id="footer-support" class="footer-section">
+                <h3 class="footer-title">Hỗ trợ khách hàng</h3>
+                <ul id="support-links" class="footer-links">
+                    <li><a href="#" id="policy-return">Chính sách đổi trả</a></li>
+                    <li><a href="#" id="policy-privacy">Chính sách bảo mật</a></li>
+                    <li><a href="#" id="policy-terms">Điều khoản sử dụng</a></li>
+                    <li><a href="#" id="policy-guide">Hướng dẫn mua hàng</a></li>
+                    <li><a href="#" id="policy-faq">Câu hỏi thường gặp</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info Section -->
+            <div id="footer-contact" class="footer-section">
+                <h3 class="footer-title">Thông tin liên hệ</h3>
+                <div id="contact-info" class="contact-info">
+                    <div class="contact-item" id="contact-address">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Đường ABC, Quận XYZ, TP.HCM</span>
+                    </div>
+                    <div class="contact-item" id="contact-phone">
+                        <i class="fas fa-phone"></i>
+                        <span>+84 123 456 789</span>
+                    </div>
+                    <div class="contact-item" id="contact-email">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@company.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div id="footer-bottom" class="footer-bottom">
+            <div id="footer-bottom-content" class="footer-bottom-content">
+                <p id="footer-copyright">
+                    &copy; 2024 Công ty ABC. Tất cả quyền được bảo lưu.
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
 <script src="js/listProduct.js"></script>
 <script src="js/header.js"></script>
 </body>

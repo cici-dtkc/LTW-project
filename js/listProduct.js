@@ -56,6 +56,12 @@ document.querySelectorAll('.brand').forEach(brand => {
         brand.classList.add('active');
     });
 });
+document.querySelectorAll('.category').forEach(category => {
+    category.addEventListener('click', () => {
+        document.querySelectorAll('.category').forEach(b => b.classList.remove('active'));
+        category.classList.add('active');
+    });
+});
 
 // ========================
 // Xử lý menu sắp xếp
