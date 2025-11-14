@@ -66,9 +66,8 @@
         <!-- Hàng 2: Các nút lọc -->
         <div class="filter-options">
             <div class="filter-item" data-filter="gia">Giá </div>
-            <div class="filter-item" data-filter="bonho">Bộ nhớ </div>
-            <div class="filter-item" data-filter="mausac">Màu sắc </div>
-            <div class="filter-item" data-filter="namramat">Năm ra mắt </div>
+            <div class="filter-item" data-filter="brand">Thương hiệu</div>
+            <div class="filter-item" data-filter="model">Model máy</div>
         </div>
 
         <!-- Menu phụ cho từng bộ lọc -->
@@ -85,12 +84,13 @@
             </div>
         </div>
 
-        <div class="dropdown" id="bonho">
+        <div class="dropdown" id="brand">
+            <h4 style="margin-top: 0">Chọn thương hiệu</h4>
             <div class="option-group">
-                <button>64GB</button>
-                <button>128GB</button>
-                <button>256GB</button>
-                <button>512GB</button>
+                <button>Apple</button>
+                <button>Samsung</button>
+                <button>Xiaomi</button>
+                <button>Oppo</button>
             </div>
             <div class="dropdown-actions">
                 <button class="btn-close">Đóng</button>
@@ -98,33 +98,19 @@
             </div>
         </div>
 
-        <div class="dropdown" id="mausac">
-            <div class="option-group">
-                <button>Đen</button>
-                <button>Trắng</button>
-                <button>Xanh</button>
-                <button>Hồng</button>
-                <button>Bạc</button>
+        <!-- ===== MODEL ===== -->
+        <div class="dropdown" id="model">
+            <h4 style="margin-top: 0">Nhập model máy</h4>
+            <div class="price-input">
+                <input type="text" placeholder="VD: iPhone 14 Pro Max">
             </div>
+
             <div class="dropdown-actions">
                 <button class="btn-close">Đóng</button>
                 <button class="btn-apply">Xem kết quả</button>
             </div>
         </div>
 
-        <div class="dropdown" id="namramat">
-            <div class="option-group">
-                <button>2021</button>
-                <button>2022</button>
-                <button>2023</button>
-                <button>2024</button>
-                <button>2025</button>
-            </div>
-            <div class="dropdown-actions">
-                <button class="btn-close">Đóng</button>
-                <button class="btn-apply">Xem kết quả</button>
-            </div>
-        </div>
     </div>
 
     <!-- Phần sắp xếp -->
@@ -143,17 +129,289 @@
     <!-- Danh sách sản phẩm -->
     <div id="product-list" class="product-list">
         <div class="product-card">
-            <div class="product-image">
-                <img src="link_to_image.jpg" alt="Tên sản phẩm">
-                <span class="discount">-15%</span>
-            </div>
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/battery.jpg" alt="Pin dự phòng Anker 10000mAh">
+                    <span class="discount-badge">-10%</span>
+                </div>
+            </a>
             <div class="product-info">
-                <h3 class="product-name">Tên sản phẩm</h3>
-                <p class="brand-name">Thương hiệu: BrandName</p>
-                <p class="price">1,200,000₫</p>
-                <p class="stock-status in-stock">Còn hàng</p>
+                <h2>Pin dự phòng Anker 10000mAh</h2>
+                <div class="price-wrap">
+                    <span class="price-new">450.000₫</span>
+                    <span class="price-old">500.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 850</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
             </div>
-            <button class="btn-add-cart">Thêm vào giỏ</button>
+        </div>
+
+        <!-- Linh kiện 2: Cáp sạc -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/cable.jpg" alt="Cáp sạc Type-C Energizer 1.2m">
+                    <span class="discount-badge">-5%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Cáp sạc Type-C Energizer 1.2m</h2>
+                <div class="price-wrap">
+                    <span class="price-new">120.000₫</span>
+                    <span class="price-old">130.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 1.1k</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linh kiện 3: Ốp lưng -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/case.jpg" alt="Ốp lưng iPhone 15 silicon">
+                    <span class="discount-badge">-15%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Ốp lưng iPhone 15 silicon</h2>
+                <div class="price-wrap">
+                    <span class="price-new">220.000₫</span>
+                    <span class="price-old">260.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 500</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linh kiện 4: Màn hình cảm ứng -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/screen.jpg" alt="Màn hình cảm ứng Samsung S21">
+                    <span class="discount-badge">-8%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Màn hình cảm ứng Samsung S21</h2>
+                <div class="price-wrap">
+                    <span class="price-new">1.250.000₫</span>
+                    <span class="price-old">1.350.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 320</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linh kiện 5: Camera -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/iphone15.jpg" alt="Camera trước iPhone 13">
+                    <span class="discount-badge">-12%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Camera trước iPhone 13</h2>
+                <div class="price-wrap">
+                    <span class="price-new">800.000₫</span>
+                    <span class="price-old">910.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 200</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linh kiện 6: Loa/Mic -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/speaker.jpg" alt="Loa/Mic iPhone 12">
+                    <span class="discount-badge">-5%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Loa/Mic iPhone 12</h2>
+                <div class="price-wrap">
+                    <span class="price-new">350.000₫</span>
+                    <span class="price-old">370.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 450</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Linh kiện 7: Vỏ và khung sườn -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/frame.jpg" alt="Vỏ và khung sườn iPhone 14">
+                    <span class="discount-badge">-10%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Vỏ và khung sườn iPhone 14</h2>
+                <div class="price-wrap">
+                    <span class="price-new">550.000₫</span>
+                    <span class="price-old">610.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 180</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linh kiện 8: Cáp sạc nhanh -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/fast-cable.jpg" alt="Cáp sạc nhanh Type-C 2m">
+                    <span class="discount-badge">-7%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Cáp sạc nhanh Type-C 2m</h2>
+                <div class="price-wrap">
+                    <span class="price-new">150.000₫</span>
+                    <span class="price-old">160.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-regular fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 900</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Linh kiện 9: Pin dự phòng 20000mAh -->
+        <div class="product-card">
+            <a href="productDetail.html">
+                <div class="product-img">
+                    <img src="assert/img/product/battery20000.jpg" alt="Pin dự phòng 20000mAh Anker">
+                    <span class="discount-badge">-12%</span>
+                </div>
+            </a>
+            <div class="product-info">
+                <h2>Pin dự phòng 20000mAh Anker</h2>
+                <div class="price-wrap">
+                    <span class="price-new">750.000₫</span>
+                    <span class="price-old">850.000₫</span>
+                </div>
+                <div class="rating-cart">
+                    <div class="rating">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+                <div class="bottom-info">
+                    <span class="sold-count">Đã bán 620</span>
+                    <button class="cart-btn">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
