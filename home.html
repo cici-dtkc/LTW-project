@@ -2,12 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng điện thoại</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assert/css/reset.css">
     <link rel="stylesheet" href="assert/css/base.css">
     <link rel="stylesheet" href="assert/css/header.css">
     <link rel="stylesheet" href="assert/css/footer.css">
+    <link rel="stylesheet" href="assert/css/login.css">
+    <link rel="stylesheet" href="assert/css/cart.css">
+
     <link rel="stylesheet" href="assert/css/home.css">
 </head>
 <body>
@@ -16,59 +20,67 @@
     <div class="container">
         <div class="inner-wrap">
             <div class="logo" id="logo">
-                <a href="#"><img src="./assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+                <a href="#"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
             </div>
+
             <nav class="menu" id="menu">
                 <ul>
                     <li><a href="#" id="nav-home">Trang chủ</a></li>
-                    <li><a href="#" id="nav-phone">Điện thoại</a></li>
+                    <li><a href="listproduct.html" id="nav-phone">Điện thoại</a></li>
                     <li class="has-mega" id="nav-accessory-item">
-                        <a href="#" id="nav-accessory">Phụ kiện <i class="fa-solid fa-chevron-down" style="font-size:12px; margin-left:6px;"></i></a>
+                        <a href="listproduct_accessory.html" id="nav-accessory">Phụ kiện</a>
                         <div class="mega-menu" id="mega-accessory">
                             <div class="mega-inner">
                                 <div class="mega-col">
-                                    <h4>Phụ kiện di động</h4>
-                                    <a href="#">Sạc dự phòng</a>
-                                    <a href="#">Sạc, cáp</a>
-                                    <a href="#">Ốp lưng điện thoại</a>
+                                    <h4>Linh kiện di động</h4>
+                                    <a href="listproduct_accessory.html">Màn hình cảm ứng</a>
+                                    <a href="listproduct_accessory.html">Pin</a>
+                                    <a href="listproduct_accessory.html">camera</a>
                                 </div>
                                 <div class="mega-col">
                                     <h4>&nbsp;</h4>
-                                    <a href="#">Miếng dán màn hình</a>
-                                    <a href="#">Kính cường lực</a>
-                                    <a href="#">Giá đỡ điện thoại</a>
+                                    <a href="listproduct_accessory.html">Loa/mic</a>
+                                    <a href="listproduct_accessory.html">Cáp sạc / Cổng sạc</a>
+                                    <a href="listproduct_accessory.html">Giá đỡ điện thoại</a>
                                 </div>
                                 <div class="mega-col">
                                     <h4>&nbsp;</h4>
-                                    <a href="#">Thẻ nhớ</a>
-                                    <a href="#">Tai nghe Bluetooth</a>
-                                    <a href="#">Tai nghe có dây</a>
-                                </div>
-                                <div class="mega-col">
-                                    <h4>&nbsp;</h4>
-                                    <a href="#">Dây đeo đồng hồ</a>
+                                    <a href="listproduct_accessory.html">Quạt tản nhiệt / Cooling fan</a>
+                                    <a href="listproduct_accessory.html">Ốp lưng / Vỏ lưng</a>
+                                    <a href="listproduct_accessory.html">Kính cường lực / Mặt kính</a>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li><a href="#footer" id="nav-contact">Liên hệ</a></li>
+                    <li><a href="#" id="nav-contact">Liên hệ</a></li>
                 </ul>
             </nav>
+
             <div class="box" id="icon-box">
                 <ul>
                     <li class="search-item">
                         <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
                         <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
                     </li>
+
                     <li class="cart-item">
-                        <a href="#" id="btn-cart">
+                        <a href="cart.html" id="btn-cart">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <span class="cart-badge" id="cart-badge"></span>
                         </a>
                     </li>
-                    <li id="user-area" class="user-area">
-                        <a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a>
 
+                    <li id="user-area" class="user-area">
+                        <div class="user-profile" id="user-profile">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="username" id="header-username">Đăng nhập</span>
+                        </div>
+
+                        <div class="user-dropdown" id="user-dropdown">
+                            <a href="info-user.html">Tài khoản của tôi</a>
+                            <a href="order.html">Đơn mua</a>
+                            <a href="login.html" id="logout-link">Đăng xuất</a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -84,16 +96,16 @@
 
             <!-- Slide item -->
             <div class="slide active" id="slide-1">
-                <a href="#"><img src="./assert/img/banner-1.png" alt=""></a>
+                <a href="#"><img src="assert/img/banner-1.png" alt=""></a>
             </div>
             <div class="slide" id="slide-2">
-                <a href="#"> <img src="./assert/img/banner-3.png" alt=""></a>
+                <a href="#"> <img src="assert/img/banner-3.png" alt=""></a>
             </div>
             <div class="slide" id="slide-3">
-                <a href="#"><img src="./assert/img/banner-2.png" alt=""></a>
+                <a href="#"><img src="assert/img/banner-2.png" alt=""></a>
             </div>
             <div class="slide" id="slide-4">
-                <a href="#">  <img src="./assert/img/banner-4.png" alt=""></a>
+                <a href="#">  <img src="assert/img/banner-4.png" alt=""></a>
             </div>
 
             <!-- Navigation buttons -->
@@ -110,7 +122,7 @@
         <div class="product-list">
             <a href="#">
                 <div class="product-card">
-                    <img src="./assert/img/iphone_17_pro_max.png" alt="iPhone 15">
+                    <img src="assert/img/iphone_17_pro_max.png" alt="iPhone 15">
                     <h3>iPhone 17 Pro Max</h3>
                     <p class="price">34.990.000 ₫</p>
                     <div class="product-actions">
@@ -123,7 +135,7 @@
 
             <a href="#">
                 <div class="product-card">
-                    <img src="./assert/img/samsung-s23.png" alt="Samsung S23">
+                    <img src="assert/img/samsung-s23.png" alt="Samsung S23">
                     <h3>Samsung Galaxy S23 Ultra</h3>
                     <p class="price">29.990.000 ₫</p>
                     <div class="product-actions">
@@ -136,7 +148,7 @@
 
             <a href="#">
                 <div class="product-card">
-                    <img src="./assert/img/xiaomi-13.png" alt="Xiaomi 13">
+                    <img src="assert/img/xiaomi-13.png" alt="Xiaomi 13">
                     <h3>Xiaomi 13 Pro</h3>
                     <p class="price">18.490.000 ₫</p>
                     <div class="product-actions">
@@ -149,7 +161,7 @@
 
             <a href="#">
                 <div class="product-card">
-                    <img src="./assert/img/oppo-findx6.png" alt="OPPO Find X6">
+                    <img src="assert/img/oppo-findx6.png" alt="OPPO Find X6">
                     <h3>OPPO Find X6 Pro</h3>
                     <p class="price">21.990.000 ₫</p>
                     <div class="product-actions">

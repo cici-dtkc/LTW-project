@@ -22,7 +22,7 @@ html {
 
 /* Thêm padding-top cho body để tránh nội dung bị che bởi header fixed */
 body:has(#header) {
-    padding-top: 40px;
+    padding-top: 80px;
 }
 
 /* Hoặc nếu dùng header-container */
@@ -31,7 +31,7 @@ body:has(#header) {
 }
 
 #main-content {
-    padding-top: 40px;
+    padding-top: 0;
 }
 
 /* Căn giữa nội dung */
@@ -356,12 +356,14 @@ body:has(#header) {
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    min-width: 140px;
+    min-width: 180px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     padding: 8px 0;
     display: none;
+    flex-direction: column;
+    align-items: flex-start;
     opacity: 0;
     transform: translateY(-6px);
     transition: all 0.25s ease;
@@ -378,43 +380,29 @@ body:has(#header) {
     height: 14px;
     background: #fff;
     transform: rotate(45deg);
-    box-shadow: -2px -2px 6px rgba(0,0,0,0.05);
+    box-shadow: var(--box-shadow);
+}
+
+/* ===== HIỆU ỨNG MỞ MENU ===== */
+#header .user-area.open .user-dropdown {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* ===== ITEM ===== */
 #header .user-dropdown a {
     display: block;
+    width: 100%;
+    padding: 10px 16px;
     color: #111;
     font-size: 13px;
-}
-
-/* ===== HIỆU ỨNG MỞ MENU ===== */
-#header .user-area.open .user-dropdown {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* Sửa lỗi chữ dọc trong dropdown */
-#header .user-dropdown {
-    display: flex;
-    flex-direction: column; /* 🔹 Xếp các item theo chiều dọc */
-    align-items: flex-start; /* Canh trái tự nhiên */
-    text-align: left;        /* Đảm bảo chữ không bị giữa */
-}
-
-#header .user-dropdown a {
-    display: block;          /* 🔹 Mỗi link chiếm nguyên dòng */
-    width: 100%;
-    white-space: nowrap;     /* Giữ chữ trên một dòng */
     text-align: left;
+    white-space: nowrap;
     line-height: 1.4;
+    transition: background-color 0.2s ease;
 }
-#header .user-dropdown a {
-    background: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    font-size: 13px !important; /* 👈 cỡ chữ nhỏ gọn */
-    color: #111;
+
+#header .user-dropdown a:hover {
+    background-color: #f5f5f5;
 }
