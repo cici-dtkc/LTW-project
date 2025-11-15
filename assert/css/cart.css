@@ -199,13 +199,14 @@ body {
 .sticky-summary-bottom .summary-box {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end; /* Đưa cả hai phần về phía phải */
     background-color: #fff;
     padding: 15px 20px;
     border-radius: 12px 0 0 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     width: 100%;
     pointer-events: all;
+    gap: 20px; /* Tạo khoảng cách giữa tạm tính và nút */
 }
 
 /* Tạm tính */
@@ -214,12 +215,11 @@ body {
     font-weight: 600;
     color: #333;
     white-space: nowrap;
-    margin: 20px;
+    margin: 0; /* bỏ margin để không bị lệch xa */
 }
 
-
 .sticky-summary-bottom .checkout-btn {
-    background-color: #496dca;
+    background-color: #496dca ;
     color: #fff;
     border: none;
     padding: 12px 25px;
