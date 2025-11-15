@@ -11,7 +11,7 @@
 <div class="container">
   <h2>Thêm sản phẩm mới</h2>
 
-  <!-- ===== CHỌN CATEGORY ===== -->
+  <!-- CHỌN CATEGORY -->
   <div class="category-options">
     <input type="radio" id="phone" name="category" hidden>
     <label for="phone" class="category-btn">Điện thoại</label>
@@ -20,138 +20,163 @@
     <label for="part" class="category-btn">Linh kiện</label>
   </div>
 
-  <!-- ===== FORM ĐIỆN THOẠI ===== -->
+  <!-- FORM ĐIỆN THOẠI -->
   <form id="phoneForm" style="display:none;" enctype="multipart/form-data">
     <h3>Thông tin điện thoại</h3>
-    <input type="text" name="name" placeholder="Tên điện thoại" required>
-    <span class="hint">Tên sản phẩm hiển thị trong danh sách và chi tiết sản phẩm</span>
 
-    <!-- Brand điện thoại -->
-    <select name="brand_id" required>
-      <option value="">Chọn hãng</option>
-      <option value="1">Apple</option>
-      <option value="2">Samsung</option>
-      <option value="3">Xiaomi</option>
-    </select>
-    <span class="hint">Chọn hãng sản xuất điện thoại</span>
+    <div class="form-group">
+      <label for="phoneName">Tên điện thoại</label>
+      <input type="text" id="phoneName" name="name" required>
+    </div>
 
-    <textarea name="description" placeholder="Mô tả sản phẩm"></textarea>
-    <span class="hint">Mô tả chi tiết sản phẩm, ví dụ: cấu hình, tính năng nổi bật</span>
+    <div class="form-group">
+      <label for="phoneBrand">Chọn hãng</label>
+      <select id="phoneBrand" name="brand_id" required>
+        <option value="1">Apple</option>
+        <option value="2">Samsung</option>
+        <option value="3">Xiaomi</option>
+      </select>
+    </div>
 
-    <input type="date" name="release_date">
-    <span class="hint">Ngày phát hành sản phẩm</span>
+    <div class="form-group">
+      <label for="phoneDescription">Mô tả sản phẩm</label>
+      <textarea id="phoneDescription" name="description"></textarea>
+    </div>
 
-    <input type="number" name="warranty_period" placeholder="Bảo hành (tháng)">
-    <span class="hint">Thời gian bảo hành tính theo tháng</span>
+    <div class="form-group">
+      <label for="phoneReleaseDate">Ngày phát hành</label>
+      <input type="date" id="phoneReleaseDate" name="release_date">
+    </div>
 
-    <input type="number" name="discount_percentage" placeholder="Giảm giá (%)" min="0" max="100">
-    <span class="hint">Nhập giá trị giảm giá từ 0 đến 100</span>
+    <div class="form-group">
+      <label for="phoneWarranty">Bảo hành (tháng)</label>
+      <input type="number" id="phoneWarranty" name="warranty_period">
+    </div>
 
-    <label>Ảnh chính:</label>
-    <input type="file" name="main_image" accept="image/*" required>
-    <span class="hint">Ảnh chính hiển thị trên danh sách sản phẩm</span>
+    <div class="form-group">
+      <label for="phoneDiscount">Giảm giá (%)</label>
+      <input type="number" id="phoneDiscount" name="discount_percentage" min="0" max="100">
+    </div>
 
-    <label>Ảnh bổ sung:</label>
-    <input type="file" name="images[]" multiple>
-    <span class="hint">Các ảnh bổ sung hiển thị trong chi tiết sản phẩm</span>
+    <div class="form-group">
+      <label>Ảnh chính</label>
+      <input type="file" name="main_image" accept="image/*" required>
+    </div>
 
-    <!-- Tech Specs -->
+    <div class="form-group">
+      <label>Ảnh bổ sung</label>
+      <input type="file" name="images[]" multiple>
+    </div>
+
     <h4>Thông số kỹ thuật</h4>
     <div id="phoneAttributesContainer"></div>
     <button type="button" id="addPhoneAttribute">+ Thêm thông số</button>
-    <span class="hint">Thêm thông số kỹ thuật như RAM, pin, kích thước</span>
 
-    <!-- Variants -->
     <h4>Phiên bản</h4>
     <div id="phoneVariantsContainer"></div>
     <button type="button" id="addPhoneVariant">+ Thêm phiên bản</button>
-    <span class="hint">Thêm phiên bản khác nhau, ví dụ màu sắc hoặc dung lượng với giá và số lượng riêng</span>
 
     <br><br>
     <button type="submit">Lưu điện thoại</button>
   </form>
 
-  <!-- ===== FORM LINH KIỆN ===== -->
+  <!-- FORM LINH KIỆN -->
   <form id="partForm" style="display:none;" enctype="multipart/form-data">
     <h3>Thông tin linh kiện</h3>
-    <input type="text" name="name" placeholder="Tên linh kiện" required>
-    <span class="hint">Tên sản phẩm hiển thị trong danh sách và chi tiết sản phẩm</span>
 
-    <!-- Brand linh kiện -->
-    <select name="brand_id" required>
-      <option value="">Chọn hãng</option>
-      <option value="4">Anker</option>
-      <option value="5">Energizer</option>
-    </select>
-    <span class="hint">Chọn hãng sản xuất linh kiện</span>
+    <div class="form-group">
+      <label for="partName">Tên linh kiện</label>
+      <input type="text" id="partName" name="name" required>
+    </div>
 
-    <!-- Danh mục phụ -->
-    <select name="subcategory_id" required>
-      <option value="">Chọn danh mục phụ</option>
-      <option value="3">Pin</option>
-      <option value="4">Cáp</option>
-      <option value="5">Ốp lưng</option>
-    </select>
-    <span class="hint">Chọn loại linh kiện, ví dụ Pin, Cáp, Ốp lưng</span>
+    <div class="form-group">
+      <label for="partBrand">Chọn hãng</label>
+      <select id="partBrand" name="brand_id" required>
+        <option value="4">Anker</option>
+        <option value="5">Energizer</option>
+      </select>
+    </div>
 
-    <textarea name="description" placeholder="Mô tả linh kiện"></textarea>
-    <span class="hint">Mô tả chi tiết sản phẩm, ví dụ: công suất, kích thước, chất liệu</span>
+      <div class="form-group">
+        <label for="partSubcategory">Danh mục phụ</label>
+        <select id="partSubcategory" name="subcategory_id" required>
+          <option value="1">Màn hình cảm ứng</option>
+          <option value="2">Pin</option>
+          <option value="3">Cáp sạc/ Cổng sạc</option>
+          <option value="4">Camera</option>
+          <option value="5">Loa/ Mic</option>
+          <option value="6">Vỏ và khung sườn</option>
+        </select>
+      </div>
 
-    <input type="number" name="warranty_period" placeholder="Bảo hành (tháng)">
-    <span class="hint">Thời gian bảo hành tính theo tháng</span>
 
-    <input type="number" name="discount_percentage" placeholder="Giảm giá (%)" min="0" max="100">
-    <span class="hint">Nhập giá trị giảm giá từ 0 đến 100</span>
+    <div class="form-group">
+      <label for="partDescription">Mô tả linh kiện</label>
+      <textarea id="partDescription" name="description"></textarea>
+    </div>
 
-    <label>Ảnh chính:</label>
-    <input type="file" name="main_image" accept="image/*" required>
-    <span class="hint">Ảnh chính hiển thị trên danh sách sản phẩm</span>
+    <div class="form-group">
+      <label for="partWarranty">Bảo hành (tháng)</label>
+      <input type="number" id="partWarranty" name="warranty_period">
+    </div>
 
-    <label>Ảnh bổ sung:</label>
-    <input type="file" name="images[]" multiple>
-    <span class="hint">Các ảnh bổ sung hiển thị trong chi tiết sản phẩm</span>
+    <div class="form-group">
+      <label for="partDiscount">Giảm giá (%)</label>
+      <input type="number" id="partDiscount" name="discount_percentage" min="0" max="100">
+    </div>
 
-    <!-- Tech Specs -->
+    <div class="form-group">
+      <label>Ảnh chính</label>
+      <input type="file" name="main_image" accept="image/*" required>
+    </div>
+
+    <div class="form-group">
+      <label>Ảnh bổ sung</label>
+      <input type="file" name="images[]" multiple>
+    </div>
+
     <h4>Thông số kỹ thuật</h4>
     <div id="partAttributesContainer"></div>
     <button type="button" id="addPartAttribute">+ Thêm thông số</button>
-    <span class="hint">Thêm thông số kỹ thuật như dung lượng pin, chuẩn kết nối</span>
 
-    <!-- Variants -->
     <h4>Phiên bản</h4>
     <div id="partVariantsContainer"></div>
     <button type="button" id="addPartVariant">+ Thêm phiên bản</button>
-    <span class="hint">Thêm phiên bản khác nhau, ví dụ màu sắc hoặc dung lượng với giá và số lượng riêng</span>
 
     <br><br>
     <button type="submit">Lưu linh kiện</button>
   </form>
 </div>
 
-<!-- ===== TEMPLATES ===== -->
+<!-- TEMPLATES -->
 <template id="variantTemplate">
   <div class="variant">
-    <input type="text" name="variant_name[]" placeholder="Tên phiên bản" required>
-    <span class="hint">Tên phiên bản như màu sắc, dung lượng...</span>
-
-    <input type="number" name="variant_price[]" placeholder="Giá" required>
-    <span class="hint">Giá của phiên bản này</span>
-
-    <input type="number" name="variant_quantity[]" placeholder="Số lượng" required>
-    <span class="hint">Số lượng tồn kho của phiên bản này</span>
-
+    <div class="form-group">
+      <label>Tên phiên bản</label>
+      <input type="text" name="variant_name[]" required>
+    </div>
+    <div class="form-group">
+      <label>Giá</label>
+      <input type="number" name="variant_price[]" required>
+    </div>
+    <div class="form-group">
+      <label>Số lượng</label>
+      <input type="number" name="variant_quantity[]" required>
+    </div>
     <button type="button" class="removeBtn">Xóa</button>
   </div>
 </template>
 
 <template id="attributeTemplate">
   <div class="attributeRow">
-    <input type="text" name="tech_name[]" placeholder="Tên thông số" required>
-    <span class="hint">Tên thông số kỹ thuật, ví dụ RAM, Pin, Kích thước</span>
-
-    <input type="text" name="tech_value[]" placeholder="Giá trị" required>
-    <span class="hint">Giá trị thông số, ví dụ 4GB, 5000mAh</span>
-
+    <div class="form-group">
+      <label>Tên thông số</label>
+      <input type="text" name="tech_name[]" required>
+    </div>
+    <div class="form-group">
+      <label>Giá trị</label>
+      <input type="text" name="tech_value[]" required>
+    </div>
     <button type="button" class="removeBtn">Xóa</button>
   </div>
 </template>
