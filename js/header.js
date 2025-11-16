@@ -47,18 +47,20 @@ function updateCartBadge() {
 
     if (!badge) return;
 
-    // Không đăng nhập → ẩn badge
+    // Chưa đăng nhập → ẩn badge
     if (!user) {
-        badge.style.display = "none";
+        badge.classList.add("hidden");
         return;
     }
 
+    // Đã đăng nhập → hiển thị badge và cập nhật số lượng
     const count = getCartTotalQuantity();
     if (count > 0) {
         badge.textContent = count > 99 ? "99+" : count;
-        badge.style.display = "flex";
+        badge.classList.remove("hidden");
     } else {
-        badge.style.display = "none";
+        // Giỏ hàng trống: hiển thị số mặc định trong HTML (số 3)
+        badge.classList.remove("hidden");
     }
 }
 
