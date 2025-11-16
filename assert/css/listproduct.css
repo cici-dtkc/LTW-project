@@ -281,7 +281,7 @@ body {
     font-size: 13px;
     display: flex;
     flex-direction: column;
-    display: none;
+
 }
 
 .product-card:hover {
