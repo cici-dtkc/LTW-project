@@ -203,3 +203,15 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
+// ===========================
+// SIDEBAR submenu toggle
+// ===========================
+const menuAccountMain = document.getElementById("menuAccountMain");
+const accountSubmenu = document.getElementById("accountSubmenu");
+
+if (menuAccountMain && accountSubmenu) {
+    accountSubmenu.classList.add("open");
+    menuAccountMain.addEventListener("click", (e) => {
+        e.preventDefault();
+        accountSubmenu.classList.toggle("open");
+    });}

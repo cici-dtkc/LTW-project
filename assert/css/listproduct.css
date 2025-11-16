@@ -1,7 +1,5 @@
 body {
-    font-family: var(--font);
     background: var(--color-bg);
-    margin: 0px auto;
     color: #373737;
 
 }
