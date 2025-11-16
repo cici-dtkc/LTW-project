@@ -1,177 +1,152 @@
-// address.js - Address Management
+// address.js - Address Management (NO RENDER, NO ADD NEW ITEM)
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Initialize address data (mock data)
-    let addresses = [
-        {
-            id: 1,
-            name: "Nguyễn Văn A",
-            phone: "1234567",
-            addressLine1: "nhà Số 13 khu phố tây B đông hoà dĩ an bình dương",
-            addressLine2: "Phường Đông Hòa, Thành Phố Dĩ An, Bình Dương",
-            type: "home",
-            isDefault: true
-        },
 
-        {
-            id: 2,
-            name: "Phạm Thị B",
-            phone: "(+84) 852 399 329",
-            addressLine1: "Ấp Đất Mới",
-            addressLine2: "Xã Long Phước, Huyện Long Thành, Đồng Nai",
-            type: "office",
-            isDefault: false
-        },
-        {
-            id: 3,
-            name: "Nguyễn Văn C",
-            phone: "(+84) 325 883 448",
-            addressLine1: "300/23/16 nguyễn văn linh q7",
-            addressLine2: "Phường Bình Thuận, Quận 7, TP. Hồ Chí Minh",
-            type: "home",
-            isDefault: false
-        },
-
-    ];
-
-    // DOM Elements
+    // ===============================
+    // ELEMENTS
+    // ===============================
     const btnAddAddress = document.getElementById("btnAddAddress");
     const modalOverlay = document.getElementById("modalOverlay");
     const btnBack = document.getElementById("btnBack");
     const addressForm = document.getElementById("addressForm");
     const addressList = document.getElementById("addressList");
     const addressTypeButtons = document.querySelectorAll(".address-type-btn");
+
     let selectedAddressType = "home";
+    let editingId = null; // chỉ lưu ID khi cập nhật, null = thêm mới (nhưng không tạo mới)
 
-    // Display addresses using innerHTML
-    function displayAddresses() {
-        let html = "";
-        addresses.forEach(address => {
-            const deleteLink = address.isDefault
-                ? ""
-                : `<a href="#" class="address-action-link" data-action="delete" data-id="${address.id}">Xóa</a>`;
-
-            const defaultBadge = address.isDefault
-                ? '<span class="address-default-badge">Mặc định</span>'
-                : "";
-
-            html += `
-                <div class="address-item" data-id="${address.id}">
-                    <div class="address-info">
-                        <div class="address-name-phone">
-                            <span class="address-name">${address.name}</span>
-                            <span class="address-separator">|</span>
-                            <span class="address-phone">${address.phone}</span>
-                        </div>
-                        <div class="address-details">
-                            <div>${address.addressLine1}</div>
-                            <div>${address.addressLine2}</div>
-                        </div>
-                        ${defaultBadge}
-                    </div>
-                    <div class="address-actions">
-                        <div class="address-action-links">
-                            <a href="#" class="address-action-link" data-action="update" data-id="${address.id}">Cập nhật</a>
-                            ${deleteLink}
-                        </div>
-                        <button class="btn-set-default" data-action="set-default" data-id="${address.id}">Thiết lập mặc định</button>
-                    </div>
-                </div>
-            `;
-        });
-        addressList.innerHTML = html;
-    }
-
-    // Show modal
+    // ===============================
+    // SHOW / HIDE MODAL
+    // ===============================
     function showModal() {
         modalOverlay.classList.add("active");
         resetForm();
     }
 
-    // Hide modal
     function hideModal() {
         modalOverlay.classList.remove("active");
         resetForm();
+        editingId = null;
     }
 
-    // Reset form
     function resetForm() {
         addressForm.reset();
         selectedAddressType = "home";
+
         addressTypeButtons.forEach(btn => {
-            if (btn.dataset.type === "home") {
-                btn.classList.add("active");
+            btn.classList.toggle("active", btn.dataset.type === "home");
+        });
+    }
+
+    // ===============================
+    // READ DATA
+    // ===============================
+    function readAddressData(container) {
+        return {
+            id: parseInt(container.dataset.id),
+            name: container.querySelector(".address-name").textContent.trim(),
+            phone: container.querySelector(".address-phone").textContent.trim(),
+            addressLine1: container.querySelector(".addr-line1").textContent.trim(),
+            addressLine2: container.querySelector(".addr-line2").textContent.trim(),
+            type: container.dataset.type,
+            isDefault: container.classList.contains("default")
+        };
+    }
+
+    // ===============================
+    // UPDATE DATA BACK TO HTML
+    // ===============================
+    function updateAddressHTML(container, data) {
+        container.dataset.type = data.type;
+
+        container.querySelector(".address-name").textContent = data.name;
+        container.querySelector(".address-phone").textContent = data.phone;
+        container.querySelector(".addr-line1").textContent = data.addressLine1;
+        container.querySelector(".addr-line2").textContent = data.addressLine2;
+
+        const badge = container.querySelector(".address-default-badge");
+
+        if (data.isDefault) {
+            container.classList.add("default");
+            if (!badge) {
+                container.querySelector(".address-info")
+                    .insertAdjacentHTML("beforeend",
+                        '<span class="address-default-badge">Mặc định</span>');
+            }
+        } else {
+            container.classList.remove("default");
+            if (badge) badge.remove();
+        }
+    }
+
+    // ===============================
+    // SET DEFAULT ADDRESS
+    // ===============================
+    function setDefaultAddress(id) {
+        document.querySelectorAll(".address-item").forEach(item => {
+            const badge = item.querySelector(".address-default-badge");
+
+            if (parseInt(item.dataset.id) === id) {
+                item.classList.add("default");
+                if (!badge)
+                    item.querySelector(".address-info")
+                        .insertAdjacentHTML("beforeend",
+                            '<span class="address-default-badge">Mặc định</span>');
             } else {
-                btn.classList.remove("active");
+                item.classList.remove("default");
+                if (badge) badge.remove();
             }
         });
     }
 
-    // Set default address
-    function setDefaultAddress(id) {
-        addresses.forEach(addr => {
-            addr.isDefault = (addr.id === parseInt(id));
-        });
-        displayAddresses();
-    }
-
-    // Delete address
+    // ===============================
+    // DELETE ADDRESS
+    // ===============================
     function deleteAddress(id) {
-        if (confirm("Bạn có chắc chắn muốn xóa địa chỉ này?")) {
-            addresses = addresses.filter(addr => addr.id !== parseInt(id));
-            displayAddresses();
-        }
+        const item = document.querySelector(`.address-item[data-id="${id}"]`);
+        if (item) item.remove();
     }
 
-    // Edit address
+    // ===============================
+    // EDIT ADDRESS
+    // ===============================
     function editAddress(id) {
-        const address = addresses.find(addr => addr.id === id);
-        if (address) {
-            document.getElementById("fullName").value = address.name;
-            document.getElementById("phoneNumber").value = address.phone;
-            document.getElementById("specificAddress").value = address.addressLine1;
+        const container = document.querySelector(`.address-item[data-id="${id}"]`);
+        if (!container) return;
 
-            // Set location dropdown
-            const locationSelect = document.getElementById("location");
-            locationSelect.value = address.addressLine2;
+        const data = readAddressData(container);
 
-            // Set address type
-            selectedAddressType = address.type;
-            addressTypeButtons.forEach(btn => {
-                if (btn.dataset.type === address.type) {
-                    btn.classList.add("active");
-                } else {
-                    btn.classList.remove("active");
-                }
-            });
+        document.getElementById("fullName").value = data.name;
+        document.getElementById("phoneNumber").value = data.phone;
+        document.getElementById("specificAddress").value = data.addressLine1;
+        document.getElementById("location").value = data.addressLine2;
+        document.getElementById("setDefault").checked = data.isDefault;
 
-            document.getElementById("setDefault").checked = address.isDefault;
+        selectedAddressType = data.type;
 
-            showModal();
+        addressTypeButtons.forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.type === data.type);
+        });
 
-            // Store editing address id
-            addressForm.dataset.editingId = id;
-        }
+        editingId = id;
+
+        showModal();
     }
 
-    // Event Listeners
+    // ===============================
+    // EVENT: SHOW MODAL WHEN ADD NEW
+    // ===============================
     btnAddAddress.addEventListener("click", () => {
-        delete addressForm.dataset.editingId;
+        editingId = null; // thêm mới nhưng KHÔNG tạo HTML
         showModal();
     });
 
-    btnBack.addEventListener("click", () => {
-        hideModal();
+    btnBack.addEventListener("click", hideModal);
+
+    modalOverlay.addEventListener("click", e => {
+        if (e.target === modalOverlay) hideModal();
     });
 
-    // Close modal when clicking overlay
-    modalOverlay.addEventListener("click", (e) => {
-        if (e.target === modalOverlay) {
-            hideModal();
-        }
-    });
-
-    // Address type buttons
     addressTypeButtons.forEach(btn => {
         btn.addEventListener("click", () => {
             addressTypeButtons.forEach(b => b.classList.remove("active"));
@@ -180,122 +155,63 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Form submission
-    addressForm.addEventListener("submit", (e) => {
+    // ===============================
+    // SUBMIT FORM
+    // ===============================
+    addressForm.addEventListener("submit", function (e) {
         e.preventDefault();
 
-        const fullName = document.getElementById("fullName").value.trim();
-        const phoneNumber = document.getElementById("phoneNumber").value.trim();
-        const location = document.getElementById("location").value;
-        const specificAddress = document.getElementById("specificAddress").value.trim();
-        const setDefault = document.getElementById("setDefault").checked;
-
-        // Validation
-        if (!fullName) {
-            alert("Vui lòng nhập họ và tên");
-            return;
-        }
-
-        if (!phoneNumber) {
-            alert("Vui lòng nhập số điện thoại");
-            return;
-        }
-
-        if (!location) {
-            alert("Vui lòng chọn địa điểm");
-            return;
-        }
-
-        if (!specificAddress) {
-            alert("Vui lòng nhập địa chỉ cụ thể");
-            return;
-        }
-
-        // Get location text (value is the full text)
-        const locationText = location;
-
-        const addressData = {
-            name: fullName,
-            phone: phoneNumber,
-            addressLine1: specificAddress,
-            addressLine2: locationText,
+        const data = {
+            id: editingId,
+            name: document.getElementById("fullName").value,
+            phone: document.getElementById("phoneNumber").value,
+            addressLine1: document.getElementById("specificAddress").value,
+            addressLine2: document.getElementById("location").value,
             type: selectedAddressType,
-            isDefault: setDefault
+            isDefault: document.getElementById("setDefault").checked
         };
 
-        const editingId = addressForm.dataset.editingId;
+        if (data.isDefault) setDefaultAddress(data.id);
+
         if (editingId) {
-            // Update existing address
-            const index = addresses.findIndex(addr => addr.id === parseInt(editingId));
-            if (index !== -1) {
-                addressData.id = parseInt(editingId);
-                addresses[index] = addressData;
-
-                // If setting as default, unset others
-                if (setDefault) {
-                    addresses.forEach(addr => {
-                        if (addr.id !== parseInt(editingId)) {
-                            addr.isDefault = false;
-                        }
-                    });
-                }
-            }
+            // UPDATE ONLY — DO NOT CREATE NEW
+            const container = document.querySelector(`.address-item[data-id="${editingId}"]`);
+            updateAddressHTML(container, data);
         } else {
-            // Add new address
-            const newId = addresses.length > 0 ? Math.max(...addresses.map(a => a.id)) + 1 : 1;
-            addressData.id = newId;
-
-            // If setting as default, unset others
-            if (setDefault) {
-                addresses.forEach(addr => {
-                    addr.isDefault = false;
-                });
-            }
-
-            addresses.push(addressData);
+            // THÊM MỚI: KHÔNG LÀM GÌ
+            console.warn("Bạn chọn cấu hình C: Không tạo địa chỉ mới bằng JS.");
         }
 
-        displayAddresses();
         hideModal();
     });
 
-    // Event delegation for address actions
-    addressList.addEventListener("click", function(e) {
-        // Find the closest element with data-action attribute
-        const clickable = e.target.closest("[data-action]");
-        if (!clickable) return;
-
-        const action = clickable.getAttribute("data-action");
-        const id = clickable.getAttribute("data-id");
-
-        if (!action || !id) return;
+    // ===============================
+    // CLICK ACTIONS
+    // ===============================
+    addressList.addEventListener("click", function (e) {
+        const btn = e.target.closest("[data-action]");
+        if (!btn) return;
 
         e.preventDefault();
 
-        if (action === "update") {
-            editAddress(parseInt(id));
-        } else if (action === "delete") {
-            deleteAddress(parseInt(id));
-        } else if (action === "set-default") {
-            setDefaultAddress(parseInt(id));
-        }
+        const id = parseInt(btn.dataset.id);
+        const action = btn.dataset.action;
+
+        if (action === "delete") deleteAddress(id);
+        else if (action === "update") editAddress(id);
+        else if (action === "set-default") setDefaultAddress(id);
     });
 
-    // Sidebar submenu toggle
-    const menuAccountMain = document.getElementById("menuAccountMain");
-    const accountSubmenu = document.getElementById("accountSubmenu");
-
-    if (menuAccountMain && accountSubmenu) {
-        // Open submenu by default since we're on the address page
-        accountSubmenu.classList.add("open");
-
-        menuAccountMain.addEventListener("click", (e) => {
-            e.preventDefault();
-            accountSubmenu.classList.toggle("open");
-        });
-    }
-
-    // Initial display
-    displayAddresses();
 });
+// ===========================
+// SIDEBAR submenu toggle
+// ===========================
+const menuAccountMain = document.getElementById("menuAccountMain");
+const accountSubmenu = document.getElementById("accountSubmenu");
 
+if (menuAccountMain && accountSubmenu) {
+    accountSubmenu.classList.add("open");
+    menuAccountMain.addEventListener("click", (e) => {
+        e.preventDefault();
+        accountSubmenu.classList.toggle("open");
+    });}

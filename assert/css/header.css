@@ -22,7 +22,7 @@ html {
 
 /* Thêm padding-top cho body để tránh nội dung bị che bởi header fixed */
 body:has(#header) {
-    padding-top: 40px;
+    padding-top: 80px;
 }
 
 /* Hoặc nếu dùng header-container */
@@ -31,7 +31,7 @@ body:has(#header) {
 }
 
 #main-content {
-    padding-top: 40px;
+    padding-top: 0;
 }
 
 /* Căn giữa nội dung */
@@ -80,7 +80,7 @@ body:has(#header) {
     text-decoration: none;
     color: black;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 18px;
     position: relative;
     padding: 6px 10px; /* nhỏ gọn hơn */
     transition: all 0.3s ease;
@@ -214,25 +214,27 @@ body:has(#header) {
     align-items: center;
 }
 
-#header .box ul li a:not(.user-profile) {
+#header .box .search-item a, #header .box .cart-item a{
     color: #0e0e0e;
-    font-size:20px;
+    font-size:18px;
     transition: all 0.3s ease;
     padding: 8px;
     width: 40px;
     height: 40px;
     line-height: 1;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--box-shadow);
     border-radius: 50%;
 
 }
 
-#header .box ul li a:not(.user-profile):hover {
-    background-color: rgba(255, 255, 255, 0.2);
+#header .box .search-item a:hover, #header .box .cart-item a:hover{
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow:var(--box-shadow);
 }
 
+#header .box .search-item i, #header .box .cart-item i  , #header .box .user-profile i{
+    font-size: 18px;
+}
 /* ====================== */
 /*  CART BADGE           */
 /* ====================== */
@@ -249,7 +251,7 @@ body:has(#header) {
     border-radius: 12px;
     min-width: 20px;
     height: 20px;
-    display: flex !important;
+    display: flex  ;
     align-items: center;
     justify-content: center;
     font-size: 11px;
@@ -261,9 +263,6 @@ body:has(#header) {
     z-index: 10;
 }
 
-#header .cart-badge:empty {
-    display: none !important;
-}
 
 #header .cart-badge.hidden {
     display: none !important;
@@ -340,12 +339,12 @@ body:has(#header) {
 }
 
 #header .user-profile i {
-    font-size: 16px;
+    font-size: 14px;
     color: #000;
 }
 
 #header .user-profile .username {
-    font-size: 14px;
+    font-size: 16px;
     color: #111;
     font-weight: 500;
     white-space: nowrap; /* tránh xuống dòng "Đăng nhập" */
@@ -356,12 +355,14 @@ body:has(#header) {
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
-    min-width: 140px;
+    min-width: 180px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
     padding: 8px 0;
     display: none;
+    flex-direction: column;
+    align-items: flex-start;
     opacity: 0;
     transform: translateY(-6px);
     transition: all 0.25s ease;
@@ -378,43 +379,29 @@ body:has(#header) {
     height: 14px;
     background: #fff;
     transform: rotate(45deg);
-    box-shadow: -2px -2px 6px rgba(0,0,0,0.05);
+    box-shadow: var(--box-shadow);
+}
+
+/* ===== HIỆU ỨNG MỞ MENU ===== */
+#header .user-area.open .user-dropdown {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* ===== ITEM ===== */
 #header .user-dropdown a {
     display: block;
-    color: #111;
-    font-size: 13px;
-}
-
-/* ===== HIỆU ỨNG MỞ MENU ===== */
-#header .user-area.open .user-dropdown {
-    display: block;
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-/* Sửa lỗi chữ dọc trong dropdown */
-#header .user-dropdown {
-    display: flex;
-    flex-direction: column; /* 🔹 Xếp các item theo chiều dọc */
-    align-items: flex-start; /* Canh trái tự nhiên */
-    text-align: left;        /* Đảm bảo chữ không bị giữa */
-}
-
-#header .user-dropdown a {
-    display: block;          /* 🔹 Mỗi link chiếm nguyên dòng */
     width: 100%;
-    white-space: nowrap;     /* Giữ chữ trên một dòng */
     text-align: left;
-    line-height: 1.4;
+    white-space: nowrap;
+    font-size:16px;
+    line-height: 1;
+    text-shadow: var(--box-shadow);
+    color: #0e0e0e;
+    transition: all 0.3s ease;
+    padding:8px;
 }
-#header .user-dropdown a {
-    background: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    font-size: 13px !important; /* 👈 cỡ chữ nhỏ gọn */
-    color: #111;
+#header .user-dropdown a:hover{
+    transform: scale(1.1);
 }
