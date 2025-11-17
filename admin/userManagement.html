@@ -52,6 +52,15 @@
                     >
                     <span class="nav-tooltip">Đơn hàng</span>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" data-target="customers" href="userManagement.html"
+                    ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Người dùng
+                  </span></a
+                    >
+                    <span class="nav-tooltip">Người dùng</span>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" data-target="promotions" href="vouchersAdmin.html"
                     ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span class="nav-label">Khuyến
@@ -112,12 +121,51 @@
             </thead>
             <tbody id="user-table-body">
             <!-- Dữ liệu người dùng sẽ được thêm từ database tại đây -->
+            <tr data-id="1">
+                <td>1</td>
+                <td><img src="../assert/img/admin.jpg" style="width:32px; height:32px; border-radius:50%;"></td>
+                <td>Đỗ Thị</td>
+                <td>chi@example.com</td>
+                <td class="role-cell">Admin</td>
+                <td class="status-cell">Hoạt động</td>
+                <td>
+                    <i class="fa-solid fa-pen edit-icon" style="cursor:pointer;"></i>
+                    <i class="fa-solid fa-floppy-disk save-icon" style="cursor:pointer; display:none;"></i>
+                    <i class="fa-solid fa-xmark cancel-icon" style="cursor:pointer; display:none;"></i>
+                </td>
+            </tr>
+            <tr data-id="2">
+                <td>2</td>
+                <td><img src="../assert/img/admin.jpg" style="width:32px; height:32px; border-radius:50%;"></td>
+                <td>Hé Mầm</td>
+                <td>mam@example.com</td>
+                <td class="role-cell">Admin</td>
+                <td class="status-cell">Tạm khóa</td>
+                <td>
+                    <i class="fa-solid fa-pen edit-icon" style="cursor:pointer;"></i>
+                    <i class="fa-solid fa-floppy-disk save-icon" style="cursor:pointer; display:none;"></i>
+                    <i class="fa-solid fa-xmark cancel-icon" style="cursor:pointer; display:none;"></i>
+                </td>
+            </tr>
+            <tr data-id="3">
+                <td>3</td>
+                <td><img src="../assert/img/admin.jpg" style="width:32px; height:32px; border-radius:50%;"></td>
+                <td>Da Vân</td>
+                <td>van@example.com</td>
+                <td class="role-cell">User</td>
+                <td class="status-cell">Hoạt động</td>
+                <td>
+                    <i class="fa-solid fa-pen edit-icon" style="cursor:pointer;"></i>
+                    <i class="fa-solid fa-floppy-disk save-icon" style="cursor:pointer; display:none;"></i>
+                    <i class="fa-solid fa-xmark cancel-icon" style="cursor:pointer; display:none;"></i>
+                </td>
+            </tr>
             </tbody>
         </table>
 
         <!-- Phân trang -->
         <div class="footer" id="footer-pagination">
-            <p id="record-info">Hiển thị 0 người dùng</p>
+            <p id="record-info">Hiển thị 3 người dùng</p>
             <div class="pagination" id="pagination-number">1</div>
         </div>
     </div>
