@@ -1,24 +1,17 @@
 /* ===== RESET & BASE ===== */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: "Segoe UI", Roboto, sans-serif;
-}
-
 body {
-    background-color: #f7f8fa;
-    color: #222;
-    line-height: 1.5;
-    font-size: 15px;
+    font-family: var(--font);
+    background-color: #fff;
+    color: #333;
+    padding: 0;
 }
-
-.container {
+.order-detail-container {
     display: flex;
     gap: 20px;
     max-width: 1200px;
     margin: 30px auto;
     padding: 0 16px;
+
 }
 
 /* ===== CARD ===== */
@@ -136,20 +129,14 @@ body {
 }
 
 /* ===== BUTTONS ===== */
-.btn {
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 14px;
+
+
+.action .btn-ghost {
+    background: #fff !important;
+    border: 1px solid #ccc !important;
 }
 
-.btn-ghost {
-    background: #fff;
-    border: 1px solid #ccc;
-}
-
-.btn-ghost:hover {
+.action .btn-ghost:hover {
     background: #007bff;
     color: #fff;
     border-color: #007bff;
