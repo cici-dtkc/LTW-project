@@ -22,7 +22,7 @@ html {
 
 /* Thêm padding-top cho body để tránh nội dung bị che bởi header fixed */
 body:has(#header) {
-    padding-top: 80px;
+    padding-top: 130px;
 }
 
 /* Hoặc nếu dùng header-container */
