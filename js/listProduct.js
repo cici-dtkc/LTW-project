@@ -196,12 +196,4 @@ cartButtons.forEach(btn => {
         cartBadge.textContent = cartCount;
     });
 });
-// Chọn tất cả ảnh sản phẩm
-const productImages = document.querySelectorAll('.product-card .product-img img');
 
-// Gắn sự kiện click
-productImages.forEach(img => {
-    img.addEventListener('click', () => {
-        window.location.href = 'productDetail.html';
-    });
-});
