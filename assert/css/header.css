@@ -9,7 +9,7 @@ html {
 #header {
     background:var(--color-bg-header);
     padding: 15px 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;;
     position: fixed;
     top: 0;
     left: 0;
@@ -78,7 +78,7 @@ body:has(#header) {
 
 #header .menu ul li a {
     text-decoration: none;
-    color: black;
+    color: white;
     font-weight: 400;
     font-size: 18px;
     position: relative;
@@ -88,7 +88,16 @@ body:has(#header) {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-
+#header .mega-menu .mega-inner  a {
+    color: black;
+    font-weight: 400;
+    font-size: 18px;
+    position: relative;
+    padding: 6px 10px; /* nhỏ gọn hơn */
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
 
 
 /* Gạch chân động khi hover */
@@ -102,7 +111,7 @@ body:has(#header) {
     left: 50%;
     width: 0;
     height: 2px;
-    background-color: #000000;
+    background-color: white;
     transition: all 0.3s ease;
     transform: translateX(-50%);
 }
@@ -140,7 +149,7 @@ body:has(#header) {
     z-index: 1000;
 }
 
-#header .mega-menu::before { /* cầu nối để di chuột xuống không bị mất hover */
+#header .mega-menu::before {
     content: "";
     position: absolute;
     top: -10px;
@@ -151,7 +160,7 @@ body:has(#header) {
 
 #header .mega-inner {
     display: grid;
-    grid-template-columns: repeat(2, minmax(220px, 1fr)); /* phù hợp bề rộng 600px */
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
     gap: 24px;
     max-width: 600px;
     margin: 0 auto;
@@ -165,13 +174,13 @@ body:has(#header) {
 
 #header .mega-col a {
     display: block;
-    color: #111;
+    color: black;
     padding: 6px 0;
     font-size: 14px;
 }
 
 #header .mega-col a:hover {
-    color: #0b8fc6;
+    color: var(--color-bg-header);
 }
 
 /* Show on hover */
@@ -214,8 +223,9 @@ body:has(#header) {
     align-items: center;
 }
 
-#header .box .search-item a, #header .box .cart-item a{
-    color: #0e0e0e;
+#header .box .search-item i
+, #header .box .cart-item i{
+    color: white;
     font-size:18px;
     transition: all 0.3s ease;
     padding: 8px;
@@ -256,7 +266,7 @@ body:has(#header) {
     justify-content: center;
     font-size: 11px;
     font-weight: 700;
-    border: 2px solid var(--color-bg-header);
+    border: 2px solid  white;
     padding: 0 5px;
     box-sizing: border-box;
     line-height: 1;
@@ -323,7 +333,7 @@ body:has(#header) {
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    background: #fff;
+    background: var(--color-bg-header);
     border: 1px solid #ddd;
     border-radius: 25px;
     padding: 6px 12px;
@@ -340,17 +350,20 @@ body:has(#header) {
 
 #header .user-profile i {
     font-size: 14px;
-    color: #000;
+    color: white;
 }
 
 #header .user-profile .username {
     font-size: 16px;
-    color: #111;
+    color: white;
     font-weight: 500;
-    white-space: nowrap; /* tránh xuống dòng "Đăng nhập" */
+    white-space: nowrap;
 }
-
-/* ===== DROPDOWN MENU ===== */
+#header .user-profile:hover .username,
+#header .user-profile:hover i {
+    color: black;
+}
+    /* ===== DROPDOWN MENU ===== */
 #header .user-dropdown {
     position: absolute;
     top: calc(100% + 10px);

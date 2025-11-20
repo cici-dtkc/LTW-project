@@ -8,9 +8,81 @@
   <link rel="stylesheet" href="assert/css/reset.css">
   <link rel="stylesheet" href="assert/css/base.css">
   <link rel="stylesheet" href="assert/css/paymentForm.css">
+  <link rel="stylesheet" href="assert/css/header.css">
   <link rel="stylesheet" href="assert/css/accountSidebar.css">
 </head>
 <body>
+<header id="header">
+  <div class="container">
+    <div class="inner-wrap">
+      <div class="logo" id="logo">
+        <a href="home.html"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+      </div>
+
+      <nav class="menu" id="menu">
+        <ul>
+          <li><a href="home.html" id="nav-home">Trang chủ</a></li>
+          <li><a href="listproduct.html" id="nav-phone">Điện thoại</a></li>
+          <li class="has-mega" id="nav-accessory-item">
+            <a href="listproduct_accessory.html" id="nav-accessory">Phụ kiện</a>
+            <div class="mega-menu" id="mega-accessory">
+              <div class="mega-inner">
+                <div class="mega-col">
+                  <h4>Linh kiện di động</h4>
+                  <a href="listproduct_accessory.html">Màn hình cảm ứng</a>
+                  <a href="listproduct_accessory.html">Pin</a>
+                  <a href="listproduct_accessory.html">camera</a>
+                </div>
+                <div class="mega-col">
+                  <h4>&nbsp;</h4>
+                  <a href="listproduct_accessory.html">Loa/mic</a>
+                  <a href="listproduct_accessory.html">Cáp sạc / Cổng sạc</a>
+                  <a href="listproduct_accessory.html">Giá đỡ điện thoại</a>
+                </div>
+                <div class="mega-col">
+                  <h4>&nbsp;</h4>
+                  <a href="listproduct_accessory.html">Quạt tản nhiệt / Cooling fan</a>
+                  <a href="listproduct_accessory.html">Ốp lưng / Vỏ lưng</a>
+                  <a href="listproduct_accessory.html">Kính cường lực / Mặt kính</a>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li><a href="home.html#footer" id="nav-contact">Liên hệ</a></li>
+        </ul>
+      </nav>
+
+      <div class="box" id="icon-box">
+        <ul>
+          <li class="search-item">
+            <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+          </li>
+
+          <li class="cart-item">
+            <a href="cart.html" id="btn-cart">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span class="cart-badge" id="cart-badge">3</span>
+            </a>
+          </li>
+
+          <li id="user-area" class="user-area">
+            <div class="user-profile" id="user-profile">
+              <i class="fa-solid fa-user"></i>
+              <span class="username" id="header-username">Đăng nhập</span>
+            </div>
+
+            <div class="user-dropdown" id="user-dropdown">
+              <a href="info-user.html">Tài khoản của tôi</a>
+              <a href="order.html">Đơn mua</a>
+              <a href="login.html" id="logout-link">Đăng xuất</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
 <div id="pageWrapper">
 
   <!-- SIDEBAR -->
@@ -111,15 +183,9 @@
           <input type="text" id="ownerName" placeholder="NGUYEN VAN A">
         </div>
 
-        <!-- CHECKBOX -->
-        <div class="checkbox" id="defaultField">
-          <input type="checkbox" id="defaultAccount">
-          <label for="defaultAccount">Đặt làm mặc định</label>
-        </div>
-
         <!-- BUTTON -->
         <div class="btn-group" id="btnGroup">
-          <button type="button" class="back" id="btnBack">HỦY</button>
+          <button type="button" class="back" id="btnBack">Sửa</button>
           <button type="submit" class="submit" id="btnSubmit">Hoàn Thành</button>
         </div>
 
@@ -131,6 +197,7 @@
 
 
 
-<script src="js/paymentForm.js"></script>
+<!--<script src="js/paymentForm.js"></script>-->
+<script src="js/header.js"></script>
 </body>
 </html>
