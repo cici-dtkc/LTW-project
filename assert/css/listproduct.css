@@ -1,12 +1,11 @@
 body {
     background: var(--color-bg);
     color: #373737;
-
 }
 
 .product-page{
     width: 1200px;
-    margin: 70px auto;
+    margin: 10px auto;
 }
 .product-filter-bar {
     background: #fff;
@@ -19,7 +18,7 @@ body {
     margin: 15px 0;
 }
 
-/* Hàng trên: Bộ lọc + thương hiệu */
+/* Hàng trên: Bộ lọc + thương hiệu (Giữ nguyên) */
 .filter-top {
     display: flex;
     align-items: center;
@@ -47,7 +46,7 @@ body {
     font-size: 14px;
 }
 
-/* Danh sách hãng */
+/* Danh sách hãng (Giữ nguyên) */
 .brand-list {
     display: flex;
     align-items: center;
@@ -84,10 +83,10 @@ body {
 }
 
 .dropdown.active {
-    display: block; /* hoặc flex nếu bạn đang dùng layout */
+    display: block;
 }
 
-/* Hàng dưới: các nút lọc */
+/* Hàng dưới: các nút lọc (Giữ nguyên) */
 .filter-options {
     display: flex;
     flex-wrap: wrap;
@@ -104,8 +103,6 @@ body {
     cursor: pointer;
     transition: 0.25s;
 }
-
-/* Hiệu ứng hover */
 
 .filter-item {
     padding: 10px 16px;
@@ -132,10 +129,10 @@ body {
     transition: 0.2s;
 }
 
-/* Dropdown menu */
+/* Dropdown menu (Giữ nguyên) */
 .dropdown {
     position: absolute;
-    top: 100%; /* nằm dưới hàng filter */
+    top: 100%;
     left: 0;
     display: none;
     background: #fff;
@@ -178,7 +175,7 @@ body {
     background: var(--color-button);
     color: white;
 }
-/* Giá */
+/* Giá (Giữ nguyên) */
 .price-input {
     display: flex;
     align-items: center;
@@ -199,7 +196,7 @@ body {
     margin-bottom: 10px;
 }
 
-/* Nút hành động */
+/* Nút hành động (Giữ nguyên) */
 .dropdown-actions {
     display: flex;
     justify-content: space-between;
@@ -218,7 +215,7 @@ body {
     color: white;
 }
 
-/* --- Sắp xếp theo --- */
+/* --- Sắp xếp theo (Giữ nguyên) --- */
 .sort-section {
     margin-top: 15px;
     display: flex;
@@ -246,14 +243,14 @@ body {
     transition: 0.2s;
 }
 
-/*.sort-section li:hover {*/
-/*    text-decoration: underline;*/
-/*}*/
-
 .sort-section li.active {
-    color: #0071e3; /* xanh khi được chọn */
+    color: #0071e3;
     font-weight: 150;
 }
+
+/* ========================================================= */
+/* CHỈNH SỬA BỐ CỤC SẢN PHẨM & GIỚI HẠN DÒNG TIÊU ĐỀ          */
+/* ========================================================= */
 
 .product-list {
     margin-top: 20px;
@@ -265,25 +262,30 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
+    align-items: start;
     justify-items: center;
 }
 
 /* CARD SẢN PHẨM */
 .product-card {
     width: 100%;
-    max-width: 300px;
-    min-height: 500px;
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     font-size: 13px;
+
     display: flex;
     flex-direction: column;
-    display: none;
+    height: 100%;
 }
-
+.phone .product-card {
+    min-height: 500px;
+}
+.accessory .product-card{
+    min-height: 400px;
+}
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -292,7 +294,8 @@ body {
 /* ẢNH */
 .product-img {
     position: relative;
-    flex: 0 0 55%;
+    height: 300px;
+    flex: 0 0 auto;
     background: #fff;
     display: flex;
     align-items: center;
@@ -306,7 +309,7 @@ body {
     background: #fff;
 }
 
-/* HUY HIỆU GIẢM GIÁ */
+/* HUY HIỆU GIẢM GIÁ (Giữ nguyên) */
 .discount-badge {
     position: absolute;
     top: 0px;
@@ -329,13 +332,25 @@ body {
     flex: 1;
     padding: 16px;
     padding-bottom: 0;
+
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+}
+
+/* Tiêu đề sản phẩm */
+.product-info h2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.2rem;
+    line-height: 2;
+    margin: 0 0 10px 0;
+    height: 4.4rem;
 }
 
 /* GIÁ */
-/* --- GIÁ MỚI & GIÁ CŨ --- */
 .price-wrap {
     display: flex;
     align-items: center;
@@ -356,7 +371,7 @@ body {
 }
 
 
-/* MÀU SẮC */
+/* MÀU SẮC (Giữ nguyên) */
 .colors {
     display: flex;
     gap: 6px;
@@ -375,7 +390,7 @@ body {
     border-color: #000;
 }
 
-/* DUNG LƯỢNG */
+/* DUNG LƯỢNG (Giữ nguyên) */
 .capacity {
     display: flex;
     gap: 6px;
@@ -403,12 +418,12 @@ body {
     border-color: #2563eb;
 }
 
-/* --- PHẦN RATING --- */
+/* --- PHẦN RATING (Giữ nguyên) --- */
 .rating {
     display: flex;
     align-items: center;
     margin-top: 10px;
-    /*margin-bottom: 10px;*/
+    margin-bottom: 10px;
     gap: 2px;
 }
 
@@ -421,9 +436,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /*margin-top: auto;*/
+    margin-top: auto;
     margin-bottom: 10px;
-
 }
 
 
@@ -472,7 +486,7 @@ body {
 .category-list {
     display: flex;
     gap: 12px;
-    flex-wrap: wrap; /* nếu dài quá sẽ xuống dòng */
+    flex-wrap: wrap;
     margin: 15px 0;
 }
 
