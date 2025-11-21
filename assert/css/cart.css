@@ -106,72 +106,7 @@ body {
     text-align: center;
     font-weight: bold;
 }
-/* Tổng tiền sản phẩm */
-.table-cart td:last-child {
-    font-weight: 600;
-    color: #325dca;
-    font-size: 20px;
-}
 
-/* Khu vực tổng tiền */
-.beta {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 380px;
-    position: fixed;
-    right: 80px;      /* cách mép phải */
-    top: 40%;
-    transform: translateY(-50%)
-
-}
-.cart-totals {
-    background-color: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    z-index: 1000;
-}
-
-.cart-totals h3 {
-    margin-bottom: 20px;
-    font-size: 22px;
-    font-weight: 600;
-}
-
-.cart-totals table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.cart-totals td {
-    padding: 10px 0;
-    font-size: 16px;
-}
-
-.cart-totals .total-row td {
-    font-weight: 600;
-    font-size: 30px;
-    color: #496dca;
-}
-.coupon-box {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    margin-top: 25px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-}
-
-.coupon-box form {
-    width: 100%;
-}
-
-.coupon-input {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
 
 
 .delete {

@@ -7,73 +7,82 @@
     <title>Thanh toán</title>
     <link rel="stylesheet" href="assert/css/checkout.css">
     <link rel="stylesheet" href="assert/css/cart.css">
-<!--    <link rel="stylesheet" href="assert/css/voucherDetail.css">-->
     <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/header.css">
+
 </head>
 <body>
-<!--<header id="header">-->
-<!--    <div class="container">-->
-<!--        <div class="inner-wrap">-->
-<!--            <div class="logo" id="logo">-->
-<!--                <a href="#"><img src="./assert/img/logo.png" alt="Logo Website" id="logo-img"></a>-->
-<!--            </div>-->
-<!--            <nav class="menu" id="menu">-->
-<!--                <ul>-->
-<!--                    <li><a href="#" id="nav-home">Trang chủ</a></li>-->
-<!--                    <li><a href="#" id="nav-phone">Điện thoại</a></li>-->
-<!--                    <li class="has-mega" id="nav-accessory-item">-->
-<!--                        <a href="#" id="nav-accessory">Phụ kiện <i class="fa-solid fa-chevron-down" style="font-size:12px; margin-left:6px;"></i></a>-->
-<!--                        <div class="mega-menu" id="mega-accessory">-->
-<!--                            <div class="mega-inner">-->
-<!--                                <div class="mega-col">-->
-<!--                                    <h4>Phụ kiện di động</h4>-->
-<!--                                    <a href="#">Sạc dự phòng</a>-->
-<!--                                    <a href="#">Sạc, cáp</a>-->
-<!--                                    <a href="#">Ốp lưng điện thoại</a>-->
-<!--                                </div>-->
-<!--                                <div class="mega-col">-->
-<!--                                    <h4>&nbsp;</h4>-->
-<!--                                    <a href="#">Miếng dán màn hình</a>-->
-<!--                                    <a href="#">Kính cường lực</a>-->
-<!--                                    <a href="#">Giá đỡ điện thoại</a>-->
-<!--                                </div>-->
-<!--                                <div class="mega-col">-->
-<!--                                    <h4>&nbsp;</h4>-->
-<!--                                    <a href="#">Thẻ nhớ</a>-->
-<!--                                    <a href="#">Tai nghe Bluetooth</a>-->
-<!--                                    <a href="#">Tai nghe có dây</a>-->
-<!--                                </div>-->
-<!--                                <div class="mega-col">-->
-<!--                                    <h4>&nbsp;</h4>-->
-<!--                                    <a href="#">Dây đeo đồng hồ</a>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </li>-->
-<!--                    <li><a href="#footer" id="nav-contact">Liên hệ</a></li>-->
-<!--                </ul>-->
-<!--            </nav>-->
-<!--            <div class="box" id="icon-box">-->
-<!--                <ul>-->
-<!--                    <li class="search-item">-->
-<!--                        <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>-->
-<!--                        <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />-->
-<!--                    </li>-->
-<!--                    <li class="cart-item">-->
-<!--                        <a href="#" id="btn-cart">-->
-<!--                            <i class="fa-solid fa-cart-shopping"></i>-->
-<!--                            <span class="cart-badge" id="cart-badge"></span>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                    <li id="user-area" class="user-area">-->
-<!--                        <a href="#" id="btn-user"><i class="fa-solid fa-user"></i></a>-->
+<header id="header">
+    <div class="container">
+        <div class="inner-wrap">
+            <div class="logo" id="logo">
+                <a href="#"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+            </div>
 
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</header>-->
+            <nav class="menu" id="menu">
+                <ul>
+                    <li><a href="#" id="nav-home">Trang chủ</a></li>
+                    <li><a href="listproduct.html" id="nav-phone">Điện thoại</a></li>
+                    <li class="has-mega" id="nav-accessory-item">
+                        <a href="listproduct_accessory.html" id="nav-accessory">Phụ kiện</a>
+                        <div class="mega-menu" id="mega-accessory">
+                            <div class="mega-inner">
+                                <div class="mega-col">
+                                    <h4>Linh kiện di động</h4>
+                                    <a href="listproduct_accessory.html">Màn hình cảm ứng</a>
+                                    <a href="listproduct_accessory.html">Pin</a>
+                                    <a href="listproduct_accessory.html">camera</a>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>&nbsp;</h4>
+                                    <a href="listproduct_accessory.html">Loa/mic</a>
+                                    <a href="listproduct_accessory.html">Cáp sạc / Cổng sạc</a>
+                                    <a href="listproduct_accessory.html">Giá đỡ điện thoại</a>
+                                </div>
+                                <div class="mega-col">
+                                    <h4>&nbsp;</h4>
+                                    <a href="listproduct_accessory.html">Quạt tản nhiệt / Cooling fan</a>
+                                    <a href="listproduct_accessory.html">Ốp lưng / Vỏ lưng</a>
+                                    <a href="listproduct_accessory.html">Kính cường lực / Mặt kính</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="#" id="nav-contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+
+            <div class="box" id="icon-box">
+                <ul>
+                    <li class="search-item">
+                        <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                        <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                    </li>
+
+                    <li class="cart-item">
+                        <a href="cart.html" id="btn-cart">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="cart-badge" id="cart-badge">3</span>
+                        </a>
+                    </li>
+
+                    <li id="user-area" class="user-area">
+                        <div class="user-profile" id="user-profile">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="username" id="header-username">Đăng nhập</span>
+                        </div>
+
+                        <div class="user-dropdown" id="user-dropdown">
+                            <a href="info-user.html">Tài khoản của tôi</a>
+                            <a href="order.html">Đơn mua</a>
+                            <a href="login.html" id="logout-link">Đăng xuất</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 <main>
     <!-- ĐỊA CHỈ NHẬN HÀNG -->
     <section class="address">
@@ -111,15 +120,27 @@
             <!-- Sản phẩm 1 -->
             <tr class="product-item">
                 <td class="product-info">
-                    <img src="assert/img/amex.png" alt="Áo Baby Doll"/>
+                    <img src="assert/img/product/iphone_17_pro_max.png" alt="Áo Baby Doll"/>
                     <div class="details">
-                        <p class="name">Áo Baby Doll Hàn Quốc – Mẫu Mới Dành Cho Nữ</p>
-                        <p class="type">Phân loại: Áo thun ôm màu trắng</p>
+                        <p class="name">iPhone 17 Pro Max</p>
+                        <p class="type">256GB/ Màu cam</p>
                     </div>
                 </td>
-                <td class="price">32.000₫</td>
-                <td class="quantity">2</td>
-                <td class="total">64.000₫</td>
+                <td class="price">63.990.000₫</td>
+                <td class="quantity">1</td>
+                <td class="total">63.990.000₫</td>
+            </tr>
+            <tr class="product-item">
+                <td class="product-info">
+                    <img src="assert/img/product/iphone15.jpg" alt="Áo Baby Doll"/>
+                    <div class="details">
+                        <p class="name">iPhone 15 Pro Max 256GB</p>
+                        <p class="type">256GB/ Bạc ánh sao</p>
+                    </div>
+                </td>
+                <td class="price">8.490.000₫</td>
+                <td class="quantity">1</td>
+                <td class="total">8.490.000₫</td>
             </tr>
             </tbody>
         </table>
@@ -247,11 +268,6 @@
             </label><br>
 
             <label>
-                <input type="radio" name="payment" value="momo">
-                Thanh toán qua MoMo
-            </label><br>
-
-            <label>
                 <input type="radio" name="payment" value="bank">
                 Chuyển khoản ngân hàng
             </label><br>
@@ -263,10 +279,10 @@
     <!-- TỔNG TIỀN -->
     <section class="summary">
         <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
-        <p>Tạm tính: <strong id="subtotal">1.290.000₫</strong></p>
+        <p>Tạm tính: <strong id="subtotal">72.480.000₫</strong></p>
         <p>Phí vận chuyển: <strong id="shipping">25.000₫</strong></p>
         <p>Giảm giá: <strong id="discount">0₫</strong></p>
-        <p class="total">Tổng cộng: <strong id="grandTotal">1.315.000₫</strong></p>
+        <p class="total">Tổng cộng: <strong id="grandTotal">72.480.000₫</strong></p>
         <a href="order_detail.html">
             <div class="action">
             <button type="submit" class="round-black-btn" style="width: 150px;">Đặt hàng</button>
@@ -277,5 +293,6 @@
 
 </main>
 <script src="js/checkout.js"></script>
+<script src="js/header.js"></script>
 </body>
 </html>
