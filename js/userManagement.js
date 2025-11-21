@@ -1,6 +1,4 @@
-// ==============================
-// Quản lý người dùng - JavaScript
-// ==============================
+
 
 // DOM elements
 const searchInput = document.getElementById("search-input");
@@ -11,37 +9,7 @@ const recordInfo = document.getElementById("record-info");
 const pagination = document.getElementById("pagination-number");
 const addUserBtn = document.getElementById("add-user-btn");
 
-// ==============================
-// Lọc và tìm kiếm
-// ==============================
-function applyFilters() {
-    const searchValue = searchInput.value.toLowerCase();
-    const selectedRole = roleFilter.value;
-    const selectedStatus = statusFilter.value;
 
-    const rows = userTableBody.querySelectorAll("tr");
-    let visibleCount = 0;
-
-    rows.forEach((row) => {
-        const name = row.cells[2].textContent.toLowerCase();
-        const email = row.cells[3].textContent.toLowerCase();
-        const role = row.cells[4].textContent.trim();
-        const status = row.cells[5].textContent.trim();
-
-        const matchesSearch = name.includes(searchValue) || email.includes(searchValue);
-        const matchesRole = selectedRole === "" || role === selectedRole;
-        const matchesStatus = selectedStatus === "" || status === selectedStatus;
-
-        if (matchesSearch && matchesRole && matchesStatus) {
-            row.style.display = "";
-            visibleCount++;
-        } else {
-            row.style.display = "none";
-        }
-    });
-
-    recordInfo.textContent = `Hiển thị ${visibleCount} người dùng`;
-}
 
 // ==============================
 //  Inline Edit
@@ -111,9 +79,3 @@ userTableBody.addEventListener("click", (e) => {
     }
 });
 
-// ==============================
-// Events
-// ==============================
-searchInput.addEventListener("input", applyFilters);
-roleFilter.addEventListener("change", applyFilters);
-statusFilter.addEventListener("change", applyFilters);

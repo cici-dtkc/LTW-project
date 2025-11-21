@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btnBack = document.getElementById("btnBack");
     const btnSubmit = document.getElementById("btnSubmit");
+    const menuAccountMain = document.getElementById("menuAccountMain");
+    const accountSubmenu = document.getElementById("accountSubmenu");
 
     let isEditMode = false;
 
@@ -166,13 +168,18 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => alert.remove(), 500);
         }, 2500);
     }
-    const menuAccountMain = document.getElementById("menuAccountMain");
-    const accountSubmenu = document.getElementById("accountSubmenu");
 
-    // Toggle submenu
-    menuAccountMain.addEventListener("click", (e) => {
-        e.preventDefault();
-        accountSubmenu.classList.toggle("open");
-    });
+    // ===========================
+// SIDEBAR submenu toggle
+// ===========================
+
+
+    if (menuAccountMain && accountSubmenu) {
+        accountSubmenu.classList.add("open");
+        menuAccountMain.addEventListener("click", (e) => {
+            e.preventDefault();
+            accountSubmenu.classList.toggle("open");
+        });
+    }
 
 });

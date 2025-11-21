@@ -43,15 +43,9 @@
 
 .header input:focus,
 .header select:focus {
-    border-color: #888888;
+    border-color: #0ea5e9;
 }
 
-#add-user-btn {
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
 
 .container table {
     width: 100%;
@@ -74,17 +68,4 @@
     color: #333;
 }
 
-.container .footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #555;
-}
 
-.container .pagination {
-    background: var(--color-text-user);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 6px;
-}
