@@ -20,7 +20,7 @@
     margin-top: 0;
     position: relative;
     width: 100%;
-    /*max-width: 1320px;*/
+    max-width: 1320px;
 }
 
 .promotions .payment-promo .promo-title {
@@ -90,7 +90,7 @@
 /* Icon */
 .promotions .payment-promo .promo-slider .promo-list .promo-item i {
     font-size: 32px; /* Kích thước icon lớn hơn */
-    color: #007bff; /* Màu xanh nổi bật */
+    color: var(--color-bg-header); /* Màu xanh nổi bật */
     margin-bottom: 10px; /* Khoảng cách với nội dung */
 }
 

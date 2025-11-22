@@ -85,7 +85,7 @@
         </div>
     </div>
 </header>
-<div class="voucher-container">
+<div class="voucher-container page-wrapper">
     <div id="accountSidebar">
         <!-- USER INFO -->
         <div id="userBox">
@@ -341,4 +341,18 @@
 </footer>
 </body>
 <script src="js/header.js"></script>
+<script>
+    // ===========================
+    // SIDEBAR submenu toggle
+    // ===========================
+    const menuAccountMain = document.getElementById("menuAccountMain");
+    const accountSubmenu = document.getElementById("accountSubmenu");
+
+    if (menuAccountMain && accountSubmenu) {
+        accountSubmenu.classList.add("open");
+        menuAccountMain.addEventListener("click", (e) => {
+            e.preventDefault();
+            accountSubmenu.classList.toggle("open");
+        });}
+</script>
 </html>

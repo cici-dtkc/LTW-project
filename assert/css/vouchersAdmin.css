@@ -81,7 +81,7 @@
     transition: 0.3s;
 }
 .btn-add:hover {
-    background-color: #157347;
+    opacity: 0.8;
 }
 .table-container{
     display: flex;
