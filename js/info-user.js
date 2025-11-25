@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const btnSave = document.getElementById("btn-save");
   const btnLogout = document.getElementById("btn-logout");
 
-  const fullNameInput = document.getElementById("fullName");
+  const firstNameInput = document.getElementById("firstName");
+  const lastNameInput = document.getElementById("lastName");
   const emailInput = document.getElementById("emailInput");
   const emailError = document.getElementById("emailError");
 
@@ -13,32 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let isEditing = false;
 
-  // ==== Nút "Chọn ảnh" mở input file ====
-  chooseAvatarBtn.addEventListener("click", () => {
-    avatarInput.click();
-  });
-
-  // ==== Xem trước ảnh đại diện ====
-  avatarInput.addEventListener("change", function () {
-    const file = this.files[0];
-    if (file) {
-      if (!file.type.startsWith("image/")) {
-        return;
-      }
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        avatarPreview.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
   // ==== Khi nhấn "Chỉnh sửa" ====
   btnEdit.addEventListener("click", function () {
     isEditing = true;
 
     // Bật input để chỉnh sửa
-    fullNameInput.disabled = false;
+    firstNameInput.disabled = false;
+    lastNameInput.disabled = false;
     emailInput.disabled = false;
 
     // Chuyển nút
@@ -49,29 +31,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // ==== Khi nhấn "Lưu thay đổi" ====
   btnSave.addEventListener("click", function () {
-    const fullName = fullNameInput.value.trim();
-    const email = emailInput.value.trim();
-
-    // Kiểm tra hợp lệ
-    if (fullName === "") {
-      alert("Vui lòng nhập họ tên!");
-      fullNameInput.focus();
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      emailError.textContent = "Email không hợp lệ!";
-      emailInput.focus();
-      return;
-    } else {
-      emailError.textContent = "";
-    }
-
-    // Giả lập lưu dữ liệu (API hoặc localStorage tuỳ bạn)
-    console.log("Dữ liệu mới:", { fullName, email });
 
     // Khoá lại input sau khi lưu
-    fullNameInput.disabled = true;
+    firstNameInput.disabled = true;
+    lastNameInput.disabled = true;
     emailInput.disabled = true;
 
     // Hiển thị lại nút ban đầu
@@ -81,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     isEditing = false;
 
-    alert("Lưu thay đổi thành công!");
   });
 
   // ==== Khi nhấn "Đăng xuất" ====

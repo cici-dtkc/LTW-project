@@ -73,7 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (rememberChecked === "true" && rememberedUsername) {
         usernameInput.value = rememberedUsername;
-        checkboxRemember.checked = true;
+        if (checkboxRemember) {
+            checkboxRemember.checked = true;
+        }
     }
 
     // Xử lý đăng nhập
@@ -114,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // admin login
         if (username === "admin" && password === "123456") {
             showMessage("Đăng nhập thành công! Đang chuyển hướng...", "success");
-            if (checkboxRemember.checked) {
+            if (checkboxRemember && checkboxRemember.checked)  {
                 localStorage.setItem("rememberedUsername", username);
                 localStorage.setItem("rememberChecked", "true");
             } else {
@@ -139,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
             showMessage("Đăng nhập thành công! Đang chuyển hướng...", "success");
             localStorage.setItem("currentUser", JSON.stringify(user));
 
-            if (checkboxRemember.checked) {
+            if (checkboxRemember && checkboxRemember.checked) {
                 localStorage.setItem("rememberedUsername", username);
                 localStorage.setItem("rememberChecked", "true");
             } else {
