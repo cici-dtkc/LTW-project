@@ -35,7 +35,8 @@
       <select id="phoneBrand">
         <option value="1">Apple</option>
         <option value="2">Samsung</option>
-        <option value="3">Xiaomi</option>
+        <option value="3">Vivo</option>
+        <option value="4">Oppo</option>
       </select>
     </div>
 
@@ -61,7 +62,7 @@
 
     <!-- ẢNH -->
     <div class="form-group">
-      <label>Ảnh chính (giữ nguyên hoặc chọn mới)</label>
+      <label>Ảnh chính</label>
       <input type="file" id="phoneMainImage">
       <img id="previewMainImage" style="width:120px; margin-top:10px;">
     </div>
@@ -96,8 +97,10 @@
     <div class="form-group">
       <label>Hãng</label>
       <select id="partBrand">
-        <option value="4">Anker</option>
-        <option value="5">Energizer</option>
+        <option value="1">Apple</option>
+        <option value="2">Samsung</option>
+        <option value="3">Vivo</option>
+        <option value="4">Xiaomi</option>
       </select>
     </div>
 
@@ -106,10 +109,15 @@
       <select id="partSubcategory">
         <option value="1">Màn hình cảm ứng</option>
         <option value="2">Pin</option>
-        <option value="3">Cáp sạc</option>
+        <option value="3">Cáp sạc/ Cổng sạc</option>
         <option value="4">Camera</option>
-        <option value="5">Loa/Mic</option>
-        <option value="6">Vỏ máy</option>
+        <option value="5">Loa/ Mic</option>
+        <option value="6">Vỏ và khung sườn</option>
+
+        <option value="7">Giá đỡ điện thoại</option>
+        <option value="8">Quạt tản nhiệt / Cooling fan</option>
+        <option value="9">Ốp lưng / Vỏ lưng</option>
+        <option value="10">Kính cường lực / Mặt kính</option>
       </select>
     </div>
 
@@ -155,6 +163,7 @@
 
     <br><br>
     <button type="submit">Cập nhật</button>
+    <button type="button" class="cancelBtn">Hủy</button>
   </form>
 </div>
 
@@ -190,7 +199,7 @@
   </div>
 </template>
 
+<script src="../js/addProductAdmin.js"></script>
 <script src="../js/editProduct.js"></script>
-
 </body>
 </html>

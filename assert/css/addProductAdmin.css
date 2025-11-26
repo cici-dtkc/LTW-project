@@ -134,6 +134,7 @@ button:hover {
 
 .removeBtn {
     background-color: #dc3545;
+    width: fit-content;
 }
 
 .removeBtn:hover {
