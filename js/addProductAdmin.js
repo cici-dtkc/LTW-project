@@ -46,5 +46,5 @@ document.getElementById("addPartVariant").addEventListener("click", ()=> addVari
 document.getElementById("addPartAttribute").addEventListener("click", ()=> addAttribute("partAttributesContainer"));
 
 // ===== Optional: demo submit =====
-phoneForm.addEventListener("submit", e=>{ e.preventDefault(); alert("Đã thêm điện thoại (demo)")});
-partForm.addEventListener("submit", e=>{ e.preventDefault(); alert("Đã thêm linh kiện (demo)")});
+phoneForm.addEventListener("submit", e=>{ e.preventDefault(); alert("Đã thêm điện thoại")});
+partForm.addEventListener("submit", e=>{ e.preventDefault(); alert("Đã thêm linh kiện")});

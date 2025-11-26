@@ -10,17 +10,14 @@
   <link rel="stylesheet" href="../assert/css/reset.css">
   <link rel="stylesheet" href="../assert/css/base.css">
   <link rel="stylesheet" href="../assert/css/vouchersAdmin.css">
-  <!--    import để có css sidebar-->
   <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
   <link rel="stylesheet" href="../assert/css/productAdmin.css">
-  <!-- Nút ẩn/hiện sản phẩm -->
-<!--  <div class="tooltip" class="toggleVisibilityBtn" data-tooltip="Ẩn sản phẩm"> đổi id="toggleVisibilityBtn"-->
 
 </head>
 <body>
 <div class="app">
   <!--    import để chứa sidebar-->
-  <div id="sidebarContainer"><aside class="sidebar" id="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="brand">
       <button
               class="toggle-icon sidebar-toggle"
@@ -52,45 +49,41 @@
           <span class="nav-tooltip">Sản phẩm</span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-target="orders" href="#"
+          <a class="nav-link" data-target="orders" href="admin-orders.html"
           ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
-              hàng</span></a
+                  hàng</span></a
           >
           <span class="nav-tooltip">Đơn hàng</span>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" data-target="customers" href="#"
-          ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Người dùng</span></a
+          <a class="nav-link" data-target="customers" href="userManagement.html"
+          ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Người dùng
+                  </span></a
           >
-          <span class="nav-tooltip">Khách hàng</span>
+          <span class="nav-tooltip">Người dùng</span>
         </li>
+
         <li class="nav-item">
           <a class="nav-link" data-target="promotions" href="vouchersAdmin.html"
           ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span class="nav-label">Khuyến
-              mãi</span></a
+                  mãi</span></a
           >
           <span class="nav-tooltip">Khuyến mãi</span>
         </li>
       </ul>
       <ul class="nav-list second-nav">
         <li class="nav-item">
-          <a class="nav-link" data-target="info" href="#"
-          ><span class="icon"><i class="fa-solid fa-user-tie"></i></span> <span class="nav-label">Thông tin</span></a
-          >
-          <span class="nav-tooltip">Thông tin</span>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-target="logout" href="#">
-                    <span class="icon">
-                    <i class="fa-solid fa-right-from-bracket"></i></span>
+          <a class="nav-link" data-target="logout" href="login.html">
+                        <span class="icon">
+                        <i class="fa-solid fa-right-from-bracket"></i></span>
             <span class="nav-label">Đăng xuất</span>
           </a>
           <span class="nav-tooltip">Đăng xuất</span>
         </li>
       </ul>
     </nav>
-  </aside></div>
-
+  </aside>
   <div class="container">
     <div class="topbar">
       <div class="topbar-left">
@@ -122,7 +115,7 @@
           <select id="filterCategory">
             <option value="all">Tất cả</option>
             <option value="active">Điện thoại</option>
-            <option value="inactive">Phụ kiện</option>
+            <option value="inactive">Linh kiện</option>
           </select>
           <button class="btn-filter" id="btnFilter">Tìm kiếm</button>
         </div>
@@ -151,9 +144,11 @@
           <td>256GB</td>
           <td>25</td>
           <td class="actionsProduct">
-            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
-              <button class="btn-edit"><i class="fa-solid fa-pencil"></i></button>
-            </div>
+            <a href="editProductAdmin.html" class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </a>
             <!-- Nút ẩn/hiện sản phẩm -->
             <div class="tooltip" class="toggleVisibilityBtn" data-tooltip="Ẩn sản phẩm">
               <button class="btn-delete" onclick="toggleVisibility(this)">
@@ -172,7 +167,11 @@
           <td>128GB</td>
           <td>4100</td>
           <td class="actionsProduct">
-            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm"><button class="btn-edit"><i class="fa-solid fa-pencil"></i></button></div>
+            <a href="editProductAdmin.html" class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </a>
             <div class="tooltip" data-tooltip="Ẩn sản phẩm">
               <button class="btn-delete" onclick="toggleVisibility(this)">
                 <i class="fa-solid fa-eye"></i>
@@ -189,7 +188,11 @@
           <td>256GB</td>
           <td>4100</td>
           <td class="actionsProduct">
-            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm"><button class="btn-edit"><i class="fa-solid fa-pencil"></i></button></div>
+            <a href="editProductAdmin.html" class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </a>
             <div class="tooltip" data-tooltip="Ẩn sản phẩm">
               <button class="btn-delete" onclick="toggleVisibility(this)">
                 <i class="fa-solid fa-eye"></i>
@@ -206,7 +209,11 @@
           <td>512GB</td>
           <td>4100</td>
           <td class="actionsProduct">
-            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm"><button class="btn-edit"><i class="fa-solid fa-pencil"></i></button></div>
+            <a href="editProductAdmin.html" class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </a>
             <div class="tooltip" data-tooltip="Ẩn sản phẩm">
               <button class="btn-delete" onclick="toggleVisibility(this)">
                 <i class="fa-solid fa-eye"></i>
@@ -225,7 +232,11 @@
           <td>8GB/128GB</td>
           <td>1800</td>
           <td class="actionsProduct">
-            <div class="tooltip" data-tooltip="Chỉnh sửa sản phẩm"><button class="btn-edit"><i class="fa-solid fa-pencil"></i></button></div>
+            <a href="editProductAdmin.html" class="tooltip" data-tooltip="Chỉnh sửa sản phẩm">
+              <button class="btn-edit">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </a>
             <div class="tooltip" data-tooltip="Ẩn sản phẩm">
               <button class="btn-delete" onclick="toggleVisibility(this)"><i class="fa-solid fa-eye"></i></button>
             </div>
@@ -391,7 +402,7 @@
           <td><img src="../assert/img/product/lens_camera_sau_iphone_11_den.jpg" alt="Lens camera sau iPhone 11/11 Pro"></td>
           <td>Lens camera sau iPhone 11/11 Pro</td>
           <td>20.000₫</td>
-          <td>Phụ kiện</td>
+          <td>Linh kiện</td>
           <td>Không</td>
           <td>1200</td>
           <td class="actionsProduct">
@@ -403,7 +414,7 @@
           <td><img src="../assert/img/product/lens_camera_sau_iphone_11_vuong.jpg" alt="Lens camera sau iPhone 11 loại vuông"></td>
           <td>Lens camera sau iPhone 11/11 Pro (X0.5 loại vuông)</td>
           <td>15.000₫</td>
-          <td>Phụ kiện</td>
+          <td>Linh kiện</td>
           <td>Không</td>
           <td>950</td>
           <td class="actionsProduct">
@@ -415,7 +426,7 @@
           <td><img src="../assert/img/product/camera_sau_iphone_6s.jpg" alt="Camera sau iPhone 6S"></td>
           <td>Camera sau iPhone 6S</td>
           <td>215.000₫</td>
-          <td>Phụ kiện</td>
+          <td>Linh kiện</td>
           <td>Không</td>
           <td>50</td>
           <td class="actionsProduct">
@@ -427,7 +438,7 @@
           <td><img src="../assert/img/product/camera_sau_iphone_6_plus.jpg" alt="Camera sau iPhone 6 Plus"></td>
           <td>Camera sau iPhone 6 Plus</td>
           <td>255.000₫</td>
-          <td>Phụ kiện</td>
+          <td>Linh kiện</td>
           <td>Không</td>
           <td>75</td>
           <td class="actionsProduct">

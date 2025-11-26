@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chỉnh sửa sản phẩm</title>
+  <link rel="stylesheet" href="../assert/css/base.css">
+  <link rel="stylesheet" href="../assert/css/addProductAdmin.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Chỉnh sửa sản phẩm</h2>
+
+  <!-- CHỌN CATEGORY -->
+  <div class="category-options">
+    <input type="radio" id="phone" name="category" hidden>
+    <label for="phone" class="category-btn">Điện thoại</label>
+
+    <input type="radio" id="part" name="category" hidden>
+    <label for="part" class="category-btn">Linh kiện</label>
+  </div>
+
+  <!-- FORM CHỈNH ĐIỆN THOẠI -->
+  <form id="phoneForm" style="display:none;" enctype="multipart/form-data">
+    <h3>Thông tin điện thoại</h3>
+
+    <div class="form-group">
+      <label>Tên điện thoại</label>
+      <input type="text" id="phoneName">
+    </div>
+
+    <div class="form-group">
+      <label>Hãng</label>
+      <select id="phoneBrand">
+        <option value="1">Apple</option>
+        <option value="2">Samsung</option>
+        <option value="3">Vivo</option>
+        <option value="4">Oppo</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Mô tả</label>
+      <textarea id="phoneDescription"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Ngày phát hành</label>
+      <input type="date" id="phoneReleaseDate">
+    </div>
+
+    <div class="form-group">
+      <label>Bảo hành (tháng)</label>
+      <input type="number" id="phoneWarranty">
+    </div>
+
+    <div class="form-group">
+      <label>Giảm giá (%)</label>
+      <input type="number" id="phoneDiscount">
+    </div>
+
+    <!-- ẢNH -->
+    <div class="form-group">
+      <label>Ảnh chính</label>
+      <input type="file" id="phoneMainImage">
+      <img id="previewMainImage" style="width:120px; margin-top:10px;">
+    </div>
+
+    <div class="form-group">
+      <label>Ảnh bổ sung</label>
+      <input type="file" id="phoneImages" multiple>
+      <div id="previewExtraImages" class="image-preview-list"></div>
+    </div>
+
+    <h4>Thông số kỹ thuật</h4>
+    <div id="phoneAttributesContainer"></div>
+    <button type="button" id="addPhoneAttribute">+ Thêm thông số</button>
+
+    <h4>Phiên bản</h4>
+    <div id="phoneVariantsContainer"></div>
+    <button type="button" id="addPhoneVariant">+ Thêm phiên bản</button>
+
+    <br><br>
+    <button type="submit">Cập nhật</button>
+  </form>
+
+  <!-- FORM CHỈNH LINH KIỆN -->
+  <form id="partForm" style="display:none;" enctype="multipart/form-data">
+    <h3>Thông tin linh kiện</h3>
+
+    <div class="form-group">
+      <label>Tên linh kiện</label>
+      <input type="text" id="partName">
+    </div>
+
+    <div class="form-group">
+      <label>Hãng</label>
+      <select id="partBrand">
+        <option value="1">Apple</option>
+        <option value="2">Samsung</option>
+        <option value="3">Vivo</option>
+        <option value="4">Xiaomi</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Danh mục phụ</label>
+      <select id="partSubcategory">
+        <option value="1">Màn hình cảm ứng</option>
+        <option value="2">Pin</option>
+        <option value="3">Cáp sạc/ Cổng sạc</option>
+        <option value="4">Camera</option>
+        <option value="5">Loa/ Mic</option>
+        <option value="6">Vỏ và khung sườn</option>
+
+        <option value="7">Giá đỡ điện thoại</option>
+        <option value="8">Quạt tản nhiệt / Cooling fan</option>
+        <option value="9">Ốp lưng / Vỏ lưng</option>
+        <option value="10">Kính cường lực / Mặt kính</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Mô tả</label>
+      <textarea id="partDescription"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Ngày phát hành</label>
+      <input type="date" id="partReleaseDate">
+    </div>
+
+    <div class="form-group">
+      <label>Bảo hành</label>
+      <input type="number" id="partWarranty">
+    </div>
+
+    <div class="form-group">
+      <label>Giảm giá (%)</label>
+      <input type="number" id="partDiscount">
+    </div>
+
+    <div class="form-group">
+      <label>Ảnh chính</label>
+      <input type="file" id="partMainImage">
+      <img id="previewPartMainImage" style="width:120px; margin-top:10px;">
+    </div>
+
+    <div class="form-group">
+      <label>Ảnh bổ sung</label>
+      <input type="file" id="partExtraImages" multiple>
+      <div id="previewPartExtraImages" class="image-preview-list"></div>
+    </div>
+
+    <h4>Thông số kỹ thuật</h4>
+    <div id="partAttributesContainer"></div>
+    <button type="button" id="addPartAttribute">+ Thêm thông số</button>
+
+    <h4>Phiên bản</h4>
+    <div id="partVariantsContainer"></div>
+    <button type="button" id="addPartVariant">+ Thêm phiên bản</button>
+
+    <br><br>
+    <button type="submit">Cập nhật</button>
+    <button type="button" class="cancelBtn">Hủy</button>
+  </form>
+</div>
+
+
+<!-- TEMPLATES -->
+<template id="attributeTemplate">
+  <div class="attributeRow">
+    <div class="form-group">
+      <input type="text" class="attName" placeholder="Tên thông số">
+    </div>
+    <div class="form-group">
+      <input type="text" class="attValue" placeholder="Giá trị">
+    </div>
+    <button type="button" class="removeBtn">Xóa</button>
+  </div>
+</template>
+
+<template id="variantTemplate">
+  <div class="variant">
+    <div class="form-group">
+      <input type="text" class="varName" placeholder="Tên phiên bản">
+    </div>
+    <div class="form-group">
+      <input type="text" class="varValue" placeholder="Giá trị">
+    </div>
+    <div class="form-group">
+      <input type="number" class="varPrice" placeholder="Giá">
+    </div>
+    <div class="form-group">
+      <input type="number" class="varQuantity" placeholder="Số lượng">
+    </div>
+    <button type="button" class="removeBtn">Xóa</button>
+  </div>
+</template>
+
+<script src="../js/addProductAdmin.js"></script>
+<script src="../js/editProduct.js"></script>
+</body>
+</html>
