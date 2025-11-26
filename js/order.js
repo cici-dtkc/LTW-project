@@ -61,7 +61,7 @@ document.querySelectorAll('.order-card').forEach(order => {
     }
     // Nếu đơn đã giao hoặc đã hủy → mua lại
     else if (order.dataset.status === 'cancelled' || order.dataset.status === 'delivered') {
-      window.location.href = "../order_detail.html";
+      window.location.href = "../cart.html";
     }
   });
 });

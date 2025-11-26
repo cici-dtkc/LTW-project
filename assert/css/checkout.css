@@ -154,7 +154,7 @@ section {
 .voucher button {
     width: 30%;
     margin-left: 5%;
-    background: #ee4d2d;
+    background: var(--color-bg-header);
     color: white;
     border: none;
     border-radius: 4px;
@@ -162,7 +162,7 @@ section {
     cursor: pointer;
 }
 .voucher button:hover {
-    background: #d73211;
+    opacity: 0.9;
 }
 
 /* ===== PHƯƠNG THỨC THANH TOÁN ===== */
@@ -232,7 +232,7 @@ section {
 }
 
 .voucher-left {
-    background: #f53d2d;
+    background: rgba(47, 122, 135, 0.8);
     color: white;
     padding: 25px 10px;
     width: 100px;
@@ -270,7 +270,7 @@ section {
 }
 
 .voucher-right button {
-    background: #f53d2d;
+    background: var(--color-button);
     color: white;
     border: none;
     border-radius: 5px;
@@ -283,7 +283,7 @@ section {
 
 .voucher-right a {
     text-decoration: none;
-    color: #007bff;
+    color: var(--color-bg-header);
     font-weight: bold;
     font-size: 14px;
     margin-top: 5px;
@@ -295,7 +295,7 @@ section {
     top: 8px;
     right: 12px;
     background: #ffe6e6;
-    color: #f53d2d;
+    color: var(--color-bg-header);
     font-weight: bold;
     border-radius: 50px;
     padding: 3px 8px;

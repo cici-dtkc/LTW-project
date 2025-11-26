@@ -114,7 +114,7 @@
 .overlay .review-modal .submit-btn {
     width: 100%;
     padding: 12px;
-    background: #0071e3;
+    background: var(--color-button);
     color: white;
     border: none;
     border-radius: 8px;
