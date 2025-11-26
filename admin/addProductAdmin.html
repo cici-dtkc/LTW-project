@@ -114,7 +114,10 @@
       <label for="partDescription">Mô tả linh kiện</label>
       <textarea id="partDescription" name="description"></textarea>
     </div>
-
+    <div class="form-group">
+      <label for="partReleaseDate">Ngày phát hành</label>
+      <input type="date" id="partReleaseDate" name="release_date">
+    </div>
     <div class="form-group">
       <label for="partWarranty">Bảo hành (tháng)</label>
       <input type="number" id="partWarranty" name="warranty_period">
@@ -154,6 +157,10 @@
     <div class="form-group">
       <label>Tên phiên bản</label>
       <input type="text" name="variant_name[]" required>
+    </div>
+    <div class="form-group">
+      <label>Giá trị</label>
+      <input type="text" name="tech_value[]" required>
     </div>
     <div class="form-group">
       <label>Giá</label>
