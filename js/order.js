@@ -8,13 +8,14 @@ tabs.forEach(tab => {
   tab.addEventListener('click', () => {
     tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
+
     const status = tab.dataset.status;
 
-    orders.forEach(order => {
-      if (status === 'all' || order.dataset.status === status) {
-        order.style.display = 'block';
+    orders.forEach(orderCard => {
+      if (status === 'all' || orderCard.dataset.status === status) {
+        orderCard.style.display = "block";
       } else {
-        order.style.display = 'none';
+        orderCard.style.display = "none";
       }
     });
   });
@@ -59,6 +60,17 @@ document.querySelectorAll('.order-card').forEach(order => {
         alert("Đơn hàng đã được hủy!");
       }
     }
+    if (order.dataset.status === 'prepare') {
+      const confirmCancel = confirm("Bạn có chắc muốn hủy đơn này?");
+      if (confirmCancel) {
+        order.dataset.status = 'cancelled';
+        statusEl.className = 'status cancelled';
+        statusEl.innerHTML = '<i class="fa-solid fa-xmark"></i> Đã hủy';
+        btn.textContent = 'Mua lại';
+        alert("Đơn hàng đã được hủy!");
+      }
+    }
+
     // Nếu đơn đã giao hoặc đã hủy → mua lại
     else if (order.dataset.status === 'cancelled' || order.dataset.status === 'delivered') {
       window.location.href = "../cart.html";
