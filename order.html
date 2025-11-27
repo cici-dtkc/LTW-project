@@ -22,12 +22,12 @@
   <div class="container">
     <div class="inner-wrap">
       <div class="logo" id="logo">
-        <a href="#"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+        <a href="home.html"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
       </div>
 
       <nav class="menu" id="menu">
         <ul>
-          <li><a href="#" id="nav-home">Trang chủ</a></li>
+          <li><a href="home.html" id="nav-home">Trang chủ</a></li>
           <li><a href="listproduct.html" id="nav-phone">Điện thoại</a></li>
           <li class="has-mega" id="nav-accessory-item">
             <a href="listproduct_accessory.html" id="nav-accessory">Linh kiện</a>
@@ -163,6 +163,7 @@
     <!-- Thanh trạng thái -->
     <div class="status-tabs">
       <button class="tab active" data-status="all">Tất cả</button>
+      <button class="tab" data-status="prepare">Đang lên đơn</button>
       <button class="tab" data-status="shipping">Đang giao</button>
       <button class="tab" data-status="delivered">Đã giao</button>
       <button class="tab" data-status="cancelled">Đã hủy</button>
@@ -173,7 +174,7 @@
 
       <!-- Đơn 1 -->
       <div class="order-card" data-status="shipping">
-        <a href="#">
+        <a href="order_detail.html">
           <div class="order-info">
             <img src="assert/img/product/iphone-15-blue-2.jpg" alt="iPhone 15">
             <div class="order-detail">
@@ -194,10 +195,33 @@
         </div>
       </div>
 
+      <div class="order-card" data-status="prepare">
+        <a href="order_detail.html">
+          <div class="order-info">
+            <img src="assert/img/product/iphone14.jpg" alt="iPhone 14">
+            <div class="order-detail">
+              <h3>iPhone 14 Pro Max 256GB</h3>
+              <p>Số lượng: 1</p>
+              <p>Giá: <span class="price">26.990.000đ</span></p>
+            </div>
+          </div>
+        </a>
+        <div class="order-footer">
+          <p class="total">Tổng cộng: <span class="total-price">0đ</span></p>
+          <div class="order-status">
+            <span class="status shipping"><i class="fa-solid fa-truck"></i> Đang lên đơn</span>
+            <div class="actions">
+              <button class="btn repurchase">Hủy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <!-- Đơn 2 (nhiều sản phẩm) -->
       <div class="order-card" data-status="delivered">
         <div class="order-items">
-          <a href="#">
+          <a href="order_detail.html">
             <div class="order-info">
               <img src="assert/img/product/OppoReno13_blue.png" alt="Samsung S23 Ultra">
               <div class="order-detail">
@@ -208,7 +232,7 @@
             </div>
           </a>
 
-          <a href="#">
+          <a href="order_detail.html">
             <div class="order-info">
               <img src="assert/img/product/samsums24ultr.jpg" alt="Samsung S25 Ultra">
               <div class="order-detail">
@@ -233,7 +257,7 @@
 
       <!-- Đơn 3 -->
       <div class="order-card" data-status="cancelled">
-        <a href="#">
+        <a href="order_detail.html">
           <div class="order-info">
             <img src="assert/img/product/realme14T.jpg" alt="Redmi 12">
             <div class="order-detail">
