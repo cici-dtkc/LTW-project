@@ -33,8 +33,8 @@ const phoneProduct = {
         {name: "CPU", value: "A17 Pro"}
     ],
     variants: [
-        {name: "Màu", value: "Xanh", price: 25000000, quantity: 10},
-        {name: "Màu", value: "Đen", price: 25000000, quantity: 5}
+        {name: "Màu, Bộ nhớ", value: "Xanh, 256GB", price: 25000000, quantity: 10},
+        {name: "Màu, Bộ nhớ", value: "Đen, 256GB", price: 25000000, quantity: 5}
     ]
 };
 
