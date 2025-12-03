@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ad7e199-bbc6-4aec-9a9b-1aed6d3062c8" name="Changes" comment="" />
+    <list default="true" id="8ad7e199-bbc6-4aec-9a9b-1aed6d3062c8" name="Changes" comment="commit file">
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/config/dbConnection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/controller/admin/VoucherServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/controller/user/ProductServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/dao/ProductDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/model/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/service/ProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/util/Example.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/validation/PasswordVal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/webapp/views/admin/dashboard.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/webapp/views/includes/sideBarAdmin.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/webapp/views/user/productDetail.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,6 +48,7 @@
     &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
     &quot;JavaScript Debug.admin-orders.html.executor&quot;: &quot;Run&quot;,
     &quot;JavaScript Debug.productDetail.html.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
@@ -43,6 +57,7 @@
     &quot;git-widget-placeholder&quot;: &quot;setup&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/ProjectWeb_copy/ProjectWeb/LTW-project/WebDynamic/src/main/webapp&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -68,13 +83,14 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-WS-252.27397.92" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
       </set>
     </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="44b782e5-fa4d-4cdb-aa82-33cb0061f9ae" name="Changes" comment="" />
+      <changelist id="8ad7e199-bbc6-4aec-9a9b-1aed6d3062c8" name="Changes" comment="" />
       <created>1760242489558</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -186,7 +202,18 @@
       <workItem from="1764331549074" duration="1767000" />
       <workItem from="1764416644550" duration="1435000" />
       <workItem from="1764731536285" duration="682000" />
+      <workItem from="1764735078059" duration="649000" />
+      <workItem from="1764735756856" duration="421000" />
     </task>
+    <task id="LOCAL-00001" summary="commit file">
+      <option name="closed" value="true" />
+      <created>1764735143205</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1764735143205</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,10 +230,25 @@
                   <entry key="Table.Default.Author.ColumnIdWidth" value="105" />
                 </map>
               </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="tri" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
             </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit file" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit file" />
   </component>
 </project>
