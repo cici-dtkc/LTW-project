@@ -1,0 +1,71 @@
+
+
+.container {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+}
+
+/* Đẩy nội dung theo kích thước sidebar */
+.app .container {
+    margin-left: 250px !important;
+    width: calc(100% - 250px);
+    max-width: none; /* override base.css */
+    transition: margin-left 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+.sidebar.collapsed ~ .container {
+    margin-left: 60px !important;
+    width: calc(100% - 60px);
+}
+
+.container .page-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header input,
+.header select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    outline: none;
+}
+
+.header input:focus,
+.header select:focus {
+    border-color: #0ea5e9;
+}
+
+
+.container table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.container th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.container th {
+    background-color: #f7f9fb;
+    color: #444;
+}
+
+.container td {
+    color: #333;
+}
+
+
