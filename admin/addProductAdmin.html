@@ -163,24 +163,29 @@
 <template id="variantTemplate">
   <div class="variant">
     <div class="form-group">
-      <label>Tên phiên bản</label>
-      <input type="text" name="variant_name[]" required>
+      <label>Tên nhóm phiên bản (VD: Màu sắc, Bộ nhớ)</label>
+      <input type="text" name="variant_group_name[]" placeholder="VD: Màu sắc, Bộ nhớ" required>
     </div>
+
     <div class="form-group">
-      <label>Giá trị</label>
-      <input type="text" name="tech_value[]" required>
+      <label>Giá trị phiên bản (VD: Đen, 256GB)</label>
+      <input type="text" name="variant_value[]" placeholder="VD: Đen, 256GB" required>
     </div>
+
     <div class="form-group">
       <label>Giá</label>
       <input type="number" name="variant_price[]" required>
     </div>
+
     <div class="form-group">
       <label>Số lượng</label>
       <input type="number" name="variant_quantity[]" required>
     </div>
+
     <button type="button" class="removeBtn">Xóa</button>
   </div>
 </template>
+
 
 <template id="attributeTemplate">
   <div class="attributeRow">
