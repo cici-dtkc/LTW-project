@@ -24,12 +24,28 @@
       <version>6.1.0</version>
       <scope>provided</scope>
     </dependency>
-<dependency>
+      <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
+
+      <!-- JDBI 3 core for database access -->
+      <dependency>
+          <groupId>org.jdbi</groupId>
+          <artifactId>jdbi3-core</artifactId>
+          <version>3.49.0</version>
+      </dependency>
+
+      <!-- MySQL JDBC driver -->
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>8.0.33</version>
+      </dependency>
+
+
       <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-engine</artifactId>
