@@ -1,0 +1,14 @@
+# IntelliJ IDEA
+.idea/
+
+
+# Maven
+target/
+
+# Build files
+*.class
+*.war
+*.ear
+*.jar
+*.log
+
