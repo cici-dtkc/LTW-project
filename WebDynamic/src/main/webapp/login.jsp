@@ -17,17 +17,18 @@
                 <h1>Đăng Nhập</h1>
             </div>
 
-            <form id="login-form" action="#" method="post">
-                <div id="login-message" class="login-message"></div>
+            <form id="login-form" action="login" method="post">
+                <div id="login-message" class="login-message">${error}</div>
                 <div class="form-group-one">
                     <i class="fa fa-user"></i>
-                    <input type="text" id="login-username" class="form-control" placeholder="tên đăng nhập\email" />
+                    <input type="text" id="login-username" name="input"
+                           class="form-control" placeholder="tên đăng nhập/email" />
                 </div>
 
                 <div class="form-group-one">
                     <i class="fa fa-lock"></i>
-                    <input type="password" id="login-password" class="form-control" placeholder="mật khẩu" />
-                </div>
+                    <input type="password" id="login-password" name="password"
+                           class="form-control" placeholder="mật khẩu" autocomplete="off" />                </div>
 
                 <div class="form-group actions">
                     <button type="submit" id="btn-login" class="btn">Đăng nhập</button>
