@@ -1,19 +1,19 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
 
 import org.jdbi.v3.core.Jdbi;
-import vn.edu.hcmuaf.fit.webdynamic.config.JDBIConnector;
+import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
 import vn.edu.hcmuaf.fit.webdynamic.model.VoucherAdmin;
 
 import java.util.List;
 
 public class VoucherAdminDAO {
-    private final Jdbi jdbi = JDBIConnector.get();
+    private final Jdbi jdbi = DBConnect.getJdbi();
 
     // 1️ Lấy tất cả khuyến mãi
     public List<VoucherAdmin> getAll() {
         String sql = """
-            SELECT voucher_code, discount_amount, type, max_reduce, 
-                   min_order_value, quantity, start_date, end_date, status 
+            SELECT id, voucher_code, discount_amount, type, max_reduce,
+                   min_order_value, quantity, start_date, end_date, status, created_at, updated_at
             FROM vouchers
             ORDER BY start_date DESC
         """;
@@ -40,8 +40,8 @@ public class VoucherAdminDAO {
     public List<VoucherAdmin> getActiveNow() {
         String sql = """
             SELECT * FROM vouchers
-            WHERE status = 1 
-              AND start_date <= NOW() 
+            WHERE status = 1
+              AND start_date <= NOW()
               AND end_date >= NOW()
         """;
         return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(VoucherAdmin.class).list());
@@ -51,8 +51,8 @@ public class VoucherAdminDAO {
     public List<VoucherAdmin> getInactiveOrExpired() {
         String sql = """
             SELECT * FROM vouchers
-            WHERE status = 0 
-               OR end_date < NOW() 
+            WHERE status = 0
+               OR end_date < NOW()
                OR start_date > NOW()
         """;
         return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(VoucherAdmin.class).list());
@@ -83,7 +83,7 @@ public class VoucherAdminDAO {
     // 6️ Chỉnh sửa voucher theo ID
     public void update(VoucherAdmin v) {
         String sql = """
-            UPDATE vouchers 
+            UPDATE vouchers
             SET discount_amount = :discount,
                 type = :type,
                 max_reduce = :max,
@@ -139,14 +139,14 @@ public class VoucherAdminDAO {
         );
     }
 
-    // Đếm tổng số voucher (dùng cho pagination)
-    public int countAll() {
-        return jdbi.withHandle(h ->
-                h.createQuery("SELECT COUNT(*) FROM vouchers")
-                        .mapTo(Integer.class)
-                        .one()
-        );
-    }
+//    // Đếm tổng số voucher (dùng cho pagination)
+//    public int countAll() {
+//        return jdbi.withHandle(h ->
+//                h.createQuery("SELECT COUNT(*) FROM vouchers")
+//                        .mapTo(Integer.class)
+//                        .one()
+//        );
+//    }
 
     public List<VoucherAdmin> search(String keyword, int status, int limit, int offset) {
         StringBuilder sql = new StringBuilder("SELECT * FROM vouchers WHERE 1=1 ");

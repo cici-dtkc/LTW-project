@@ -115,4 +115,21 @@ public class VoucherAdmin {
         this.updatedAt = updatedAt;
     }
 
+    @Override
+    public String toString() {
+        return "VoucherAdmin{" +
+                "id=" + id +
+                ", voucherCode='" + voucherCode + '\'' +
+                ", discountAmount=" + discountAmount +
+                ", type=" + type +
+                ", status=" + status +
+                ", minOrderValue=" + minOrderValue +
+                ", maxReduce=" + maxReduce +
+                ", quantity=" + quantity +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }

@@ -39,28 +39,28 @@
         <nav class="nav-section" id="nav-section">
             <ul class="nav-list primary-nav" id="nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-target="dashboard" href="${pageContext.request.contextPath}/admin/dashboardAdmin.html"
+                    <a class="nav-link" data-target="dashboard" href="${pageContext.request.contextPath}/admin/dashboardAdmin.jsp"
                     ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
                         <span class="nav-label">Tổng Quan</span></a
                     >
                     <span class="nav-tooltip">Tổng Quan</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-target="products" href="${pageContext.request.contextPath}/admin/productAdmin.html"
+                    <a class="nav-link" data-target="products" href="${pageContext.request.contextPath}/admin/productAdmin.jsp"
                     ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
                         <span class="nav-label">Sản phẩm</span></a
                     >
                     <span class="nav-tooltip">Sản phẩm</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-target="orders" href="${pageContext.request.contextPath}/admin/admin-orders.html"
+                    <a class="nav-link" data-target="orders" href="${pageContext.request.contextPath}/admin/admin-orders.jsp"
                     ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
               hàng</span></a
                     >
                     <span class="nav-tooltip">Đơn hàng</span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-target="customers" href="${pageContext.request.contextPath}/admin/userManagement.html"
+                    <a class="nav-link" data-target="customers" href="${pageContext.request.contextPath}/admin/userManagement.jsp"
                     ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Người dùng</span></a
                     >
                     <span class="nav-tooltip">Người dùng</span>
