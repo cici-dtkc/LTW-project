@@ -1,6 +1,6 @@
 
 document.getElementById("dashAddPromo").addEventListener("click", function() {
-    window.location.href = "vouchersAdmin.html?addPromo=true";
+    window.location.href = "vouchersAdmin.jsp?addPromo=true";
 });
 
 

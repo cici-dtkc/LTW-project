@@ -1,4 +1,4 @@
-package vn.edu.hcmuaf.fit.webdynamic.dao;
+package vn.edu.hcmuaf.fit.webdynamic.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -10,14 +10,10 @@ public class JDBIConnector {
 
     static {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:mysql://localhost:3306/localhost?useSSL=false&serverTimezone=UTC");
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/phone_store?useSSL=false&characterEncoding=utf8");
         config.setUsername("root");
-        config.setPassword("123456");
-
-        config.setMaximumPoolSize(10);
-        config.setMinimumIdle(2);
-        config.setIdleTimeout(120000);
-        config.setMaxLifetime(1800000);
+        config.setPassword("");
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
         ds = new HikariDataSource(config);
         jdbi = Jdbi.create(ds);
@@ -26,6 +22,4 @@ public class JDBIConnector {
     public static Jdbi get() {
         return jdbi;
     }
-
-
 }

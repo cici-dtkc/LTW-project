@@ -2,26 +2,26 @@ package vn.edu.hcmuaf.fit.webdynamic.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.webdynamic.config.JDBIConnector;
-import vn.edu.hcmuaf.fit.webdynamic.model.Voucher ;
+import vn.edu.hcmuaf.fit.webdynamic.model.VoucherAdmin;
 
 import java.util.List;
 
-public class VoucherDAO {
+public class VoucherAdminDAO {
     private final Jdbi jdbi = JDBIConnector.get();
 
     // 1️ Lấy tất cả khuyến mãi
-    public List<Voucher> getAll() {
+    public List<VoucherAdmin> getAll() {
         String sql = """
             SELECT voucher_code, discount_amount, type, max_reduce, 
                    min_order_value, quantity, start_date, end_date, status 
             FROM vouchers
             ORDER BY start_date DESC
         """;
-        return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(Voucher.class).list());
+        return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(VoucherAdmin.class).list());
     }
 
     // 2️ Tìm kiếm theo code hoặc discount_amount
-    public List<Voucher> search(String keyword) {
+    public List<VoucherAdmin> search(String keyword) {
         String sql = """
             SELECT * FROM vouchers
             WHERE voucher_code LIKE CONCAT('%',:kw,'%')
@@ -31,35 +31,35 @@ public class VoucherDAO {
         return jdbi.withHandle(h ->
                 h.createQuery(sql)
                         .bind("kw", keyword)
-                        .mapToBean(Voucher.class)
+                        .mapToBean(VoucherAdmin.class)
                         .list()
         );
     }
 
     // 3️ Lấy voucher đang áp dụng
-    public List<Voucher> getActiveNow() {
+    public List<VoucherAdmin> getActiveNow() {
         String sql = """
             SELECT * FROM vouchers
             WHERE status = 1 
               AND start_date <= NOW() 
               AND end_date >= NOW()
         """;
-        return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(Voucher.class).list());
+        return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(VoucherAdmin.class).list());
     }
 
     // 4️ Lấy voucher chưa áp dụng hoặc hết hạn
-    public List<Voucher> getInactiveOrExpired() {
+    public List<VoucherAdmin> getInactiveOrExpired() {
         String sql = """
             SELECT * FROM vouchers
             WHERE status = 0 
                OR end_date < NOW() 
                OR start_date > NOW()
         """;
-        return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(Voucher.class).list());
+        return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(VoucherAdmin.class).list());
     }
 
     // 5️ Thêm voucher mới
-    public void insert(Voucher v) {
+    public void insert(VoucherAdmin v) {
         String sql = """
             INSERT INTO vouchers (voucher_code, discount_amount, type, status,
                 min_order_value, max_reduce, quantity, start_date, end_date, created_at)
@@ -81,7 +81,7 @@ public class VoucherDAO {
     }
 
     // 6️ Chỉnh sửa voucher theo ID
-    public void update(Voucher v) {
+    public void update(VoucherAdmin v) {
         String sql = """
             UPDATE vouchers 
             SET discount_amount = :discount,
@@ -124,7 +124,7 @@ public class VoucherDAO {
     }
 
     // 8 Lấy dữ liệu có phân trang
-    public List<Voucher> getPage(int limit, int offset) {
+    public List<VoucherAdmin> getPage(int limit, int offset) {
         String sql = """
             SELECT * FROM vouchers
             ORDER BY created_at DESC
@@ -134,7 +134,7 @@ public class VoucherDAO {
                 h.createQuery(sql)
                         .bind("limit", limit)
                         .bind("offset", offset)
-                        .mapToBean(Voucher.class)
+                        .mapToBean(VoucherAdmin.class)
                         .list()
         );
     }
@@ -148,7 +148,7 @@ public class VoucherDAO {
         );
     }
 
-    public List<Voucher> search(String keyword, int status, int limit, int offset) {
+    public List<VoucherAdmin> search(String keyword, int status, int limit, int offset) {
         StringBuilder sql = new StringBuilder("SELECT * FROM vouchers WHERE 1=1 ");
         boolean hasKeyword = keyword != null && !keyword.isEmpty();
 
@@ -170,7 +170,7 @@ public class VoucherDAO {
             q.bind("limit", limit);
             q.bind("offset", offset);
 
-            return q.mapToBean(Voucher.class).list();
+            return q.mapToBean(VoucherAdmin.class).list();
         });
     }
 

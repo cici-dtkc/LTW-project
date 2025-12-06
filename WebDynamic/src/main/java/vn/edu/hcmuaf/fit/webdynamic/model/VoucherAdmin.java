@@ -2,7 +2,7 @@ package vn.edu.hcmuaf.fit.webdynamic.model;
 
 import java.time.LocalDateTime;
 
-public class Voucher {
+public class VoucherAdmin {
     private int id;
     private String voucherCode;
     private int discountAmount;
@@ -16,7 +16,7 @@ public class Voucher {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Voucher() {
+    public VoucherAdmin() {
     }
 
     public int getId() {

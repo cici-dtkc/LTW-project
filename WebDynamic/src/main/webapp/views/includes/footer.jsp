@@ -1,17 +1,19 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <title>Footer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="assert/css/reset.css">
-    <link rel="stylesheet" href="assert/css/base.css">
-    <link rel="stylesheet" href="assert/css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/WebStatic/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/WebStatic/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/WebStatic/assert/css/footer.css">
 </head>
 <body>
 <div id="main-content">
     <!-- Nội dung chính -->
 </div>
+
 <footer id="footer">
     <div class="container">
         <div id="footer-content" class="footer-content">
@@ -19,7 +21,7 @@
             <!-- Company Info Section -->
             <div id="footer-company" class="footer-section">
                 <div id="footer-logo" class="footer-logo">
-                    <img src="assert/img/logo.png" alt="Logo công ty">
+                    <img src="${pageContext.request.contextPath}/WebStatic/assert/img/logo.png" alt="Logo công ty">
                 </div>
                 <p id="footer-description" class="company-description">
                     Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
@@ -44,11 +46,11 @@
             <div id="footer-links" class="footer-section">
                 <h3 class="footer-title">Liên kết nhanh</h3>
                 <ul id="quick-links" class="footer-links">
-                    <li><a href="home.html" id="link-home">Trang chủ</a></li>
-                    <li><a href="cart.html" id="link-cart">Giỏ hàng</a></li>
-                    <li><a href="checkout.html" id="link-checkout">Thanh toán</a></li>
-                    <li><a href="order_detail.html" id="link-orders">Đơn hàng</a></li>
-                    <li><a href="info-user.html" id="link-user">Thông tin cá nhân</a></li>
+                    <li><a href="${pageContext.request.contextPath}/WebStatic/home.jsp" id="link-home">Trang chủ</a></li>
+                    <li><a href="${pageContext.request.contextPath}/WebStatic/cart.jsp" id="link-cart">Giỏ hàng</a></li>
+                    <li><a href="${pageContext.request.contextPath}/WebStatic/checkout.jsp" id="link-checkout">Thanh toán</a></li>
+                    <li><a href="${pageContext.request.contextPath}/WebStatic/order_detail.jsp" id="link-orders">Đơn hàng</a></li>
+                    <li><a href="${pageContext.request.contextPath}/WebStatic/info-user.jsp" id="link-user">Thông tin cá nhân</a></li>
                 </ul>
             </div>
 
@@ -82,6 +84,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
 
         <!-- Footer Bottom -->
@@ -90,11 +93,12 @@
                 <p id="footer-copyright">
                     &copy; 2024 Công ty ABC. Tất cả quyền được bảo lưu.
                 </p>
-
             </div>
         </div>
     </div>
 </footer>
-<script  src="js/footer.js"></script>
+
+<script src="${pageContext.request.contextPath}/WebStatic/js/footer.js"></script>
 </body>
 </html>
+
