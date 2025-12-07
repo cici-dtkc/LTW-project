@@ -1,19 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Footer</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/WebStatic/assert/css/reset.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/WebStatic/assert/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/WebStatic/assert/css/footer.css">
-</head>
-<body>
-<div id="main-content">
-    <!-- Nội dung chính -->
-</div>
-
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/footer.css">
+<!-- Footer -->
 <footer id="footer">
     <div class="container">
         <div id="footer-content" class="footer-content">
@@ -21,7 +8,7 @@
             <!-- Company Info Section -->
             <div id="footer-company" class="footer-section">
                 <div id="footer-logo" class="footer-logo">
-                    <img src="${pageContext.request.contextPath}/WebStatic/assert/img/logo.png" alt="Logo công ty">
+                    <img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="Logo công ty">
                 </div>
                 <p id="footer-description" class="company-description">
                     Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
@@ -97,8 +84,4 @@
         </div>
     </div>
 </footer>
-
-<script src="${pageContext.request.contextPath}/WebStatic/js/footer.js"></script>
-</body>
-</html>
 

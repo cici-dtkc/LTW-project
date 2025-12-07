@@ -15,7 +15,7 @@ public class VoucherAdminDAO {
             SELECT id, voucher_code, discount_amount, type, max_reduce,
                    min_order_value, quantity, start_date, end_date, status, created_at, updated_at
             FROM vouchers
-            ORDER BY start_date DESC
+            ORDER BY start_date DESC,status DESC
         """;
         return jdbi.withHandle(h -> h.createQuery(sql).mapToBean(VoucherAdmin.class).list());
     }
