@@ -139,14 +139,14 @@ public class VoucherAdminDAO {
         );
     }
 
-//    // Đếm tổng số voucher (dùng cho pagination)
-//    public int countAll() {
-//        return jdbi.withHandle(h ->
-//                h.createQuery("SELECT COUNT(*) FROM vouchers")
-//                        .mapTo(Integer.class)
-//                        .one()
-//        );
-//    }
+    // Đếm tổng số voucher (dùng cho pagination)
+    public int countAll() {
+        return jdbi.withHandle(h ->
+                h.createQuery("SELECT COUNT(*) FROM vouchers")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
 
     public List<VoucherAdmin> search(String keyword, int status, int limit, int offset) {
         StringBuilder sql = new StringBuilder("SELECT * FROM vouchers WHERE 1=1 ");
