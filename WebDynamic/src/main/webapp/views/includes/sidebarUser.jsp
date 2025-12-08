@@ -1,4 +1,20 @@
+<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    User user = (User) request.getAttribute("user");
+    // Nếu không có trong request, thử lấy từ session
+    if (user == null) {
+        HttpSession session1 = request.getSession(false);
+        if (session != null) {
+            user = (vn.edu.hcmuaf.fit.webdynamic.model.User) session.getAttribute("user");
+        }
+    }
+
+String activeMenu = (String) request.getAttribute("activeMenu");
+if (activeMenu == null) {
+    activeMenu = "profile"; // default
+}
+%>
 <html>
 <head>
     <title>Title</title>
@@ -14,11 +30,11 @@
 
     <!-- USER INFO -->
     <div id="userBox">
-        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" id="userAvatar">
+        <img src="<%= user != null && user.getAvatar() != null ? user.getAvatar(): "https://cdn-icons-png.flaticon.com/512/847/847969.png" %>" id="userAvatar">
 
         <div id="userInfo">
-            <span id="usernameDisplay">user1</span>
-            <a href="info-user.html" id="editProfileBtn">
+            <span id="usernameDisplay"><%= user != null ? user.getUsername() : "Người dùng" %></span>
+            <a href="${pageContext.request.contextPath}/user/info" id="editProfileBtn">
                 <i class="fa-solid fa-pen"></i> Sửa Hồ Sơ
             </a>
         </div>
@@ -37,16 +53,16 @@
 
             <ul id="accountSubmenu" class="submenu">
 
-                <li class="menu-item">
-                    <a href="info-user.html" id="menuProfile">Hồ Sơ</a>
+                <li class="menu-item <%= "profile".equals(activeMenu) ? "active" : "" %>">
+                    <a href="${pageContext.request.contextPath}/user/info" id="menuProfile">Hồ Sơ</a>
                 </li>
 
-                <li class="menu-item active">
-                    <a href="paymentForm.html" id="menuBank">Ngân Hàng</a>
+                <li class="menu-item <%= "bank".equals(activeMenu) ? "active" : "" %>">
+                    <a href=${pageContext.request.contextPath}/user/payment" id="menuBank">Ngân Hàng</a>
                 </li>
 
-                <li class="menu-item">
-                    <a href="addresses.html" id="menuAddress">Địa Chỉ</a>
+                <li class="menu-item <%= "address".equals(activeMenu) ? "active" : "" %>">
+                    <a href=""${pageContext.request.contextPath}/user/addresses" id="menuAddress">Địa Chỉ</a>
                 </li>
 
                 <li class="menu-item">
