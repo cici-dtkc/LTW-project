@@ -6,7 +6,7 @@ import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
 
-@WebServlet(name = "InfoUserServlet", value = "/InfoUserServlet", urlPatterns = {"/user/info"})
+@WebServlet(name = "InfoUserServlet", value = "/InfoUserServlet")
 public class InfoUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
