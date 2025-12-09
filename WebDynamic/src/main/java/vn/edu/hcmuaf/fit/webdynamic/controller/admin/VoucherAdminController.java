@@ -9,6 +9,8 @@ import vn.edu.hcmuaf.fit.webdynamic.dao.VoucherAdminDAO;
 import vn.edu.hcmuaf.fit.webdynamic.model.VoucherAdmin;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebServlet("/admin/vouchers")
@@ -47,7 +49,57 @@ public class VoucherAdminController extends HttpServlet {
             int st = Integer.parseInt(req.getParameter("status"));
             dao.updateStatus(id, st == 1 ? 0 : 1);
         }
+        else if ("addVoucher".equals(action)) {
+            String code = req.getParameter("promoCode");
+            int type = Integer.parseInt(req.getParameter("promoType"));
+            int discount = Integer.parseInt(req.getParameter("discountValue"));
+            int maxDiscount = Integer.parseInt(req.getParameter("maxDiscount"));
+            int minOrder = Integer.parseInt(req.getParameter("minOrder"));
+            int quantity = Integer.parseInt(req.getParameter("quantity"));
+            String startDate = req.getParameter("startDate");
+            String endDate = req.getParameter("endDate");
+
+            VoucherAdmin vc = new VoucherAdmin();
+            vc.setVoucherCode(code);
+            vc.setType(type);
+            vc.setDiscountAmount(discount);
+            vc.setMaxReduce(maxDiscount);
+            vc.setMinOrderValue(minOrder);
+            vc.setQuantity(quantity);
+            vc.setStartDate(java.time.LocalDate.parse(startDate).atStartOfDay());
+            vc.setEndDate(java.time.LocalDate.parse(endDate).atStartOfDay());
+            vc.setStatus(1);
+
+            dao.insert(vc);
+        }
+        else if ("updateVoucher".equals(action)) {
+            int id = Integer.parseInt(req.getParameter("id"));
+            String code = req.getParameter("promoCode");
+            int type = Integer.parseInt(req.getParameter("promoType"));
+            int discount = Integer.parseInt(req.getParameter("discountValue"));
+            int maxDiscount = Integer.parseInt(req.getParameter("maxDiscount"));
+            int minOrder = Integer.parseInt(req.getParameter("minOrder"));
+            int quantity = Integer.parseInt(req.getParameter("quantity"));
+            String startDate = req.getParameter("startDate");
+            String endDate = req.getParameter("endDate");
+
+            VoucherAdmin vc = new VoucherAdmin();
+            vc.setId(id);
+            vc.setVoucherCode(code);
+            vc.setType(type);
+            vc.setDiscountAmount(discount);
+            vc.setMaxReduce(maxDiscount);
+            vc.setMinOrderValue(minOrder);
+            vc.setQuantity(quantity);
+            vc.setStartDate(LocalDate.parse(startDate).atStartOfDay());
+            vc.setEndDate(LocalDate.parse(endDate).atStartOfDay());
+
+            dao.update(vc);
+        }
+
 
         resp.sendRedirect(req.getContextPath() + "/admin/vouchers");
     }
+
+
 }

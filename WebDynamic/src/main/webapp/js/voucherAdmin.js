@@ -1,107 +1,133 @@
-// ===== Modal Handling =====
-const modal = document.getElementById("promoModal");
-const btnOpen = document.getElementById("btnOpenModal");
-const btnClose = document.getElementById("btnCloseModal");
-const promoForm = document.getElementById("promoForm");
-let editRow = null; // Biến lưu dòng đang được chỉnh sửa
 document.addEventListener("DOMContentLoaded", function () {
+    // Lấy các phần tử modal
+    const modal = document.getElementById("promoModal");
+    const promoForm = document.getElementById("promoForm");
+    const btnClose = document.getElementById("btnCloseModal");
+    const btnOpen = document.getElementById("btnOpenModal");
 
-    // 👉 Nếu có query ?addPromo=true từ dashboard → mở modal
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("addPromo") === "true") {
-        modal.style.display = "flex";
-    }
+    // Lấy contextPath từ JSP
+    const contextPath = document.body.getAttribute("data-context");
 
-    // ===== Nút mở modal trong chính trang này =====
+    // 🟢 Nút mở modal "Thêm mới"
     btnOpen.addEventListener("click", () => {
+        document.querySelector("#promoModal h3").innerText = "Thêm khuyến mãi";
+        promoForm.reset();
+        document.getElementById("editId").value = "";
+        promoForm.querySelector("input[name='action']").value = "addVoucher";
         modal.style.display = "flex";
     });
 
-    // ===== Nút đóng modal =====
+    //   Đóng modal
     btnClose.addEventListener("click", () => {
         modal.style.display = "none";
     });
 
-    // ===== Đóng modal khi click ra ngoài =====
+    // Nhấn ngoài modal để đóng
     window.addEventListener("click", (e) => {
         if (e.target === modal) modal.style.display = "none";
     });
-});
 
+    //  Mở modal sửa
+    window.openEditModal = function (btn) {
+        document.querySelector("#promoModal h3").innerText = "Sửa khuyến mãi";
+        promoForm.querySelector("input[name='action']").value = "updateVoucher";
 
-// ===== Toast Message =====
-function showToast(message) {
-    const toast = document.getElementById("toast");
-    toast.textContent = message;
-    toast.className = "show";
-    setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
-}
-
-// ===== Xử lý bảng =====
-document.getElementById("promoBody").addEventListener("click", (e) => {
-    const btn = e.target;
-    const row = btn.closest("tr");
-
-    if (btn.classList.contains("btn-edit")) {
-        editRow = row; // lưu hàng đang chỉnh sửa
-        const cells = row.cells;
-
-        document.getElementById("promoCode").value = cells[0].textContent;
-        document.getElementById("promoName").value = cells[1].textContent;
-        document.getElementById("promoType").value = getPromoTypeValue(cells[2].textContent);
-        document.getElementById("promoDiscount").value = cells[3].textContent;
-        document.getElementById("promoMaxDiscount").value = cells[4].textContent;
-        document.getElementById("promoMinOrder").value = cells[5].textContent;
-        document.getElementById("promoQuantity").value = cells[6].textContent;
-        document.getElementById("promoStart").value = cells[7].textContent;
-        document.getElementById("promoEnd").value = cells[8].textContent;
+        document.getElementById("editId").value = btn.dataset.id;
+        document.getElementById("promoCode").value = btn.dataset.code;
+        document.getElementById("promoType").value = btn.dataset.type;
+        document.getElementById("discountValue").value = btn.dataset.discount;
+        document.getElementById("maxDiscount").value = btn.dataset.max;
+        document.getElementById("minOrder").value = btn.dataset.min;
+        document.getElementById("quantity").value = btn.dataset.quantity;
+        document.getElementById("startDate").value = btn.dataset.start;
+        document.getElementById("endDate").value = btn.dataset.end;
 
         modal.style.display = "flex";
-        showToast("Chỉnh sửa thông tin khuyến mãi!");
-    }
-    else if (btn.classList.contains("btn-toggle")) {
-        const statusSpan = row.querySelector(".status");
-        if (statusSpan.classList.contains("active")) {
-            statusSpan.classList.replace("active", "inactive");
-            statusSpan.textContent = "Hết hạn";
-            btn.textContent = "Bật";
-            showToast("Đã tắt khuyến mãi!");
-        } else {
-            statusSpan.classList.replace("inactive", "active");
-            statusSpan.textContent = "Đang áp dụng";
-            btn.textContent = "Tắt";
-            showToast("Đã bật khuyến mãi!");
-        }
-    }
+    };
+
+    // Bật/Tắt trạng thái
+    window.toggleVoucher = function (btn) {
+        const id = btn.dataset.id;
+        const status = parseInt(btn.dataset.status);
+
+        fetch(`${contextPath}/admin/vouchers`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: `action=toggleStatus&id=${id}&status=${status}`
+        }).then(() => location.reload());
+    };
+
+    window.editRow = function (btn) {
+        const tr = btn.closest("tr");
+        const id = btn.dataset.id;
+
+        // Lấy dữ liệu từ từng cột bảng
+        const code = tr.children[0].innerText.trim();
+        const type = tr.children[1].innerText.trim();
+        const discount = tr.children[2].innerText.trim();
+        const max = tr.children[3].innerText.trim();
+        const min = tr.children[4].innerText.trim();
+        const quantity = tr.children[5].innerText.trim();
+        const start = tr.children[6].innerText.trim();
+        const end = tr.children[7].innerText.trim();
+
+        // Gán vào input
+        tr.children[0].innerHTML = `<input value="${code}">`;
+
+        tr.children[1].innerHTML = `
+        <select>
+            <option value="1" ${type === "Phần trăm" ? "selected" : ""}>Phần trăm</option>
+            <option value="2" ${type === "Tiền mặt" ? "selected" : ""}>Tiền mặt</option>
+            <option value="3" ${type === "Tặng quà" ? "selected" : ""}>Tặng quà</option>
+        </select>`;
+
+        tr.children[2].innerHTML = `<input type="number" value="${discount}">`;
+        tr.children[3].innerHTML = `<input type="number" value="${max}">`;
+        tr.children[4].innerHTML = `<input type="number" value="${min}">`;
+        tr.children[5].innerHTML = `<input type="number" value="${quantity}">`;
+
+        // Chuyển date dd/MM/yyyy → yyyy-MM-dd nếu cần
+        tr.children[6].innerHTML = `<input type="date" value="${start}">`;
+        tr.children[7].innerHTML = `<input type="date" value="${end}">`;
+
+        // Đổi nút sửa thành lưu/hủy
+        tr.children[9].innerHTML = `
+        <button onclick="saveRow(this)" data-id="${id}">Lưu</button>
+        <button onclick="cancelEdit()">Hủy</button>
+    `;
+    };
+
+
+    window.saveRow = function (btn) {
+        const tr = btn.closest("tr");
+        const id = btn.dataset.id;
+
+        const promoCode = tr.children[0].querySelector("input").value;
+        const promoType = tr.children[1].querySelector("select").value;
+        const discountValue = tr.children[2].querySelector("input").value;
+        const maxDiscount = tr.children[3].querySelector("input").value;
+        const minOrder = tr.children[4].querySelector("input").value;
+        const quantity = tr.children[5].querySelector("input").value;
+        const startDate = tr.children[6].querySelector("input").value;
+        const endDate = tr.children[7].querySelector("input").value;
+
+        const body = new URLSearchParams();
+        body.append("action", "updateVoucher");
+        body.append("id", id);
+        body.append("promoCode", promoCode);
+        body.append("promoType", promoType);
+        body.append("discountValue", discountValue);
+        body.append("maxDiscount", maxDiscount);
+        body.append("minOrder", minOrder);
+        body.append("quantity", quantity);
+        body.append("startDate", startDate);
+        body.append("endDate", endDate);
+
+        fetch(`${contextPath}/admin/vouchers`, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: body.toString()
+        }).then(() => location.reload());
+    };
+
 });
-
-// Hàm chuyển text thành value khi edit
-function getPromoTypeValue(text) {
-    switch (text) {
-        case "Phần trăm": return "percent";
-        case "Tiền mặt": return "amount";
-        case "Tặng quà": return "gift";
-        default: return "";
-    }
-}
-
-// ===== Tìm kiếm & Lọc =====
-const searchInput = document.getElementById("searchInput");
-const filterStatus = document.getElementById("filterStatus");
-
-function filterTable() {
-    const keyword = searchInput.value.toLowerCase();
-    const filter = filterStatus.value;
-    const rows = document.querySelectorAll("#promoBody tr");
-
-    rows.forEach(row => {
-        const name = row.cells[1].textContent.toLowerCase();
-        const status = row.querySelector(".status").classList.contains("active") ? "active" : "inactive";
-        const matchesSearch = name.includes(keyword);
-        const matchesFilter = (filter === "all") || (filter === status);
-        row.style.display = (matchesSearch && matchesFilter) ? "" : "none";
-    });
-}
-
-searchInput.addEventListener("input", filterTable);
-filterStatus.addEventListener("change", filterTable);

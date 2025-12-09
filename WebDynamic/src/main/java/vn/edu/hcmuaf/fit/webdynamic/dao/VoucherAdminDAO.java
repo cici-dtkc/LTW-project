@@ -195,4 +195,37 @@ public class VoucherAdminDAO {
         });
     }
 
+    public List<VoucherAdmin> getActiveVouchers() {
+        String sql = "SELECT id, voucher_code, type, discount_amount, " +
+                "max_reduce, min_order_value, quantity, " +
+                "start_date, end_date, status " +
+                "FROM vouchers " +
+                "WHERE end_date >= NOW() AND status = 1 " +
+                "ORDER BY end_date ASC";
+
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapToBean(VoucherAdmin.class)
+                        .list()
+        );
+    }
+    public void insertVoucher(VoucherAdmin v) {
+        String sql = "INSERT INTO vouchers(voucher_code, type, discount_amount, max_reduce, min_order_value, quantity, start_date, end_date, status) " +
+                "VALUES (:code,:type,:discount,:maxR,:minOrder,:qty,:sDate,:eDate,1)";
+        DBConnect.getJdbi().useHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("code", v.getVoucherCode())
+                        .bind("type", v.getType())
+                        .bind("discount", v.getDiscountAmount())
+                        .bind("maxR", v.getMaxReduce())
+                        .bind("minOrder", v.getMinOrderValue())
+                        .bind("qty", v.getQuantity())
+                        .bind("sDate", v.getStartDate())
+                        .bind("eDate", v.getEndDate())
+                        .execute()
+        );
+    }
+
+ 
+
 }
