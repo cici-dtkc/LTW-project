@@ -1,11 +1,13 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mtri2
-  Date: 12/6/2025
-  Time: 9:07 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.User" %>
+<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.Address" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    User user = (User) request.getAttribute("user");
+    List<Address> addresses = (List<Address>) request.getAttribute("addresses");
+    // Set activeMenu để highlight menu item trong sidebar
+    request.setAttribute("activeMenu", "address");
+%>
 <html>
 <head>
     <title>Title</title>
@@ -30,82 +32,46 @@
         <div class="address-section">
             <h2 class="section-title">Địa chỉ</h2>
             <div id="addressList" class="address-list">
-
+                <%
+                    if (addresses != null && !addresses.isEmpty()) {
+                        for (Address addr : addresses) {
+                %>
                 <!-- Địa chỉ 1 -->
-                <div class="address-item" data-id="1">
+                <div class="address-item <%= addr.getStatus()==1 ? "default" : ""%>" data-id="<%=addr.getId()%>">
                     <div class="address-info">
                         <div class="address-name-phone">
-                            <span class="address-name">Nguyễn Văn A</span>
+                            <span class="address-name"><%= addr.getName() != null ? addr.getName() : ""%></span>
                             <span class="address-separator">|</span>
-                            <span class="address-phone">1234567</span>
+                            <span class="address-phone"><%= addr.getPhoneNumber() != null ? addr.getPhoneNumber() : ""%></span>
                         </div>
                         <div class="address-details">
-                            <div>nhà Số 13 khu phố tây B đông hoà dĩ an bình dương</div>
-                            <div>Phường Đông Hòa, Thành Phố Dĩ An, Bình Dương</div>
+                            <div><%= addr.getFullAddress()!= null ? addr.getFullAddress() : ""%></div>
                         </div>
+                        <% if (addr.getStatus() == 1) { %>
                         <span class="address-default-badge">Mặc định</span>
+                        <% } %>
                     </div>
 
                     <div class="address-actions">
                         <div class="address-action-links">
-                            <a href="#" class="address-action-link" data-action="update" data-id="1">Cập nhật</a>
+                            <a href="#" class="address-action-link" data-action="update" data-id="<%= addr.getId() %>">Cập nhật</a>
+                            <a href="#" class="address-action-link" data-action="delete" data-id="<%= addr.getId() %>">Xóa</a>
                         </div>
-                        <button class="btn-set-default" data-action="set-default" data-id="1">
+                        <button class="btn-set-default" data-action="set-default" data-id="<%= addr.getId() %>">
                             Thiết lập mặc định
                         </button>
                     </div>
                 </div>
-
-                <!-- Địa chỉ 2 -->
-                <div class="address-item" data-id="2">
-                    <div class="address-info">
-                        <div class="address-name-phone">
-                            <span class="address-name">Phạm Thị B</span>
-                            <span class="address-separator">|</span>
-                            <span class="address-phone">(+84) 852 399 329</span>
-                        </div>
-                        <div class="address-details">
-                            <div>Ấp Đất Mới</div>
-                            <div>Xã Long Phước, Huyện Long Thành, Đồng Nai</div>
-                        </div>
+                <%
+                      }
+                    }else{
+                        %>
+                    <div class="address-empty">
+                    <p>Bạn chưa có địa chỉ nào. Hãy thêm địa chỉ mới.</p>
                     </div>
-
-                    <div class="address-actions">
-                        <div class="address-action-links">
-                            <a href="#" class="address-action-link" data-action="update" data-id="2">Cập nhật</a>
-                            <a href="#" class="address-action-link" data-action="delete" data-id="2">Xóa</a>
-                        </div>
-                        <button class="btn-set-default" data-action="set-default" data-id="2">
-                            Thiết lập mặc định
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Địa chỉ 3 -->
-                <div class="address-item" data-id="3">
-                    <div class="address-info">
-                        <div class="address-name-phone">
-                            <span class="address-name">Nguyễn Văn C</span>
-                            <span class="address-separator">|</span>
-                            <span class="address-phone">(+84) 325 883 448</span>
-                        </div>
-                        <div class="address-details">
-                            <div>300/23/16 nguyễn văn linh q7</div>
-                            <div>Phường Bình Thuận, Quận 7, TP. Hồ Chí Minh</div>
-                        </div>
-                    </div>
-
-                    <div class="address-actions">
-                        <div class="address-action-links">
-                            <a href="#" class="address-action-link" data-action="update" data-id="3">Cập nhật</a>
-                            <a href="#" class="address-action-link" data-action="delete" data-id="3">Xóa</a>
-                        </div>
-                        <button class="btn-set-default" data-action="set-default" data-id="3">
-                            Thiết lập mặc định
-                        </button>
-                    </div>
-                </div>
-
+                        <%
+                    }
+                %>
             </div>
 
         </div>
