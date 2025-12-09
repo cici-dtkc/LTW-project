@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -11,131 +12,55 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/voucherDetail.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
 </head>
 <body>
 <jsp:include page="../includes/header.jsp"/>
 
 <div class="voucher-container page-wrapper">
+    <jsp:include page="../includes/siderBarUser.jsp"/>
 
-    <jsp:include page="../includes/sideBarAdmin.jsp"/>
-    <!-- Mẫu voucher -->
     <div class="voucher-list">
-        <div class="voucher">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <div>
-                    <h3>Giảm 20%</h3>
-                    <p>Giảm tối đa 100kđ</p>
-                    <p>Đơn tối thiểu 70kđ</p>
+        <c:forEach var="voucher" items="${listVoucher}">
+            <div class="voucher ${voucher.status == 0 ? 'expired' : ''}">
+                <div class="voucher-left">
+                    <div class="icon">
+                        <img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo">
+                    </div>
                 </div>
-                <div>
-                    <button>Áp dụng</button>
-                    <a href="#">Điều kiện</a>
-                </div>
-            </div>
-            <div class="badge">x5</div>
-        </div>
+                <div class="voucher-right">
+                    <div>
+                        <c:choose>
+                            <c:when test="${voucher.type == 1}">
+                                <h3>
+                                    Giảm ${voucher.discountAmount}%
+                                    <span style="font-size:14px; font-weight:400;">
+                        (Tối đa <fmt:formatNumber value="${voucher.maxReduce}" type="number"/> đ)
+                    </span>
+                                </h3>
+                            </c:when>
 
-        <div class="voucher">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <div>
-                    <h3>Giảm 20%</h3>
-                    <p>Giảm tối đa 100kđ</p>
-                    <p>Đơn tối thiểu 100kđ</p>
-                </div>
-                <div>
-                    <button>Áp dụng</button>
-                    <a href="#">Điều kiện</a>
-                </div>
-            </div>
-            <div class="badge">x5</div>
-        </div>
+                            <c:otherwise>
+                                <h3>Giảm <fmt:formatNumber value="${voucher.discountAmount}" type="number"/> đ</h3>
+                            </c:otherwise>
+                        </c:choose>
 
-        <div class="voucher">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <div>
-                    <h3>Giảm 20%</h3>
-                    <p>Giảm tối đa 100kđ</p>
-                    <p>Đơn tối thiểu 150kđ</p>
-                </div>
-                <div>
-                    <button>Áp dụng</button>
-                    <a href="#">Điều kiện</a>
-                </div>
-            </div>
-            <div class="badge">x5</div>
-        </div>
+                        <p>Đơn tối thiểu <fmt:formatNumber value="${voucher.minOrderValue}" type="number"/> đ</p>
+                    </div>
 
-        <div class="voucher">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <div>
-                    <h3>Giảm 20%</h3>
-                    <p>Giảm tối đa 350kđ</p>
-                    <p>Đơn tối thiểu 1trđ</p>
+                    <div>
+                        <button ${voucher.status == 0 ? 'disabled' : ''}>Lưu</button>
+                    </div>
                 </div>
-                <div>
-                    <button>Áp dụng</button>
-                    <a href="#">Điều kiện</a>
-                </div>
+
+                <c:if test="${voucher.status != 0}">
+                    <div class="badge">x${voucher.quantity}</div>
+                </c:if>
             </div>
-            <div class="badge">x5</div>
-        </div>
-        <!-- Voucher hết lượt sử dụng -->
-        <div class="voucher expired">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <h3>Giảm 22% Giảm tối đa 100kđ</h3>
-                <p>Đơn tối thiểu 350kđ</p>
-                <small>Có hiệu lực từ 04 Th11<a href="#">Điều Kiện</a></small>
-            </div>
-        </div>
-        <div class="voucher">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <div>
-                    <h3>Giảm 20%</h3>
-                    <p>Giảm tối đa 350kđ</p>
-                    <p>Đơn tối thiểu 1trđ</p>
-                </div>
-                <div>
-                    <button>Áp dụng</button>
-                    <a href="#">Điều kiện</a>
-                </div>
-            </div>
-            <div class="badge">x5</div>
-        </div>
-        <!-- Voucher hết lượt sử dụng -->
-        <div class="voucher expired">
-            <div class="voucher-left">
-                <div class="icon"><img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="logo"></div>
-            </div>
-            <div class="voucher-right">
-                <h3>Giảm 22% Giảm tối đa 100kđ</h3>
-                <p>Đơn tối thiểu 350kđ</p>
-                <small>Có hiệu lực từ 04 Th11<a href="#">Điều Kiện</a></small>
-            </div>
-        </div>
+        </c:forEach>
     </div>
 </div>
 
-<jsp:include page="../includes/footer.jsp"/>
 
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script>
