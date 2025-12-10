@@ -95,21 +95,9 @@
 
             <div class="form-row">
                 <label for="location" class="form-label">Tỉnh/ Thành phố, Quận/Huyện, Phường/Xã</label>
-                <select id="location" class="form-select" required>
-                    <option value="">Chọn địa điểm</option>
-                    <option value="Phường Đông Hòa, Thành Phố Dĩ An, Bình Dương">Phường Đông Hòa, Thành Phố Dĩ An, Bình Dương</option>
-                    <option value="Xã Hòa Hiệp, Huyện Cư Kuin, Đắk Lắk">Xã Hòa Hiệp, Huyện Cư Kuin, Đắk Lắk</option>
-                    <option value="Xã Long Phước, Huyện Long Thành, Đồng Nai">Xã Long Phước, Huyện Long Thành, Đồng Nai</option>
-                    <option value="Phường Bình Thuận, Quận 7, TP. Hồ Chí Minh">Phường Bình Thuận, Quận 7, TP. Hồ Chí Minh</option>
-                    <option value="Phường 5, Quận Tân Bình, TP. Hồ Chí Minh">Phường 5, Quận Tân Bình, TP. Hồ Chí Minh</option>
-                </select>
-            </div>
-
-            <div class="form-row">
                 <label for="specificAddress" class="form-label">Địa chỉ cụ thể</label>
                 <textarea id="specificAddress" class="form-textarea" placeholder="Nhập địa chỉ cụ thể" rows="3" required></textarea>
             </div>
-
             <div class="form-row">
                 <label class="checkbox-label">
                     <input type="checkbox" id="setDefault" class="checkbox-input">
@@ -124,6 +112,6 @@
         </form>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/addresses.js"></script>
 </body>
+<script src="${pageContext.request.contextPath}/js/addresses.js"></script>
 </html>

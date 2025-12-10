@@ -36,9 +36,8 @@ public class AddressDao {
                         .mapToBean(Address.class).findOne()
         );
     }
-    /**
-     * Thêm địa chỉ mới.
-     */
+
+     //Thêm địa chỉ mới.
     public int insert(Address address) {
         return jdbi.withHandle(handle -> {
             // Nếu địa chỉ này được đặt làm mặc định, bỏ mặc định của các địa chỉ khác
@@ -47,11 +46,10 @@ public class AddressDao {
                         .bind("userId", address.getUserId())
                         .execute();
             }
-
-            return handle.createUpdate("INSERT INTO addresses (phone_number, address, name,status, user_id) VALUES (:userId, :phoneNumber, :address, :status, :userId)")
-                    .bind("userId", address.getUserId())
+            return handle.createUpdate("INSERT INTO addresses (phone_number, address, name, status, user_id) VALUES (:phoneNumber, :address, :name, :status, :userId)")
                     .bind("phoneNumber", address.getPhoneNumber())
                     .bind("address", address.getFullAddress())
+                    .bind("name", address.getName())
                     .bind("status", address.getStatus())
                     .bind("userId", address.getUserId())
                     .executeAndReturnGeneratedKeys("id")
@@ -65,23 +63,23 @@ public class AddressDao {
      */
     public boolean update(Address address) {
         return jdbi.withHandle(handle -> {
-            // Nếu địa chỉ này được đặt làm mặc định, bỏ mặc định của các địa chỉ khác
-            if (address.getStatus() == 1) {
+                // Nếu địa chỉ này được đặt làm mặc định, bỏ mặc định của các địa chỉ khác
+                if (address.getStatus() == 1) {
                 handle.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :userId AND id != :id")
-                        .bind("userId", address.getUserId())
-                        .bind("id", address.getId())
-                        .execute();
-            }
+                    .bind("userId", address.getUserId())
+                    .bind("id", address.getId())
+                    .execute();
+                }
 
-            int rowsAffected = handle.createUpdate("UPDATE addresses SET full_name = :fullName, phone = :phone, address_line1 = :addressLine1, address_line2 = :addressLine2, location = :location, is_default = :isDefault WHERE id = :id")
+                int rowsAffected = handle.createUpdate("UPDATE addresses SET phone_number = :phoneNumber, address = :address, name = :name, status = :status WHERE id = :id")
                     .bind("id", address.getId())
                     .bind("phoneNumber", address.getPhoneNumber())
                     .bind("address", address.getFullAddress())
+                    .bind("name", address.getName())
                     .bind("status", address.getStatus())
-                    .bind("userId", address.getUserId())
                     .execute();
 
-            return rowsAffected > 0;
+                return rowsAffected > 0;
         });
     }
 
@@ -103,15 +101,15 @@ public class AddressDao {
     public boolean setAsDefault(int id, int userId) {
         return jdbi.withHandle(handle -> {
             // Bỏ mặc định của tất cả địa chỉ khác của user
-            handle.createUpdate("UPDATE addresses SET status = 1 WHERE user_id = :userId")
-                    .bind("userId", userId)
-                    .execute();
+            handle.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :userId")
+                .bind("userId", userId)
+                .execute();
 
             // Đặt địa chỉ này làm mặc định
             int rowsAffected = handle.createUpdate("UPDATE addresses SET status = 1 WHERE id = :id AND user_id = :userId")
-                    .bind("id", id)
-                    .bind("userId", userId)
-                    .execute();
+                .bind("id", id)
+                .bind("userId", userId)
+                .execute();
 
             return rowsAffected > 0;
         });

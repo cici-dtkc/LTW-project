@@ -58,11 +58,11 @@ if (activeMenu == null) {
                 </li>
 
                 <li class="menu-item <%= "bank".equals(activeMenu) ? "active" : "" %>">
-                    <a href=${pageContext.request.contextPath}/user/payment" id="menuBank">Ngân Hàng</a>
+                    <a href="${pageContext.request.contextPath}/user/payment" id="menuBank">Ngân Hàng</a>
                 </li>
 
                 <li class="menu-item <%= "address".equals(activeMenu) ? "active" : "" %>">
-                    <a href=""${pageContext.request.contextPath}/user/addresses" id="menuAddress">Địa Chỉ</a>
+                    <a href="${pageContext.request.contextPath}/user/addresses" id="menuAddress">Địa Chỉ</a>
                 </li>
 
                 <li class="menu-item">
