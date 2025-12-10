@@ -20,6 +20,14 @@ public class User {
     // Constructor rỗng
     public User() {}
 
+    public User(String fname, String lname, String username, String hashPass, String email) {
+        this.username = username;
+        this.firstName = fname;
+        this.lastName = lname;
+        this.password = hashPass;
+        this.email = email;
+    }
+
     // Getter & Setter
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
