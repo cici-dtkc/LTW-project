@@ -10,21 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8ad7e199-bbc6-4aec-9a9b-1aed6d3062c8" name="Changes" comment="commit file">
-      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/dao/UserDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/model/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/webapp/home.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/WebDynamic/src/main/webapp/login.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebDynamic/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WebDynamic/target/WebDynamic-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/target/WebDynamic-1.0-SNAPSHOT.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/vn/edu/hcmuaf/fit/demo/HelloServlet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/webapp/WEB-INF/web.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/webapp/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/config/JDBIConnector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/controller/admin/VoucherAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/controller/admin/VoucherAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/dao/VoucherAdminDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/dao/VoucherAdminDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/model/VoucherAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/src/main/java/vn/edu/hcmuaf/fit/webdynamic/model/VoucherAdmin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/src/main/resources/db.properties" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/src/main/resources/db.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/WebDynamic/src/main/webapp/views/admin/vouchersAdmin.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/WebDynamic/src/main/webapp/views/admin/vouchersAdmin.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,24 +30,14 @@
         <option value="JavaScript File" />
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="Servlet" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;huong2004&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/cici-dtkc/LTW-project.git&quot;,
-    &quot;accountId&quot;: &quot;ce9129d5-40d5-4024-bee7-9bbe504867a6&quot;
-  }
-}</component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -86,14 +69,16 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Tomcat Server.Tomcat 10.1.49.executor&quot;: &quot;Run&quot;,
+    &quot;Smart Tomcat.Tomcat: WebDynamic.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 11.0.13.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.siderBarUser.jsp.executor&quot;: &quot;Run&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
     &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;huong&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;chi&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/LTW-project&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/laptrinhweb/LTW-project&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -103,7 +88,7 @@
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -115,12 +100,28 @@
       <recent name="D:\ProjectWeb_copy\ProjectWeb\LTW-project\pages" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\laptrinhweb\LTW-project\WebDynamic\src\main\webapp\views\admin" />
+      <recent name="D:\laptrinhweb\LTW-project\WebDynamic\src\main\webapp\views\user" />
+      <recent name="D:\laptrinhweb\LTW-project\WebDynamic\src\main\webapp\views\includes" />
+      <recent name="D:\laptrinhweb\LTW-project\WebDynamic\src\main\webapp" />
       <recent name="D:\ProjectWeb\LTW-project\admin" />
     </key>
   </component>
+  <component name="RunDashboard">
+    <option name="configurationStatuses">
+      <map>
+        <entry key="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory">
+          <value>
+            <map>
+              <entry key="Tomcat 11.0.13" value="STOPPED" />
+            </map>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="RunManager">
-    <configuration name="Tomcat 10.1.49" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.49" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="25" nameIsGenerated="true">
-      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+    <configuration name="Tomcat 11.0.13" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 11.0.13" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="C:/Program Files/Java/jdk-25" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="WebDynamic:war">
@@ -130,7 +131,7 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="aba12866-5c96-425d-b13b-2a4adf064768" />
+        <option name="BASE_DIRECTORY_NAME" value="43e55aa0-0e6b-4a77-bbd3-c9f9545b3a4d" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -138,7 +139,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="62550" />
+        <option name="DEBUG_PORT" value="51051" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -211,12 +212,11 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.28238.7" />
+        <option value="bundled-js-predefined-d6986cc7102b-a71380e98a7c-JavaScript-IU-252.28238.7" />
       </set>
     </attachedChunks>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="8ad7e199-bbc6-4aec-9a9b-1aed6d3062c8" name="Changes" comment="" />
@@ -333,13 +333,15 @@
       <workItem from="1764731536285" duration="682000" />
       <workItem from="1764735078059" duration="649000" />
       <workItem from="1764735756856" duration="421000" />
-      <workItem from="1764743440927" duration="899000" />
-      <workItem from="1764745955116" duration="123000" />
-      <workItem from="1764746262575" duration="22000" />
-      <workItem from="1764817039623" duration="1414000" />
-      <workItem from="1764824116485" duration="623000" />
-      <workItem from="1764824749714" duration="1932000" />
-      <workItem from="1764826724732" duration="3000" />
+      <workItem from="1764736474009" duration="7967000" />
+      <workItem from="1764745605093" duration="692000" />
+      <workItem from="1764860803075" duration="1292000" />
+      <workItem from="1764897796588" duration="2289000" />
+      <workItem from="1764903224928" duration="6715000" />
+      <workItem from="1764941186812" duration="3904000" />
+      <workItem from="1764979921653" duration="6629000" />
+      <workItem from="1764998802522" duration="253000" />
+      <workItem from="1765023584056" duration="15314000" />
     </task>
     <task id="LOCAL-00001" summary="commit file">
       <option name="closed" value="true" />
@@ -364,17 +366,6 @@
               <option name="COLUMN_ID_WIDTH">
                 <map>
                   <entry key="Table.Default.Author.ColumnIdWidth" value="105" />
-                </map>
-              </option>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="tri" />
-                      </list>
-                    </value>
-                  </entry>
                 </map>
               </option>
             </State>
