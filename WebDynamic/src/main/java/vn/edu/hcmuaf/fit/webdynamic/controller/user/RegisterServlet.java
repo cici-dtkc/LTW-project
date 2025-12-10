@@ -5,10 +5,8 @@ import jakarta.servlet.http.HttpServlet;
 import vn.edu.hcmuaf.fit.webdynamic.dao.UserDao;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import  vn.edu.hcmuaf.fit.webdynamic.util.HashPasswordUtil;
 
 import java.io.IOException;
@@ -52,8 +50,9 @@ public class RegisterServlet extends HttpServlet {
         }
 
         // 4. Lưu user
-        String hashPass = HashPasswordUtil.hashPassword(password);
-        User user = new User(fname, lname, username, hashPass, email);
+//        String hashPass = HashPasswordUtil.hashPassword(password);
+
+        User user = new User(fname, lname, username, password, email);
 
         boolean success = UserDao.getInstance().register(user);
 

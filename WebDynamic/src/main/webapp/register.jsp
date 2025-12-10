@@ -64,14 +64,11 @@
                 Tôi đồng ý với <a href="#">Điều khoản dịch vụ</a> và <a href="#">Chính sách bảo mật</a>.
             </label>
         </div>
-        <c:if test="${not empty error}">
-            <div class="error-message">${error}</div>
-        </c:if>
+
         <button type="submit">Tạo tài khoản</button>
         <div class="error-message" id="error-message">
             <c:if test="${not empty error}">${error}</c:if>
         </div>
-
         <div class="links">
             Đã có tài khoản? <a href="login">Đăng nhập</a>
         </div>

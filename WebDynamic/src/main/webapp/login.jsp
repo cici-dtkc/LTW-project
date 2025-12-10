@@ -3,10 +3,10 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng Nhập</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="assert/css/reset.css">
     <link rel="stylesheet" href="assert/css/base.css">
     <link rel="stylesheet" href="assert/css/login.css">
@@ -21,68 +21,60 @@
 
             <form id="login-form" action="login" method="post">
 
-                <!-- THÔNG BÁO MESSAGE -->
+                <!-- THÔNG BÁO LỖI -->
                 <div id="login-message"
-                <c:if test="${not empty error or not empty message}">
-                <div id="login-message" class="login-message ${not empty error ? 'show error' : 'show success'}">
-                    <i class="fa fa-warning"></i>
-                    <c:choose>
-                        <c:when test="${not empty error}">
-                            ${error}
-                        </c:when>
-                        <c:when test="${not empty message}">
-                            ${message}
-                        </c:when>
-                    </c:choose>
+                     class="login-message ${error != null ? 'show error' : ''}">
+                    <c:if test="${not empty error}">
+                        <i class="fa fa-warning"></i> ${error}
+                    </c:if>
+                    <i class="fa fa-warning"></i> ${message}
                 </div>
-                </c:if>
-        </div>
 
 
-        <!-- USERNAME / EMAIL -->
-        <div class="form-group-one">
-            <i class="fa fa-user"></i>
-            <input type="text"
-                   id="login-username"
-                   name="input"
-                   class="form-control"
-                   placeholder="tên đăng nhập/email"
-                   value="${inputValue != null ? inputValue : ''}"/>
-        </div>
+                <!-- USERNAME / EMAIL -->
+                <div class="form-group-one">
+                    <i class="fa fa-user"></i>
+                    <input type="text"
+                           id="login-username"
+                           name="input"
+                           class="form-control"
+                           placeholder="tên đăng nhập/email"
+                           value="${inputValue != null ? inputValue : ''}" />
+                </div>
 
-        <!-- PASSWORD (KHÔNG HIỂN THỊ LẠI) -->
-        <div class="form-group-one">
-            <i class="fa fa-lock"></i>
-            <input type="password"
-                   id="login-password"
-                   name="password"
-                   class="form-control"
-                   placeholder="mật khẩu"
-                   autocomplete="off"/>
-        </div>
+                <!-- PASSWORD (KHÔNG HIỂN THỊ LẠI) -->
+                <div class="form-group-one">
+                    <i class="fa fa-lock"></i>
+                    <input type="password"
+                           id="login-password"
+                           name="password"
+                           class="form-control"
+                           placeholder="mật khẩu"
+                           autocomplete="off" />
+                </div>
 
-        <div class="form-group actions">
-            <button type="submit" id="btn-login" class="btn">Đăng nhập</button>
-            <a href="forgorpassword.html" id="link-forgot-password" class="text-right">Quên mật khẩu?</a>
-        </div>
+                <div class="form-group actions">
+                    <button type="submit" id="btn-login" class="btn">Đăng nhập</button>
+                    <a href="forgorpassword.html" id="link-forgot-password" class="text-right">Quên mật khẩu?</a>
+                </div>
 
-        <div class="form-group social">
-            <label>Đăng nhập bằng:</label>
-            <div class="social-icons">
-                <a href="#" id="social-facebook"><i class="fa fa-facebook"></i></a>
-                <a href="#" id="social-google"><i class="fa fa-google-plus"></i></a>
+                <div class="form-group social">
+                    <label>Đăng nhập bằng:</label>
+                    <div class="social-icons">
+                        <a href="#" id="social-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="#" id="social-google"><i class="fa fa-google-plus"></i></a>
+                    </div>
+                </div>
+            </form>
+
+            <div class="create-account">
+                <a href="register" id="link-create-account">
+                    Tạo tài khoản mới <i class="fa fa-arrow-circle-o-right"></i>
+                </a>
             </div>
-        </div>
-        </form>
 
-        <div class="create-account">
-            <a href="register" id="link-create-account">
-                Tạo tài khoản mới <i class="fa fa-arrow-circle-o-right"></i>
-            </a>
         </div>
-
     </div>
-</div>
 </div>
 
 <script src="js/login.js"></script>

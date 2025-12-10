@@ -8,7 +8,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
+import  vn.edu.hcmuaf.fit.webdynamic.util.HashPasswordUtil;
 import java.io.IOException;
 
 @WebServlet(name = "LoginServlet", value = "/login")
@@ -24,9 +24,6 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String input = request.getParameter("input");      // email hoặc username
         String password = request.getParameter("password");
-        System.out.println("INPUT = " + input);
-        System.out.println("PASSWORD = " + password);
-
 
         UserDao dao = new UserDao();
         User user = dao.login(input, password);
@@ -52,7 +49,5 @@ public class LoginServlet extends HttpServlet {
             }
         }
     }
-
-
 
 }
