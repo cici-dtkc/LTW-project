@@ -1,133 +1,235 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Lấy các phần tử modal
+    console.log("✅ voucherAdmin.js loaded");
+
     const modal = document.getElementById("promoModal");
     const promoForm = document.getElementById("promoForm");
     const btnClose = document.getElementById("btnCloseModal");
     const btnOpen = document.getElementById("btnOpenModal");
 
-    // Lấy contextPath từ JSP
-    const contextPath = document.body.getAttribute("data-context");
+    /* ================= OPEN ADD FORM ================= */
+    if (btnOpen) {
+        btnOpen.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("🔵 Opening ADD modal...");
 
-    // 🟢 Nút mở modal "Thêm mới"
-    btnOpen.addEventListener("click", () => {
-        document.querySelector("#promoModal h3").innerText = "Thêm khuyến mãi";
-        promoForm.reset();
-        document.getElementById("editId").value = "";
-        promoForm.querySelector("input[name='action']").value = "addVoucher";
-        modal.style.display = "flex";
-    });
+            if (!modal) {
+                console.error("❌ Modal not found!");
+                return;
+            }
 
-    //   Đóng modal
-    btnClose.addEventListener("click", () => {
+            if (!promoForm) {
+                console.error("❌ Form not found!");
+                return;
+            }
+
+            promoForm.reset();
+            promoForm.querySelectorAll("input, select").forEach((el) => {
+                el.disabled = false;
+                el.readOnly = false;
+            });
+
+            const formAction = document.getElementById("formAction");
+            const editId = document.getElementById("editId");
+
+            if (formAction) {
+                formAction.value = "addVoucher";
+                console.log("✅ Form action set to:", formAction.value);
+            } else {
+                console.error("❌ formAction element not found!");
+            }
+
+            if (editId) {
+                editId.value = "";
+            }
+
+            const modalTitle = document.querySelector("#promoModal h3");
+            if (modalTitle) {
+                modalTitle.innerText = "Thêm khuyến mãi mới";
+            }
+
+            modal.classList.add("show");
+            // Force display with inline style to ensure it shows
+            modal.style.display = "flex";
+            console.log("✅ Modal opened, classes:", modal.className);
+            console.log(
+                "✅ Modal display style:",
+                window.getComputedStyle(modal).display
+            );
+        });
+    } else {
+        console.error("❌ btnOpenModal not found!");
+    }
+
+    /* ================= CLOSE MODAL ================= */
+    function closeModal() {
+        modal.classList.remove("show");
         modal.style.display = "none";
+    }
+
+    if (btnClose) {
+        btnClose.addEventListener("click", function () {
+            closeModal();
+        });
+    }
+
+    window.addEventListener("click", function (e) {
+        if (e.target === modal) {
+            closeModal();
+        }
     });
 
-    // Nhấn ngoài modal để đóng
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) modal.style.display = "none";
-    });
+    // Prevent modal from closing when clicking inside modal-content
+    const modalContent = document.querySelector(".modal-content");
+    if (modalContent) {
+        modalContent.addEventListener("click", function (e) {
+            e.stopPropagation();
+        });
+    }
 
-    //  Mở modal sửa
-    window.openEditModal = function (btn) {
-        document.querySelector("#promoModal h3").innerText = "Sửa khuyến mãi";
-        promoForm.querySelector("input[name='action']").value = "updateVoucher";
-
-        document.getElementById("editId").value = btn.dataset.id;
-        document.getElementById("promoCode").value = btn.dataset.code;
-        document.getElementById("promoType").value = btn.dataset.type;
-        document.getElementById("discountValue").value = btn.dataset.discount;
-        document.getElementById("maxDiscount").value = btn.dataset.max;
-        document.getElementById("minOrder").value = btn.dataset.min;
-        document.getElementById("quantity").value = btn.dataset.quantity;
-        document.getElementById("startDate").value = btn.dataset.start;
-        document.getElementById("endDate").value = btn.dataset.end;
-
-        modal.style.display = "flex";
-    };
-
-    // Bật/Tắt trạng thái
-    window.toggleVoucher = function (btn) {
-        const id = btn.dataset.id;
-        const status = parseInt(btn.dataset.status);
-
-        fetch(`${contextPath}/admin/vouchers`, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: `action=toggleStatus&id=${id}&status=${status}`
-        }).then(() => location.reload());
-    };
-
+    /* ================= EDIT FUNCTION ================= */
     window.editRow = function (btn) {
-        const tr = btn.closest("tr");
-        const id = btn.dataset.id;
+        console.log("🟡 Opening EDIT modal...");
 
-        // Lấy dữ liệu từ từng cột bảng
-        const code = tr.children[0].innerText.trim();
-        const type = tr.children[1].innerText.trim();
-        const discount = tr.children[2].innerText.trim();
-        const max = tr.children[3].innerText.trim();
-        const min = tr.children[4].innerText.trim();
-        const quantity = tr.children[5].innerText.trim();
-        const start = tr.children[6].innerText.trim();
-        const end = tr.children[7].innerText.trim();
+        if (!btn) {
+            console.error("❌ Button is null!");
+            return;
+        }
 
-        // Gán vào input
-        tr.children[0].innerHTML = `<input value="${code}">`;
+        if (!modal) {
+            console.error("❌ Modal not found!");
+            return;
+        }
 
-        tr.children[1].innerHTML = `
-        <select>
-            <option value="1" ${type === "Phần trăm" ? "selected" : ""}>Phần trăm</option>
-            <option value="2" ${type === "Tiền mặt" ? "selected" : ""}>Tiền mặt</option>
-            <option value="3" ${type === "Tặng quà" ? "selected" : ""}>Tặng quà</option>
-        </select>`;
+        const row = btn.closest("tr");
+        if (!row) {
+            console.error("❌ Row not found!");
+            return;
+        }
 
-        tr.children[2].innerHTML = `<input type="number" value="${discount}">`;
-        tr.children[3].innerHTML = `<input type="number" value="${max}">`;
-        tr.children[4].innerHTML = `<input type="number" value="${min}">`;
-        tr.children[5].innerHTML = `<input type="number" value="${quantity}">`;
+        promoForm.querySelectorAll("input, select").forEach((el) => {
 
-        // Chuyển date dd/MM/yyyy → yyyy-MM-dd nếu cần
-        tr.children[6].innerHTML = `<input type="date" value="${start}">`;
-        tr.children[7].innerHTML = `<input type="date" value="${end}">`;
+            el.disabled = false;
+            el.readOnly = false;
+        });
 
-        // Đổi nút sửa thành lưu/hủy
-        tr.children[9].innerHTML = `
-        <button onclick="saveRow(this)" data-id="${id}">Lưu</button>
-        <button onclick="cancelEdit()">Hủy</button>
-    `;
+        document.getElementById("formAction").value = "update";
+        document.getElementById("editId").value = btn.dataset.id;
+
+        document.getElementById("promoCode").value =
+            row.children[0].innerText.trim();
+
+        const typeText = row.children[1].innerText.trim();
+        document.getElementById("promoType").value =
+            typeText === "Phần trăm" ? "1" : typeText === "Tiền mặt" ? "2" : "3";
+
+        const discountText = row.children[2].innerText.trim();
+
+        const discountValue = discountText.replace(/[^\d]/g, "");
+        document.getElementById("discountValue").value = discountValue || 0;
+
+        // Parse max discount and min order (remove commas and currency symbols)
+        const maxDiscountText = row.children[3].innerText.replace(/[^\d]/g, "");
+        document.getElementById("maxDiscount").value = maxDiscountText || 0;
+
+        const minOrderText = row.children[4].innerText.replace(/[^\d]/g, "");
+        document.getElementById("minOrder").value = minOrderText || 0;
+
+        document.getElementById("quantity").value =
+            parseInt(row.children[5].innerText.trim()) || 1;
+
+        const startDateCell = row.children[6];
+        const startDateText =
+            startDateCell.getAttribute("data-date") || startDateCell.innerText.trim();
+        document.getElementById("startDate").value = startDateText;
+
+        const endDateCell = row.children[7];
+        const endDateText =
+            endDateCell.getAttribute("data-date") || endDateCell.innerText.trim();
+        document.getElementById("endDate").value = endDateText;
+
+        document.querySelector("#promoModal h3").innerText = "Cập nhật khuyến mãi";
+        modal.classList.add("show");
+        // Force display with inline style to ensure it shows
+        modal.style.display = "flex";
+
+        console.log(
+            "✅ Edit modal opened, action:",
+            document.getElementById("formAction").value
+        );
+        console.log(
+            "✅ Modal display style:",
+            window.getComputedStyle(modal).display
+        );
     };
 
+    /* ================= FORM VALIDATION ================= */
+    if (promoForm) {
+        promoForm.addEventListener("submit", function (e) {
+            console.log("📤 Submitting form...");
 
-    window.saveRow = function (btn) {
-        const tr = btn.closest("tr");
-        const id = btn.dataset.id;
+            const action = document.getElementById("formAction").value;
+            const id = document.getElementById("editId").value;
 
-        const promoCode = tr.children[0].querySelector("input").value;
-        const promoType = tr.children[1].querySelector("select").value;
-        const discountValue = tr.children[2].querySelector("input").value;
-        const maxDiscount = tr.children[3].querySelector("input").value;
-        const minOrder = tr.children[4].querySelector("input").value;
-        const quantity = tr.children[5].querySelector("input").value;
-        const startDate = tr.children[6].querySelector("input").value;
-        const endDate = tr.children[7].querySelector("input").value;
+            console.log("Action:", action);
+            console.log("ID:", id);
 
-        const body = new URLSearchParams();
-        body.append("action", "updateVoucher");
-        body.append("id", id);
-        body.append("promoCode", promoCode);
-        body.append("promoType", promoType);
-        body.append("discountValue", discountValue);
-        body.append("maxDiscount", maxDiscount);
-        body.append("minOrder", minOrder);
-        body.append("quantity", quantity);
-        body.append("startDate", startDate);
-        body.append("endDate", endDate);
+            // Validate action is set
+            if (!action) {
+                e.preventDefault();
+                alert("Lỗi: Action không được xác định!");
+                console.error("❌ Form action is empty!");
+                return false;
+            }
 
-        fetch(`${contextPath}/admin/vouchers`, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: body.toString()
-        }).then(() => location.reload());
-    };
+            // Validate dates
+            const startDateValue = document.getElementById("startDate").value;
+            const endDateValue = document.getElementById("endDate").value;
 
+            if (!startDateValue || !endDateValue) {
+                e.preventDefault();
+                alert("Vui lòng nhập đầy đủ ngày bắt đầu và ngày kết thúc!");
+                return false;
+            }
+
+            const startDate = new Date(startDateValue);
+            const endDate = new Date(endDateValue);
+
+            if (endDate < startDate) {
+                e.preventDefault();
+                alert("Ngày kết thúc phải sau ngày bắt đầu!");
+                return false;
+            }
+
+            // Validate discount
+            const discountType = document.getElementById("promoType").value;
+            const discountValue = parseInt(
+                document.getElementById("discountValue").value
+            );
+
+            if (isNaN(discountValue) || discountValue <= 0) {
+                e.preventDefault();
+                alert("Mức giảm phải là số lớn hơn 0!");
+                return false;
+            }
+
+            if (discountType === "1" && discountValue > 100) {
+                e.preventDefault();
+                alert("Giảm theo % không được vượt quá 100%!");
+                return false;
+            }
+
+            console.log("✅ Form validation passed, submitting...");
+            if (action === "addVoucher") {
+                alert("🎉 Thêm khuyến mãi thành công!");
+            }
+            else {
+                alert("🎉 Sửa khuyến mãi thành công!");
+            }
+
+            return true;
+
+
+        });
+    }
 });

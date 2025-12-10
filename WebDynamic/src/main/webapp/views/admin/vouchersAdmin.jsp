@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/vouchersAdmin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
 </head>
-<body  data-context="${pageContext.request.contextPath}">
+<body>
 <div class="app">
     <%@ include file="/views/includes/sideBarAdmin.jsp" %>
 
@@ -31,6 +31,11 @@
         </div>
 
         <div class="table-container">
+            <c:if test="${not empty error}">
+                <div class="error-message" style="background-color: #fee; color: #c33; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #fcc;">
+                    <i class="fas fa-exclamation-circle"></i> ${error}
+                </div>
+            </c:if>
             <!-- Toolbar -->
             <div class="toolbar">
                 <div class="left">
@@ -45,7 +50,7 @@
                         <button type="submit" style="display: none;"></button>
                     </form>
                 </div>
-                <button class="btn-add" id="btnOpenModal">+ Thêm Khuyến mãi</button>
+                <button type="button" class="btn-add" id="btnOpenModal">+ Thêm Khuyến mãi</button>
 
             </div>
 
@@ -110,9 +115,12 @@
                                 <td>${voucher.quantity}</td>
 
                                 <!-- Ngày bắt đầu/kết thúc -->
-                                <td>${voucher.startDate != null ? voucher.startDate.toString().substring(0, 10) : ''}</td>
-                                <td>${voucher.endDate != null ? voucher.endDate.toString().substring(0, 10) : ''}</td>
-
+                            <td data-date="${voucher.startDate != null ? voucher.startDate.toString().substring(0, 10) : ''}">
+                                    ${voucher.startDate != null ? voucher.startDate.toString().substring(0, 10) : ''}
+                            </td>
+                            <td data-date="${voucher.endDate != null ? voucher.endDate.toString().substring(0, 10) : ''}">
+                                    ${voucher.endDate != null ? voucher.endDate.toString().substring(0, 10) : ''}
+                            </td>
                                 <!-- Trạng thái -->
                                 <td>
                                     <span class="status ${voucher.status == 1 ? 'active' : 'inactive'}">
@@ -122,21 +130,19 @@
 
                                 <!-- Thao tác -->
                                 <td>
-                                    <form method="post" action="${pageContext.request.contextPath}/admin/vouchers" style="display:inline;">
-                                        <input type="hidden" name="action" value="toggleStatus">
+                                    <form method="post"
+                                          action="${pageContext.request.contextPath}/admin/vouchers"
+                                          style="display:inline;">
+                                        <input type="hidden" name="action" value="toggle">
                                         <input type="hidden" name="id" value="${voucher.id}">
-                                        <input type="hidden" name="status" value="${voucher.status}">
-                                        <button class="btn-toggle"
-                                                data-id="${voucher.id}"
-                                                data-status="${voucher.status}"
-                                                onclick="toggleVoucher(this); return false;">
+                                        <button type="submit" class="btn-toggle">
                                                 ${voucher.status == 1 ? "Tắt" : "Bật"}
                                         </button>
-
-
                                     </form>
 
-                                    <button class="btn-edit" onclick="editRow(this)"
+                                    <button
+                                            class="btn-edit"
+                                            onclick="editRow(this)"
                                             data-id="${voucher.id}">
                                         Sửa
                                     </button>
@@ -164,26 +170,27 @@
                     <form id="promoForm" method="post"
                           action="${pageContext.request.contextPath}/admin/vouchers">
 
-                        <input type="hidden" name="action" value="addVoucher">
+                        <input type="hidden" name="action" id="formAction">
                         <input type="hidden" name="id" id="editId">
                         <label>Mã KM</label>
-                        <input type="text" name="promoCode" id="promoCode" required>
+                        <input type="text" name="voucherCode" id="promoCode" required>
 
                         <label>Loại khuyến mãi</label>
-                        <select name="promoType" id="promoType" required>
+                        <select name="type" id="promoType" required>
                             <option value="1">Giảm theo %</option>
                             <option value="2">Giảm theo số tiền</option>
                             <option value="3">Tặng quà</option>
                         </select>
 
                         <label>Mức giảm</label>
-                        <input type="number" name="discountValue" id="discountValue" min="0" required>
+                        <input type="number" name="discountAmount" id="discountValue" min="0" required>
+
 
                         <label>Giảm tối đa (₫)</label>
-                        <input type="number" name="maxDiscount" id="maxDiscount" min="0" required>
+                        <input type="number" name="maxReduce" id="maxDiscount" min="0" required>
 
                         <label>Đơn tối thiểu (₫)</label>
-                        <input type="number" name="minOrder" id="minOrder" min="0" required>
+                        <input type="number" name="minOrderValue" id="minOrder" min="0" required>
 
                         <label>Số lượng</label>
                         <input type="number" name="quantity" id="quantity" min="1" required>
