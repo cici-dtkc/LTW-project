@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -18,17 +20,38 @@
             </div>
 
             <form id="login-form" action="login" method="post">
-                <div id="login-message" class="login-message">${error}</div>
-                <div class="form-group-one">
-                    <i class="fa fa-user"></i>
-                    <input type="text" id="login-username" name="input"
-                           class="form-control" placeholder="tên đăng nhập/email" />
+
+                <!-- THÔNG BÁO LỖI -->
+                <div id="login-message"
+                     class="login-message ${error != null ? 'show error' : ''}">
+                    <c:if test="${not empty error}">
+                        <i class="fa fa-warning"></i> ${error}
+                    </c:if>
+                    <i class="fa fa-warning"></i> ${message}
                 </div>
 
+
+                <!-- USERNAME / EMAIL -->
+                <div class="form-group-one">
+                    <i class="fa fa-user"></i>
+                    <input type="text"
+                           id="login-username"
+                           name="input"
+                           class="form-control"
+                           placeholder="tên đăng nhập/email"
+                           value="${inputValue != null ? inputValue : ''}" />
+                </div>
+
+                <!-- PASSWORD (KHÔNG HIỂN THỊ LẠI) -->
                 <div class="form-group-one">
                     <i class="fa fa-lock"></i>
-                    <input type="password" id="login-password" name="password"
-                           class="form-control" placeholder="mật khẩu" autocomplete="off" />                </div>
+                    <input type="password"
+                           id="login-password"
+                           name="password"
+                           class="form-control"
+                           placeholder="mật khẩu"
+                           autocomplete="off" />
+                </div>
 
                 <div class="form-group actions">
                     <button type="submit" id="btn-login" class="btn">Đăng nhập</button>
@@ -45,11 +68,15 @@
             </form>
 
             <div class="create-account">
-                <a href="register.html" id="link-create-account">Tạo tài khoản mới <i class="fa fa-arrow-circle-o-right"></i></a>
+                <a href="register" id="link-create-account">
+                    Tạo tài khoản mới <i class="fa fa-arrow-circle-o-right"></i>
+                </a>
             </div>
+
         </div>
     </div>
 </div>
+
 <script src="js/login.js"></script>
 </body>
 </html>
