@@ -35,17 +35,19 @@ public class LoginServlet extends HttpServlet {
             // Lưu user vào session
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
-
+            session.setAttribute("role", user.getRole());
             // Điều hướng theo role
             int role = user.getRole();   // nhớ getRole() phải tồn tại trong model
 
-            if (role == 0) {
-                response.sendRedirect("home");
-            } else if (role == 1) {
-                response.sendRedirect("admin");
+            if (role == 1) {
+                // Admin
+                response.sendRedirect(request.getContextPath() + "/admin/");
+            } else if (role == 0) {
+                // User
+                response.sendRedirect(request.getContextPath() + "/user/");
             } else {
-                // Nếu có role khác thì đưa về trang mặc định
-                response.sendRedirect("home");
+                // Role không hợp lệ => về trang public
+                response.sendRedirect(request.getContextPath() + "/");
             }
         }
     }

@@ -69,5 +69,37 @@ public class UserDao {
             );
         }
 
+        // Kiểm tra mật khẩu cũ
+    public boolean checkOldPassword(int userId, String oldPassword) {
+        String sql = """
+        SELECT COUNT(*) 
+        FROM users 
+        WHERE id = ? AND password = ?
+    """;
+
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, userId)
+                        .bind(1, oldPassword)
+                        .mapTo(Integer.class)
+                        .one() == 1
+        );
+    }
+
+    // Cập nhật mật khẩu mới
+    public boolean updatePassword(int userId, String newPassword) {
+        String sql = """
+        UPDATE users 
+        SET password = ?, updated_at = NOW()
+        WHERE id = ?
+    """;
+
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind(0, newPassword)
+                        .bind(1, userId)
+                        .execute() > 0
+        );
+    }
 
     }
