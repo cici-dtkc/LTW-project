@@ -1,0 +1,138 @@
+package vn.edu.hcmuaf.fit.webdynamic.dao;
+
+import org.jdbi.v3.core.Jdbi;
+import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
+import vn.edu.hcmuaf.fit.webdynamic.model.VoucherAdmin;
+
+import java.util.List;
+
+public class VoucherAdminDaoImpl implements VoucherAdminDao {
+
+    private final Jdbi jdbi = DBConnect.getJdbi();
+
+
+    @Override
+    public List<VoucherAdmin> getAll(String keyword, Integer status, int offset, int limit) {
+        String sql = """
+            SELECT * FROM vouchers
+            WHERE (:keyword IS NULL OR voucher_code LIKE CONCAT('%', :keyword, '%'))
+            AND (:status IS NULL OR status = :status)
+            ORDER BY created_at DESC
+            LIMIT :limit OFFSET :offset
+        """;
+
+        return jdbi.withHandle(h -> h.createQuery(sql)
+                .bind("keyword", keyword)
+                .bind("status", status)
+                .bind("limit", limit)
+                .bind("offset", offset)
+                .mapToBean(VoucherAdmin.class)
+                .list());
+    }
+
+    @Override
+    public int countAll(String keyword, Integer status) {
+        String sql = """
+            SELECT COUNT(*) FROM vouchers
+            WHERE (:keyword IS NULL OR voucher_code LIKE CONCAT('%', :keyword, '%'))
+            AND (:status IS NULL OR status = :status)
+        """;
+
+        return jdbi.withHandle(h -> h.createQuery(sql)
+                .bind("keyword", keyword)
+                .bind("status", status)
+                .mapTo(Integer.class)
+                .one());
+    }
+
+    @Override
+    public VoucherAdmin getById(int id) {
+        return jdbi.withHandle(h -> h.createQuery("SELECT * FROM vouchers WHERE id = :id")
+                .bind("id", id)
+                .mapToBean(VoucherAdmin.class)
+                .findOne()
+                .orElse(null));
+    }
+
+    @Override
+    public boolean isCodeExist(String voucherCode, Integer excludeId) {
+        String sql = """
+            SELECT COUNT(*) FROM vouchers
+            WHERE voucher_code = :code
+            AND (:exclude IS NULL OR id != :exclude)
+        """;
+
+        int count = jdbi.withHandle(h -> h.createQuery(sql)
+                .bind("code", voucherCode)
+                .bind("exclude", excludeId)
+                .mapTo(Integer.class)
+                .one());
+
+        return count > 0;
+    }
+
+    @Override
+    public boolean insert(VoucherAdmin v) {
+        String sql = """
+            INSERT INTO vouchers
+            (voucher_code, discount_amount, type, status, min_order_value, max_reduce, quantity,
+             start_date, end_date, created_at, updated_at)
+            VALUES (:voucherCode, :discountAmount, :type, :status, :minOrderValue, :maxReduce,
+                    :quantity, :startDate, :endDate, NOW(), NOW())
+        """;
+
+        int rows = jdbi.withHandle(h -> h.createUpdate(sql)
+                .bindBean(v)
+                .execute());
+
+        return rows > 0;
+    }
+
+    @Override
+    public boolean update(VoucherAdmin v) {
+        String sql = """
+            UPDATE vouchers SET
+            voucher_code = :voucherCode,
+            discount_amount = :discountAmount,
+            type = :type,
+            min_order_value = :minOrderValue,
+            max_reduce = :maxReduce,
+            quantity = :quantity,
+            start_date = :startDate,
+            end_date = :endDate,
+            updated_at = NOW()
+            WHERE id = :id
+        """;
+
+        int rows = jdbi.withHandle(h -> h.createUpdate(sql)
+                .bindBean(v)
+                .execute());
+
+        return rows > 0;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return jdbi.withHandle(h ->
+                h.createUpdate("DELETE FROM vouchers WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        ) > 0;
+    }
+
+    @Override
+    public boolean toggleStatus(int id) {
+        String sql = """
+            UPDATE vouchers
+            SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END
+            WHERE id = :id
+        """;
+
+        return jdbi.withHandle(h -> h.createUpdate(sql)
+                .bind("id", id)
+                .execute()) > 0;
+    }
+
+
+
+}

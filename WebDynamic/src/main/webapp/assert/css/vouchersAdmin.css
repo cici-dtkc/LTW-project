@@ -174,7 +174,7 @@
 
 /*MODAL (Thêm/Sửa khuyến mãi)*/
 
-.modal {
+#promoModal.modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -183,6 +183,11 @@
     justify-content: center;
     z-index: 1000;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+#promoModal.modal.show,
+#promoModal.modal[style*="display: flex"] {
+    display: flex !important;
 }
 /* --- Chia form modal thành 2 cột --- */
 .modal .modal-content form {
@@ -282,7 +287,6 @@
 .modal .btn-cancel:hover {
     background: #5a6268;
 }
-
 
 #toast {
     visibility: hidden;
