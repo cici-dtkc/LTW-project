@@ -1,9 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
+import java.util.List;
+import java.util.Optional;
 
 public class UserDao {
 
@@ -68,7 +68,54 @@ public class UserDao {
                         .orElse(null)
         );
     }
+    // lây thông tin qua tìm id người dùng
+    public Optional<User> findById(int id) {
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery("SELECT id, username, first_name, last_name, email, avatar_url FROM users WHERE id = :id")
+                        .bind("id", id)
+                        .mapToBean(User.class)
+                        .findOne()
+        );
+    }
+    // lấy thông tin qua tìm tên đăng nhập
+    public Optional<User> findByUsername(String username) {
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery("SELECT id, username, first_name, last_name, email, avatar_url FROM users WHERE username = :username")
+                        .bind("username", username)
+                        .mapToBean(User.class)
+                        .findOne()
+        );
+    }
+    //Lấy danh sachs người dùng load từ database
+    public List<User> getAllUsers() {
+        String sql = """
+            SELECT id, username, first_name, last_name, avatar, email, role, status 
+            FROM users
+        """;
 
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapToBean(User.class)
+                        .list()
+        );
+    }
+    //Cập nhật người dùng
+    public boolean updateUser(int id, int role, int status) {
+        String sql = """
+        UPDATE users 
+        SET role = :role, status = :status
+        WHERE id = :id
+    """;
 
+        int rows = DBConnect.getJdbi().withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("role", role)
+                        .bind("status", status)
+                        .bind("id", id)
+                        .execute()
+        );
+
+        return rows > 0;
+    }
 
 }
