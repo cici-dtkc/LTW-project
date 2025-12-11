@@ -39,7 +39,6 @@ public class ChangepassServlet extends HttpServlet {
         }
 
         int userId = currentUser.getId();
-        String oldPass = req.getParameter("old_password");
         String newPass = req.getParameter("new_password");
         String confirm = req.getParameter("confirm_password");
 
@@ -50,17 +49,16 @@ public class ChangepassServlet extends HttpServlet {
             return;
         }
 
-        // 2. Gọi service xử lý đổi mật khẩu
-        String result = userService.changePassword(userId, oldPass, newPass);
+        String result = userService.updatePassword(userId, newPass);
 
-        // 3. Kiểm tra kết quả
+        // 3. Kết quả
         if (result.equals("Đổi mật khẩu thành công")) {
             req.setAttribute("message", result);
         } else {
             req.setAttribute("error", result);
         }
 
-        req.getRequestDispatcher("chform_change_pass.jsp")
-                .forward(req, resp);
+        req.getRequestDispatcher("form_change_pass.jsp").forward(req, resp);
     }
+
 }
