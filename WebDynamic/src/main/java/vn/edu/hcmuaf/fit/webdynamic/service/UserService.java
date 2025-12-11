@@ -2,9 +2,13 @@ package vn.edu.hcmuaf.fit.webdynamic.service;
 
 import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webdynamic.dao.UserDao;
+import vn.edu.hcmuaf.fit.webdynamic.dao.UserInfoDao;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 
+import java.util.Optional;
+
 public class UserService {
+    private final UserInfoDao userDao;
 
     private UserDao userDao = UserDao.getInstance();
 
@@ -23,8 +27,13 @@ public class UserService {
         if (!BCrypt.checkpw(password, user.getPassword())) {
             return null;
         }
+    public UserService() {
+        this.userDao = new UserInfoDao();
+    }
 
         return user;
+    public Optional<User> getUserProfileById(int id) {
+        return userDao.findById(id);
     }
 
     // Cập nhật mật khẩu
@@ -33,6 +42,8 @@ public class UserService {
 
         boolean ok = userDao.updatePassword(userId, hashed);
         return ok ? "Đổi mật khẩu thành công" : "Đổi mật khẩu thất bại";
+    public Optional<User> getUserProfileByUsername(String username) {
+        return userDao.findByUsername(username);
     }
 }
 

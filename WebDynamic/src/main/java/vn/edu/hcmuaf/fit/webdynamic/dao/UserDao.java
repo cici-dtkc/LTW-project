@@ -1,5 +1,4 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
-
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
 
@@ -35,15 +34,12 @@ public class UserDao {
     // Đăng ký (mật khẩu đã được mã hoá ở Service)
     public boolean register(User u) {
         int result = DBConnect.getJdbi().withHandle(h ->
-                h.createUpdate("""
-                        INSERT INTO users 
-                        (first_name, last_name, username, password, email, role, status) 
-                        VALUES (:fn, :ln, :un, :pw, :em, 0, 1)
-                        """)
+                h.createUpdate("INSERT INTO users (first_name, last_name, username, password, email) " +
+                                "VALUES (:fn, :ln, :un, :pw, :em)")
                         .bind("fn", u.getFirstName())
                         .bind("ln", u.getLastName())
                         .bind("un", u.getUsername())
-                        .bind("pw", u.getPassword())   // Đã hashed ở Service
+                        .bind("pw", u.getPassword())
                         .bind("em", u.getEmail())
                         .execute()
         );
@@ -86,3 +82,5 @@ public class UserDao {
         );
     }
 }
+
+

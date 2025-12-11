@@ -2,13 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
 
-  <groupId>vn.edu.hcmuaf.fit</groupId>
-  <artifactId>WebDynamic</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <name>WebDynamic</name>
-  <packaging>war</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>vn.edu.hcmuaf.fit</groupId>
+    <artifactId>WebDynamic</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>WebDynamic</name>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -18,19 +19,23 @@
     </properties>
 
     <dependencies>
+
+        <!-- JDBI Core -->
+        <!-- JDBI -->
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-core</artifactId>
             <version>3.43.0</version>
         </dependency>
 
+        <!-- JDBI SQL Object -->
         <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-sqlobject</artifactId>
             <version>3.43.0</version>
         </dependency>
 
-        <!-- MySQL JDBC Driver (CHUẨN, CÓ TRÊN MAVEN, TƯƠNG THÍCH JDBI) -->
+        <!-- MySQL JDBC Driver -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -51,12 +56,23 @@
             <version>6.1.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Test: JUnit -->
+        <!-- JSP Compiler cho Tomcat -->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>11.0.0-M15</version>
+        </dependency>
+
+        <!-- JSTL API -->
         <dependency>
             <groupId>jakarta.servlet.jsp.jstl</groupId>
             <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
             <version>3.0.0</version>
         </dependency>
-
+     
+        <!-- JSTL implementation -->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
@@ -69,12 +85,14 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
@@ -83,12 +101,15 @@
 
     </dependencies>
 
+
     <build>
-    <plugins>
-<plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.4.0</version>
-      </plugin>    </plugins>
-  </build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
