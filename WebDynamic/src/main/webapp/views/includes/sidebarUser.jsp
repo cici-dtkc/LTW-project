@@ -54,7 +54,7 @@ if (activeMenu == null) {
             <ul id="accountSubmenu" class="submenu">
 
                 <li class="menu-item <%= "profile".equals(activeMenu) ? "active" : "" %>">
-                    <a href="${pageContext.request.contextPath}/user/info" id="menuProfile">Hồ Sơ</a>
+                    <a href="${pageContext.request.contextPath}/user/profile" id="menuProfile">Hồ Sơ</a>
                 </li>
 
                 <li class="menu-item <%= "bank".equals(activeMenu) ? "active" : "" %>">
@@ -81,7 +81,7 @@ if (activeMenu == null) {
 
         <!-- VOUCHER -->
         <li class="menu-category">
-            <a href="voucherDetail.html" id="menuVoucher">
+            <a href="${pageContext.request.contextPath}/user/voucher-detail" id="menuVoucher">
                 <i class="fa-solid fa-ticket"></i> Kho Voucher
             </a>
         </li>

@@ -24,7 +24,21 @@ public class UserService {
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
+
     public boolean updateUser(int id, int role, int status) {
-      return userDao.updateUser(id, role, status);
+        return userDao.updateUser(id, role, status);
     }
+
+    public boolean updateUserInfo(int id, String firstName, String lastName, String email) {
+        return userDao.updateUserInfo(id, firstName, lastName, email);
+    }
+
+    public boolean updateAvatar(int id, String avatarUrl) {
+        return userDao.updateAvatar(id, avatarUrl);
+    }
+
+    public boolean checkExistEmailForOtherUsers(int id, String email) {
+        return userDao.checkExistEmailForOtherUsers(id, email);
+    }
+
 }

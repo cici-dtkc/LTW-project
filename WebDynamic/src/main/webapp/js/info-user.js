@@ -1,72 +1,103 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const btnEdit = document.getElementById("btn-edit");
-  const btnSave = document.getElementById("btn-save");
-  const btnLogout = document.getElementById("btn-logout");
 
-  const firstNameInput = document.getElementById("firstName");
-  const lastNameInput = document.getElementById("lastName");
-  const emailInput = document.getElementById("emailInput");
-  const emailError = document.getElementById("emailError");
+    // Lấy contextPath từ thẻ body
+    const context = document.body.getAttribute("data-context-path") || "";
 
-  const avatarInput = document.getElementById("avatarInput");
-  const avatarPreview = document.getElementById("user-avatar");
-  const chooseAvatarBtn = document.querySelector(".btn.small.outline");
+    const btnEdit = document.getElementById("btn-edit");
+    const btnSave = document.getElementById("btn-save");
+    const btnLogout = document.getElementById("btn-logout");
 
-  let isEditing = false;
+    const firstNameInput = document.getElementById("firstName");
+    const lastNameInput = document.getElementById("lastName");
+    const emailInput = document.getElementById("emailInput");
 
-  // ==== Khi nhấn "Chỉnh sửa" ====
-  btnEdit.addEventListener("click", function () {
-    isEditing = true;
+    const avatarInput = document.getElementById("avatarInput");
+    const avatarPreview = document.getElementById("user-avatar");
 
-    // Bật input để chỉnh sửa
-    firstNameInput.disabled = false;
-    lastNameInput.disabled = false;
-    emailInput.disabled = false;
+    const updateForm = document.getElementById("update-form");
 
-    // Chuyển nút
-    btnEdit.classList.add("hidden");
-    btnLogout.classList.add("hidden");
-    btnSave.classList.remove("hidden");
-  });
+    // Bật chế độ chỉnh sửa
+    btnEdit.addEventListener("click", function () {
+        firstNameInput.disabled = false;
+        lastNameInput.disabled = false;
+        emailInput.disabled = false;
 
-  // ==== Khi nhấn "Lưu thay đổi" ====
-  btnSave.addEventListener("click", function () {
+        btnEdit.classList.add("hidden");
+        btnLogout.classList.add("hidden");
+        btnSave.classList.remove("hidden");
+    });
 
-    // Khoá lại input sau khi lưu
-    firstNameInput.disabled = true;
-    lastNameInput.disabled = true;
-    emailInput.disabled = true;
+    // Đăng xuất
+    btnLogout.addEventListener("click", function () {
+        window.location.href = context + "/logout";
+    });
 
-    // Hiển thị lại nút ban đầu
-    btnEdit.classList.remove("hidden");
-    btnLogout.classList.remove("hidden");
-    btnSave.classList.add("hidden");
+    // Submit form update
+    updateForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-    isEditing = false;
+        // Nếu disabled → FormData sẽ bỏ qua → bật lại
+        firstNameInput.disabled = false;
+        lastNameInput.disabled = false;
+        emailInput.disabled = false;
 
-  });
+        const fd = new FormData(updateForm);
+        fd.append("action", "update-info");
 
-  // ==== Khi nhấn "Đăng xuất" ====
-  btnLogout.addEventListener("click", function () {
-       window.location.href = "login.html";
-  });
+        try {
+            const res = await fetch(context + "/user/profile", {
+                method: "POST",
+                body: fd
+            });
 
-  // ==== Hàm kiểm tra định dạng email ====
-  function validateEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
+            if (!res.ok) throw new Error("HTTP " + res.status);
+
+            const result = await res.json();
+
+            if (result.success) {
+                alert("Cập nhật thông tin thành công!");
+                location.reload();
+            } else {
+                alert(result.message || "Cập nhật thất bại!");
+            }
+
+        } catch (error) {
+            console.error("Lỗi khi cập nhật:", error);
+            alert("Có lỗi xảy ra. Vui lòng thử lại.");
+        }
+    });
+
+    // Upload avatar khi chọn ảnh
+    avatarInput.addEventListener("change", async function () {
+        const file = avatarInput.files[0];
+        if (!file) return;
+
+        const fd = new FormData();
+        fd.append("action", "upload-avatar");
+        fd.append("avatar", file);
+
+        try {
+            const res = await fetch(context + "/user/profile", {
+                method: "POST",
+                body: fd
+            });
+
+            if (!res.ok) throw new Error("HTTP " + res.status);
+
+            const result = await res.json();
+
+            if (result.success) {
+                // thêm timestamp để tránh cache ảnh cũ
+                avatarPreview.src = result.url + "?t=" + Date.now();
+                alert("Upload ảnh đại diện thành công!");
+            } else {
+                alert(result.message || "Upload thất bại!");
+            }
+
+        } catch (error) {
+            console.error("Lỗi khi upload avatar:", error);
+            alert("Có lỗi xảy ra. Vui lòng thử lại.");
+        }
+    });
+
 });
-// ===========================
-// SIDEBAR submenu toggle
-// ===========================
-const menuAccountMain = document.getElementById("menuAccountMain");
-const accountSubmenu = document.getElementById("accountSubmenu");
-
-if (menuAccountMain && accountSubmenu) {
-  accountSubmenu.classList.add("open");
-  menuAccountMain.addEventListener("click", (e) => {
-    e.preventDefault();
-    accountSubmenu.classList.toggle("open");
-  });
-}
