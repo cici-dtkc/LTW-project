@@ -39,10 +39,6 @@ public class BankAccountDao {
 
     public boolean update(BankAccount b) {
         return jdbi.withHandle(handle -> {
-            System.out.println("=== RUNNING UPDATE FOR userId = " + b.getUserId() + " ===");
-            System.out.println("New bankName = " + b.getBankName());
-            System.out.println("New accountNumber = " + b.getAccountNumber());
-            System.out.println("New accountName = " + b.getAccountName());
 
             int rows = handle.createUpdate("""
             UPDATE bank_accounts

@@ -5,8 +5,8 @@
     // Nếu không có trong request, thử lấy từ session
     if (user == null) {
         HttpSession session1 = request.getSession(false);
-        if (session != null) {
-            user = (vn.edu.hcmuaf.fit.webdynamic.model.User) session.getAttribute("user");
+        if (session1 != null) {
+            user = (User) session1.getAttribute("user");
         }
     }
 
@@ -14,6 +14,22 @@ String activeMenu = (String) request.getAttribute("activeMenu");
 if (activeMenu == null) {
     activeMenu = "profile"; // default
 }
+    String avatarPath;
+    if (user != null && user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+        String avatar = user.getAvatar();
+
+        // Nếu avatar bắt đầu bằng / (đường dẫn tương đối) → thêm contextPath
+        if (avatar.startsWith("/")) {
+            avatarPath = request.getContextPath() + avatar;
+        }
+        // Các trường hợp khác → thêm contextPath
+        else {
+            avatarPath = request.getContextPath() + "/" + avatar;
+        }
+    } else {
+        // Avatar mặc định
+        avatarPath = request.getContextPath() + "/assert/images/default-avatar.png";
+    }
 %>
 <html>
 <head>
@@ -24,17 +40,20 @@ if (activeMenu == null) {
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
 </head>
-<body>
+<body data-context-path="${pageContext.request.contextPath}">
 <!-- SIDEBAR -->
 <div id="accountSidebar">
 
     <!-- USER INFO -->
     <div id="userBox">
-        <img src="<%= user != null && user.getAvatar() != null ? user.getAvatar(): "https://cdn-icons-png.flaticon.com/512/847/847969.png" %>" id="userAvatar">
+        <img src="<%= avatarPath %>"
+             id="userAvatar"
+             alt="User Avatar"
+             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
 
         <div id="userInfo">
             <span id="usernameDisplay"><%= user != null ? user.getUsername() : "Người dùng" %></span>
-            <a href="${pageContext.request.contextPath}/user/info" id="editProfileBtn">
+            <a href="${pageContext.request.contextPath}/user/profile" id="editProfileBtn">
                 <i class="fa-solid fa-pen"></i> Sửa Hồ Sơ
             </a>
         </div>
@@ -90,5 +109,5 @@ if (activeMenu == null) {
 
 </div>
 </body>
-<script src="${pageContext.request.contextPath}/js/info-user.js"></script>
+
 </html>

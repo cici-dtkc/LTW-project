@@ -3,6 +3,18 @@
 <%
     User user = (User) request.getAttribute("user");
     request.setAttribute("activeMenu", "profile");
+    String avatarPath;
+    if (user != null && user.getAvatar() != null && !user.getAvatar().isEmpty()) {
+        String avatar = user.getAvatar();
+
+        if (avatar.startsWith("/")) {
+            avatarPath = request.getContextPath() + avatar;
+        } else {
+            avatarPath = request.getContextPath() + "/" + avatar;
+        }
+    } else {
+        avatarPath = request.getContextPath() + "/assert/img/admin.jpg";
+    }
 %>
 <html>
 <head>
@@ -12,6 +24,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/toast.css">
 </head>
 
 <body>
@@ -79,20 +92,11 @@
                     <input type="hidden" name="action" value="upload-avatar">
 
                     <div class="avatar">
-                        <%
-                            String avatarPath;
-
-                            if (user != null && user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-                                avatarPath = user.getAvatar();
-                            } else {
-                                avatarPath = "/assert/images/default-avatar.png";
-                            }
-                        %>
-
                         <img id="user-avatar"
-                             src="<%= request.getContextPath() + avatarPath %>"
+                             src="<%= avatarPath %>"
                              alt="User Avatar"
-                             class="avatar-img">
+                             class="avatar-img"
+                             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
                     </div>
 
                     <label for="avatarInput" class="btn small outline">Chọn Ảnh</label>
@@ -109,7 +113,6 @@
     </div>
 </div>
 
-<script> const pageContextPath = "${pageContext.request.contextPath}"; </script>
-<script src="${pageContext.request.contextPath}/assert/js/info-user.js"></script>
 </body>
+<script src="${pageContext.request.contextPath}/js/info-user.js"></script>
 </html>
