@@ -28,7 +28,7 @@ if (activeMenu == null) {
         }
     } else {
         // Avatar mặc định
-        avatarPath = request.getContextPath() + "/assert/images/default-avatar.png";
+        avatarPath = request.getContextPath() + "/assert/img/admin.jpg";
     }
 %>
 <html>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -9,11 +10,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/userManagement.css">
-    <link rel="stylesheet"
-          href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/toast.css">
 </head>
 <body>
 <div class="app">
@@ -47,10 +44,10 @@
             <thead>
             <tr>
                 <th>ID</th>
-                <th>Avatar</th>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Status</th>
+                <th>Ảnh đại diện</th>
+                <th>Tên người dùng</th>
+                <th>Vai trò</th>
+                <th>Trạng thái</th>
                 <th>Hành động</th>
             </tr>
             </thead>
@@ -64,7 +61,31 @@
 
                     <!-- CỘT AVATAR -->
                     <td class="avatar-cell">
-                        <img src="${u.avatar}" style="width:40px;height:40px;border-radius:50%;">
+                            <%-- XỬ LÝ AVATAR --%>
+                        <c:choose>
+                            <%-- Nếu user có avatar --%>
+                            <c:when test="${not empty u.avatar}">
+                                <c:choose>
+                                    <%-- Nếu avatar bắt đầu bằng / (đường dẫn tương đối) --%>
+                                    <c:when test="${u.avatar.startsWith('/')}">
+                                        <img src="${pageContext.request.contextPath}${u.avatar} " style="width:40px;height:40px;border-radius:50%;"
+                                             alt="${u.username}"
+                                             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                                    </c:when>
+                                    <%-- Các trường hợp khác --%>
+                                    <c:otherwise>
+                                        <img src="${pageContext.request.contextPath}/${u.avatar}" style="width:40px;height:40px;border-radius:50%;"
+                                             alt="${u.username}"
+                                             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                            <%-- Nếu không có avatar → dùng ảnh mặc định --%>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assert/img/admin.jpg" style="width:40px;height:40px;border-radius:50%;"
+                                     alt="${u.username}">
+                            </c:otherwise>
+                        </c:choose>
                     </td>
 
                     <!-- USERNAME -->

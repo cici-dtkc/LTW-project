@@ -6,7 +6,7 @@ public class Address {
     private int id;
     private int userId;
     private String phoneNumber;
-    private String fullAddress;
+    private String address;
     private String name;
     private int status;
     private Timestamp createdAt;
@@ -17,10 +17,10 @@ public class Address {
     public Address(int userId, String phoneNumber, String fullAddress, String name, int status, Timestamp createdAt) {
         this.userId = userId;
         this.phoneNumber = phoneNumber;
-        this.fullAddress = fullAddress;
+        this.address = fullAddress;
         this.name = name;
         this.status = status;
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+        this.createdAt = createdAt;
         this.updatedAt = new Timestamp(System.currentTimeMillis());
 
     }
@@ -42,11 +42,11 @@ public class Address {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
-    public String getFullAddress() {
-        return fullAddress;
+    public String getAddress() {
+        return address;
     }
-    public void setFullAddress(String fullAddress) {
-        this.fullAddress = fullAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
     public String getName() {
         return name;
@@ -79,7 +79,7 @@ public class Address {
                 "id=" + id +
                 ", userId=" + userId +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", fullAddress='" + fullAddress + '\'' +
+                ", fullAddress='" + address + '\'' +
                 ", name='" + name + '\'' +
                 ", status=" + status +
                 ", createdAt=" + createdAt +
