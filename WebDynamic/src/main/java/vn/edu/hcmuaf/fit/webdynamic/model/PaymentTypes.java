@@ -1,10 +1,10 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
-public class paymentTypes {
+public class PaymentTypes {
     private int id;
     private String name;
 
-    public paymentTypes() {
+    public PaymentTypes() {
 
     }
 
