@@ -1,175 +1,149 @@
-/* ===== BODY ===== */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f2f4f7;
-    margin: 0;
-    padding: 0;
-    color: #333;
+/* ================= ADD PRODUCT ADMIN ================= */
+
+
+.add-product {
+    background: var(--color-bg);
+    padding: 30px 0;
 }
 
-.container {
-    max-width: 720px;
-    margin: 40px auto;
-    background-color: #fff;
-    padding: 30px 25px;
+.add-product .container {
+    background: white;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 30px;
+    box-shadow: var(--box-shadow);
 }
 
-/* ===== HEADINGS ===== */
-h2, h3, h4 {
-    margin-bottom: 15px;
-    color: #222;
+/* ===== TITLE ===== */
+.add-product h2 {
+    font-size: 24px;
+    color: var(--color-bg-main);
+    margin-bottom: 20px;
 }
 
-h3 {
-    border-bottom: 1px solid #eee;
-    padding-bottom: 6px;
-    margin-bottom: 15px;
+.add-product h3 {
+    font-size: 18px;
+    margin: 20px 0 10px;
 }
 
-/* ===== CATEGORY BUTTONS ===== */
-.category-options {
+.add-product h4 {
+    font-size: 15px;
+    margin: 16px 0 8px;
+    color: var(--color-grey);
+}
+
+/* ===== TYPE SELECT ===== */
+.type-select {
     display: flex;
-    gap: 12px;
+    gap: 15px;
     margin-bottom: 25px;
 }
 
-.category-btn {
+.type-select button {
     flex: 1;
-    padding: 14px 0;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-weight: 500;
-    background-color: #fafafa;
+    font-size: 16px;
 }
 
-.category-btn:hover {
-    background-color: #e8e8e8;
+/* ===== FORM ===== */
+.form {
+    display: none;
+    animation: fadeIn 0.25s ease-in;
 }
 
-input[type="radio"]:checked + .category-btn {
-    border-color: #007BFF;
-    background-color: #007BFF;
-    color: #fff;
-    font-weight: bold;
-}
-
-/* ===== FORM ELEMENTS ===== */
-input, textarea, select {
+.form input,
+.form select,
+.form textarea {
     width: 100%;
     padding: 10px 12px;
-    margin-top: 6px;
-    margin-bottom: 4px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: var(--font-size-text);
+    margin-bottom: 12px;
 }
 
-input:focus, textarea:focus, select:focus {
-    border-color: #007BFF;
-    outline: none;
-}
-
-textarea {
+.form textarea {
     min-height: 80px;
     resize: vertical;
 }
 
-/* ===== CARD ===== */
-.card {
-    background: #fafafa;
-    padding: 20px 18px;
-    border-radius: 10px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
-}
-
-/* ===== VARIANTS & ATTRIBUTES ===== */
-.variant, .attributeRow {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-}
-
-.variant input, .attributeRow input {
-    flex: 1;
-}
-
-button.removeBtn {
-    flex: 0 0 auto;
-}
-
-/* ===== BUTTONS ===== */
-button {
-    cursor: pointer;
-    padding: 9px 16px;
-    border: none;
-    border-radius: 8px;
-    background-color: #007BFF;
-    color: #fff;
-    transition: 0.3s;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-.addBtn {
-    background-color: #28a745;
-    margin-top: 8px;
-}
-
-.addBtn:hover {
-    background-color: #1e7e34;
-}
-
-.removeBtn {
-    background-color: #dc3545;
-    width: fit-content;
-}
-
-.removeBtn:hover {
-    background-color: #a71d2a;
-}
-
-/* ===== SUBMIT BUTTON ===== */
-#submitBtn, form button[type="submit"] {
-    width: 100%;
-    padding: 14px 0;
-    font-size: 16px;
-    background-color: #ff6600;
-    margin-top: 20px;
-    font-weight: 600;
-}
-
-#submitBtn:hover, form button[type="submit"]:hover {
-    background-color: #e65c00;
+.form input:focus,
+.form select:focus,
+.form textarea:focus {
+    outline: none;
+    border-color: var(--color-button);
 }
 
 /* ===== FILE INPUT ===== */
-input[type="file"] {
-    padding: 5px;
+.form input[type="file"] {
+    border: 2px dashed var(--color-button);
+    background: #f9fcfd;
+    cursor: pointer;
 }
 
-/* ===== HINT ===== */
-.hint {
-    display: block;
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 8px;
-    line-height: 1.4;
+/* ===== BLOCKS ===== */
+.tech,
+.variant,
+.color {
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+    background: #fafafa;
 }
 
+.variant {
+    border-left: 4px solid var(--color-button);
+}
 
-.form-group {
-    margin-bottom: 10px;
+.color {
+    background: white;
+    margin-top: 10px;
+    border-left: 3px solid var(--color-bg-main);
+}
+
+/* ===== COLORS AREA ===== */
+.colors {
+    margin-top: 10px;
+}
+
+/* ===== BUTTONS ===== */
+.form button {
+    margin-top: 10px;
+}
+
+.form button.danger {
+    background-color: var(--color-red);
+}
+
+.form button.danger:hover {
+    background-color: #b42318;
+}
+
+/* ===== SUBMIT ===== */
+.form button[type="submit"] {
+    margin-top: 20px;
+    width: 100%;
+    font-size: 17px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .add-product .container {
+        padding: 20px;
+    }
+
+    .type-select {
+        flex-direction: column;
+    }
 }
