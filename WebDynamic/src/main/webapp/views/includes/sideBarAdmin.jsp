@@ -40,7 +40,7 @@
                 <span class="nav-tooltip">Đơn hàng</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-target="customers" href="${pageContext.request.contextPath}/views/admin/userManagement.jsp"
+                <a class="nav-link" data-target="customers" href="${pageContext.request.contextPath}/admin/users"
                 ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Người dùng</span></a
                 >
                 <span class="nav-tooltip">Người dùng</span>

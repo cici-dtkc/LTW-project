@@ -1,26 +1,38 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
 import java.sql.Timestamp;
 
 public class BankAccount {
     private int id;
+    @ColumnName("user_id")
     private int userId;
+    @ColumnName("bank_name")
     private String bankName;
-    private String bankAccountNumber;
+    @ColumnName("account_number")
+    private String accountNumber;
+    @ColumnName("account_name")
     private String accountName;
+    @ColumnName("linked_date")
     private Timestamp linkedDate;
     private int status;
+    @ColumnName("updated_at")
     private Timestamp updatedAt;
 
-    public BankAccount(int id, int userId, String bankName, String bankAccountNumber, String accountName, Timestamp linkedDate, int status, Timestamp updatedAt) {
+    public BankAccount(int id, int userId, String bankName, String accountNumber, String accountName, Timestamp linkedDate, int status, Timestamp updatedAt) {
         this.id = id;
         this.userId = userId;
         this.bankName = bankName;
-        this.bankAccountNumber = bankAccountNumber;
+        this.accountNumber = accountNumber;
         this.accountName = accountName;
         this.linkedDate = linkedDate;
         this.status = status;
         this.updatedAt = updatedAt;
+    }
+
+    public BankAccount() {
+
     }
 
     public int getId() {
@@ -47,12 +59,12 @@ public class BankAccount {
         this.bankName = bankName;
     }
 
-    public String getBankAccountNumber() {
-        return bankAccountNumber;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setBankAccountNumber(String bankAccountNumber) {
-        this.bankAccountNumber = bankAccountNumber;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public String getAccountName() {

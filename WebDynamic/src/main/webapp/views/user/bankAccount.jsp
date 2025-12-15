@@ -1,11 +1,12 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: mtri2
-  Date: 12/6/2025
-  Time: 9:13 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%--%>
+<%--    User user = (User) session.getAttribute("user");--%>
+<%--    if (user == null) {--%>
+<%--        response.sendRedirect(request.getContextPath() + "/login");--%>
+<%--        return;--%>
+<%--    }--%>
+<%--%>--%>
 <html>
 <head>
     <title>Title</title>
@@ -18,47 +19,42 @@
 </head>
 <body>
 <div id="pageWrapper">
-    <jsp:include page="/views/includes/sidebarUser.jsp"/>
+    <jsp:include page="/views/includes/sidebarUser.jsp" />
     <div id="contentArea">
         <div class="bank-form" id="bankFormContainer">
             <h2>Tài Khoản Ngân Hàng</h2>
 
-            <form id="bankForm">
+            <form id="bankForm" method="post" action="${pageContext.request.contextPath}/user/payment">
 
-                <!-- TÊN NGÂN HÀNG -->
-                <div class="field" id="fieldBank">
+                <div class="field">
                     <label for="bankSelect">Tên ngân hàng</label>
-                    <select id="bankSelect">
-                        <option value="Vietcombank">Vietcombank</option>
-                        <option value="VietinBank">VietinBank</option>
-                        <option value="Techcombank">Techcombank</option>
-                        <option value="BIDV">BIDV</option>
+                    <select id="bankSelect" name="bank_name">
+                        <option value="Vietcombank" ${bankAccount != null && bankAccount.bankName == 'Vietcombank' ? 'selected' : ''}>Vietcombank</option>
+                        <option value="VietinBank"  ${bankAccount != null && bankAccount.bankName == 'VietinBank' ? 'selected' : ''}>VietinBank</option>
+                        <option value="Techcombank" ${bankAccount != null && bankAccount.bankName == 'Techcombank' ? 'selected' : ''}>Techcombank</option>
+                        <option value="BIDV"        ${bankAccount != null && bankAccount.bankName == 'BIDV' ? 'selected' : ''}>BIDV</option>
                     </select>
                 </div>
 
-
-                <!-- SỐ TÀI KHOẢN -->
-                <div class="field" id="fieldAccountNumber">
+                <div class="field">
                     <label for="accountNumber">Số tài khoản</label>
-                    <input type="text" id="accountNumber" placeholder="012345678">
+                    <input type="text" id="accountNumber" name="account_number"
+                           value="${bankAccount != null ? bankAccount.accountNumber : ''}">
                 </div>
 
-                <!-- TÊN CHỦ TÀI KHOẢN -->
-                <div class="field" id="fieldOwnerName">
-                    <label for="ownerName">Tên đầy đủ (VIẾT IN HOA, KHÔNG DẤU)</label>
-                    <input type="text" id="ownerName" placeholder="NGUYEN VAN A">
+                <div class="field">
+                    <label for="ownerName">Tên chủ tài khoản</label>
+                    <input type="text" id="ownerName" name="account_name"
+                           value="${bankAccount != null ? bankAccount.accountName : ''}">
                 </div>
 
-                <!-- BUTTON -->
-                <div class="btn-group" id="btnGroup">
-                    <button type="button" class="back" id="btnBack">Sửa</button>
-                    <button type="submit" class="submit" id="btnSubmit">Hoàn Thành</button>
-                </div>
+                <button type="button" id="btnBack" class="back">Sửa</button>
+                <button type="submit" id="btnSubmit" class="submit">Hoàn Thành</button>
 
             </form>
         </div>
     </div>
 </div>
-<script src="${pageContext.request.contextPath}/js/paymentForm.js"></script>
+<script src="${pageContext.request.contextPath}/js/paymentForm.js?v=3"></script>
 </body>
 </html>
