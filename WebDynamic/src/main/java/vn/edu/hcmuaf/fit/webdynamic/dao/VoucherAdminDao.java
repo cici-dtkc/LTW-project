@@ -20,4 +20,6 @@ public interface VoucherAdminDao {
     boolean delete(int id);
 
     boolean toggleStatus(int id);
+
+    List<VoucherAdmin> getActiveVouchers();
 }

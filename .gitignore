@@ -1,3 +1,21 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+**/target/
+*.war
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+
 .idea/
 **/.idea/
 *.iml

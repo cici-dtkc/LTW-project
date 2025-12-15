@@ -18,7 +18,7 @@
 <jsp:include page="../includes/header.jsp"/>
 
 <div class="voucher-container page-wrapper">
-    <jsp:include page="../includes/siderBarUser.jsp"/>
+    <jsp:include page="../includes/sidebarUser.jsp"/>
 
     <div class="voucher-list">
         <c:forEach var="voucher" items="${listVoucher}">
@@ -46,10 +46,6 @@
                         </c:choose>
 
                         <p>Đơn tối thiểu <fmt:formatNumber value="${voucher.minOrderValue}" type="number"/> đ</p>
-                    </div>
-
-                    <div>
-                        <button ${voucher.status == 0 ? 'disabled' : ''}>Lưu</button>
                     </div>
                 </div>
 

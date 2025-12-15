@@ -12,15 +12,19 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/user/voucher-detail")
-public class VoucherDetailController extends HttpServlet {
-    private VoucherAdminDaoImpl dao = new VoucherAdminDaoImpl();
+public class VoucherDetailServlet extends HttpServlet {
+    private VoucherAdminDaoImpl dao;
 
+    @Override
+    public void init() {
+        dao = new VoucherAdminDaoImpl();
+    }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Lấy tất cả voucher còn hạn
-//        List<VoucherAdmin> listVoucher = dao.getActiveVouchers();
-//        req.setAttribute("listVoucher", listVoucher);
-//        req.getRequestDispatcher("/views/user/voucherDetail.jsp").forward(req, resp);
+        List<VoucherAdmin> listVoucher = dao.getActiveVouchers();
+        req.setAttribute("listVoucher", listVoucher);
+        req.getRequestDispatcher("/views/user/voucherDetail.jsp").forward(req, resp);
 
     }
 }

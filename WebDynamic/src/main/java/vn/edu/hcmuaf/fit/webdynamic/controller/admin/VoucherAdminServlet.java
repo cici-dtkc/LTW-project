@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@WebServlet("/admin/vouchers")
-public class VoucherAdminController extends HttpServlet {
+@WebServlet(name ="VoucherAdminController",urlPatterns = {"/admin/vouchers"})
+public class VoucherAdminServlet extends HttpServlet {
 
     private VoucherAdminService service;
 
