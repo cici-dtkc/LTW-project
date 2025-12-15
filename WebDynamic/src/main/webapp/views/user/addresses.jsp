@@ -16,9 +16,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/addresses.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
 </head>
 
 <body>
+<jsp:include page="/views/includes/header.jsp"/>
 <div id="pageWrapper">
 
     <jsp:include page="/views/includes/sidebarUser.jsp"/>
@@ -118,6 +120,7 @@
 <script>
     window.contextPath = '${pageContext.request.contextPath}';
 </script>
+<script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/addresses.js"></script>
 
 </body>

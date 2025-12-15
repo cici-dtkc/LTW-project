@@ -1,10 +1,11 @@
 package vn.edu.hcmuaf.fit.webdynamic.service;
 
 import vn.edu.hcmuaf.fit.webdynamic.dao.OrderDetailDao;
-import vn.edu.hcmuaf.fit.webdynamic.dao.OrderDetailDao.OrderDetailWithProduct;
+import vn.edu.hcmuaf.fit.webdynamic.model.OrderDetail;
 import vn.edu.hcmuaf.fit.webdynamic.model.OrderDetail;
 
 import java.util.List;
+import java.util.Map;
 
 public class OrderDetailService {
     private final OrderDetailDao orderDetailDao;
@@ -23,8 +24,15 @@ public class OrderDetailService {
     /**
      * Lấy chi tiết đơn hàng với thông tin sản phẩm đầy đủ
      */
-    public List<OrderDetailWithProduct> getOrderDetailsWithProduct(int orderId) {
+    public List<OrderDetail> getOrderDetailsWithProduct(int orderId) {
         return orderDetailDao.getOrderDetailsWithProduct(orderId);
+    }
+
+    /**
+     * Lấy thông tin sản phẩm dựa trên variantId
+     */
+    public Map<String, String> getProductInfoByVariantId(int variantId) {
+        return orderDetailDao.getProductInfoByVariantId(variantId);
     }
 
     /**

@@ -1,4 +1,5 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
+
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
 import vn.edu.hcmuaf.fit.webdynamic.model.Product;
@@ -9,14 +10,15 @@ import java.util.List;
 
 public class ProductDaoImpl implements ProductDao {
     private final Jdbi jdbi = DBConnect.getJdbi();
+
     @Override
     public List<Product> findAll() {
         List<Product> list = new ArrayList<>();
         String sql = "SELECT * FROM Products";
 
         try (Connection conn = (Connection) DBConnect.getJdbi();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 list.add(mapResult(rs));
@@ -43,7 +45,7 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         try (Connection conn = (Connection) DBConnect.getJdbi();
-             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+                PreparedStatement ps = conn.prepareStatement(sql.toString())) {
 
             int index = 1;
 
@@ -73,7 +75,7 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "UPDATE products SET status = ? WHERE id = ?";
 
         try (Connection conn = (Connection) DBConnect.getJdbi();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+                PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, status);
             ps.setInt(2, productId);
@@ -82,6 +84,23 @@ public class ProductDaoImpl implements ProductDao {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Product getProductById(int id) {
+        String sql = "SELECT * FROM products WHERE id = ?";
+        try (Connection conn = (Connection) DBConnect.getJdbi();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return mapResult(rs);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private Product mapResult(ResultSet rs) throws SQLException {

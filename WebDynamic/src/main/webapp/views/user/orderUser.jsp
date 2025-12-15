@@ -1,8 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.Order" %>
+<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.OrderDetail" %>
 <%@ page import="vn.edu.hcmuaf.fit.webdynamic.service.OrderService" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.dao.OrderDetailDao.OrderDetailWithProduct" %>
+<%@ page import="java.util.Map" %>
 <%@ page import="vn.edu.hcmuaf.fit.webdynamic.service.OrderDetailService" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
@@ -16,7 +17,18 @@
     // Format tiền tệ
     NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
 
-
+    // Debug
+    System.out.println("Orders size: " + orders.size());
+    for (Order order : orders) {
+        System.out.println("Order ID: " + order.getId());
+        List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsWithProduct(order.getId());
+        System.out.println("OrderDetails size: " + orderDetails.size());
+        for (OrderDetail detail : orderDetails) {
+            System.out.println("Detail variantId: " + detail.getVariantId());
+            Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
+            System.out.println("ProductInfo: " + productInfo);
+        }
+    }
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -32,12 +44,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/order.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
 </head>
 
 <body>
-<!--header-->
-<%-- Include header nếu có --%>
-<!--End header-->
+<jsp:include page="/views/includes/header.jsp"/>
 
 <div id="pageWrapper">
     <!-- SIDEBAR -->
@@ -78,7 +89,7 @@
             <%
             } else {
                 for (Order order : orders) {
-                    List<OrderDetailWithProduct> orderDetails = orderDetailService.getOrderDetailsWithProduct(order.getId());
+                    List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsWithProduct(order.getId());
                     String statusClass = OrderService.getStatusClass(order.getStatus());
                     String statusName = OrderService.getStatusName(order.getStatus());
                     String statusIcon = OrderService.getStatusIcon(order.getStatus());
@@ -90,13 +101,15 @@
                     if (orderDetails.size() > 1) {
                 %>
                 <div class="order-items">
-                    <% for (OrderDetailWithProduct detail : orderDetails) { %>
+                    <% for (OrderDetail detail : orderDetails) { 
+                        Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
+                    %>
                     <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= order.getId() %>">
                         <div class="order-info">
-                            <img src="<%= request.getContextPath() %>/<%= detail.getImagePath() != null ? detail.getImagePath() : "assert/img/product/default.jpg" %>"
-                                 alt="<%= detail.getProductName() %>">
+                            <img src="<%= request.getContextPath() %>/<%= productInfo.get("imagePath") != null ? productInfo.get("imagePath") : "assert/img/product/default.jpg" %>"
+                                 alt="<%= productInfo.get("productName") %>">
                             <div class="order-detail">
-                                <h3><%= detail.getProductName() %> <%= detail.getVariantName() %></h3>
+                                <h3><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></h3>
                                 <p>Số lượng: <%= detail.getQuantity() %></p>
                                 <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>đ</span></p>
                             </div>
@@ -106,14 +119,15 @@
                 </div>
                 <%
                 } else if (!orderDetails.isEmpty()) {
-                    OrderDetailWithProduct detail = orderDetails.get(0);
+                    OrderDetail detail = orderDetails.get(0);
+                    Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
                 %>
                 <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= order.getId() %>">
                     <div class="order-info">
-                        <img src="<%= request.getContextPath() %>/<%= detail.getImagePath() != null ? detail.getImagePath() : "assert/img/product/default.jpg" %>"
-                             alt="<%= detail.getProductName() %>">
+                        <img src="<%= request.getContextPath() %>/<%= productInfo.get("imagePath") != null ? productInfo.get("imagePath") : "assert/img/product/default.jpg" %>"
+                             alt="<%= productInfo.get("productName") %>">
                         <div class="order-detail">
-                            <h3><%= detail.getProductName() %> <%= detail.getVariantName() %></h3>
+                            <h3><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></h3>
                             <p>Số lượng: <%= detail.getQuantity() %></p>
                             <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>đ</span></p>
                         </div>
@@ -150,99 +164,7 @@
 
 <!-- Toast Container -->
 <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
-
-<script>
-    // ===========================
-    // TOAST NOTIFICATION
-    // ===========================
-    function showToast(message, type = 'success') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast toast-${type}`;
-        toast.style.cssText = `
-    background: ${type == 'success' ? '#4CAF50' : '#f44336'};
-    color: white;
-    padding: 15px 20px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    animation: slideIn 0.3s ease-out;
-    min-width: 250px;
-  `;
-        toast.textContent = message;
-        container.appendChild(toast);
-
-        setTimeout(() => {
-            toast.style.animation = 'slideOut 0.3s ease-out';
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
-    }
-
-    // CSS animations
-    const style = document.createElement('style');
-    style.textContent = `
-  @keyframes slideIn {
-    from { transform: translateX(400px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-  }
-  @keyframes slideOut {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(400px); opacity: 0; }
-  }
-`;
-    document.head.appendChild(style);
-
-    // ===========================
-    // HỦY ĐƠN HÀNG
-    // ===========================
-    function cancelOrder(orderId) {
-        if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-            fetch('<%= request.getContextPath() %>/user/order', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'action=cancel&orderId=' + orderId
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showToast('Hủy đơn hàng thành công!', 'success');
-                        setTimeout(() => location.reload(), 1500);
-                    } else {
-                        showToast(data.message || 'Không thể hủy đơn hàng', 'error');
-                    }
-                })
-                .catch(error => {
-                    showToast('Có lỗi xảy ra: ' + error, 'error');
-                });
-        }
-    }
-
-    // ===========================
-    // MUA LẠI ĐƠN HÀNG
-    // ===========================
-    function repurchaseOrder(orderId) {
-        if (confirm('Bạn có muốn mua lại đơn hàng này?')) {
-            location.href = '<%= request.getContextPath() %>/user/repurchase?orderId=' + orderId;
-        }
-    }
-
-    // ===========================
-    // SIDEBAR submenu toggle
-    // ===========================
-    const menuAccountMain = document.getElementById("menuAccountMain");
-    const accountSubmenu = document.getElementById("accountSubmenu");
-
-    if (menuAccountMain && accountSubmenu) {
-        accountSubmenu.classList.add("open");
-        menuAccountMain.addEventListener("click", (e) => {
-            e.preventDefault();
-            accountSubmenu.classList.toggle("open");
-        });
-    }
-
-</script>
+<script src="${pageContext.request.contextPath}/js/order.js"></script>
 
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 

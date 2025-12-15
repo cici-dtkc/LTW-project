@@ -11,7 +11,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "OrderUserServlet", urlPatterns = {"/user/order"})
+@WebServlet(name = "OrderUserServlet", urlPatterns = { "/user/order" })
 public class OrderUserServlet extends HttpServlet {
 
     private OrderService orderService;
@@ -38,6 +38,8 @@ public class OrderUserServlet extends HttpServlet {
         int userId = users.getId();
         // Lấy action từ request (nếu có)
         String action = request.getParameter("action");
+
+        System.out.println("UserId: " + userId);
 
         if ("cancel".equals(action)) {
             // Xử lý hủy đơn hàng qua GET (nếu cần)
@@ -95,6 +97,8 @@ public class OrderUserServlet extends HttpServlet {
             orders = orderService.getUserOrders(userId);
         }
 
+        System.out.println("Orders size: " + orders.size());
+
         // Đưa dữ liệu vào request
         request.setAttribute("orders", orders);
         request.setAttribute("orderService", orderService);
@@ -133,13 +137,15 @@ public class OrderUserServlet extends HttpServlet {
             if (success) {
                 response.getWriter().print("{\"success\":true,\"message\":\"Hủy đơn hàng thành công\"}");
             } else {
-                response.getWriter().print("{\"success\":false,\"message\":\"Không thể hủy đơn hàng. Chỉ có thể hủy đơn hàng đang ở trạng thái 'Đang lên đơn'\"}");
+                response.getWriter().print(
+                        "{\"success\":false,\"message\":\"Không thể hủy đơn hàng. Chỉ có thể hủy đơn hàng đang ở trạng thái 'Đang lên đơn'\"}");
             }
 
         } catch (NumberFormatException e) {
             response.getWriter().print("{\"success\":false,\"message\":\"Mã đơn hàng không hợp lệ\"}");
         } catch (Exception e) {
-            response.getWriter().print("{\"success\":false,\"message\":\"Có lỗi xảy ra: " + e.getMessage().replace("\"", "\\\"") + "\"}");
+            response.getWriter().print(
+                    "{\"success\":false,\"message\":\"Có lỗi xảy ra: " + e.getMessage().replace("\"", "\\\"") + "\"}");
             e.printStackTrace();
         }
     }
@@ -149,6 +155,9 @@ public class OrderUserServlet extends HttpServlet {
      */
     private void handleCancelOrder(HttpServletRequest request, HttpServletResponse response, int userId)
             throws IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
 
         try {
             String orderIdParam = request.getParameter("orderId");
@@ -160,20 +169,20 @@ public class OrderUserServlet extends HttpServlet {
                     boolean success = orderService.cancelOrder(orderId, userId);
 
                     if (success) {
-                        request.getSession().setAttribute("message", "Hủy đơn hàng thành công");
-                        request.getSession().setAttribute("messageType", "success");
+                        response.getWriter().print("{\"success\":true,\"message\":\"Hủy đơn hàng thành công\"}");
                     } else {
-                        request.getSession().setAttribute("message", "Không thể hủy đơn hàng");
-                        request.getSession().setAttribute("messageType", "error");
+                        response.getWriter().print("{\"success\":false,\"message\":\"Không thể hủy đơn hàng\"}");
                     }
+                } else {
+                    response.getWriter().print("{\"success\":false,\"message\":\"Đơn hàng không thuộc về bạn\"}");
                 }
+            } else {
+                response.getWriter().print("{\"success\":false,\"message\":\"Thiếu thông tin đơn hàng\"}");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+            response.getWriter().print("{\"success\":false,\"message\":\"Lỗi hệ thống\"}");
         }
-
-        // Redirect về trang order
-        response.sendRedirect(request.getContextPath() + "/user/order");
     }
 }

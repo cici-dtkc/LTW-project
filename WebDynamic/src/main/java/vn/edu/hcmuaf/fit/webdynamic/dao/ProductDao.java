@@ -7,6 +7,8 @@ public interface ProductDao {
 
     List<Product> findAll();
 
+    Product getProductById(int id);
+
     List<Product> search(String keyword, Integer status, Integer categoryId);
 
     void updateStatus(int productId, int status);
