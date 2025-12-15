@@ -93,7 +93,7 @@ if (activeMenu == null) {
 
         <!-- ĐƠN MUA -->
         <li class="menu-category">
-            <a href="order.html" id="menuOrders">
+            <a href="${pageContext.request.contextPath}/user/order" id="menuOrders">
                 <i class="fa-solid fa-bag-shopping"></i> Đơn Mua
             </a>
         </li>
