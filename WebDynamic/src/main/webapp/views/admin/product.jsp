@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -75,25 +77,26 @@
 
             <tbody>
             <c:forEach items="${products}" var="p">
+
                 <tr>
                     <td>
-                        <img src="${pageContext.request.contextPath}/assert/img/product/${p.image}">
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${p.img}">
                     </td>
-                    <td>${p.name}</td>
+                    <td>${p.productName}</td>
                     <td>${p.price}₫</td>
                     <td>${p.categoryName}</td>
                     <td>${p.version}</td>
                     <td>${p.stock}</td>
                     <td class="actionsProduct">
 
-                        <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}">
+                        <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.productId}">
                             <button class="btn-edit">
                                 <i class="fa-solid fa-pencil"></i>
                             </button>
                         </a>
 
                         <button class="btn-delete"
-                                onclick="toggleVisibility(${p.id})">
+                                onclick="toggleVisibility(${p.productId})">
                             <i class="fa-solid ${p.active ? 'fa-eye' : 'fa-eye-slash'}"></i>
                         </button>
                     </td>

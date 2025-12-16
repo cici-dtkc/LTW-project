@@ -3,11 +3,9 @@ package vn.edu.hcmuaf.fit.webdynamic.model;
 import java.time.LocalDateTime;
 
 public class Image {
-
     private int id;
-    private int variantColorId;
     private String imgPath;
-    private int isMain;          // 1 = ảnh đại diện, 0 = ảnh phụ
+    private boolean main;
     private LocalDateTime createdAt;
 
     // ===== Constructors =====
@@ -22,14 +20,6 @@ public class Image {
         this.id = id;
     }
 
-    public int getVariantColorId() {
-        return variantColorId;
-    }
-
-    public void setVariantColorId(int variantColorId) {
-        this.variantColorId = variantColorId;
-    }
-
     public String getImgPath() {
         return imgPath;
     }
@@ -38,12 +28,12 @@ public class Image {
         this.imgPath = imgPath;
     }
 
-    public int getIsMain() {
-        return isMain;
+    public boolean isMain() {
+        return main;
     }
 
-    public void setIsMain(int isMain) {
-        this.isMain = isMain;
+    public void setMain(boolean main) {
+        this.main = main;
     }
 
     public LocalDateTime getCreatedAt() {

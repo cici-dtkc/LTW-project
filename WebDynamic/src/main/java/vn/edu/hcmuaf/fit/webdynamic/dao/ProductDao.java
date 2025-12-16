@@ -5,9 +5,8 @@ import java.util.List;
 
 public interface ProductDao {
 
-    List<Product> findAll();
-
-    List<Product> search(String keyword, Integer status, Integer categoryId);
+    List<Product> findAll(String keyword, String status, String category);
+    void toggleStatus(int productId);
 
     void updateStatus(int productId, int status);
 }

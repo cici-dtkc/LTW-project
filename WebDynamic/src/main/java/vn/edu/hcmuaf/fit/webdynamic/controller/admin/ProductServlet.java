@@ -3,7 +3,7 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import vn.edu.hcmuaf.fit.webdynamic.model.Product;
+import vn.edu.hcmuaf.fit.webdynamic.dto.ProductAdminDTO;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductService;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductServiceImpl;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/admin/products")
-public class ProductAdminServlet extends HttpServlet {
+public class ProductServlet extends HttpServlet {
 
     private ProductService productService;
 
@@ -28,10 +28,9 @@ public class ProductAdminServlet extends HttpServlet {
         String status = req.getParameter("status");
         String category = req.getParameter("category");
 
-        List<Product> products = productService.search(keyword, status, category);
 
         req.setAttribute("products", products);
-        req.getRequestDispatcher("/views/admin/productAdmin.jsp")
+        req.getRequestDispatcher("/views/admin/product.jsp")
                 .forward(req, resp);
     }
     @Override
