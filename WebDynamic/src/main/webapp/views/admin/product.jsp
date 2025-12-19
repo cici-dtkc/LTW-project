@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="vi">
@@ -14,7 +14,6 @@
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/vouchersAdmin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/productAdmin.css">
 </head>
@@ -22,12 +21,11 @@
 <body>
 <div class="app">
 
-    <!-- SIDEBAR -->
     <%@ include file="/views/includes/sideBarAdmin.jsp" %>
 
-    <!-- MAIN CONTENT -->
     <div class="container">
 
+        <!-- TOP BAR -->
         <div class="topbar">
             <div>
                 <h2>Sản phẩm</h2>
@@ -77,30 +75,53 @@
 
             <tbody>
             <c:forEach items="${products}" var="p">
+                <c:forEach items="${p.variants}" var="v">
 
-                <tr>
-                    <td>
-                        <img src="${pageContext.request.contextPath}/assert/img/product/${p.img}">
-                    </td>
-                    <td>${p.productName}</td>
-                    <td>${p.price}₫</td>
-                    <td>${p.categoryName}</td>
-                    <td>${p.version}</td>
-                    <td>${p.stock}</td>
-                    <td class="actionsProduct">
+                    <tr>
+                        <td>
+                            <img src="${pageContext.request.contextPath}/assert/img/product/${p.mainImage}">
+                        </td>
 
-                        <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.productId}">
-                            <button class="btn-edit">
-                                <i class="fa-solid fa-pencil"></i>
+                        <td class="text-left">${p.name}</td>
+
+                        <td>
+                            <fmt:formatNumber value="${v.basePrice}" type="number" groupingUsed="true"/>₫
+                        </td>
+
+                        <td>${p.category.name}</td>
+
+                        <td>${v.name}</td>
+
+                        <!-- TỒN KHO (GỘP) -->
+                        <td>
+                            <c:set var="totalQty" value="0"/>
+                            <c:forEach items="${v.colors}" var="c">
+                                <c:set var="totalQty" value="${totalQty + c.quantity}"/>
+                            </c:forEach>
+                                ${totalQty}
+                        </td>
+
+                        <!-- ACTION -->
+                        <td class="actionsProduct">
+
+                            <!-- EDIT -->
+                            <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}">
+                                <button class="btn-edit tooltip" data-tooltip="Chỉnh sửa">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </button>
+                            </a>
+
+                            <!-- TOGGLE -->
+                            <button class="btn-toggle tooltip"
+                                    data-tooltip="${p.status == 1 ? 'Ẩn sản phẩm' : 'Hiển thị sản phẩm'}"
+                                    onclick="toggleVisibility(this)">
+                                <i class="fa-solid ${p.status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
                             </button>
-                        </a>
 
-                        <button class="btn-delete"
-                                onclick="toggleVisibility(${p.productId})">
-                            <i class="fa-solid ${p.active ? 'fa-eye' : 'fa-eye-slash'}"></i>
-                        </button>
-                    </td>
-                </tr>
+                        </td>
+                    </tr>
+
+                </c:forEach>
             </c:forEach>
             </tbody>
         </table>

@@ -20,7 +20,7 @@ public class Product {
     private LocalDateTime releaseDate;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
+    private List<TechSpecs> techSpecs;
     private List<ProductVariant> variants;
 
     public Product() {}
@@ -135,5 +135,13 @@ public class Product {
 
     public void setVariants(List<ProductVariant> variants) {
         this.variants = variants;
+    }
+
+    public List<TechSpecs> getTechSpecs() {
+        return techSpecs;
+    }
+
+    public void setTechSpecs(List<TechSpecs> techSpecs) {
+        this.techSpecs = techSpecs;
     }
 }
