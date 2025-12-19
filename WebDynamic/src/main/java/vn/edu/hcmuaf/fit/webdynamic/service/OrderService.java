@@ -1,16 +1,24 @@
 package vn.edu.hcmuaf.fit.webdynamic.service;
 
 import vn.edu.hcmuaf.fit.webdynamic.dao.OrderDao;
+import vn.edu.hcmuaf.fit.webdynamic.dao.AddressDao;
+import vn.edu.hcmuaf.fit.webdynamic.dao.PaymentTypesDao;
 import vn.edu.hcmuaf.fit.webdynamic.model.Order;
+import vn.edu.hcmuaf.fit.webdynamic.model.Address;
+import vn.edu.hcmuaf.fit.webdynamic.model.PaymentTypes;
 
 import java.util.List;
 import java.util.Optional;
 
 public class OrderService {
     private final OrderDao orderDao;
+    private final AddressDao addressDao;
+    private final PaymentTypesDao paymentTypesDao;
 
     public OrderService() {
         this.orderDao = new OrderDao();
+        this.addressDao = new AddressDao();
+        this.paymentTypesDao = new PaymentTypesDao();
     }
 
     /**
@@ -62,6 +70,20 @@ public class OrderService {
     }
 
     /**
+     * Lấy thông tin địa chỉ giao hàng
+     */
+    public Address getOrderAddress(int addressId) {
+        return addressDao.findById(addressId).orElse(null);
+    }
+
+    /**
+     * Lấy thông tin phương thức thanh toán
+     */
+    public PaymentTypes getPaymentType(int paymentTypeId) {
+        return paymentTypesDao.findById(paymentTypeId).orElse(null);
+    }
+
+    /**
      * Kiểm tra đơn hàng có thuộc về user không
      */
     public boolean isOrderBelongToUser(int orderId, int userId) {
@@ -69,17 +91,20 @@ public class OrderService {
         return order.isPresent() && order.get().getUserId() == userId;
     }
 
-    /**
-     * Lấy tên trạng thái
-     */
     public static String getStatusName(int status) {
         switch (status) {
-            case 1: return "Đang lên đơn";
-            case 2: return "Đang giao";
-            case 3: return "Đã giao";
-            case 4: return "Hoàn thành";
-            case 5: return "Đã hủy";
-            default: return "Không xác định";
+            case 1:
+                return "Đang lên đơn";
+            case 2:
+                return "Đang giao";
+            case 3:
+                return "Đã giao";
+            case 4:
+                return "Hoàn thành";
+            case 5:
+                return "Đã hủy";
+            default:
+                return "Không xác định";
         }
     }
 
@@ -88,11 +113,16 @@ public class OrderService {
      */
     public static String getStatusClass(int status) {
         switch (status) {
-            case 1: return "prepare";
-            case 2: return "shipping";
-            case 3: return "delivered";
-            case 5: return "cancelled";
-            default: return "";
+            case 1:
+                return "prepare";
+            case 2:
+                return "shipping";
+            case 3:
+                return "delivered";
+            case 5:
+                return "cancelled";
+            default:
+                return "";
         }
     }
 
@@ -101,11 +131,16 @@ public class OrderService {
      */
     public static String getStatusIcon(int status) {
         switch (status) {
-            case 1: return "fa-solid fa-clock";
-            case 2: return "fa-solid fa-truck";
-            case 3: return "fa-solid fa-box";
-            case 5: return "fa-solid fa-xmark";
-            default: return "fa-solid fa-question";
+            case 1:
+                return "fa-solid fa-clock";
+            case 2:
+                return "fa-solid fa-truck";
+            case 3:
+                return "fa-solid fa-box";
+            case 5:
+                return "fa-solid fa-xmark";
+            default:
+                return "fa-solid fa-question";
         }
     }
 }
