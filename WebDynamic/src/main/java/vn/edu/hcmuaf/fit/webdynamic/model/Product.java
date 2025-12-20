@@ -1,25 +1,29 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Product {
     private int id;
     private String name;
-    private String img;
     private String description;
-    private int categoryId;   // có thể null
-    private Integer brandId;      // có thể null
     private int discountPercentage;
     private int totalSold;
+    private int warrantyPeriod;
+    private int status;
+
+    private String mainImage;   //  Ảnh đại diện duy nhất
+
+    private Category category;
+    private Brand brand;
+
     private LocalDateTime releaseDate;
-    private int warrantyPeriod;   // tháng
-    private int status;           // 0=inactive, 1=active
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private List<TechSpecs> techSpecs;
+    private List<ProductVariant> variants;
 
-    // ===== Constructor =====
-    public Product() {
-    }
+    public Product() {}
 
     public int getId() {
         return id;
@@ -37,38 +41,6 @@ public class Product {
         this.name = name;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public Integer getBrandId() {
-        return brandId;
-    }
-
-    public void setBrandId(Integer brandId) {
-        this.brandId = brandId;
-    }
-
     public int getDiscountPercentage() {
         return discountPercentage;
     }
@@ -77,12 +49,12 @@ public class Product {
         this.discountPercentage = discountPercentage;
     }
 
-    public LocalDateTime getReleaseDate() {
-        return releaseDate;
+    public String getDescription() {
+        return description;
     }
 
-    public void setReleaseDate(LocalDateTime releaseDate) {
-        this.releaseDate = releaseDate;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getTotalSold() {
@@ -109,6 +81,38 @@ public class Product {
         this.status = status;
     }
 
+    public String getMainImage() {
+        return mainImage;
+    }
+
+    public void setMainImage(String mainImage) {
+        this.mainImage = mainImage;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public LocalDateTime getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDateTime releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -123,5 +127,21 @@ public class Product {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<ProductVariant> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<ProductVariant> variants) {
+        this.variants = variants;
+    }
+
+    public List<TechSpecs> getTechSpecs() {
+        return techSpecs;
+    }
+
+    public void setTechSpecs(List<TechSpecs> techSpecs) {
+        this.techSpecs = techSpecs;
     }
 }

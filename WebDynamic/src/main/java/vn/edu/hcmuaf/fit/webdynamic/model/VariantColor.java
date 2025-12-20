@@ -1,14 +1,16 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class VariantColor {
     private int id;
-    private int variantId;
-    private int colorId;
+    private Color color;        // Đen, Trắng, Xanh
     private double price;
     private int quantity;
     private String sku;
+
+    private List<Image> images;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -24,12 +26,12 @@ public class VariantColor {
         this.id = id;
     }
 
-    public int getVariantId() {
-        return variantId;
+    public Color getColor() {
+        return color;
     }
 
-    public void setVariantId(int variantId) {
-        this.variantId = variantId;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public double getPrice() {
@@ -38,14 +40,6 @@ public class VariantColor {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public int getColorId() {
-        return colorId;
-    }
-
-    public void setColorId(int colorId) {
-        this.colorId = colorId;
     }
 
     public int getQuantity() {
@@ -62,6 +56,14 @@ public class VariantColor {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     public LocalDateTime getCreatedAt() {
