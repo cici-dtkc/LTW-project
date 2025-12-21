@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/admin/products")
-public class ProductAdminServlet extends HttpServlet {
+public class ProductServlet extends HttpServlet {
 
     private ProductService productService;
 
@@ -23,22 +23,12 @@ public class ProductAdminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
-        String keyword = req.getParameter("keyword");
-        String status = req.getParameter("status");
-        String category = req.getParameter("category");
-
-        List<Product> products = productService.search(keyword, status, category);
-
+        List<Product> products = productService.getAllForAdmin();
         req.setAttribute("products", products);
-        req.getRequestDispatcher("/views/admin/productAdmin.jsp")
+
+        req.getRequestDispatcher("/views/admin/product.jsp")
                 .forward(req, resp);
     }
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        productService.toggleStatus(id);
-        resp.sendRedirect(req.getContextPath() + "/admin/products");
-    }
+
 
 }

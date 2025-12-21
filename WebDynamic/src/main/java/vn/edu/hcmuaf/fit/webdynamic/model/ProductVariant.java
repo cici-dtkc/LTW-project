@@ -1,13 +1,14 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ProductVariant {
     private int id;
-    private int productId;
-    private String name;
+    private String name;        // 64GB, 128GB, 256GB
     private double basePrice;
-    private int status; // 1 = active, 0 = inactive
+    private int status;
+    private List<VariantColor> colors;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -23,20 +24,20 @@ public class ProductVariant {
         this.id = id;
     }
 
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
     }
 
     public int getStatus() {
@@ -47,12 +48,14 @@ public class ProductVariant {
         this.status = status;
     }
 
-    public double getBasePrice() {
-        return basePrice;
+
+
+    public List<VariantColor> getColors() {
+        return colors;
     }
 
-    public void setBasePrice(double basePrice) {
-        this.basePrice = basePrice;
+    public void setColors(List<VariantColor> colors) {
+        this.colors = colors;
     }
 
     public LocalDateTime getCreatedAt() {
