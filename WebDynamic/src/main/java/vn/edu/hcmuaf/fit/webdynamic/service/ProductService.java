@@ -6,6 +6,9 @@ import java.util.Map;
 
 public interface ProductService {
 
-
     List<Product> getAllForAdmin();
+
+    List<Product> getProductsForList();
+
+    List<Product> getProductsByCategory(int categoryId);
 }

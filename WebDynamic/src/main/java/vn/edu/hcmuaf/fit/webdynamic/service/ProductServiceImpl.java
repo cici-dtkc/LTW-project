@@ -11,10 +11,19 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao = new ProductDaoImpl();
 
-
     @Override
     public List<Product> getAllForAdmin() {
         return productDao.findAllWithVariants();
+    }
+
+    @Override
+    public List<Product> getProductsForList() {
+        return ((ProductDaoImpl) productDao).getProductsForListDisplay();
+    }
+
+    @Override
+    public List<Product> getProductsByCategory(int categoryId) {
+        return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
 
 }

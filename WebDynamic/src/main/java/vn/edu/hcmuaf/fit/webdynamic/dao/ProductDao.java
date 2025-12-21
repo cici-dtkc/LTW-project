@@ -13,4 +13,8 @@ public interface ProductDao {
     List<Product> search(String keyword, Integer status, Integer categoryId);
 
     void updateStatus(int productId, int status);
+
+    List<Product> getProductsByCategory(int categoryId);
+
+    List<Map<String, Object>> getProductsForList();
 }
