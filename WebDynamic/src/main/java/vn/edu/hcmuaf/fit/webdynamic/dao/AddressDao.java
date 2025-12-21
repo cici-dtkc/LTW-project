@@ -13,105 +13,97 @@ public class AddressDao {
     public AddressDao() {
         this.jdbi = DBConnect.getJdbi();
     }
-    // tất cả địa chỉ của người dùng bang userId
     public List<Address> findAllByUserId(int userId) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT id, phone_number, address, name,status, user_id FROM addresses WHERE user_id = :userId ORDER BY status DESC, id DESC")
+        return jdbi.withHandle(h ->
+                h.createQuery("""
+            SELECT id,
+                   user_id AS userId,
+                   phone_number AS phoneNumber,
+                   address,
+                   name,
+                   status
+            FROM addresses
+            WHERE user_id = :userId
+            ORDER BY status DESC, id DESC
+        """)
                         .bind("userId", userId)
-                        .mapToBean(Address.class).list()
+                        .mapToBean(Address.class)
+                        .list()
         );
     }
-    //Lấy địa chỉ theo id
+
     public Optional<Address> findById(int id) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT id, phone_number, address, name,status, user_id FROM addresses WHERE id = :id")
+        return jdbi.withHandle(h ->
+                h.createQuery("""
+            SELECT id,
+                   user_id AS userId,
+                   phone_number AS phoneNumber,
+                   address,
+                   name,
+                   status
+            FROM addresses
+            WHERE id = :id
+        """)
                         .bind("id", id)
-                        .mapToBean(Address.class).findOne()
-        );
-    }
-    public Optional<Address> findDefaultByUserId(int userId) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT id, phone_number, address, name,status, user_id FROM addresses WHERE user_id = :userId AND status = 1 LIMIT 1")
-                        .bind("userId", userId)
-                        .mapToBean(Address.class).findOne()
+                        .mapToBean(Address.class)
+                        .findOne()
         );
     }
 
-     //Thêm địa chỉ mới.
-    public int insert(Address address) {
-        return jdbi.withHandle(handle -> {
-            // Nếu địa chỉ này được đặt làm mặc định, bỏ mặc định của các địa chỉ khác
-            if (address.getStatus() == 1) {
-                handle.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :userId")
-                        .bind("userId", address.getUserId())
-                        .execute();
+    public int insert(Address a) {
+        return jdbi.inTransaction(h -> {
+            if (a.getStatus() == 1) {
+                h.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :uid")
+                        .bind("uid", a.getUserId()).execute();
             }
-            return handle.createUpdate("INSERT INTO addresses (phone_number, address, name, status, user_id) VALUES (:phoneNumber, :address, :name, :status, :userId)")
-                    .bind("phoneNumber", address.getPhoneNumber())
-                    .bind("address", address.getFullAddress())
-                    .bind("name", address.getName())
-                    .bind("status", address.getStatus())
-                    .bind("userId", address.getUserId())
+            return h.createUpdate("""
+            INSERT INTO addresses(user_id, name, phone_number, address, status)
+            VALUES (:uid, :name, :phone, :addr, :status)
+        """)
+                    .bind("uid", a.getUserId())
+                    .bind("name", a.getName())
+                    .bind("phone", a.getPhoneNumber())
+                    .bind("addr", a.getAddress())
+                    .bind("status", a.getStatus())
                     .executeAndReturnGeneratedKeys("id")
-                    .mapTo(Integer.class)
-                    .one();
+                    .mapTo(Integer.class).one();
         });
     }
 
-    /**
-     * Cập nhật địa chỉ.
-     */
-    public boolean update(Address address) {
-        return jdbi.withHandle(handle -> {
-                // Nếu địa chỉ này được đặt làm mặc định, bỏ mặc định của các địa chỉ khác
-                if (address.getStatus() == 1) {
-                handle.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :userId AND id != :id")
-                    .bind("userId", address.getUserId())
-                    .bind("id", address.getId())
-                    .execute();
-                }
-
-                int rowsAffected = handle.createUpdate("UPDATE addresses SET phone_number = :phoneNumber, address = :address, name = :name, status = :status WHERE id = :id")
-                    .bind("id", address.getId())
-                    .bind("phoneNumber", address.getPhoneNumber())
-                    .bind("address", address.getFullAddress())
-                    .bind("name", address.getName())
-                    .bind("status", address.getStatus())
-                    .execute();
-
-                return rowsAffected > 0;
+    public boolean update(Address a) {
+        return jdbi.inTransaction(h -> {
+            if (a.getStatus() == 1) {
+                h.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :uid AND id != :id")
+                        .bind("uid", a.getUserId()).bind("id", a.getId()).execute();
+            }
+            return h.createUpdate("""
+            UPDATE addresses
+            SET name=:name, phone_number=:phone, address=:addr, status=:status
+            WHERE id=:id
+        """)
+                    .bind("id", a.getId())
+                    .bind("name", a.getName())
+                    .bind("phone", a.getPhoneNumber())
+                    .bind("addr", a.getAddress())
+                    .bind("status", a.getStatus())
+                    .execute() > 0;
         });
     }
 
-    /**
-     * Xóa địa chỉ.
-     */
     public boolean delete(int id) {
-        return jdbi.withHandle(handle -> {
-            int rowsAffected = handle.createUpdate("DELETE FROM addresses WHERE id = :id")
-                    .bind("id", id)
-                    .execute();
-            return rowsAffected > 0;
+        return jdbi.withHandle(h ->
+                h.createUpdate("DELETE FROM addresses WHERE id=:id")
+                        .bind("id", id).execute() > 0
+        );
+    }
+
+    public boolean setDefault(int id, int userId) {
+        return jdbi.inTransaction(h -> {
+            h.createUpdate("UPDATE addresses SET status = 0 WHERE user_id=:uid")
+                    .bind("uid", userId).execute();
+            return h.createUpdate("UPDATE addresses SET status=1 WHERE id=:id AND user_id=:uid")
+                    .bind("id", id).bind("uid", userId).execute() > 0;
         });
     }
 
-    /**
-     * Đặt địa chỉ làm mặc định.
-     */
-    public boolean setAsDefault(int id, int userId) {
-        return jdbi.withHandle(handle -> {
-            // Bỏ mặc định của tất cả địa chỉ khác của user
-            handle.createUpdate("UPDATE addresses SET status = 0 WHERE user_id = :userId")
-                .bind("userId", userId)
-                .execute();
-
-            // Đặt địa chỉ này làm mặc định
-            int rowsAffected = handle.createUpdate("UPDATE addresses SET status = 1 WHERE id = :id AND user_id = :userId")
-                .bind("id", id)
-                .bind("userId", userId)
-                .execute();
-
-            return rowsAffected > 0;
-        });
-    }
 }

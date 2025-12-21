@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.Address;
+import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.AddressService;
 import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 
@@ -11,220 +12,87 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "AddressServlet", urlPatterns = { "/user/addresses" })
+@WebServlet("/user/addresses")
 public class AddressServlet extends HttpServlet {
-    private UserService userService;
-    private AddressService addressService;
+    private AddressService service;
 
     @Override
-    public void init() throws ServletException {
-        this.userService = new UserService();
-        this.addressService = new AddressService();
+    public void init() {
+        service = new AddressService();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Lấy userId từ session giống cách các servlet khác xử lý
-        // HttpSession session = request.getSession(false);
-        // Integer userId = null;
-        // if (session != null) {
-        // Object idAttr = session.getAttribute("userId");
-        // if (idAttr instanceof Integer)
-        // userId = (Integer) idAttr;
-        // else if (idAttr instanceof String) {
-        // try {
-        // userId = Integer.parseInt((String) idAttr);
-        // } catch (NumberFormatException ignored) {
-        // }
-        // }
-        // }
-        //
-        // if (userId == null) {
-        // // chưa đăng nhập -> redirect tới trang login
-        // response.sendRedirect(request.getContextPath() + "/login.jsp");
-        // return;
-        // }
 
-        // List<Address> addresses = addressService.getAllAddressesByUserId(userId);
-        // request.setAttribute("addresses", addresses);
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
 
-        request.getRequestDispatcher("/views/user/addresses.jsp").forward(request, response);
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+        int userId = user.getId();
+
+        req.setAttribute("addresses", service.getAll(userId));
+        req.getRequestDispatcher("/views/user/addresses.jsp").forward(req, resp);
     }
 
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-//            throws ServletException, IOException {
-//        request.setCharacterEncoding("UTF-8");
-//        response.setCharacterEncoding("UTF-8");
-//        response.setContentType("application/json;charset=UTF-8");
-//
-//        HttpSession session = request.getSession(false);
-//        Integer userId = null;
-//        if (session != null) {
-//            Object idAttr = session.getAttribute("userId");
-//            if (idAttr instanceof Integer)
-//                userId = (Integer) idAttr;
-//            else if (idAttr instanceof String) {
-//                try {
-//                    userId = Integer.parseInt((String) idAttr);
-//                } catch (NumberFormatException ignored) {
-//                }
-//            }
-//        }
-//
-//        if (userId == null) {
-//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//            try (PrintWriter out = response.getWriter()) {
-//                out.print("{\"success\":false,\"message\":\"Unauthorized\"}");
-//            }
-//            return;
-//        }
-//
-//        String action = request.getParameter("action");
-//        if (action == null)
-//            action = "";
-//
-//        try (PrintWriter out = response.getWriter()) {
-//            switch (action) {
-//                case "add": {
-//                    // Accept either model-style params (name, fullAddress, status) or legacy form
-//                    // parts
-//                    String name = request.getParameter("name");
-//                    String phone = request.getParameter("phoneNumber");
-//                    String fullAddress = request.getParameter("fullAddress");
-//                    String statusParam = request.getParameter("status");
-//
-//                    if ((name == null || name.isEmpty())) {
-//                        // fallback to legacy field
-//                        name = request.getParameter("fullName");
-//                    }
-//
-//                    if (fullAddress == null || fullAddress.isEmpty()) {
-//                        // fallback to legacy composition
-//                        String specific = request.getParameter("specificAddress");
-//                        String location = request.getParameter("location");
-//                        fullAddress = (specific == null ? "" : specific.trim());
-//                        if (location != null && !location.isEmpty()) {
-//                            if (!fullAddress.isEmpty())
-//                                fullAddress += ", ";
-//                            fullAddress += location.trim();
-//                        }
-//                    }
-//
-//                    // Determine status (1 = default)
-//                    int status = 0;
-//                    if ("1".equals(statusParam) || "on".equalsIgnoreCase(statusParam)
-//                            || "true".equalsIgnoreCase(statusParam)) {
-//                        status = 1;
-//                    } else {
-//                        String setDefault = request.getParameter("setDefault");
-//                        if ("1".equals(setDefault) || "on".equalsIgnoreCase(setDefault))
-//                            status = 1;
-//                    }
-//
-//                    Address addr = new Address();
-//                    addr.setUserId(userId);
-//                    addr.setName(name);
-//                    addr.setPhoneNumber(phone);
-//                    addr.setFullAddress(fullAddress);
-//                    addr.setStatus(status);
-//
-//                    int newId = addressService.addAddress(addr);
-//                    if (newId > 0) {
-//                        out.print("{\"success\":true,\"id\":" + newId + "}");
-//                    } else {
-//                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//                        out.print("{\"success\":false,\"message\":\"Failed to insert\"}");
-//                    }
-//                    break;
-//                }
-//                case "update": {
-//                    String idStr = request.getParameter("id");
-//                    if (idStr == null) {
-//                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                        out.print("{\"success\":false}");
-//                        break;
-//                    }
-//                    int id = Integer.parseInt(idStr);
-//
-//                    // Accept model-style params
-//                    String name = request.getParameter("name");
-//                    String phone = request.getParameter("phoneNumber");
-//                    String fullAddress = request.getParameter("fullAddress");
-//                    String statusParam = request.getParameter("status");
-//
-//                    if ((name == null || name.isEmpty())) {
-//                        name = request.getParameter("fullName");
-//                    }
-//
-//                    if (fullAddress == null || fullAddress.isEmpty()) {
-//                        String specific = request.getParameter("specificAddress");
-//                        String location = request.getParameter("location");
-//                        fullAddress = (specific == null ? "" : specific.trim());
-//                        if (location != null && !location.isEmpty()) {
-//                            if (!fullAddress.isEmpty())
-//                                fullAddress += ", ";
-//                            fullAddress += location.trim();
-//                        }
-//                    }
-//
-//                    int status = 0;
-//                    if ("1".equals(statusParam) || "on".equalsIgnoreCase(statusParam)
-//                            || "true".equalsIgnoreCase(statusParam)) {
-//                        status = 1;
-//                    } else {
-//                        String setDefault = request.getParameter("setDefault");
-//                        if ("1".equals(setDefault) || "on".equalsIgnoreCase(setDefault))
-//                            status = 1;
-//                    }
-//
-//                    Address addr = new Address();
-//                    addr.setId(id);
-//                    addr.setUserId(userId);
-//                    addr.setName(name);
-//                    addr.setPhoneNumber(phone);
-//                    addr.setFullAddress(fullAddress);
-//                    addr.setStatus(status);
-//
-//                    boolean ok = addressService.updateAddress(addr);
-//                    out.print("{\"success\":" + ok + "}");
-//                    break;
-//                }
-//                case "delete": {
-//                    String idStr = request.getParameter("id");
-//                    if (idStr == null) {
-//                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                        out.print("{\"success\":false}");
-//                        break;
-//                    }
-//                    int id = Integer.parseInt(idStr);
-//                    boolean ok = addressService.deleteAddress(id, userId);
-//                    out.print("{\"success\":" + ok + "}");
-//                    break;
-//                }
-//                case "set-default": {
-//                    String idStr = request.getParameter("id");
-//                    if (idStr == null) {
-//                        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                        out.print("{\"success\":false}");
-//                        break;
-//                    }
-//                    int id = Integer.parseInt(idStr);
-//                    boolean ok = addressService.setDefaultAddress(id, userId);
-//                    out.print("{\"success\":" + ok + "}");
-//                    break;
-//                }
-//                default: {
-//                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-//                    out.print("{\"success\":false,\"message\":\"Unknown action\"}");
-//                }
-//            }
-//        } catch (Exception e) {
-//            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-//            try (PrintWriter out = response.getWriter()) {
-//                out.print("{\"success\":false,\"message\":\"" + e.getMessage() + "\"}");
-//            }
-//        }
-//    }
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
+
+        resp.setContentType("application/json;charset=UTF-8");
+        HttpSession session = req.getSession(false);
+        if (session == null) {
+            resp.getWriter().print("{\"success\":false}");
+            return;
+        }
+
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+        int userId = user.getId();
+
+        String action = req.getParameter("action");
+
+        boolean ok = false;
+
+        if ("add".equals(action)) {
+            Address a = buildAddress(req, userId);
+            ok = service.add(a) > 0;
+        }
+        if ("update".equals(action)) {
+            Address a = buildAddress(req, userId);
+            a.setId(Integer.parseInt(req.getParameter("id")));
+            ok = service.update(a);
+        }
+        if ("delete".equals(action)) {
+            ok = service.delete(
+                    Integer.parseInt(req.getParameter("id")), userId);
+        }
+        if ("set-default".equals(action)) {
+            ok = service.setDefault(
+                    Integer.parseInt(req.getParameter("id")), userId);
+        }
+
+        resp.getWriter().print("{\"success\":" + ok + "}");
+    }
+
+    private Address buildAddress(HttpServletRequest r, int userId) {
+        Address a = new Address();
+        a.setUserId(userId);
+        a.setName(r.getParameter("name"));
+        a.setPhoneNumber(r.getParameter("phoneNumber"));
+        a.setAddress(r.getParameter("fullAddress"));
+        a.setStatus("1".equals(r.getParameter("status")) ? 1 : 0);
+        return a;
+    }
+
 }

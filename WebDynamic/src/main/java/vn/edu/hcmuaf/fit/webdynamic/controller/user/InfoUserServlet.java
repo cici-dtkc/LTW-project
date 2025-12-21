@@ -6,50 +6,157 @@ import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 
-import java.io.IOException;
-import java.util.Optional;
+import java.io.*;
 
-@WebServlet(name = "InfoUserServlet", urlPatterns = {"/user/info"})
+@WebServlet(name = "UserProfileServlet", urlPatterns = { "/user/profile" })
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 5 * 1024 * 1024,
+        maxRequestSize = 10 * 1024 * 1024
+)
 public class InfoUserServlet extends HttpServlet {
+
     private UserService userService;
 
     @Override
     public void init() throws ServletException {
-        this.userService = new UserService();
+        userService = new UserService();
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
         HttpSession session = req.getSession(false);
 
-        // Ở đây giả sử bạn đã lưu userId vào session khi login
-        Integer userId = null;
-        if (session != null) {
-            Object idAttr = session.getAttribute("userId");
-            if (idAttr instanceof Integer) {
-                userId = (Integer) idAttr;
-            } else if (idAttr instanceof String) {
-                try {
-                    userId = Integer.parseInt((String) idAttr);
-                } catch (NumberFormatException ignored) {
-                }
-            }
-        }
-
-        if (userId == null) {
-            // Chưa đăng nhập -> chuyển về trang login (bạn chỉnh lại URL cho đúng)
+        if (session == null || session.getAttribute("user") == null) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        Optional<User> userOpt = userService.getUserProfileById(userId);
-        if (userOpt.isEmpty()) {
-            // Không tìm thấy user -> trả về 404 hoặc redirect
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy người dùng");
+        // load fresh user
+        User sessionUser = (User) session.getAttribute("user");
+        User freshUser = userService.getUserProfileById(sessionUser.getId()).orElse(sessionUser);
+
+        session.setAttribute("user", freshUser);
+        req.setAttribute("user", freshUser);
+
+        req.getRequestDispatcher("/views/user/info-user.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
+        resp.setContentType("application/json");
+
+        HttpSession session = req.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
+            resp.getWriter().write("{\"success\": false, \"message\": \"Bạn chưa đăng nhập\"}");
             return;
         }
 
-        req.setAttribute("user", userOpt.get());
-        req.getRequestDispatcher("/views/user/info-user.jsp").forward(req, resp);
+        User user = (User) session.getAttribute("user");
+        String action = req.getParameter("action");
+        if (action == null) action = "";
+
+        switch (action) {
+            case "update":
+                updateInfo(req, resp, session, user);
+                break;
+
+            case "upload-avatar":
+                uploadAvatar(req, resp, session, user);
+                break;
+
+            default:
+                resp.getWriter().write("{\"success\": false, \"message\": \"Hành động không hợp lệ\"}");
+        }
+    }
+    //       UPDATE THÔNG TIN
+    private void updateInfo(HttpServletRequest req, HttpServletResponse resp,
+                            HttpSession session, User user)
+            throws IOException {
+
+        PrintWriter out = resp.getWriter();
+
+        String first = safe(req.getParameter("firstName"));
+        String last = safe(req.getParameter("lastName"));
+        String email = safe(req.getParameter("email"));
+
+        if (email.isEmpty()) {
+            out.write("{\"success\": false, \"message\": \"Email không được để trống\"}");
+            return;
+        }
+
+        if (!email.equals(user.getEmail())
+                && userService.checkExistEmailForOtherUsers(user.getId(), email)) {
+
+            out.write("{\"success\": false, \"message\": \"Email đã tồn tại\"}");
+            return;
+        }
+
+        boolean ok = userService.updateUserInfo(user.getId(), first, last, email);
+
+        if (ok) {
+            User updated = userService.getUserProfileById(user.getId()).orElse(user);
+            session.setAttribute("user", updated);
+            out.write("{\"success\": true}");
+        } else {
+            out.write("{\"success\": false, \"message\": \"Cập nhật thất bại\"}");
+        }
+    }
+    //       UPLOAD AVATAR
+    private void uploadAvatar(HttpServletRequest req, HttpServletResponse resp,
+                              HttpSession session, User user)
+            throws IOException, ServletException {
+
+        PrintWriter out = resp.getWriter();
+
+        Part filePart = req.getPart("avatar");
+
+        if (filePart == null || filePart.getSize() == 0) {
+            out.write("{\"success\": false, \"message\": \"Không có file\"}");
+            return;
+        }
+
+        String submitted = filePart.getSubmittedFileName();
+        String extension = getExtension(submitted);
+        String fileName = "avatar_" + user.getId() + extension;
+
+        String uploadDir = req.getServletContext().getRealPath("/uploads/avatars");
+
+        File dir = new File(uploadDir);
+        if (!dir.exists()) dir.mkdirs();
+
+        String absolutePath = uploadDir + File.separator + fileName;
+
+        filePart.write(absolutePath);
+
+        String avatarUrl = "/uploads/avatars/" + fileName;
+
+        boolean updated = userService.updateAvatar(user.getId(), avatarUrl);
+
+        if (updated) {
+            User updatedUser = userService.getUserProfileById(user.getId()).orElse(user);
+            session.setAttribute("user", updatedUser);
+
+            out.write("{\"success\": true, \"url\": \"" + req.getContextPath() + avatarUrl + "\"}");
+        } else {
+            out.write("{\"success\": false, \"message\": \"Lưu avatar thất bại\"}");
+        }
+    }
+    //        UTILITIES
+    private String getExtension(String name) {
+        if (name == null || !name.contains(".")) return ".png";
+        String ext = name.substring(name.lastIndexOf(".")).toLowerCase();
+        if (!ext.matches("\\.(png|jpg|jpeg|gif)")) return ".png";
+        return ext;
+    }
+
+    private String safe(String s) {
+        return s == null ? "" : s.trim();
     }
 }

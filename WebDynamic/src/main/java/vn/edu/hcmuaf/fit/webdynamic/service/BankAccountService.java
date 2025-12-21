@@ -6,26 +6,18 @@ import vn.edu.hcmuaf.fit.webdynamic.model.BankAccount;
 import java.util.Optional;
 
 public class BankAccountService {
-    private final BankAccountDao bankAccountDao;
+    private final BankAccountDao dao = new BankAccountDao();
 
-    public BankAccountService() {
-        this.bankAccountDao = new BankAccountDao();
+    public Optional<BankAccount> getByUserId(int userId) {
+        return dao.findByUserId(userId);
     }
-    public Optional<BankAccount> getBankAccountByUserId(int userId) {
-        return bankAccountDao.findOneByUserId(userId);
-    }
-    public boolean updateBankAccount(BankAccount bankAccount) {
-        // Kiểm tra tài khoản có tồn tại không
-        Optional<BankAccount> existing = bankAccountDao.findById(bankAccount.getId());
-        if (existing.isEmpty()) {
-            return false;
-        }
 
-        // Kiểm tra tài khoản thuộc về user này
-        if (existing.get().getUserId() != bankAccount.getUserId()) {
-            return false;
-        }
-
-        return bankAccountDao.update(bankAccount);
+    public boolean insert(BankAccount b) {
+        return dao.insert(b);
     }
+
+    public boolean update(BankAccount b) {
+        return dao.update(b);
+    }
+
 }

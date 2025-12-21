@@ -12,50 +12,34 @@ public class AddressService {
         this.addressDao = new AddressDao();
     }
     // Lấy địa chỉ theo ID
-    public List<Address> getAllAddressesByUserId(int userId) {
+    public List<Address> getAll(int userId) {
         return addressDao.findAllByUserId(userId);
     }
-    // Lấy địa chỉ mặc định của user
-    public Optional<Address> getAddressDefaultByUserId(int userId) {
-        return addressDao.findDefaultByUserId(userId);
-    }
-    //Thêm địa chỉ mới.
-    public int addAddress(Address address) {
-        return addressDao.insert(address);
-    }
-    // Cập nhật địa chỉ
-    public boolean updateAddress(Address address) {
-        // Kiểm tra địa chỉ có tồn tại không
-        Optional<Address> existing = addressDao.findById(address.getId());
-        if (existing.isEmpty()) {
-            return false;
-        }
 
-        // Kiểm tra địa chỉ thuộc về user này
-        if (existing.get().getUserId() != address.getUserId()) {
-            return false;
+    public int add(Address a) {
+        if (addressDao.findAllByUserId(a.getUserId()).isEmpty()) {
+            a.setStatus(1);
         }
-
-        return addressDao.update(address);
+        return addressDao.insert(a);
     }
-     // Xóa địa chỉ.
-    public boolean deleteAddress(int id, int userId) {
-        // Kiểm tra địa chỉ có tồn tại và thuộc về user này không
-        Optional<Address> address = addressDao.findById(id);
-        if (address.isEmpty() || address.get().getUserId() != userId) {
-            return false;
-        }
 
+    public boolean update(Address a) {
+        Optional<Address> old = addressDao.findById(a.getId());
+        return old.isPresent() && old.get().getUserId() == a.getUserId()
+                && addressDao.update(a);
+    }
+
+    public boolean delete(int id, int userId) {
+        Optional<Address> addr = addressDao.findById(id);
+        if (addr.isEmpty() || addr.get().getUserId() != userId) return false;
         return addressDao.delete(id);
     }
-     //Đặt địa chỉ làm mặc định.
-    public boolean setDefaultAddress(int id, int userId) {
-        // Kiểm tra địa chỉ có tồn tại và thuộc về user này không
-        Optional<Address> address = addressDao.findById(id);
-        if (address.isEmpty() || address.get().getUserId() != userId) {
-            return false;
-        }
 
-        return addressDao.setAsDefault(id, userId);
+    public boolean setDefault(int id, int userId) {
+        return addressDao.findById(id)
+                .filter(a -> a.getUserId() == userId)
+                .map(a -> addressDao.setDefault(id, userId))
+                .orElse(false);
     }
+
 }

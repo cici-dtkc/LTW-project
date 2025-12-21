@@ -3,26 +3,80 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.user;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
+import vn.edu.hcmuaf.fit.webdynamic.model.BankAccount;
+import vn.edu.hcmuaf.fit.webdynamic.service.BankAccountService;
+import vn.edu.hcmuaf.fit.webdynamic.model.User;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(name = "BankAccountServlet", urlPatterns = {"/user/payment"})
 public class BankAccountServlet extends HttpServlet {
-    private UserService userService;
+
+    private BankAccountService bankService;
 
     @Override
-    public void init() throws ServletException {
-        this.userService = new UserService();
+    public void init() {
+        this.bankService = new BankAccountService();
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/views/user/bankAccount.jsp").forward(request, response);
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession(false);
+        User user = (session != null) ? (User) session.getAttribute("user") : null;
+
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
+        Optional<BankAccount> account = bankService.getByUserId(user.getId());
+
+        // DEBUG: Kiểm tra data có load được không
+        if (account.isPresent()) {
+            BankAccount ba = account.get();
+            req.setAttribute("bankAccount", ba);
+        }
+        req.getRequestDispatcher("/views/user/bankAccount.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User user = (User) req.getSession().getAttribute("user");
 
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/login");
+            return;
+        }
+
+        String bankName = req.getParameter("bank_name");
+        String accountNumber = req.getParameter("account_number");
+        String accountName = req.getParameter("account_name");
+
+
+        Optional<BankAccount> existing = bankService.getByUserId(user.getId());
+        boolean success;
+
+        if (existing.isPresent()) {
+
+            // UPDATE
+            BankAccount b = existing.get();
+            b.setBankName(bankName);
+            b.setAccountNumber(accountNumber);
+            b.setAccountName(accountName);
+            success = bankService.update(b);
+        } else {
+            // INSERT
+            BankAccount b = new BankAccount();
+            b.setUserId(user.getId());
+            b.setBankName(bankName);
+            b.setAccountNumber(accountNumber);
+            b.setAccountName(accountName);
+            success = bankService.insert(b);
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/user/payment");
     }
+
 }

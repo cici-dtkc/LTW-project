@@ -133,6 +133,22 @@ public class VoucherAdminDaoImpl implements VoucherAdminDao {
                 .execute()) > 0;
     }
 
+    @Override
+    public List<VoucherAdmin> getActiveVouchers() {
+        String sql = """
+        SELECT *
+        FROM vouchers
+        WHERE status = 1
+          AND end_date >= CURRENT_DATE
+        ORDER BY end_date ASC
+    """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapToBean(VoucherAdmin.class)
+                        .list()
+        );
+    }
 
 
 }
