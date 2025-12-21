@@ -155,4 +155,39 @@ public class UserDao {
         return rows > 0;
     }
 
+    // Cập nhật mật khẩu
+    public boolean updatePassword(int userId, String newPassword) {
+        String sql = """
+                UPDATE users 
+                SET password = :pw, updated_at = NOW()
+                WHERE id = :id
+                """;
+
+        return DBConnect.getJdbi().withHandle(h ->
+                h.createUpdate(sql)
+                        .bind("pw", newPassword) // hashed password
+                        .bind("id", userId)
+                        .execute() > 0
+        );
+    }
+
+    public User findByInput(String input) {
+        String sql = """
+        SELECT id, username, first_name, last_name, avatar, email,
+               role, status, provider, provider_id, password,
+               created_at, updated_at
+        FROM users
+        WHERE (email = :input OR username = :input)
+        LIMIT 1
+    """;
+
+        return DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("input", input)
+                        .mapToBean(User.class)
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
 }
