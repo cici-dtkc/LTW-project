@@ -1,50 +1,29 @@
-// ===== Hiển thị form theo category =====
-const phoneRadio = document.getElementById("phone");
-const partRadio = document.getElementById("part");
-const phoneForm = document.getElementById("phoneForm");
-const partForm = document.getElementById("partForm");
-
-phoneRadio.addEventListener("change", () => {
-    phoneForm.style.display = "block";
-    partForm.style.display = "none";
-});
-
-partRadio.addEventListener("change", () => {
-    phoneForm.style.display = "none";
-    partForm.style.display = "block";
-});
-
-// ===== Function thêm Variant =====
-function addVariant(containerId){
-    const container = document.getElementById(containerId);
-    const template = document.getElementById("variantTemplate");
-    const clone = template.content.cloneNode(true);
-    clone.querySelector(".removeBtn").addEventListener("click", e => {
-        e.target.parentElement.remove();
-    });
-    container.appendChild(clone);
+function showPhone() {
+    document.getElementById("phoneForm").style.display = "block";
+    document.getElementById("partForm").style.display = "none";
 }
 
-// ===== Function thêm Attribute =====
-function addAttribute(buttonId){
-    const container = document.getElementById(buttonId);
-    const template = document.getElementById("attributeTemplate");
-    const clone = template.content.cloneNode(true);
-    clone.querySelector(".removeBtn").addEventListener("click", e => {
-        e.target.parentElement.remove();
-    });
-    container.appendChild(clone);
+function showPart() {
+    document.getElementById("phoneForm").style.display = "none";
+    document.getElementById("partForm").style.display = "block";
 }
 
-// ===== EVENTS =====
-// Phone
-document.getElementById("addPhoneVariant").addEventListener("click", ()=> addVariant("phoneVariantsContainer"));
-document.getElementById("addPhoneAttribute").addEventListener("click", ()=> addAttribute("phoneAttributesContainer"));
+function addTech(targetId) {
+    let tpl = document.getElementById("techTpl").content.cloneNode(true);
+    document.getElementById(targetId).appendChild(tpl);
+}
 
-// Part
-document.getElementById("addPartVariant").addEventListener("click", ()=> addVariant("partVariantsContainer"));
-document.getElementById("addPartAttribute").addEventListener("click", ()=> addAttribute("partAttributesContainer"));
+function addVariant(targetId) {
+    let tpl = document.getElementById("variantTpl").content.cloneNode(true);
+    document.getElementById(targetId).appendChild(tpl);
+}
 
-// ===== Optional: demo submit =====
-phoneForm.addEventListener("submit", e=>{ e.preventDefault(); alert("Đã thêm điện thoại")});
-partForm.addEventListener("submit", e=>{ e.preventDefault(); alert("Đã thêm linh kiện")});
+function addColor(btn) {
+    let colorBox = btn.parentElement.querySelector(".colors");
+    let tpl = document.getElementById("colorTpl").content.cloneNode(true);
+    colorBox.appendChild(tpl);
+}
+
+function removeBlock(btn) {
+    btn.parentElement.remove();
+}
