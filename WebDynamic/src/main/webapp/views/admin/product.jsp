@@ -35,28 +35,35 @@
         </div>
 
         <!-- TOOLBAR -->
-        <div class="toolbar">
-            <form method="get" action="${pageContext.request.contextPath}/admin/products">
-                <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm...">
+        <div class="toolbar-wrapper">
+
+            <form class="toolbar" method="get"
+                  action="${pageContext.request.contextPath}/admin/products">
+
+                <input type="text" name="keyword"
+                       value="${keyword}"
+                       placeholder="Tìm kiếm sản phẩm...">
 
                 <select name="status">
                     <option value="">Tất cả trạng thái</option>
-                    <option value="1">Đang hiển thị</option>
-                    <option value="0">Đang ẩn</option>
+                    <option value="1" ${status == 1 ? "selected" : ""}>Đang hiển thị</option>
+                    <option value="0" ${status == 0 ? "selected" : ""}>Đang ẩn</option>
                 </select>
 
-                <select name="category">
+                <select name="categoryId">
                     <option value="">Tất cả danh mục</option>
-                    <option value="PHONE">Điện thoại</option>
-                    <option value="PART">Linh kiện</option>
+                    <option value="1" ${categoryId == 1 ? "selected" : ""}>Điện thoại</option>
+                    <option value="2" ${categoryId == 2 ? "selected" : ""}>Linh kiện</option>
                 </select>
 
                 <button class="btn-filter">Tìm kiếm</button>
             </form>
 
-            <a href="${pageContext.request.contextPath}/admin/products/add">
-                <button class="btn-add">+ Thêm sản phẩm</button>
+            <a class="btn-add"
+               href="${pageContext.request.contextPath}/admin/products/add">
+                + Thêm sản phẩm
             </a>
+
         </div>
 
         <!-- TABLE -->
@@ -85,14 +92,13 @@
                         <td class="text-left">${p.name}</td>
 
                         <td>
-                            <fmt:formatNumber value="${v.basePrice}" type="number" groupingUsed="true"/>₫
+                            <fmt:formatNumber value="${v.basePrice}" groupingUsed="true"/>₫
                         </td>
 
                         <td>${p.category.name}</td>
 
                         <td>${v.name}</td>
 
-                        <!-- TỒN KHO (GỘP) -->
                         <td>
                             <c:set var="totalQty" value="0"/>
                             <c:forEach items="${v.colors}" var="c">
@@ -101,22 +107,29 @@
                                 ${totalQty}
                         </td>
 
-                        <!-- ACTION -->
                         <td class="actionsProduct">
-
-                            <!-- EDIT -->
-                            <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}">
-                                <button class="btn-edit tooltip" data-tooltip="Chỉnh sửa">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </button>
+                            <a class="btn-edit"
+                               href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}">
+                                <i class="fa-solid fa-pencil"></i>
                             </a>
 
-                            <!-- TOGGLE -->
-                            <button class="btn-toggle tooltip"
-                                    data-tooltip="${p.status == 1 ? 'Ẩn sản phẩm' : 'Hiển thị sản phẩm'}"
-                                    onclick="toggleVisibility(this)">
-                                <i class="fa-solid ${p.status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
-                            </button>
+
+                            <form action="${pageContext.request.contextPath}/admin/products"
+                                  method="post"
+                                  style="display:inline">
+
+                                <input type="hidden" name="action" value="toggle"/>
+                                <input type="hidden" name="id" value="${v.id}"/>
+
+                                <button type="submit"
+                                        class="btn-toggle"
+                                        title="${v.status == 1 ? 'Ẩn phiên bản' : 'Hiển thị phiên bản'}">
+
+                                    <i class="fa-solid ${v.status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
+                                </button>
+                            </form>
+
+
 
                         </td>
                     </tr>
@@ -126,9 +139,39 @@
             </tbody>
         </table>
 
+
         <div class="footer">
-            Hiển thị ${fn:length(products)} sản phẩm
+
+            <div class="pagination">
+
+                <c:if test="${page > 1}">
+                    <a href="${pageContext.request.contextPath}/admin/products?page=${page-1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                        ‹
+                    </a>
+                </c:if>
+
+                <c:forEach begin="1" end="${totalPages}" var="i">
+                    <c:choose>
+                        <c:when test="${i == page}">
+                            <span class="active">${i}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/admin/products?page=${i}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                                    ${i}
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <c:if test="${page < totalPages}">
+                    <a href="${pageContext.request.contextPath}/admin/products?page=${page+1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                        ›
+                    </a>
+                </c:if>
+
+            </div>
         </div>
+
 
     </div>
 </div>

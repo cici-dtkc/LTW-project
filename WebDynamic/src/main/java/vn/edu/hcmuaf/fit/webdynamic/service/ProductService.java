@@ -6,6 +6,14 @@ import java.util.Map;
 
 public interface ProductService {
 
+    List<Product> getForAdmin(
+            String keyword,
+            Integer status,
+            Integer categoryId,
+            int page,
+            int limit
+    );
 
-    List<Product> getAllForAdmin();
+    int countForAdmin(String keyword, Integer status, Integer categoryId);
+    public boolean toggleStatus(int productId) ;
 }

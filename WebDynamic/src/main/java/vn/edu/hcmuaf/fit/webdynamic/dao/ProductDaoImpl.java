@@ -9,101 +9,81 @@ import java.util.*;
 
 public class ProductDaoImpl implements ProductDao {
     private final Jdbi jdbi = DBConnect.getJdbi();
+
     @Override
-    public List<Product> findAllWithVariants() {
+    public List<Map<String, Object>> findForAdmin(
+            String keyword,
+            Integer status,
+            Integer categoryId,
+            int offset,
+            int limit) {
 
         String sql = """
-            SELECT
-                p.id              AS p_id,
-                p.name            AS p_name,
-                p.img             AS p_img,
-                c.id              AS c_id,
-                c.name            AS c_name,
-                v.id              AS v_id,
-                v.name            AS v_name,
-                v.base_price,
-                v.status          AS v_status,
-                vc.id             AS vc_id,
-                vc.price          AS vc_price,
-                vc.quantity,
-                col.id            AS color_id,
-                col.name          AS color_name
-            FROM products p
-            JOIN categories c        ON p.category_id = c.id
-            JOIN product_variants v ON p.id = v.product_id
-            JOIN variant_colors vc  ON v.id = vc.variant_id
-            JOIN colors col          ON vc.color_id = col.id
-            ORDER BY p.id DESC
-        """;
+        SELECT
+            p.id AS p_id, p.name AS p_name, p.img AS p_img,
+            c.id AS c_id, c.name AS c_name,
+            v.id AS v_id, v.name AS v_name, v.base_price, v.status AS v_status,
+            vc.id AS vc_id, vc.price AS vc_price, vc.quantity,
+            col.id AS color_id, col.name AS color_name
+        FROM products p
+        JOIN categories c ON p.category_id = c.id
+        JOIN product_variants v ON p.id = v.product_id
+        JOIN variant_colors vc ON v.id = vc.variant_id
+        JOIN colors col ON vc.color_id = col.id
+        WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
+          AND (:status IS NULL OR v.status = :status)
+          AND (:categoryId IS NULL OR p.category_id = :categoryId)
+        ORDER BY p.id DESC
+        LIMIT :limit OFFSET :offset
+    """;
 
-        return jdbi.withHandle(handle -> {
-
-            Map<Integer, Product> productMap = new LinkedHashMap<>();
-
-            handle.createQuery(sql)
-                    .map((rs, ctx) -> {
-
-                        int productId = rs.getInt("p_id");
-
-                        // ===== PRODUCT =====
-                        Product product = productMap.get(productId);
-                        if (product == null) {
-                            product = new Product();
-                            product.setId(productId);
-                            product.setName(rs.getString("p_name"));
-                            product.setMainImage(rs.getString("p_img"));
-
-                            Category category = new Category();
-                            category.setId(rs.getInt("c_id"));
-                            category.setName(rs.getString("c_name"));
-                            product.setCategory(category);
-
-                            product.setVariants(new ArrayList<>());
-                            productMap.put(productId, product);
-                        }
-
-                        // ===== VARIANT =====
-                        int variantId = rs.getInt("v_id");
-                        ProductVariant variant = null;
-
-                        for (ProductVariant v : product.getVariants()) {
-                            if (v.getId() == variantId) {
-                                variant = v;
-                                break;
-                            }
-                        }
-
-                        if (variant == null) {
-                            variant = new ProductVariant();
-                            variant.setId(variantId);
-                            variant.setName(rs.getString("v_name"));
-                            variant.setBasePrice(rs.getDouble("base_price"));
-                            variant.setStatus(rs.getInt("v_status"));
-                            variant.setColors(new ArrayList<>());
-
-                            product.getVariants().add(variant);
-                        }
-
-                        // ===== VARIANT COLOR =====
-                        VariantColor vc = new VariantColor();
-                        vc.setId(rs.getInt("vc_id"));
-                        vc.setPrice(rs.getDouble("vc_price"));
-                        vc.setQuantity(rs.getInt("quantity"));
-
-                        Color color = new Color();
-                        color.setId(rs.getInt("color_id"));
-                        color.setName(rs.getString("color_name"));
-                        vc.setColor(color);
-
-                        variant.getColors().add(vc);
-
-                        return null;
-                    }).list();
-
-            return new ArrayList<>(productMap.values());
-        });
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("keyword", keyword)
+                        .bind("status", status)
+                        .bind("categoryId", categoryId)
+                        .bind("limit", limit)
+                        .bind("offset", offset)
+                        .mapToMap()
+                        .list()
+        );
     }
 
+    @Override
+    public int countForAdmin(String keyword, Integer status, Integer categoryId) {
+
+        String sql = """
+        SELECT COUNT(DISTINCT v.id)
+        FROM product_variants v
+        JOIN products p ON v.product_id = p.id
+        WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
+          AND (:status IS NULL OR v.status = :status)
+          AND (:categoryId IS NULL OR p.category_id = :categoryId)
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("keyword", keyword)
+                        .bind("status", status)
+                        .bind("categoryId", categoryId)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+    @Override
+    public boolean toggleStatus(int productId) {
+
+        String sql = """
+        UPDATE product_variants
+        SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END
+        WHERE id = :id
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createUpdate(sql)
+                        .bind("id", productId)
+                        .execute() > 0
+        );}
 
 }
 
