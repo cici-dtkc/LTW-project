@@ -17,12 +17,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProductsForList() {
+    public List<Map<String, Object>> getProductsForList() {
         return ((ProductDaoImpl) productDao).getProductsForListDisplay();
     }
 
     @Override
-    public List<Product> getProductsByCategory(int categoryId) {
+    public List<Map<String, Object>> getProductsByCategory(int categoryId) {
         return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
 

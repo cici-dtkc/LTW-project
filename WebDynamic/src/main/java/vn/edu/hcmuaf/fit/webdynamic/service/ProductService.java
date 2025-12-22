@@ -8,7 +8,7 @@ public interface ProductService {
 
     List<Product> getAllForAdmin();
 
-    List<Product> getProductsForList();
+    List<Map<String, Object>> getProductsForList();
 
-    List<Product> getProductsByCategory(int categoryId);
+    List<Map<String, Object>> getProductsByCategory(int categoryId);
 }

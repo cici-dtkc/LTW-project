@@ -179,7 +179,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Product> getProductsByCategory(int categoryId) {
+    public List<Map<String, Object>> getProductsByCategory(int categoryId) {
         String sql = """
                     SELECT
                         p.id,
@@ -202,22 +202,22 @@ public class ProductDaoImpl implements ProductDao {
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind(0, categoryId)
                 .map((rs, ctx) -> {
-                    Product p = new Product();
-                    p.setId(rs.getInt("id"));
-                    p.setName(rs.getString("name"));
-                    p.setMainImage(rs.getString("image"));
-                    p.setDiscountPercentage(rs.getInt("discount"));
-                    p.setPriceNew(rs.getDouble("priceNew"));
-                    p.setPriceOld(rs.getDouble("priceOld"));
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", rs.getInt("id"));
+                    map.put("name", rs.getString("name"));
+                    map.put("image", rs.getString("image"));
+                    map.put("discount", rs.getInt("discount"));
+                    map.put("priceNew", rs.getDouble("priceNew"));
+                    map.put("priceOld", rs.getDouble("priceOld"));
                     String capacitiesStr = rs.getString("capacities");
                     if (capacitiesStr != null) {
-                        p.setCapacities(Arrays.asList(capacitiesStr.split(",")));
+                        map.put("capacities", Arrays.asList(capacitiesStr.split(",")));
                     } else {
-                        p.setCapacities(new ArrayList<>());
+                        map.put("capacities", new ArrayList<>());
                     }
-                    p.setRating(rs.getInt("rating"));
-                    p.setSoldCount(rs.getInt("soldCount"));
-                    return p;
+                    map.put("rating", rs.getInt("rating"));
+                    map.put("soldCount", rs.getInt("soldCount"));
+                    return map;
                 }).list());
     }
 
@@ -227,7 +227,7 @@ public class ProductDaoImpl implements ProductDao {
         return List.of();
     }
 
-    public List<Product> getProductsForListDisplay() {
+    public List<Map<String, Object>> getProductsForListDisplay() {
         String sql = """
                     SELECT
                         p.id,
@@ -249,22 +249,22 @@ public class ProductDaoImpl implements ProductDao {
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .map((rs, ctx) -> {
-                    Product p = new Product();
-                    p.setId(rs.getInt("id"));
-                    p.setName(rs.getString("name"));
-                    p.setMainImage(rs.getString("image"));
-                    p.setDiscountPercentage(rs.getInt("discount"));
-                    p.setPriceNew(rs.getDouble("priceNew"));
-                    p.setPriceOld(rs.getDouble("priceOld"));
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("id", rs.getInt("id"));
+                    map.put("name", rs.getString("name"));
+                    map.put("image", rs.getString("image"));
+                    map.put("discount", rs.getInt("discount"));
+                    map.put("priceNew", rs.getDouble("priceNew"));
+                    map.put("priceOld", rs.getDouble("priceOld"));
                     String capacitiesStr = rs.getString("capacities");
                     if (capacitiesStr != null) {
-                        p.setCapacities(Arrays.asList(capacitiesStr.split(",")));
+                        map.put("capacities", Arrays.asList(capacitiesStr.split(",")));
                     } else {
-                        p.setCapacities(new ArrayList<>());
+                        map.put("capacities", new ArrayList<>());
                     }
-                    p.setRating(rs.getInt("rating"));
-                    p.setSoldCount(rs.getInt("soldCount"));
-                    return p;
+                    map.put("rating", rs.getInt("rating"));
+                    map.put("soldCount", rs.getInt("soldCount"));
+                    return map;
                 }).list());
     }
 

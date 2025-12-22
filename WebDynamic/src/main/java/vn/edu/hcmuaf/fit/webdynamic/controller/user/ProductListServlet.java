@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/listproduct")
 public class ProductListServlet extends HttpServlet {
@@ -20,7 +21,7 @@ public class ProductListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Assuming category 1 is for phones
-        List<Product> products = productService.getProductsByCategory(1);
+        List<Map<String, Object>> products = productService.getProductsByCategory(1);
         request.setAttribute("products", products);
         request.getRequestDispatcher("/listproduct.jsp").forward(request, response);
     }

@@ -14,7 +14,7 @@ public interface ProductDao {
 
     void updateStatus(int productId, int status);
 
-    List<Product> getProductsByCategory(int categoryId);
+    List<Map<String, Object>> getProductsByCategory(int categoryId);
 
     List<Map<String, Object>> getProductsForList();
 }

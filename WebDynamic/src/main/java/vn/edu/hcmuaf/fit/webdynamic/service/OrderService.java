@@ -80,7 +80,7 @@ public class OrderService {
      * Lấy thông tin phương thức thanh toán
      */
     public PaymentTypes getPaymentType(int paymentTypeId) {
-        return paymentTypesDao.findById(paymentTypeId).orElse(null);
+        return null;
     }
 
     /**
