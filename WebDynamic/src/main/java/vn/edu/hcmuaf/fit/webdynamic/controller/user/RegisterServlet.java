@@ -36,13 +36,13 @@ public class RegisterServlet extends HttpServlet {
 
         if (UserDao.getInstance().checkExistUsername(username)) {
             request.setAttribute("error", "Tên đăng nhập đã tồn tại!");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/user/register.jsp").forward(request, response);
             return;
         }
 
         if (UserDao.getInstance().checkExistEmail(email)) {
             request.setAttribute("error", "Email đã được sử dụng!");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/user/register.jsp").forward(request, response);
             return;
         }
 
@@ -54,12 +54,12 @@ public class RegisterServlet extends HttpServlet {
             response.sendRedirect("login?message=register_success");
         } else {
             request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
-            request.getRequestDispatcher("register.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/user/register.jsp").forward(request, response);
         }
     }
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("register.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/user/register.jsp").forward(request, response);
     }
 
 }

@@ -7,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết sản phẩm</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="assert/css/reset.css">
-    <link rel="stylesheet" href="assert/css/base.css">
-    <link rel="stylesheet" href="assert/css/header.css">
-    <link rel="stylesheet" href="assert/css/productDetail.css">
-    <link rel="stylesheet" href="assert/css/footer.css">
-    <link rel="stylesheet" href="assert/css/listproduct.css">
-    <link rel="stylesheet" href="assert/css/listVouchers.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/productDetail.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/listproduct.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/listVouchers.css">
 </head>
 <body>
 <div class="app-wrapper">
@@ -22,7 +22,7 @@
         <div class="container">
             <div class="inner-wrap">
                 <div class="logo" id="logo">
-                    <a href="home.html"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+                    <a href="home.html"><img src="../../assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
                 </div>
 
                 <nav class="menu" id="menu">
@@ -111,17 +111,17 @@
             <div class="product-detail">
                 <div class="product-gallery">
                     <div class="main">
-                        <img src="assert/img/product/iphone15.jpg" alt="Ảnh chính" class="img-feature"/>
+                        <img src="../../assert/img/product/iphone15.jpg" alt="Ảnh chính" class="img-feature"/>
                         <div class="control prev"><i class="fas fa-angle-left"></i></div>
                         <div class="control next"><i class="fas fa-angle-right"></i></div>
                     </div>
 
                     <div class="list-image">
-                        <div><img src="assert/img/product/iphone15.jpg" alt=""/></div>
-                        <div><img src="assert/img/product/iphone15_behind.jpg" alt=""/></div>
-                        <div><img src="assert/img/product/iphone15_after.jpg" alt=""/></div>
-                        <div><img src="assert/img/product/iphone15_camera.jpg" alt=""/></div>
-                        <div><img src="assert/img/product/iphone15.jpg" alt=""/></div>
+                        <div><img src="../../assert/img/product/iphone15.jpg" alt=""/></div>
+                        <div><img src="../../assert/img/product/iphone15_behind.jpg" alt=""/></div>
+                        <div><img src="../../assert/img/product/iphone15_after.jpg" alt=""/></div>
+                        <div><img src="../../assert/img/product/iphone15_camera.jpg" alt=""/></div>
+                        <div><img src="../../assert/img/product/iphone15.jpg" alt=""/></div>
                     </div>
                 </div>
             </div>
@@ -423,7 +423,7 @@
         <div id="product-list" class="product-list">
             <div class="product-card">
                 <div class="product-img">
-                    <img src="assert/img/product/realme14T.jpg" alt="Realme 14T">
+                    <img src="../../assert/img/product/realme14T.jpg" alt="Realme 14T">
                     <span class="discount-badge">-12%</span>
                 </div>
 
@@ -463,7 +463,7 @@
 
             <div class="product-card">
                 <div class="product-img">
-                    <img src="assert/img/product/realmeC71.jpg" alt="realme C71">
+                    <img src="../../assert/img/product/realmeC71.jpg" alt="realme C71">
                     <span class="discount-badge">-12%</span>
                 </div>
 
@@ -503,7 +503,7 @@
 
             <div class="product-card">
                 <div class="product-img">
-                    <img src="assert/img/product/vivoV30e.jpg" alt="vivo V30e">
+                    <img src="../../assert/img/product/vivoV30e.jpg" alt="vivo V30e">
                     <span class="discount-badge">-12%</span>
                 </div>
 
@@ -543,7 +543,7 @@
 
             <div class="product-card">
                 <div class="product-img">
-                    <img src="assert/img/product/vivoY19.jpg" alt="vivo Y19">
+                    <img src="../../assert/img/product/vivoY19.jpg" alt="vivo Y19">
                     <span class="discount-badge">-12%</span>
                 </div>
 
@@ -594,7 +594,7 @@
                 <!-- Company Info Section -->
                 <div id="footer-company" class="footer-section">
                     <div id="footer-logo" class="footer-logo">
-                        <img src="assert/img/logo.png" alt="Logo công ty">
+                        <img src="../../assert/img/logo.png" alt="Logo công ty">
                     </div>
                     <p id="footer-description" class="company-description">
                         Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
@@ -672,8 +672,8 @@
     </footer>
 </section>
 </body>
-<script src="js/header.js"></script>
-<script src="js/productDetail.js"></script>
-<script src="js/cartCount.js"></script>
+<script src="${pageContext.request.contextPath}/js/header.js"></script>
+<script src="${pageContext.request.contextPath}/js/productDetail.js"></script>
+<script src="${pageContext.request.contextPath}/js/cartCount.js"></script>
 
 </html>

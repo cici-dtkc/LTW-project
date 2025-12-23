@@ -23,7 +23,7 @@ public class ProductDetailSerlvet extends HttpServlet {
         int totalFeedbacks = feedbackDao.countByProductId(productId);
         request.setAttribute("feedbacks", feedbacks);
         request.setAttribute("totalFeedbacks", totalFeedbacks);
-        request.getRequestDispatcher("product-detail.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/user/product-detail.jsp").forward(request, response);
 
     }
 
