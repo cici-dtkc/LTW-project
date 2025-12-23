@@ -17,29 +17,38 @@
 <div class="container" id="reset-step" style="margin: 50px auto">
   <h2>Đặt mật khẩu mới</h2>
   <p>Tạo mật khẩu mới. Đảm bảo mật khẩu khác với mật khẩu trước đó để bảo mật.</p>
-  <form id="reset-form" onsubmit="return false;">
+  <form id="reset-form" action="change-password" method="post">
     <div class="input-group">
-      <label>Mật khẩu</label>
+      <label>Mật khẩu mới</label>
       <div class="password-wrapper">
-        <input type="password" id="new-pass" placeholder="Nhập mật khẩu mới của bạn">
+        <input type="password" name="new_password" id="new-pass" placeholder="Nhập mật khẩu mới">
         <span class="toggle">
-                        <i class="fa-regular fa-eye"></i>
-                        <i class="fa-regular fa-eye-slash"></i>
-                    </span>
+                <i class="fa-regular fa-eye"></i>
+                <i class="fa-regular fa-eye-slash"></i>
+            </span>
       </div>
     </div>
 
     <div class="input-group">
       <label>Xác nhận mật khẩu</label>
       <div class="password-wrapper">
-        <input type="password" id="confirm-pass" placeholder="Nhập lại mật khẩu">
+        <input type="password" name="confirm_password" id="confirm-pass" placeholder="Nhập lại mật khẩu">
         <span class="toggle">
-                        <i class="fa-regular fa-eye"></i>
-                        <i class="fa-regular fa-eye-slash"></i>
-                    </span>
+                <i class="fa-regular fa-eye"></i>
+                <i class="fa-regular fa-eye-slash"></i>
+            </span>
       </div>
     </div>
-    <button class="btn" id="update-btn">Cập nhật mật khẩu</button>
+
+    <button class="btn" id="update-btn" type="submit">Cập nhật mật khẩu</button>
+
+    <c:if test="${not empty error}">
+      <p style="color:red">${error}</p>
+    </c:if>
+
+    <c:if test="${not empty message}">
+      <p style="color:green">${message}</p>
+    </c:if>
   </form>
 </div>
 </body>
