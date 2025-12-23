@@ -1,0 +1,657 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assert/css/reset.css">
+    <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/header.css">
+    <link rel="stylesheet" href="assert/css/productDetail.css">
+    <link rel="stylesheet" href="assert/css/footer.css">
+    <link rel="stylesheet" href="assert/css/listproduct.css">
+    <link rel="stylesheet" href="assert/css/listVouchers.css">
+</head>
+<body>
+<div class="app-wrapper">
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <div class="inner-wrap">
+                <div class="logo" id="logo">
+                    <a href="home.html"><img src="assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
+                </div>
+
+                <nav class="menu" id="menu">
+                    <ul>
+                        <li><a href="home.html" id="nav-home">Trang chủ</a></li>
+                        <li><a href="listproduct.html" id="nav-phone">Điện thoại</a></li>
+                        <li class="has-mega" id="nav-accessory-item">
+                            <a href="listproduct_accessory.html" id="nav-accessory">Linh kiện</a>
+                            <div class="mega-menu" id="mega-accessory">
+                                <div class="mega-inner">
+                                    <div class="mega-col">
+                                        <h4>Linh kiện di động</h4>
+                                        <a href="listproduct_accessory.html">Màn hình cảm ứng</a>
+                                        <a href="listproduct_accessory.html">Pin</a>
+                                        <a href="listproduct_accessory.html">camera</a>
+                                    </div>
+                                    <div class="mega-col">
+                                        <h4>&nbsp;</h4>
+                                        <a href="listproduct_accessory.html">Loa/mic</a>
+                                        <a href="listproduct_accessory.html">Cáp sạc / Cổng sạc</a>
+                                        <a href="listproduct_accessory.html">Giá đỡ điện thoại</a>
+                                    </div>
+                                    <div class="mega-col">
+                                        <h4>&nbsp;</h4>
+                                        <a href="listproduct_accessory.html">Quạt tản nhiệt / Cooling fan</a>
+                                        <a href="listproduct_accessory.html">Ốp lưng / Vỏ lưng</a>
+                                        <a href="listproduct_accessory.html">Kính cường lực / Mặt kính</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li><a href="#" id="nav-contact">Liên hệ</a></li>
+                    </ul>
+                </nav>
+
+                <div class="box" id="icon-box">
+                    <ul>
+                        <li class="search-item">
+                            <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
+                            <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                        </li>
+
+                        <li class="cart-item">
+                            <a href="cart.html" id="btn-cart">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span class="cart-badge" id="cart-badge">3</span>
+                            </a>
+                        </li>
+
+                        <li id="user-area" class="user-area">
+                            <div class="user-profile" id="user-profile">
+                                <i class="fa-solid fa-user"></i>
+                                <span class="username" id="header-username">Đăng nhập</span>
+                            </div>
+
+                            <div class="user-dropdown" id="user-dropdown">
+                                <a href="info-user.html">Tài khoản của tôi</a>
+                                <a href="order.html">Đơn mua</a>
+                                <a href="login.html" id="logout-link">Đăng xuất</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- End Header -->
+    <!--header chi tiết sản phẩm-->
+    <div class="container-header">
+        <div class="breadcrumb">
+            <a href="#">Điện thoại</a>
+            <span>›</span>
+            <a href="#">Điện thoại Iphone 15</a>
+        </div>
+        <h1 class="product-title">
+            Điện thoại iPhone 15 Pro Max 256GB
+            <span class="sold-info">Đã bán 22,4k</span>
+            <span class="rating"><i class="fa-solid fa-star" style="color: #f5a623;"></i> 4.9</span>
+            <a href="#" class="spec-link">Thông số</a>
+        </h1>
+    </div>
+    <!--        main nội dung-->
+    <div class="box-main">
+        <!--            cột trái-->
+        <div class="product-info-left">
+            <div class="product-detail">
+                <div class="product-gallery">
+                    <div class="main">
+                        <img src="assert/img/product/iphone15.jpg" alt="Ảnh chính" class="img-feature"/>
+                        <div class="control prev"><i class="fas fa-angle-left"></i></div>
+                        <div class="control next"><i class="fas fa-angle-right"></i></div>
+                    </div>
+
+                    <div class="list-image">
+                        <div><img src="assert/img/product/iphone15.jpg" alt=""/></div>
+                        <div><img src="assert/img/product/iphone15_behind.jpg" alt=""/></div>
+                        <div><img src="assert/img/product/iphone15_after.jpg" alt=""/></div>
+                        <div><img src="assert/img/product/iphone15_camera.jpg" alt=""/></div>
+                        <div><img src="assert/img/product/iphone15.jpg" alt=""/></div>
+                    </div>
+                </div>
+            </div>
+            <!--  Thông số kỹ thuật -->
+            <div class="tech-specs">
+                <h3 class="specs-title">Cấu hình &amp; Bộ nhớ</h3>
+                <table class="specs-table">
+                    <tr>
+                        <td>Hệ điều hành:</td>
+                        <td>iOS 17</td>
+                    </tr>
+                    <tr>
+                        <td>Chip xử lý (CPU):</td>
+                        <td>Apple A17 Pro 6 nhân</td>
+                    </tr>
+                    <tr>
+                        <td>Tốc độ CPU:</td>
+                        <td>3.78 GHz</td>
+                    </tr>
+                    <tr>
+                        <td>Chip đồ họa (GPU):</td>
+                        <td>Apple GPU 6 nhân</td>
+                    </tr>
+                    <tr>
+                        <td>RAM:</td>
+                        <td>8 GB</td>
+                    </tr>
+                    <tr>
+                        <td>Dung lượng lưu trữ:</td>
+                        <td>256 GB</td>
+                    </tr>
+                    <tr>
+                        <td>Dung lượng còn lại (khả dụng) khoảng:</td>
+                        <td>241 GB</td>
+                    </tr>
+                    <tr>
+                        <td>Thẻ nhớ:</td>
+                        <td>MicroSD, hỗ trợ tối đa 1 TB</td>
+                    </tr>
+                    <tr>
+                        <td>Danh bạ:</td>
+                        <td>Không giới hạn</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!--            cột phải-->
+        <div class="product-info-right">
+            <div class="product-info">
+                <div class="info">
+                    <!--  Giá & khuyến mãi -->
+                    <h2 class="price-label">Giá sản phẩm</h2>
+                    <div class="price-box">
+                        <div class="price-content">
+                            <span class="current-price">8.490.000₫</span>
+                            <span class="old-price">9.990.000₫</span>
+                            <span class="discount">-15%</span>
+                        </div>
+                    </div>
+                    <h2>Chọn phiên bản</h2>
+                    <div class="version-select">
+                        <button class="version active">256GB</button>
+                        <button class="version">128GB</button>
+                    </div>
+
+                    <h2>Chọn màu sắc</h2>
+                    <div class="color-options">
+                        <div class="color-item">
+                            <span class="color-list" style="background: #2d85f3"></span>
+                            <span>Xanh biển</span>
+                        </div>
+                        <div class="color-item active">
+                            <span class="color-list" style="background: #a19999"></span>
+                            <span>Bạc ánh sao</span>
+                        </div>
+                        <div class="color-item">
+                            <span class="color-list" style="background: #d8d83a"></span>
+                            <span>Vàng mộng mơ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="note-promotion">
+                    <ul>
+                        <li>Không áp dụng chung với khuyến mãi khác.</li>
+                        <li>Khuyến mãi chưa bao gồm phí giao/chuyển hàng.</li>
+                    </ul>
+                </div>
+
+                <!-- ƯU ĐÃI KHUYẾN MÃI -->
+                <section class="promotions">
+                    <div class="payment-promo">
+                        <h3 class="promo-title">ƯU ĐÃI KHUYẾN MÃI</h3>
+                        <div class="promo-slider">
+                            <div class="promo-list">
+                                <div class="promo-item">
+                                    <i class="fa-solid fa-percent"></i>
+                                    <div class="promo-content">
+                                        <p class="discount">MIỄN PHÍ VẬN CHUYỂN</p>
+                                        <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    </div>
+                                    <div class="promo-status remain">Còn 20 suất</div>
+                                </div>
+
+                                <div class="promo-item">
+                                    <i class="fa-solid fa-percent"></i>
+                                    <div class="promo-content">
+                                        <p class="discount">GIẢM 300.000₫</p>
+                                        <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    </div>
+                                    <div class="promo-status soldout">Hết suất</div>
+                                </div>
+
+                                <div class="promo-item">
+                                    <i class="fa-solid fa-percent"></i>
+                                    <div class="promo-content">
+                                        <p class="discount">TẶNG QUÀ PHỤ KIỆN</p>
+                                        <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    </div>
+                                    <div class="promo-status remain">Còn 45 suất</div>
+                                </div>
+
+                                <div class="promo-item">
+                                    <i class="fa-solid fa-percent"></i>
+                                    <div class="promo-content">
+                                        <p class="discount">GIẢM 5% QUA MOMO</p>
+                                        <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    </div>
+                                    <div class="promo-status soldout">Hết suất</div>
+                                </div>
+
+                                <div class="promo-item">
+                                    <i class="fa-solid fa-percent"></i>
+                                    <div class="promo-content">
+                                        <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
+                                        <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                    </div>
+                                    <div class="promo-status remain">Còn 10 suất</div>
+                                </div>
+                            </div>
+
+                            <div class="promo-control prev"><i class="fa-solid fa-chevron-left"></i></div>
+                            <div class="promo-control next"><i class="fa-solid fa-chevron-right"></i></div>
+                        </div>
+                    </div>
+                </section>
+                <!--  Thông tin vận chuyển -->
+                <div class="shipping-box">
+                    <h3>Vận chuyển & Phí ship</h3>
+                    <p><i class="fa fa-truck"></i> Giao hàng tận nơi toàn quốc</p>
+                    <p>
+                        <i class="fa fa-box"></i> Miễn phí vận chuyển nội thành Hà
+                        Nội & TP.HCM
+                    </p>
+                    <p>
+                        <i class="fa fa-clock"></i> Thời gian giao hàng: 1 - 3 ngày
+                    </p>
+
+                    <!--  Giao đến -->
+                    <div class="shipping-destination">
+                            <span><i class="fa fa-map-marker-alt"></i> Giao đến:
+                            <strong>Hà Nội - Quận Cầu Giấy</strong></span>
+                        <button class="btn-change">Thay đổi</button>
+                    </div>
+                </div>
+                <!--  Nút hành động -->
+                <div class="action-buttons">
+                    <a href="checkout.html"><button class="btn-buy">Mua ngay</button></a>
+                    <button class="btn-cart"><i class="fa-solid fa-cart-plus" style="margin-right: 5px;"></i>Thêm vào
+                        giỏ hàng
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--  Mô tả nổi bật -->
+    <div class="product-highlights">
+        <h3>Đặc điểm nổi bật</h3>
+        <ul>
+            <li>Màn hình Super Retina XDR 6.1 inch hiển thị sắc nét, rực rỡ.</li>
+            <li>Chip A16 Bionic mạnh mẽ, tiết kiệm năng lượng.</li>
+            <li>Camera kép 48MP chụp ảnh siêu chi tiết, hỗ trợ quay 4K.</li>
+            <li>Thiết kế sang trọng với khung viền nhôm, mặt kính bền bỉ.</li>
+            <li>Hỗ trợ sạc nhanh và kết nối USB Type-C tiện lợi.</li>
+        </ul>
+    </div>
+    <!--  Đánh giá sản phẩm -->
+    <section class="review-section">
+        <h2>Đánh giá Điện thoại Điện thoại iPhone 15 Pro Max 256GB</h2>
+
+        <div class="review-summary">
+            <div class="review-score">
+                <span class="score">4.9</span><span class="outof">/5</span>
+                <p>109,2k khách hàng hài lòng</p>
+                <p class="review-count">59 đánh giá</p>
+            </div>
+
+            <div class="review-bars">
+                <div>
+                    <span>5</span>
+                    <div class="bar">
+                        <div class="fill" style="width: 99.9%"></div>
+                    </div>
+                    <span>99.9%</span>
+                </div>
+                <div>
+                    <span>4</span>
+                    <div class="bar">
+                        <div class="fill" style="width: 0%"></div>
+                    </div>
+                    <span>0%</span>
+                </div>
+                <div>
+                    <span>3</span>
+                    <div class="bar">
+                        <div class="fill" style="width: 0%"></div>
+                    </div>
+                    <span>0%</span>
+                </div>
+                <div>
+                    <span>2</span>
+                    <div class="bar">
+                        <div class="fill" style="width: 0%"></div>
+                    </div>
+                    <span>0%</span>
+                </div>
+                <div>
+                    <span>1</span>
+                    <div class="bar">
+                        <div class="fill" style="width: 0%"></div>
+                    </div>
+                    <span>0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-list">
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="name">Thịnh</span>
+                    <span class="bought">Đã mua tại cửa hàng</span>
+                </div>
+                <div class="stars">★★★★★</div>
+                <p class="review-text">
+                    Mình mua được 4 tháng giờ muốn bán lại cho cửa hàng máy vẫn còn nguyên
+                    phụ kiện không chưa vết xước thì được bao nhiêu %?
+                </p>
+                <div class="review-footer">
+                    <span class="time">Đã dùng khoảng 4 tháng</span>
+                </div>
+            </div>
+
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="name">Huỳnh Hiện</span>
+                    <span class="bought">Đã mua tại cửa hàng</span>
+                </div>
+                <div class="stars">★★★★★</div>
+                <p class="review-text">
+                    Reno 13F 5G xài rất ok, PIN tốt, 2 ngày mới phải sạc. Tính năng ổn
+                    định, không chơi game nên không biết hiệu năng game ra sao.
+                </p>
+                <div class="review-footer">
+                    <span class="time">Đã dùng khoảng 6 tháng</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="review-buttons">
+            <a href="feedbackDetail.html"><button class="btn-view">Xem 59 đánh giá</button></a>
+            <a href="review.html"><button class="btn-write">Viết đánh giá</button></a>
+        </div>
+    </section>
+    <!-- Sản phẩm liên quan -->
+    <section class="product-related">
+        <h2>Sản phẩm liên quan</h2>
+        <div id="product-list" class="product-list">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/realme14T.jpg" alt="Realme 14T">
+                    <span class="discount-badge">-12%</span>
+                </div>
+
+                <div class="product-info">
+                    <h2>Realme 14T</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/realmeC71.jpg" alt="realme C71">
+                    <span class="discount-badge">-12%</span>
+                </div>
+
+                <div class="product-info">
+                    <h2>realme C71</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/vivoV30e.jpg" alt="vivo V30e">
+                    <span class="discount-badge">-12%</span>
+                </div>
+
+                <div class="product-info">
+                    <h2>vivo V30e</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="assert/img/product/vivoY19.jpg" alt="vivo Y19">
+                    <span class="discount-badge">-12%</span>
+                </div>
+
+                <div class="product-info">
+                    <h2>vivo Y19</h2>
+
+                    <div class="price-wrap">
+                        <span class="price-new">63.990.000₫</span>
+                        <span class="price-old">72.790.000₫</span>
+                    </div>
+
+                    <div class="capacity">
+                        <button class="active">256 GB</button>
+                        <button>512 GB</button>
+                        <button>1 TB</button>
+                        <button>2 TB</button>
+                    </div>
+
+                    <div class="rating-cart">
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-regular fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="bottom-info">
+                        <span class="sold-count">Đã bán 1.2k</span>
+                        <button class="cart-btn">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="view-all-btn">
+            <a href="#"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
+        </div>
+    </section>
+</div>
+<section class="footer-section">
+    <footer id="footer">
+        <div class="container">
+            <div id="footer-content" class="footer-content">
+
+                <!-- Company Info Section -->
+                <div id="footer-company" class="footer-section">
+                    <div id="footer-logo" class="footer-logo">
+                        <img src="assert/img/logo.png" alt="Logo công ty">
+                    </div>
+                    <p id="footer-description" class="company-description">
+                        Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
+                    </p>
+                    <div id="footer-social" class="social-links">
+                        <a href="#" class="social-link" title="Facebook" id="social-facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Instagram" id="social-instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-link" title="Twitter" id="social-twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link" title="YouTube" id="social-youtube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links Section -->
+                <div id="footer-links" class="footer-section">
+                    <h3 class="footer-title">Liên kết nhanh</h3>
+                    <ul id="quick-links" class="footer-links">
+                        <li><a href="home.html" id="link-home">Trang chủ</a></li>
+                        <li><a href="cart.html" id="link-cart">Giỏ hàng</a></li>
+                        <li><a href="checkout.html" id="link-checkout">Thanh toán</a></li>
+                        <li><a href="order_detail.html" id="link-orders">Đơn hàng</a></li>
+                        <li><a href="info-user.html" id="link-user">Thông tin cá nhân</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Service Section -->
+                <div id="footer-support" class="footer-section">
+                    <h3 class="footer-title">Hỗ trợ khách hàng</h3>
+                    <ul id="support-links" class="footer-links">
+                        <li><a href="#" id="policy-return">Chính sách đổi trả</a></li>
+                        <li><a href="#" id="policy-privacy">Chính sách bảo mật</a></li>
+                        <li><a href="#" id="policy-terms">Điều khoản sử dụng</a></li>
+                        <li><a href="#" id="policy-guide">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#" id="policy-faq">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info Section -->
+                <div id="footer-contact" class="footer-section">
+                    <h3 class="footer-title">Thông tin liên hệ</h3>
+                    <div id="contact-info" class="contact-info">
+                        <div class="contact-item" id="contact-address">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Đường ABC, Quận XYZ, TP.HCM</span>
+                        </div>
+                        <div class="contact-item" id="contact-phone">
+                            <i class="fas fa-phone"></i>
+                            <span>+84 123 456 789</span>
+                        </div>
+                        <div class="contact-item" id="contact-email">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@company.com</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div id="footer-bottom" class="footer-bottom">
+                <div id="footer-bottom-content" class="footer-bottom-content">
+                    <p id="footer-copyright">
+                        &copy; 2024 Công ty ABC. Tất cả quyền được bảo lưu.
+                    </p>
+
+                </div>
+            </div>
+        </div>
+    </footer>
+</section>
+</body>
+<script src="js/header.js"></script>
+<script src="js/productDetail.js"></script>
+<script src="js/cartCount.js"></script>
+
+</html>

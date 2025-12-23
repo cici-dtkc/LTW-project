@@ -1,0 +1,108 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cửa hàng điện thoại</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assert/css/reset.css">
+    <link rel="stylesheet" href="assert/css/base.css">
+    <link rel="stylesheet" href="assert/css/header.css">
+    <link rel="stylesheet" href="assert/css/footer.css">
+    <link rel="stylesheet" href="assert/css/home.css">
+</head>
+<body>
+<div id="header-container"></div>
+<script src="js/header.js"></script>
+
+<div id="main-content">
+    <!-- Slider Banner -->
+    <section id="banner-slider" class="slider-banner">
+        <div id="slider-container" class="slider">
+
+            <!-- Slide item -->
+            <div class="slide active" id="slide-1">
+                <a href="#"><img src="./assert/img/banner-1.png" alt=""></a>
+            </div>
+            <div class="slide" id="slide-2">
+                <a href="#"> <img src="./assert/img/banner-3.png" alt=""></a>
+            </div>
+            <div class="slide" id="slide-3">
+                <a href="#"><img src="./assert/img/banner-2.png" alt=""></a>
+            </div>
+            <div class="slide" id="slide-4">
+                <a href="#">  <img src="./assert/img/banner-4.png" alt=""></a>
+            </div>
+
+            <!-- Navigation buttons -->
+            <button id="btn-prev" class="prev">&#10094;</button>
+            <button id="btn-next" class="next">&#10095;</button>
+        </div>
+    </section>
+    <!--    End slider banner-->
+    <!-- Section sản phẩm nổi bật -->
+    <section id="featured-products" class="featured-products">
+        <h2 class="section-title">🔥 Sản phẩm nổi bật</h2>
+
+        <div class="product-list">
+            <div class="product-card">
+                <img src="./assert/img/iphone-15.png" alt="iPhone 15">
+                <h3>iPhone 15 Pro Max</h3>
+                <p class="price">34.990.000 ₫</p>
+                <button class="btn-buy">Mua ngay</button>
+            </div>
+
+            <div class="product-card">
+                <img src="./assert/img/samsung-s23.png" alt="Samsung S23">
+                <h3>Samsung Galaxy S23 Ultra</h3>
+                <p class="price">29.990.000 ₫</p>
+                <button class="btn-buy">Mua ngay</button>
+            </div>
+
+            <div class="product-card">
+                <img src="./assert/img/xiaomi-13.png" alt="Xiaomi 13">
+                <h3>Xiaomi 13 Pro</h3>
+                <p class="price">18.490.000 ₫</p>
+                <button class="btn-buy">Mua ngay</button>
+            </div>
+
+            <div class="product-card">
+                <img src="./assert/img/oppo-findx6.png" alt="OPPO Find X6">
+                <h3>OPPO Find X6 Pro</h3>
+                <p class="price">21.990.000 ₫</p>
+                <button class="btn-buy">Mua ngay</button>
+            </div>
+        </div>
+    </section>
+
+    <!--End section-->
+
+    <!--    Section logo-->
+    <section class="brand-section">
+        <div class="brand-list">
+            <a href="listproduct.html" class="brand-item">
+                <img src="assert/img/logoIphone.png" alt="Apple">
+            </a>
+
+            <a href="listproduct.html" class="brand-item">
+                <img src="assert/img/logoOppo.png" alt="Oppo">
+            </a>
+
+            <a href="listproduct.html" class="brand-item">
+                <img src="assert/img/logoVivo.png" alt="Vivo">
+            </a>
+
+            <a href="listproduct.html" class="brand-item">
+                <img src="assert/img/logoSamsung.png" alt="Samsung">
+            </a>
+        </div>
+    </section>
+
+    <!--   End Section logo-->
+</div>
+<script src="js/home.js"></script>
+
+<div id="footer"></div>
+<script src="js/footer.js" defer></script>
+</body>
+</html>
