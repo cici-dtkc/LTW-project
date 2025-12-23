@@ -316,7 +316,9 @@
             <div class="review-score">
                 <span class="score">4.9</span><span class="outof">/5</span>
                 <p>109,2k khách hàng hài lòng</p>
-                <p class="review-count">59 đánh giá</p>
+                <c:if test="${totalFeedbacks > 0}">
+                     <p class="review-count">${totalFeedbacks} đánh giá</p>
+                </c:if>
             </div>
 
             <div class="review-bars">
@@ -359,39 +361,59 @@
         </div>
 
         <div class="review-list">
-            <div class="review-item">
-                <div class="review-header">
-                    <span class="name">Thịnh</span>
-                    <span class="bought">Đã mua tại cửa hàng</span>
-                </div>
-                <div class="stars">★★★★★</div>
-                <p class="review-text">
-                    Mình mua được 4 tháng giờ muốn bán lại cho cửa hàng máy vẫn còn nguyên
-                    phụ kiện không chưa vết xước thì được bao nhiêu %?
-                </p>
-                <div class="review-footer">
-                    <span class="time">Đã dùng khoảng 4 tháng</span>
-                </div>
-            </div>
 
-            <div class="review-item">
-                <div class="review-header">
-                    <span class="name">Huỳnh Hiện</span>
-                    <span class="bought">Đã mua tại cửa hàng</span>
-                </div>
-                <div class="stars">★★★★★</div>
-                <p class="review-text">
-                    Reno 13F 5G xài rất ok, PIN tốt, 2 ngày mới phải sạc. Tính năng ổn
-                    định, không chơi game nên không biết hiệu năng game ra sao.
+            <c:if test="${empty feedbacks}">
+                <p class="no-review" style="color: red; font-weight: bold;">
+                    Chưa có đánh giá nào cho sản phẩm này.
                 </p>
-                <div class="review-footer">
-                    <span class="time">Đã dùng khoảng 6 tháng</span>
+
+            </c:if>
+
+            <c:forEach items="${feedbacks}" var="fb">
+                <div class="review-item">
+
+                    <div class="review-header">
+                <span class="name">
+                    User #${fb.userId}
+                </span>
+                        <span class="bought">Đã mua tại cửa hàng</span>
+                    </div>
+
+                    <!-- Hiển thị sao -->
+                    <div class="stars">
+                        <c:forEach begin="1" end="5" var="i">
+                            <c:choose>
+                                <c:when test="${i <= fb.rating}">★</c:when>
+                                <c:otherwise>☆</c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </div>
+
+                    <p class="review-text">
+                            ${fb.comment}
+                    </p>
+
+                    <div class="review-footer">
+                <span class="time">
+                        ${fb.createdAt}
+                </span>
+                    </div>
+
                 </div>
-            </div>
+            </c:forEach>
+
         </div>
 
+
         <div class="review-buttons">
-            <a href="feedbackDetail.html"><button class="btn-view">Xem 59 đánh giá</button></a>
+
+            <c:if test="${totalFeedbacks > 0}">
+                <a href="feedbackDetail.html">
+                    <button class="btn-view">
+                        Xem ${totalFeedbacks} đánh giá
+                    </button>
+                </a>
+            </c:if>
             <a href="review.html"><button class="btn-write">Viết đánh giá</button></a>
         </div>
     </section>
