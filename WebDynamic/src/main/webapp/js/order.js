@@ -1,82 +1,78 @@
 // ===========================
-// CHUYỂN TAB TRẠNG THÁI
+// TOAST NOTIFICATION
 // ===========================
-const tabs = document.querySelectorAll('.tab');
-const orders = document.querySelectorAll('.order-card');
+function showToast(message, type = 'success') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.style.cssText = `
+    background: ${type == 'success' ? '#4CAF50' : '#f44336'};
+    color: white;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    animation: slideIn 0.3s ease-out;
+    min-width: 250px;
+  `;
+    toast.textContent = message;
+    container.appendChild(toast);
 
-tabs.forEach(tab => {
-  tab.addEventListener('click', () => {
-    tabs.forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
+    setTimeout(() => {
+        toast.style.animation = 'slideOut 0.3s ease-out';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
 
-    const status = tab.dataset.status;
-
-    orders.forEach(orderCard => {
-      if (status === 'all' || orderCard.dataset.status === status) {
-        orderCard.style.display = "block";
-      } else {
-        orderCard.style.display = "none";
-      }
-    });
-  });
-});
-
-// ===========================
-// TÍNH TỔNG TIỀN MỖI ĐƠN
-// ===========================
-orders.forEach(order => {
-  const priceEls = order.querySelectorAll('.price');
-  let total = 0;
-
-  priceEls.forEach(p => {
-    const priceText = p.textContent.replace(/[^\d]/g, '');
-    const quantityText = p.parentElement.textContent.match(/Số lượng:\s*(\d+)/);
-    const quantity = quantityText ? parseInt(quantityText[1]) : 1;
-    total += parseInt(priceText) * quantity;
-  });
-
-  const formattedTotal = total.toLocaleString('vi-VN') + 'đ';
-  const totalEl = order.querySelector('.total-price');
-  if (totalEl) totalEl.textContent = formattedTotal;
-});
+// CSS animations
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes slideIn {
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(400px); opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
 
 // ===========================
-// NÚT HỦY & MUA LẠI
+// HỦY ĐƠN HÀNG
 // ===========================
-document.querySelectorAll('.order-card').forEach(order => {
-  const btn = order.querySelector('.btn');
-
-  btn.addEventListener('click', () => {
-    const statusEl = order.querySelector('.status');
-
-    // Nếu đơn đang giao → hủy
-    if (order.dataset.status === 'shipping') {
-      const confirmCancel = confirm("Bạn có chắc muốn hủy đơn này?");
-      if (confirmCancel) {
-        order.dataset.status = 'cancelled';
-        statusEl.className = 'status cancelled';
-        statusEl.innerHTML = '<i class="fa-solid fa-xmark"></i> Đã hủy';
-        btn.textContent = 'Mua lại';
-        alert("Đơn hàng đã được hủy!");
-      }
+function cancelOrder(orderId) {
+    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+        fetch('<%= request.getContextPath() %>/user/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=cancel&orderId=' + orderId
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    showToast('Hủy đơn hàng thành công!', 'success');
+                    setTimeout(() => location.reload(), 1500);
+                } else {
+                    showToast(data.message || 'Không thể hủy đơn hàng', 'error');
+                }
+            })
+            .catch(error => {
+                showToast('Có lỗi xảy ra: ' + error, 'error');
+            });
     }
-    if (order.dataset.status === 'prepare') {
-      const confirmCancel = confirm("Bạn có chắc muốn hủy đơn này?");
-      if (confirmCancel) {
-        order.dataset.status = 'cancelled';
-        statusEl.className = 'status cancelled';
-        statusEl.innerHTML = '<i class="fa-solid fa-xmark"></i> Đã hủy';
-        btn.textContent = 'Mua lại';
-        alert("Đơn hàng đã được hủy!");
-      }
-    }
+}
 
-    // Nếu đơn đã giao hoặc đã hủy → mua lại
-    else if (order.dataset.status === 'cancelled' || order.dataset.status === 'delivered') {
-      window.location.href = "../cart.html";
+// ===========================
+// MUA LẠI ĐƠN HÀNG
+// ===========================
+function repurchaseOrder(orderId) {
+    if (confirm('Bạn có muốn mua lại đơn hàng này?')) {
+        location.href = '<%= request.getContextPath() %>/user/repurchase?orderId=' + orderId;
     }
-  });
-});
+}
 
 // ===========================
 // SIDEBAR submenu toggle
@@ -85,9 +81,9 @@ const menuAccountMain = document.getElementById("menuAccountMain");
 const accountSubmenu = document.getElementById("accountSubmenu");
 
 if (menuAccountMain && accountSubmenu) {
-  accountSubmenu.classList.add("open");
-  menuAccountMain.addEventListener("click", (e) => {
-    e.preventDefault();
-    accountSubmenu.classList.toggle("open");
-  });
+    accountSubmenu.classList.add("open");
+    menuAccountMain.addEventListener("click", (e) => {
+        e.preventDefault();
+        accountSubmenu.classList.toggle("open");
+    });
 }

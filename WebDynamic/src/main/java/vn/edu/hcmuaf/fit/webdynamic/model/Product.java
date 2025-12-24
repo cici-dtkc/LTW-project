@@ -12,7 +12,7 @@ public class Product {
     private int warrantyPeriod;
     private int status;
 
-    private String mainImage;   //  Ảnh đại diện duy nhất
+    private String mainImage; // Ảnh đại diện duy nhất
 
     private Category category;
     private Brand brand;
@@ -23,7 +23,8 @@ public class Product {
     private List<TechSpecs> techSpecs;
     private List<ProductVariant> variants;
 
-    public Product() {}
+    public Product() {
+    }
 
     public int getId() {
         return id;
