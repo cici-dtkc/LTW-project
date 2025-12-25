@@ -12,7 +12,6 @@ import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "AdminUserServlet", urlPatterns = { "/admin/users" })
 public class AdminUserServlet extends HttpServlet {
@@ -28,8 +27,12 @@ public class AdminUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Lấy tất cả users
-        List<User> users = userService.getAllUsers();
+        // Kiểm tra quyền admin
+//        User currentUser = (User) req.getSession().getAttribute("admin");
+//        if (currentUser == null || currentUser.getRole() != 0) {
+//            resp.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied. Admin role required.");
+//            return;
+//        }
 
         // Lấy các tham số filter từ URL
         String searchTerm = req.getParameter("search");
@@ -37,12 +40,12 @@ public class AdminUserServlet extends HttpServlet {
         String statusFilter = req.getParameter("status");
         String pageParam = req.getParameter("page");
 
-
         int page = 1;
         try {
             if (pageParam != null) {
                 page = Integer.parseInt(pageParam);
-                if (page < 1) page = 1;
+                if (page < 1)
+                    page = 1;
             }
         } catch (NumberFormatException e) {
             page = 1;
@@ -56,39 +59,18 @@ public class AdminUserServlet extends HttpServlet {
 
         // Tính tổng số trang
         int totalPage = (int) Math.ceil((double) totalUsers / pageSize);
-        if (totalPage < 1) totalPage = 1;
+        if (totalPage < 1)
+            totalPage = 1;
 
         // Đảm bảo page không vượt quá totalPage
-        if (page > totalPage) page = totalPage;
+        if (page > totalPage)
+            page = totalPage;
 
         // Tính offset
         int offset = (page - 1) * pageSize;
 
         // Lấy danh sách user theo trang
         List<User> usersPage = userService.getUsersPaginated(searchTerm, roleFilter, statusFilter, offset, pageSize);
-
-        // Filter users nếu có tham số
-        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            String search = searchTerm.toLowerCase().trim();
-            users = users.stream()
-                    .filter(u -> String.valueOf(u.getId()).contains(search)
-                            || u.getUsername().toLowerCase().contains(search))
-                    .collect(Collectors.toList());
-        }
-
-        if (roleFilter != null && !roleFilter.isEmpty()) {
-            int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
-            users = users.stream()
-                    .filter(u -> u.getRole() == role)
-                    .collect(Collectors.toList());
-        }
-
-        if (statusFilter != null && !statusFilter.isEmpty()) {
-            int status = "Hoạt động".equalsIgnoreCase(statusFilter) ? 1 : 0;
-            users = users.stream()
-                    .filter(u -> u.getStatus() == status)
-                    .collect(Collectors.toList());
-        }
 
         // Nếu gọi từ AJAX
         String ajax = req.getParameter("ajax");
@@ -107,7 +89,8 @@ public class AdminUserServlet extends HttpServlet {
                         .append("\"role\":").append(u.getRole()).append(",")
                         .append("\"status\":").append(u.getStatus())
                         .append("}");
-                if (i < usersPage.size() - 1) sb.append(",");
+                if (i < usersPage.size() - 1)
+                    sb.append(",");
             }
 
             sb.append("]");
@@ -116,8 +99,7 @@ public class AdminUserServlet extends HttpServlet {
         }
 
         // Forward trang JSP với dữ liệu đã filter
-        req.setAttribute("users", users);
-        req.setAttribute("usersPage", usersPage);
+        req.setAttribute("users", usersPage);
         req.setAttribute("totalUsers", totalUsers);
         req.setAttribute("totalPage", totalPage);
         req.setAttribute("page", page);
@@ -145,7 +127,8 @@ public class AdminUserServlet extends HttpServlet {
 
     // Helper method để escape JSON string
     private String escapeJson(String str) {
-        if (str == null) return "";
+        if (str == null)
+            return "";
         return str.replace("\\", "\\\\")
                 .replace("\"", "\\\"")
                 .replace("\n", "\\n")
