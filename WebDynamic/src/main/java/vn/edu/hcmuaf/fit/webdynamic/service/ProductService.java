@@ -15,5 +15,6 @@ public interface ProductService {
     );
 
     int countForAdmin(String keyword, Integer status, Integer categoryId);
-    public boolean toggleStatus(int productId) ;
+      boolean toggleStatus(int productId) ;
+      void addPhone(Product product);
 }

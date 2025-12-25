@@ -60,7 +60,7 @@
             </form>
 
             <a class="btn-add"
-               href="${pageContext.request.contextPath}/admin/products/add">
+               href="${pageContext.request.contextPath}/views/admin/addProductAdmin.jsp">
                 + Thêm sản phẩm
             </a>
 

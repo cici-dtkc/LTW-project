@@ -85,6 +85,89 @@ public class ProductDaoImpl implements ProductDao {
                         .execute() > 0
         );}
 
+    @Override
+    public int insertProduct(Product p) {
+        String sql = """
+        INSERT INTO products(name, img, category_id, description, created_at)
+        VALUES (:name, :img, :categoryId, :description, :createdAt)
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createUpdate(sql)
+                        .bind("name", p.getName())
+                        .bind("img", p.getMainImage())
+                        .bind("categoryId", p.getCategory().getId())
+                        .bind("description", p.getDescription())
+                        .bind("createdAt", LocalDateTime.now())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+
+    }
+
+    @Override
+    public int insertVariant(int productId, ProductVariant v) {
+
+        String sql = """
+        INSERT INTO product_variants
+        (product_id, name, base_price, status, created_at, updated_at)
+        VALUES (:productId, :name, :basePrice, :status, :createdAt, :updatedAt)
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("name", v.getName())
+                        .bind("basePrice", v.getBasePrice())
+                        .bind("status", v.getStatus()) // thường = 1
+                        .bind("createdAt", LocalDateTime.now())
+                        .bind("updatedAt", LocalDateTime.now())
+                        .executeAndReturnGeneratedKeys("id")
+                        .mapTo(Integer.class)
+                        .one()
+        );
+    }
+
+    @Override
+    public void insertVariantColor(VariantColor c) {
+
+        String sql = """
+        INSERT INTO variant_colors
+        (variant_id, color_id, price, quantity, image)
+        VALUES (:variantId, :colorId, :price, :quantity, :image)
+    """;
+
+        jdbi.useHandle(h ->
+                h.createUpdate(sql)
+                        .bind("variantId", c.getId())
+                        .bind("colorId", c.getColor().getId())
+                        .bind("price", c.getPrice())
+                        .bind("quantity", c.getQuantity())
+                        .bind("image", c.getImages())
+                        .execute()
+        );
+    }
+
+    @Override
+    public void insertTechSpec(int productId, TechSpecs t) {
+        String sql = """
+        INSERT INTO product_tech_specs
+        (product_id, name, value, priority)
+        VALUES (:productId, :name, :value, :priority)
+    """;
+
+        jdbi.useHandle(h ->
+                h.createUpdate(sql)
+                        .bind("productId", productId)
+                        .bind("name", t.getName())
+                        .bind("value", t.getValue())
+                        .bind("priority", t.getPriority())
+                        .execute()
+        );
+    }
+
+
 }
 
 

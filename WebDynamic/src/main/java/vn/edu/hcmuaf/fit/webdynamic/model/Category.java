@@ -11,7 +11,9 @@ public class Category {
     // Constructor không tham số
     public Category() {
     }
-
+    public Category(int id) {
+        this.id = id;
+    }
     public int getId() {
         return id;
     }

@@ -7,6 +7,8 @@ import vn.edu.hcmuaf.fit.webdynamic.model.*;
 import java.math.BigDecimal;
 import java.util.*;
 
+import static vn.edu.hcmuaf.fit.webdynamic.config.DBConnect.getJdbi;
+
 public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao = new ProductDaoImpl();
@@ -84,5 +86,30 @@ public class ProductServiceImpl implements ProductService {
     public boolean toggleStatus(int productId) {
         return productDao.toggleStatus(productId);
     }
+
+    @Override
+    public void addPhone(Product product) {
+
+        getJdbi().useTransaction(handle -> {
+
+            int productId = productDao.insertProduct(product);
+
+            if (product.getTechSpecs() != null) {
+                for (TechSpecs t : product.getTechSpecs()) {
+                    productDao.insertTechSpec(productId, t);
+                }
+            }
+
+            for (ProductVariant v : product.getVariants()) {
+                int variantId = productDao.insertVariant(productId, v);
+
+                for (VariantColor c : v.getColors()) {
+                    c.setId(variantId);
+                    productDao.insertVariantColor(c);
+                }
+            }
+        });
+    }
+
 
 }
