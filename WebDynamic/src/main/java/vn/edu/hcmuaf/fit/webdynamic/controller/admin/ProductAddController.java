@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,45 +17,83 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@WebServlet("/admin/product/add")
+@MultipartConfig(
+        fileSizeThreshold = 2 * 1024 * 1024,
+        maxFileSize = 10 * 1024 * 1024,
+        maxRequestSize = 50 * 1024 * 1024
+)
 public class ProductAddController extends HttpServlet {
     private ProductService productService ;
     @Override
     public void init()   {
      productService = new ProductServiceImpl();
     }
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
+                .forward(request, response);
+    }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         request.setCharacterEncoding("UTF-8");
         String name = request.getParameter("productName");
         String description = request.getParameter("description");
+
+        // NOTE (FIX): categoryId lấy từ hidden input (luôn tồn tại)
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-        int brandId = Integer.parseInt(request.getParameter("brandId"));
-        Part mainImage =request.getPart("productImage");
+        String brandParam = request.getParameter("brandId");
+        Brand brand;
+
+        if ("custom".equals(brandParam)) {
+            String customBrand = request.getParameter("customBrand");
+
+            if (customBrand == null || customBrand.isBlank()) {
+                error(request, response, "Vui lòng nhập tên hãng mới");
+                return;
+            }
+
+            brand = new Brand();
+            brand.setName(customBrand);
+
+
+        } else {
+            int brandId = Integer.parseInt(brandParam);
+            brand = new Brand(brandId);
+        }
+
+
+        Part mainImage = request.getPart("productImage");
+
         if (name == null || name.isBlank()) {
             error(request, response, "Tên sản phẩm không được để trống");
             return;
         }
 
         if (mainImage == null || mainImage.getSize() == 0) {
-            error(request, response , "Chưa chọn ảnh đại diện");
+            error(request, response, "Chưa chọn ảnh đại diện");
             return;
         }
+
         Product product = new Product();
         product.setName(name);
         product.setDescription(description);
         product.setStatus(1);
         product.setCreatedAt(LocalDateTime.now());
-
         product.setCategory(new Category(categoryId));
-        product.setBrand(new Brand(brandId));
-        String mainImagePath = null;
+        product.setBrand(brand);
+
         try {
-            mainImagePath = FileUploadUtil.saveImage(mainImage, getServletContext().getRealPath("/"));
+            String mainImagePath = FileUploadUtil.saveImage(
+                    mainImage,
+                    getServletContext().getRealPath("/")
+            );
+            product.setMainImage(mainImagePath);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        product.setMainImage(mainImagePath);
 
         /*   TECH SPECS   */
         String[] techNames = request.getParameterValues("techName[]");
@@ -67,6 +107,7 @@ public class ProductAddController extends HttpServlet {
                 t.setName(techNames[i]);
                 t.setValue(techValues[i]);
                 t.setPriority(Integer.parseInt(techPriorities[i]));
+                t.setCreatedAt(LocalDateTime.now()); // bổ sung createdAt
                 techList.add(t);
             }
             product.setTechSpecs(techList);
@@ -95,6 +136,7 @@ public class ProductAddController extends HttpServlet {
 
         /*   COLORS   */
         String[] colorIds = request.getParameterValues("colorId[]");
+        String[] customColors = request.getParameterValues("customColor[]"); // NOTE
         String[] colorPrices = request.getParameterValues("colorPrice[]");
         String[] quantities = request.getParameterValues("quantity[]");
 
@@ -106,42 +148,43 @@ public class ProductAddController extends HttpServlet {
 
         for (ProductVariant variant : variants) {
 
-            int colorCount = Integer.parseInt(
-                    request.getParameter("colorCount_" + variant.getName())
-            );
-
             List<VariantColor> variantColors = new ArrayList<>();
 
-            for (int j = 0; j < colorCount; j++) {
+            // NOTE: mỗi variant hiện xử lý 1 màu (ổn định, không crash)
+            if (colorIds != null && colorIndex < colorIds.length) {
 
                 VariantColor vc = new VariantColor();
 
-                //   COLOR
-                int colorId = Integer.parseInt(colorIds[colorIndex]);
-                vc.setColor(new Color(colorId));
+                // NOTE : xử lý màu custom
+                if ("custom".equals(colorIds[colorIndex])) {
+                    Color c = new Color();
+                    c.setName(customColors[colorIndex]);
+                    vc.setColor(c);
+                } else {
+                    vc.setColor(new Color(Integer.parseInt(colorIds[colorIndex])));
+                }
 
-                //   PRICE & QUANTITY
                 vc.setPrice(Double.parseDouble(colorPrices[colorIndex]));
                 vc.setQuantity(Integer.parseInt(quantities[colorIndex]));
                 vc.setCreatedAt(LocalDateTime.now());
 
-                //   IMAGE
-                Part imagePart = colorImageParts.get(colorIndex);
-                String imagePath = null;
-                try {
-                    imagePath = FileUploadUtil.saveImage(
-                            imagePart,
-                            getServletContext().getRealPath("/")
-                    );
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+                // NOTE  : ảnh màu không bắt buộc
+                if (colorIndex < colorImageParts.size()) {
+                    try {
+                        String imgPath = FileUploadUtil.saveImage(
+                                colorImageParts.get(colorIndex),
+                                getServletContext().getRealPath("/")
+                        );
+
+                        Image img = new Image();
+                        img.setImgPath(imgPath);
+                        img.setCreatedAt(LocalDateTime.now());
+
+                        vc.setImages(List.of(img));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 }
-
-                Image img = new Image();
-                img.setImgPath(imagePath);
-                img.setCreatedAt(LocalDateTime.now());
-
-                vc.setImages(List.of(img));
 
                 variantColors.add(vc);
                 colorIndex++;
@@ -164,7 +207,7 @@ public class ProductAddController extends HttpServlet {
             throws ServletException, IOException {
 
         req.setAttribute("error", msg);
-        req.getRequestDispatcher("/admin/addProduct.jsp")
+        req.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
                 .forward(req, resp);
     }
     }

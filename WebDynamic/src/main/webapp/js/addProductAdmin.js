@@ -27,3 +27,38 @@ function addColor(btn) {
 function removeBlock(btn) {
     btn.parentElement.remove();
 }
+function toggleBrand(select) {
+    const row = select.closest('.brand-row');
+    if (!row) return;
+
+    const input = row.querySelector('input[name="customBrand"]');
+    if (!input) return;
+
+    if (select.value === 'custom') {
+        input.style.display = 'inline-block';
+        input.required = true;
+    } else {
+        input.style.display = 'none';
+        input.value = '';
+        input.required = false;
+    }
+}
+function toggleColor(select) {
+    const row = select.closest('.color-row');
+    if (!row) return;
+
+    const input = row.querySelector('input[name="customColor[]"]');
+    if (!input) return;
+
+    if (select.value === 'custom') {
+        input.style.display = 'inline-block';
+        input.required = true;
+    } else {
+        input.style.display = 'none';
+        input.value = '';
+        input.required = false;
+    }
+}
+
+
+

@@ -89,27 +89,48 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addPhone(Product product) {
-
         getJdbi().useTransaction(handle -> {
 
+            //   INSERT PRODUCT
             int productId = productDao.insertProduct(product);
 
+            //   TECH SPECS (cả 2 loại đều có)
             if (product.getTechSpecs() != null) {
                 for (TechSpecs t : product.getTechSpecs()) {
                     productDao.insertTechSpec(productId, t);
                 }
             }
 
-            for (ProductVariant v : product.getVariants()) {
-                int variantId = productDao.insertVariant(productId, v);
+            //   ĐIỆN THOẠI
+            if (product.getCategory().getId() == 1) {
 
-                for (VariantColor c : v.getColors()) {
-                    c.setId(variantId);
-                    productDao.insertVariantColor(c);
+                for (ProductVariant v : product.getVariants()) {
+
+                    int variantId = productDao.insertVariant(productId, v);
+
+                    for (VariantColor c : v.getColors()) {
+
+                        c.setId(variantId);
+                        productDao.insertVariantColor(c);
+                    }
                 }
+
+            }
+            //   LINH KIỆN
+            else {
+
+                // NOTE: linh kiện vẫn cần 1 variant để không vỡ JOIN
+                ProductVariant v = new ProductVariant();
+                v.setName("Default");
+                v.setBasePrice(0);
+                v.setStatus(1);
+
+                productDao.insertVariant(productId, v);
             }
         });
     }
 
-
 }
+
+
+

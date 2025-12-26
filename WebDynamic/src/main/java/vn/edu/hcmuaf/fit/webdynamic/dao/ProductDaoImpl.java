@@ -1,4 +1,5 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
 import vn.edu.hcmuaf.fit.webdynamic.model.*;
@@ -28,8 +29,8 @@ public class ProductDaoImpl implements ProductDao {
         FROM products p
         JOIN categories c ON p.category_id = c.id
         JOIN product_variants v ON p.id = v.product_id
-        JOIN variant_colors vc ON v.id = vc.variant_id
-        JOIN colors col ON vc.color_id = col.id
+         JOIN variant_colors vc ON v.id = vc.variant_id
+          JOIN colors col ON vc.color_id = col.id
         WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
           AND (:status IS NULL OR v.status = :status)
           AND (:categoryId IS NULL OR p.category_id = :categoryId)
@@ -133,26 +134,55 @@ public class ProductDaoImpl implements ProductDao {
     public void insertVariantColor(VariantColor c) {
 
         String sql = """
-        INSERT INTO variant_colors
-        (variant_id, color_id, price, quantity, image)
-        VALUES (:variantId, :colorId, :price, :quantity, :image)
-    """;
+            INSERT INTO variant_colors
+            (variant_id, color_id, price, quantity, created_at)
+            VALUES (:variantId, :colorId, :price, :quantity, :createdAt)
+        """;
 
-        jdbi.useHandle(h ->
-                h.createUpdate(sql)
-                        .bind("variantId", c.getId())
-                        .bind("colorId", c.getColor().getId())
-                        .bind("price", c.getPrice())
-                        .bind("quantity", c.getQuantity())
-                        .bind("image", c.getImages())
-                        .execute()
-        );
+        jdbi.useHandle(h -> {
+
+            int variantColorId = h.createUpdate(sql)
+                    .bind("variantId", c.getId())
+                    .bind("colorId", c.getColor().getId())
+                    .bind("price", c.getPrice())
+                    .bind("quantity", c.getQuantity())
+                    .bind("createdAt", LocalDateTime.now())
+                    .executeAndReturnGeneratedKeys("id")
+                    .mapTo(Integer.class)
+                    .one();
+
+            // NOTE insert từng image riêng
+            if (c.getImages() != null) {
+                for (Image img : c.getImages()) {
+                    insertVariantColorImage(h, variantColorId, img);
+                }
+            }
+        } );
     }
+
+    //  IMAGE
+    private void insertVariantColorImage(Handle h, int variantColorId, Image img) {
+
+        String sql = """
+            INSERT INTO Images
+            (variant_color_id, img_path, created_at)
+            VALUES (:vcId, :path, :createdAt)
+        """;
+
+        h.createUpdate(sql)
+                .bind("vcId", variantColorId)
+                .bind("path", img.getImgPath())
+                .bind("createdAt", LocalDateTime.now())
+                .execute();
+    }
+
+
+
 
     @Override
     public void insertTechSpec(int productId, TechSpecs t) {
         String sql = """
-        INSERT INTO product_tech_specs
+        INSERT INTO  tech_specs
         (product_id, name, value, priority)
         VALUES (:productId, :name, :value, :priority)
     """;
