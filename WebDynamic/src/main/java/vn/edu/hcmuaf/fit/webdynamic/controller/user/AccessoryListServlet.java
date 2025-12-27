@@ -24,8 +24,7 @@ public class AccessoryListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Assuming category 2 is for accessories
-        int categoryId = 2;
+        // Category ID 1 = Điện thoại, tất cả ID khác = Linh kiện
 
         // Lấy các tham số lọc
         Double priceMin = getDoubleParameter(request, "priceMin");
@@ -41,11 +40,11 @@ public class AccessoryListServlet extends HttpServlet {
         int pageSize = DEFAULT_PAGE_SIZE;
         if (page < 1) page = 1;
 
-        // Lấy danh sách linh kiện với bộ lọc
+        // Lấy danh sách linh kiện với bộ lọc (tất cả category_id != 1)
         List<Map<String, Object>> allAccessories;
         if (hasFilters(priceMin, priceMax, types, brandId, condition, models, sortBy)) {
-            allAccessories = productService.getProductsByCategoryWithFilters(
-                    categoryId, priceMin, priceMax, null, null, null, brandId, types, condition, sortBy
+            allAccessories = productService.getAccessoriesWithFilters(
+                    priceMin, priceMax, brandId, types, condition, sortBy
             );
             
             // Lọc theo model sau khi lấy dữ liệu (nếu có)
@@ -61,7 +60,7 @@ public class AccessoryListServlet extends HttpServlet {
                     .collect(Collectors.toList());
             }
         } else {
-            allAccessories = productService.getProductsByCategory(categoryId);
+            allAccessories = productService.getAccessories();
         }
 
         // Tính toán phân trang đơn giản

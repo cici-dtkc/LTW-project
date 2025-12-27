@@ -29,5 +29,16 @@ public interface ProductDao {
             String sortBy
     );
 
+    List<Map<String, Object>> getAccessories();
+
+    List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    );
+
     List<Map<String, Object>> getProductsForList();
 }

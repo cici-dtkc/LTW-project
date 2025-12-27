@@ -44,4 +44,23 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
+    @Override
+    public List<Map<String, Object>> getAccessories() {
+        return ((ProductDaoImpl) productDao).getAccessories();
+    }
+
+    @Override
+    public List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    ) {
+        return ((ProductDaoImpl) productDao).getAccessoriesWithFilters(
+                priceMin, priceMax, brandId, types, condition, sortBy
+        );
+    }
+
 }

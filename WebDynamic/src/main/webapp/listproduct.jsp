@@ -111,6 +111,11 @@
             <li>Mới</li>
             <li>Giá <i class="arrow"></i></li>
         </ul>
+        <c:if test="${not empty param.sort or not empty param.priceMin or not empty param.priceMax or not empty param.brandId or not empty param.memory or not empty param.color or not empty param.year}">
+            <a href="?" class="btn-reset-filters" title="Hoàn tác bộ lọc">
+                <i class="fa-solid fa-rotate-left"></i> Hoàn tác
+            </a>
+        </c:if>
     </div>
     </div>
 
@@ -138,15 +143,29 @@
               </span>
                         </c:if>
                     </div>
-                    <div class="capacity">
-                        <c:forEach var="variant" items="${product.variants}" varStatus="status">
-                            <button class="${status.first ? 'active' : ''}"
-                                    data-price="${variant.priceNew}"
-                                    data-old-price="${variant.priceOld}">
-                                    ${variant.name}
-                            </button>
+                    <c:if test="${not empty product.variants}">
+                        <c:set var="hasValidVariant" value="false"/>
+                        <c:forEach var="variant" items="${product.variants}">
+                            <c:if test="${not empty variant.name and not hasValidVariant}">
+                                <c:set var="hasValidVariant" value="true"/>
+                            </c:if>
                         </c:forEach>
-                    </div>
+                        <c:if test="${hasValidVariant}">
+                            <div class="capacity">
+                                <c:set var="firstActive" value="true"/>
+                                <c:forEach var="variant" items="${product.variants}">
+                                    <c:if test="${not empty variant.name}">
+                                        <button class="${firstActive ? 'active' : ''}"
+                                                data-price="${variant.priceNew}"
+                                                data-old-price="${variant.priceOld}">
+                                                ${variant.name}
+                                        </button>
+                                        <c:set var="firstActive" value="false"/>
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                        </c:if>
+                    </c:if>
                     <div class="rating-cart">
                         <div class="rating">
                             <c:forEach begin="1" end="5" var="i">
