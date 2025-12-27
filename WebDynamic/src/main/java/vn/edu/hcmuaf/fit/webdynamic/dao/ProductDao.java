@@ -16,5 +16,18 @@ public interface ProductDao {
 
     List<Map<String, Object>> getProductsByCategory(int categoryId);
 
+    List<Map<String, Object>> getProductsByCategoryWithFilters(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    );
+
     List<Map<String, Object>> getProductsForList();
 }

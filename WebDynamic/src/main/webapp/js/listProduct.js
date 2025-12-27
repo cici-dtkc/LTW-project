@@ -67,9 +67,56 @@ function initFilterSystem() {
         brand.addEventListener('click', () => {
             document.querySelectorAll('.brand').forEach(b => b.classList.remove('active'));
             brand.classList.add('active');
-            // TODO: Lọc sản phẩm theo thương hiệu
+            
+            // Áp dụng lọc thương hiệu ngay lập tức
+            const brandId = brand.getAttribute('data-brand-id') || getBrandIdFromImage(brand);
+            if (brandId) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('brandId', brandId);
+                window.location.href = url.toString();
+            }
         });
     });
+    
+    // Khôi phục trạng thái brand từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentBrandId = urlParams.get('brandId');
+    if (currentBrandId) {
+        document.querySelectorAll('.brand').forEach(brand => {
+            const brandId = brand.getAttribute('data-brand-id') || getBrandIdFromImage(brand);
+            if (brandId && brandId.toString() === currentBrandId) {
+                brand.classList.add('active');
+            }
+        });
+    }
+
+    // Xử lý chọn category tag (cho linh kiện)
+    document.querySelectorAll('.category').forEach(category => {
+        category.addEventListener('click', () => {
+            const isActive = category.classList.contains('active');
+            
+            // Toggle active
+            if (isActive) {
+                category.classList.remove('active');
+            } else {
+                category.classList.add('active');
+            }
+            
+            // Áp dụng filter ngay lập tức
+            applyCategoryFilters();
+        });
+    });
+    
+    // Khôi phục trạng thái category từ URL
+    const currentTypes = urlParams.getAll('type');
+    if (currentTypes && currentTypes.length > 0) {
+        document.querySelectorAll('.category').forEach(category => {
+            const categoryType = category.getAttribute('data-type');
+            if (currentTypes.includes(categoryType)) {
+                category.classList.add('active');
+            }
+        });
+    }
 }
 
 function positionDropdown(btn, dropdown) {
@@ -86,15 +133,129 @@ function closeAllFilters() {
 
 function applyFilters() {
     // Thu thập các filter đã chọn
-    const selectedFilters = {
-        price: getPriceRange(),
-        memory: getSelectedOptions('bonho'),
-        color: getSelectedOptions('mausac'),
-        year: getSelectedOptions('namramat')
-    };
+    const priceRange = getPriceRange();
+    const memory = getSelectedOptions('bonho');
+    const colors = getSelectedOptions('mausac');
+    const year = getSelectedOptions('namramat');
+    const type = getSelectedOptions('loai');
+    const brand = getSelectedBrand();
+    const condition = getSelectedOptions('tinhtrang');
+    const model = getSelectedOptions('model');
 
-    console.log('Áp dụng bộ lọc:', selectedFilters);
-    // TODO: Gọi API hoặc filter products trong DOM
+    // Xây dựng URL với các tham số
+    const url = new URL(window.location.href);
+    
+    // Xóa các tham số cũ
+    url.searchParams.delete('priceMin');
+    url.searchParams.delete('priceMax');
+    url.searchParams.delete('memory');
+    url.searchParams.delete('color');
+    url.searchParams.delete('year');
+    url.searchParams.delete('type');
+    url.searchParams.delete('brandId');
+    url.searchParams.delete('condition');
+    url.searchParams.delete('model');
+
+    // Thêm các tham số mới
+    if (priceRange.min) {
+        url.searchParams.set('priceMin', priceRange.min);
+    }
+    if (priceRange.max) {
+        url.searchParams.set('priceMax', priceRange.max);
+    }
+    if (memory && memory.length > 0) {
+        memory.forEach(m => url.searchParams.append('memory', m));
+    }
+    if (colors && colors.length > 0) {
+        colors.forEach(c => url.searchParams.append('color', c));
+    }
+    if (year && year.length > 0) {
+        url.searchParams.set('year', year[0]); // Chỉ lấy năm đầu tiên
+    }
+    if (type && type.length > 0) {
+        type.forEach(t => url.searchParams.append('type', t));
+    }
+    if (brand) {
+        url.searchParams.set('brandId', brand);
+    }
+    if (condition && condition.length > 0) {
+        url.searchParams.set('condition', condition[0]);
+    }
+    if (model && model.length > 0) {
+        model.forEach(m => url.searchParams.append('model', m));
+    }
+
+    // Giữ nguyên sort nếu có
+    const currentSort = url.searchParams.get('sort');
+    if (!currentSort) {
+        url.searchParams.delete('sort');
+    }
+
+    // Reload trang với các tham số mới
+    window.location.href = url.toString();
+}
+
+// Hàm áp dụng filter khi click vào category tag
+function applyCategoryFilters() {
+    // Thu thập các category đang active
+    const activeCategories = Array.from(document.querySelectorAll('.category.active'))
+        .map(cat => cat.getAttribute('data-type'))
+        .filter(type => type !== null);
+
+    // Thu thập các filter khác
+    const priceRange = getPriceRange();
+    const brand = getSelectedBrand();
+    const brandFromDropdown = getSelectedOptions('thuonghieu');
+    const model = getSelectedOptions('model');
+
+    // Xây dựng URL với các tham số
+    const url = new URL(window.location.href);
+    
+    // Xóa các tham số cũ
+    url.searchParams.delete('priceMin');
+    url.searchParams.delete('priceMax');
+    url.searchParams.delete('type');
+    url.searchParams.delete('brandId');
+    url.searchParams.delete('model');
+
+    // Thêm các tham số mới
+    if (priceRange.min) {
+        url.searchParams.set('priceMin', priceRange.min);
+    }
+    if (priceRange.max) {
+        url.searchParams.set('priceMax', priceRange.max);
+    }
+    if (activeCategories.length > 0) {
+        activeCategories.forEach(t => url.searchParams.append('type', t));
+    }
+    if (brand) {
+        url.searchParams.set('brandId', brand);
+    } else if (brandFromDropdown && brandFromDropdown.length > 0) {
+        // Nếu không có brand từ brand-list, lấy từ dropdown
+        const brandMap = {
+            'Samsung': 1,
+            'iPhone': 2,
+            'Oppo': 3,
+            'Vivo': 4,
+            'Generic': 5
+        };
+        const brandId = brandMap[brandFromDropdown[0]];
+        if (brandId) {
+            url.searchParams.set('brandId', brandId);
+        }
+    }
+    if (model && model.length > 0) {
+        model.forEach(m => url.searchParams.append('model', m));
+    }
+
+    // Giữ nguyên sort nếu có
+    const currentSort = url.searchParams.get('sort');
+    if (!currentSort) {
+        url.searchParams.delete('sort');
+    }
+
+    // Reload trang với các tham số mới
+    window.location.href = url.toString();
 }
 
 function getPriceRange() {
@@ -106,13 +267,53 @@ function getPriceRange() {
 }
 
 function getSelectedOptions(filterId) {
-    const activeButtons = document.querySelectorAll(`#${filterId} .option-group button.active`);
-    return Array.from(activeButtons).map(btn => btn.textContent.trim());
+    const dropdown = document.getElementById(filterId);
+    if (!dropdown) return null;
+    const activeButtons = dropdown.querySelectorAll('.option-group button.active');
+    const options = Array.from(activeButtons).map(btn => btn.textContent.trim());
+    return options.length > 0 ? options : null;
+}
+
+function getSelectedBrand() {
+    const activeBrand = document.querySelector('.brand.active');
+    if (!activeBrand) return null;
+    // Lấy brand ID từ data attribute hoặc từ alt text
+    const brandId = activeBrand.getAttribute('data-brand-id');
+    if (brandId) return brandId;
+    
+    // Map brand name to ID (có thể cần cập nhật dựa trên database)
+    const brandName = activeBrand.querySelector('img')?.alt || '';
+    const brandMap = {
+        'Samsung': 1,
+        'iPhone': 2,
+        'Oppo': 3,
+        'Vivo': 4
+    };
+    return brandMap[brandName] || null;
 }
 
 // ===== HỆ THỐNG SẮP XẾP =====
 function initSortSystem() {
     const sortItems = document.querySelectorAll("#sortList li");
+
+    // Khôi phục trạng thái sort từ URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentSort = urlParams.get('sort');
+    if (currentSort) {
+        const sortMap = {
+            'banchay': 'Bán chạy',
+            'giamgia': 'Giảm giá',
+            'moi': 'Mới',
+            'giatang': 'Giá',
+            'giagiam': 'Giá'
+        };
+        const sortText = sortMap[currentSort] || 'Nổi bật';
+        sortItems.forEach(li => {
+            if (li.textContent.trim().includes(sortText)) {
+                li.classList.add('active');
+            }
+        });
+    }
 
     sortItems.forEach(item => {
         item.addEventListener("click", () => {
@@ -120,11 +321,55 @@ function initSortSystem() {
             item.classList.add("active");
 
             const sortType = item.textContent.trim();
-            sortProducts(sortType);
+            applySort(sortType);
         });
     });
 }
 
+function applySort(sortType) {
+    // Xây dựng URL với tham số sort
+    const url = new URL(window.location.href);
+    
+    // Map sort type to parameter value
+    let sortParam = '';
+    switch(sortType) {
+        case 'Bán chạy':
+            sortParam = 'banchay';
+            break;
+        case 'Giảm giá':
+            sortParam = 'giamgia';
+            break;
+        case 'Mới':
+            sortParam = 'moi';
+            break;
+        case 'Giá':
+            // Toggle giá tăng/giảm
+            const arrow = document.querySelector('#sortList li:last-child .arrow');
+            const currentSort = url.searchParams.get('sort');
+            if (arrow && arrow.classList.contains('asc') || currentSort === 'giatang') {
+                arrow.classList.remove('asc');
+                sortParam = 'giagiam';
+            } else {
+                if (arrow) arrow.classList.add('asc');
+                sortParam = 'giatang';
+            }
+            break;
+        default: // Nổi bật
+            sortParam = '';
+            break;
+    }
+
+    if (sortParam) {
+        url.searchParams.set('sort', sortParam);
+    } else {
+        url.searchParams.delete('sort');
+    }
+
+    // Reload trang với tham số sort mới
+    window.location.href = url.toString();
+}
+
+// Hàm sort trên client (fallback nếu cần)
 function sortProducts(sortType) {
     const productList = document.getElementById('product-list');
     const products = Array.from(productList.querySelectorAll('.product-card'));
@@ -379,4 +624,18 @@ function formatPrice(price) {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
     });
+}
+
+function getBrandIdFromImage(brandElement) {
+    const img = brandElement.querySelector('img');
+    if (!img) return null;
+    
+    const alt = img.alt || '';
+    const brandMap = {
+        'Samsung': 1,
+        'iPhone': 2,
+        'Oppo': 3,
+        'Vivo': 4
+    };
+    return brandMap[alt] || null;
 }

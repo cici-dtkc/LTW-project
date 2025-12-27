@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,10 +30,10 @@
             </div>
 
             <div class="brand-list">
-                <div class="brand"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
-                <div class="brand"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
-                <div class="brand"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
-                <div class="brand"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
+                <div class="brand" data-brand-id="1"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
+                <div class="brand" data-brand-id="2"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
+                <div class="brand" data-brand-id="3"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
+                <div class="brand" data-brand-id="4"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
             </div>
         </div>
 
@@ -171,6 +172,17 @@
         </c:forEach>
     </div>
 
+    <!-- Hiển thị số lượng sản phẩm -->
+    <c:if test="${not empty totalItems}">
+        <div class="product-count-info" style="margin: 20px 0; padding: 10px; background: #f5f5f5; border-radius: 5px;">
+            <p style="margin: 0; color: #666;">
+                Hiển thị <strong>${(currentPage - 1) * pageSize + 1}</strong> - 
+                <strong>${currentPage * pageSize > totalItems ? totalItems : currentPage * pageSize}</strong> 
+                trong tổng số <strong>${totalItems}</strong> sản phẩm
+            </p>
+        </div>
+    </c:if>
+
     <!-- Thông báo khi không có sản phẩm -->
     <c:if test="${empty products}">
         <div style="text-align: center; padding: 50px;">
@@ -178,11 +190,86 @@
         </div>
     </c:if>
 
-    <!-- nút xem thêm -->
-    <div class="load-more-wrap">
-        <button id="loadMoreBtn" class="btn">Xem thêm</button>
-        <span id="loadMoreSpinner" class="spinner" style="display:none">Đang tải...</span>
-    </div>
+    <!-- Phân trang -->
+    <c:if test="${not empty totalPages and totalPages > 1}">
+        <c:url var="baseUrl" value="">
+            <c:if test="${not empty param.sort}">
+                <c:param name="sort" value="${param.sort}"/>
+            </c:if>
+            <c:if test="${not empty param.priceMin}">
+                <c:param name="priceMin" value="${param.priceMin}"/>
+            </c:if>
+            <c:if test="${not empty param.priceMax}">
+                <c:param name="priceMax" value="${param.priceMax}"/>
+            </c:if>
+            <c:if test="${not empty param.brandId}">
+                <c:param name="brandId" value="${param.brandId}"/>
+            </c:if>
+            <c:if test="${not empty paramValues.memory}">
+                <c:forEach var="mem" items="${paramValues.memory}">
+                    <c:param name="memory" value="${mem}"/>
+                </c:forEach>
+            </c:if>
+            <c:if test="${not empty paramValues.color}">
+                <c:forEach var="col" items="${paramValues.color}">
+                    <c:param name="color" value="${col}"/>
+                </c:forEach>
+            </c:if>
+            <c:if test="${not empty param.year}">
+                <c:param name="year" value="${param.year}"/>
+            </c:if>
+        </c:url>
+
+        <!-- Tách query string từ URL -->
+        <c:set var="queryString" value="${fn:substringAfter(baseUrl, '?')}"/>
+        <c:if test="${not empty queryString}">
+            <c:set var="queryString" value="&${queryString}"/>
+        </c:if>
+        
+        <div class="pagination-container" style="margin: 30px 0; display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;">
+            <!-- Nút Trang trước -->
+            <c:if test="${currentPage > 1}">
+                <a href="?page=${currentPage - 1}${queryString}" 
+                   class="pagination-btn" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; background: #fff; transition: all 0.3s;">
+                    <i class="fa-solid fa-chevron-left"></i> Trước
+                </a>
+            </c:if>
+
+            <!-- Các số trang -->
+            <c:set var="startPage" value="${currentPage > 3 ? currentPage - 2 : 1}" />
+            <c:set var="endPage" value="${currentPage + 2 < totalPages ? currentPage + 2 : totalPages}" />
+            
+            <c:if test="${startPage > 1}">
+                <a href="?page=1${queryString}" class="pagination-btn" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; background: #fff;">1</a>
+                <c:if test="${startPage > 2}"><span style="padding: 8px 4px;">...</span></c:if>
+            </c:if>
+            
+            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                <c:choose>
+                    <c:when test="${i == currentPage}">
+                        <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid #007bff; border-radius: 5px; background: #007bff; color: #fff; font-weight: bold;">${i}</span>
+                    </c:when>
+                    <c:otherwise>
+                        <a href="?page=${i}${queryString}" 
+                           class="pagination-btn" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; background: #fff; transition: all 0.3s;">${i}</a>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${endPage < totalPages}">
+                <c:if test="${endPage < totalPages - 1}"><span style="padding: 8px 4px;">...</span></c:if>
+                <a href="?page=${totalPages}${queryString}" class="pagination-btn" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; background: #fff;">${totalPages}</a>
+            </c:if>
+
+            <!-- Nút Trang sau -->
+            <c:if test="${currentPage < totalPages}">
+                <a href="?page=${currentPage + 1}${queryString}" 
+                   class="pagination-btn" style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 5px; text-decoration: none; color: #333; background: #fff; transition: all 0.3s;">
+                    Sau <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </c:if>
+        </div>
+    </c:if>
 
 </main>
 <jsp:include page="/views/includes/footer.jsp"/>

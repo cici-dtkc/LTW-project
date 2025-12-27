@@ -26,4 +26,22 @@ public class ProductServiceImpl implements ProductService {
         return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
 
+    @Override
+    public List<Map<String, Object>> getProductsByCategoryWithFilters(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    ) {
+        return ((ProductDaoImpl) productDao).getProductsByCategoryWithFilters(
+                categoryId, priceMin, priceMax, memory, colors, year, brandId, types, condition, sortBy
+        );
+    }
+
 }
