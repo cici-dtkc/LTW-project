@@ -32,4 +32,15 @@ public interface ProductDao {
     List<Map<String, Object>> findVariantsByProductId(int productId);
     List<Map<String, Object>> findTechByProductId(int productId);
     List<Map<String, Object>> findColorsByVariantId(int variantId);
+    List<Product> findAllWithVariants();
+
+    Product getProductById(int id);
+
+    List<Product> search(String keyword, Integer status, Integer categoryId);
+
+    void updateStatus(int productId, int status);
+
+    List<Map<String, Object>> getProductsByCategory(int categoryId);
+
+    List<Map<String, Object>> getProductsForList();
 }

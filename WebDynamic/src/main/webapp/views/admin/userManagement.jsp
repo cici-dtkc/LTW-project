@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>Quản lý người dùng</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
@@ -14,8 +14,8 @@
 </head>
 <body>
 <div class="app">
-<%--    <jsp:include page="/views/includes/sideBarAdmin.jsp"/>--%>
     <%@ include file="/views/includes/sideBarAdmin.jsp" %>
+
     <div class="container" id="container-user-management">
 
         <div class="topbar">
@@ -27,17 +27,28 @@
         </div>
 
         <div class="header" id="filter-bar">
-            <input type="text" placeholder="Tìm kiếm..." id="search-input">
+            <!-- GIỮ GIÁ TRỊ TÌM KIẾM SAU KHI RELOAD -->
+            <input type="text"
+                   placeholder="Tìm kiếm theo ID, username, email..."
+                   id="search-input"
+                   value="${currentSearch}">
+
             <select id="role-filter">
                 <option value="">Vai trò</option>
-                <option value="Admin">Admin</option>
-                <option value="User">User</option>
+                <option value="Admin" ${currentRole == 'Admin' ? 'selected' : ''}>Admin</option>
+                <option value="User" ${currentRole == 'User' ? 'selected' : ''}>User</option>
             </select>
+
             <select id="status-filter">
                 <option value="">Trạng thái</option>
-                <option value="Hoạt động">Hoạt động</option>
-                <option value="Tạm khóa">Tạm khóa</option>
+                <option value="Hoạt động" ${currentStatus == 'Hoạt động' ? 'selected' : ''}>Hoạt động</option>
+                <option value="Tạm khóa" ${currentStatus == 'Tạm khóa' ? 'selected' : ''}>Tạm khóa</option>
             </select>
+
+            <!-- NÚT RESET FILTER -->
+            <button id="reset-filter-btn" class="btn-reset" title="Reset bộ lọc">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
         </div>
 
         <table>
@@ -45,7 +56,8 @@
             <tr>
                 <th>ID</th>
                 <th>Ảnh đại diện</th>
-                <th>Tên người dùng</th>
+                <th>Tên đăng nhập</th>
+                <th>Email</th>
                 <th>Vai trò</th>
                 <th>Trạng thái</th>
                 <th>Hành động</th>
@@ -53,93 +65,243 @@
             </thead>
 
             <tbody id="user-table-body">
-            <c:forEach var="u" items="${users}">
-                <tr data-id="${u.id}">
+            <c:choose>
+                <c:when test="${empty users}">
+                    <tr id="no-results-row">
+                        <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
+                            <i class="fa-solid fa-search" style="font-size: 48px; color: #ddd; margin-bottom: 16px;"></i>
+                            <p style="margin: 0; font-size: 16px;">Không tìm thấy người dùng nào</p>
+                        </td>
+                    </tr>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="u" items="${users}">
+                        <tr data-id="${u.id}">
 
-                    <!-- CỘT ID -->
-                    <td class="id-cell">${u.id}</td>
+                            <!-- CỘT ID -->
+                            <td class="id-cell">${u.id}</td>
 
-                    <!-- CỘT AVATAR -->
-                    <td class="avatar-cell">
-                            <%-- XỬ LÝ AVATAR --%>
-                        <c:choose>
-                            <%-- Nếu user có avatar --%>
-                            <c:when test="${not empty u.avatar}">
+                            <!-- CỘT AVATAR -->
+                            <td class="avatar-cell">
                                 <c:choose>
-                                    <%-- Nếu avatar bắt đầu bằng / (đường dẫn tương đối) --%>
-                                    <c:when test="${u.avatar.startsWith('/')}">
-                                        <img src="${pageContext.request.contextPath}${u.avatar} " style="width:40px;height:40px;border-radius:50%;"
-                                             alt="${u.username}"
-                                             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                                    <c:when test="${not empty u.avatar}">
+                                        <c:choose>
+                                            <c:when test="${u.avatar.startsWith('/')}">
+                                                <img src="${pageContext.request.contextPath}${u.avatar}" style="width:40px;height:40px;border-radius:50%;"
+                                                     alt="${u.username}"
+                                                     onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <img src="${pageContext.request.contextPath}/${u.avatar}" style="width:40px;height:40px;border-radius:50%;"
+                                                     alt="${u.username}"
+                                                     onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                                            </c:otherwise>
+                                        </c:choose>
                                     </c:when>
-                                    <%-- Các trường hợp khác --%>
                                     <c:otherwise>
-                                        <img src="${pageContext.request.contextPath}/${u.avatar}" style="width:40px;height:40px;border-radius:50%;"
-                                             alt="${u.username}"
-                                             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                                        <img src="${pageContext.request.contextPath}/assert/img/admin.jpg" style="width:40px;height:40px;border-radius:50%;"
+                                             alt="${u.username}">
                                     </c:otherwise>
                                 </c:choose>
-                            </c:when>
-                            <%-- Nếu không có avatar → dùng ảnh mặc định --%>
-                            <c:otherwise>
-                                <img src="${pageContext.request.contextPath}/assert/img/admin.jpg" style="width:40px;height:40px;border-radius:50%;"
-                                     alt="${u.username}">
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
+                            </td>
 
-                    <!-- USERNAME -->
-                    <td>${u.username}</td>
+                            <!-- USERNAME -->
+                            <td class="username-cell">${u.username}</td>
 
-                    <!-- ROLE -->
-                    <td class="role-cell">
-                <span class="role-text">
-                    <c:choose>
-                        <c:when test="${u.role == 1}">Admin</c:when>
-                        <c:otherwise>User</c:otherwise>
-                    </c:choose>
-                </span>
+                            <!-- EMAIL -->
+                            <td class="email-cell">
+                                <c:choose>
+                                    <c:when test="${not empty u.email}">
+                                        ${u.email}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span style="color: #999;">Chưa có email</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
 
-                        <select class="role-select" style="display:none;">
-                            <option value="0" ${u.role == 0 ? "selected" : ""}>User</option>
-                            <option value="1" ${u.role == 1 ? "selected" : ""}>Admin</option>
-                        </select>
-                    </td>
+                            <!-- ROLE -->
+                            <td class="role-cell">
+                                <span class="role-text">
+                                    <c:choose>
+                                        <c:when test="${u.role == 1}">Admin</c:when>
+                                        <c:otherwise>User</c:otherwise>
+                                    </c:choose>
+                                </span>
 
-                    <!-- STATUS -->
-                    <td class="status-cell">
-                <span class="status-text">
-                    <c:choose>
-                        <c:when test="${u.status == 1}">Hoạt động</c:when>
-                        <c:otherwise>Tạm khóa</c:otherwise>
-                    </c:choose>
-                </span>
+                                <select class="role-select" style="display:none;">
+                                    <option value="0" ${u.role == 0 ? "selected" : ""}>User</option>
+                                    <option value="1" ${u.role == 1 ? "selected" : ""}>Admin</option>
+                                </select>
+                            </td>
 
-                        <select class="status-select" style="display:none;">
-                            <option value="1" ${u.status == 1 ? "selected" : ""}>Hoạt động</option>
-                            <option value="0" ${u.status == 0 ? "selected" : ""}>Tạm khóa</option>
-                        </select>
-                    </td>
+                            <!-- STATUS -->
+                            <td class="status-cell">
+                                <span class="status-text">
+                                    <c:choose>
+                                        <c:when test="${u.status == 1}">Hoạt động</c:when>
+                                        <c:otherwise>Tạm khóa</c:otherwise>
+                                    </c:choose>
+                                </span>
 
-                    <!-- ACTION ICONS -->
-                    <td>
-                        <i class="fa-solid fa-pen edit-icon" style="cursor:pointer;"></i>
-                        <i class="fa-solid fa-floppy-disk save-icon" style="display:none;cursor:pointer;"></i>
-                        <i class="fa-solid fa-xmark cancel-icon" style="display:none;cursor:pointer;"></i>
-                    </td>
+                                <select class="status-select" style="display:none;">
+                                    <option value="1" ${u.status == 1 ? "selected" : ""}>Hoạt động</option>
+                                    <option value="0" ${u.status == 0 ? "selected" : ""}>Tạm khóa</option>
+                                </select>
+                            </td>
 
-                </tr>
-            </c:forEach>
+                            <!-- ACTION ICONS -->
+                            <td class="action-cell">
+                                <i class="fa-solid fa-pen edit-icon" title="Chỉnh sửa"></i>
+                                <i class="fa-solid fa-floppy-disk save-icon" style="display:none;" title="Lưu"></i>
+                                <i class="fa-solid fa-xmark cancel-icon" style="display:none;" title="Hủy"></i>
+                            </td>
+
+                        </tr>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
             </tbody>
         </table>
+        <!-- PHÂN TRANG -->
+        <div class="footer-user" id="footer-pagination">
+            <div class="pagination-info">
+                <p>
+                    Hiển thị
+                    <strong>${empty users ? 0 : users.size()}</strong>
+                    trên tổng số
+                    <strong>${totalUsers}</strong>
+                    người dùng
+                    <c:if test="${totalPage > 0}">
+                        (Trang ${page}/${totalPage})
+                    </c:if>
+                </p>
+            </div>
 
+            <c:if test="${totalPage > 1}">
+                <div class="pagination">
+                    <!-- First Page -->
+                    <c:if test="${page > 1}">
+                        <a href="${pageContext.request.contextPath}/admin/users?page=1&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                           class="page-link"
+                           title="Trang đầu">
+                            «
+                        </a>
+                    </c:if>
 
+                    <!-- Previous Page -->
+                    <c:if test="${page > 1}">
+                        <a href="${pageContext.request.contextPath}/admin/users?page=${page-1}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                           class="page-link"
+                           title="Trang trước">
+                            ‹
+                        </a>
+                    </c:if>
 
+                    <!-- Page Numbers -->
+                    <c:choose>
+                        <c:when test="${totalPage <= 7}">
+                            <c:forEach begin="1" end="${totalPage}" var="i">
+                                <c:choose>
+                                    <c:when test="${i == page}">
+                                        <span class="page-link active">${i}</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${pageContext.request.contextPath}/admin/users?page=${i}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                           class="page-link">
+                                                ${i}
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:when>
 
+                        <c:otherwise>
+                            <c:choose>
+                                <c:when test="${page <= 4}">
+                                    <c:forEach begin="1" end="5" var="i">
+                                        <c:choose>
+                                            <c:when test="${i == page}">
+                                                <span class="page-link active">${i}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}/admin/users?page=${i}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                                   class="page-link">${i}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                    <span class="page-link dots">...</span>
+                                    <a href="${pageContext.request.contextPath}/admin/users?page=${totalPage}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                       class="page-link">${totalPage}</a>
+                                </c:when>
+
+                                <c:when test="${page >= totalPage - 3}">
+                                    <a href="${pageContext.request.contextPath}/admin/users?page=1&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                       class="page-link">1</a>
+                                    <span class="page-link dots">...</span>
+                                    <c:forEach begin="${totalPage - 4}" end="${totalPage}" var="i">
+                                        <c:choose>
+                                            <c:when test="${i == page}">
+                                                <span class="page-link active">${i}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}/admin/users?page=${i}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                                   class="page-link">${i}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </c:when>
+
+                                <c:otherwise>
+                                    <a href="${pageContext.request.contextPath}/admin/users?page=1&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                       class="page-link">1</a>
+                                    <span class="page-link dots">...</span>
+
+                                    <c:forEach begin="${page - 1}" end="${page + 1}" var="i">
+                                        <c:choose>
+                                            <c:when test="${i == page}">
+                                                <span class="page-link active">${i}</span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <a href="${pageContext.request.contextPath}/admin/users?page=${i}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                                   class="page-link">${i}</a>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+
+                                    <span class="page-link dots">...</span>
+                                    <a href="${pageContext.request.contextPath}/admin/users?page=${totalPage}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                                       class="page-link">${totalPage}</a>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <!-- Next Page -->
+                    <c:if test="${page < totalPage}">
+                        <a href="${pageContext.request.contextPath}/admin/users?page=${page+1}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                           class="page-link"
+                           title="Trang sau">
+                            ›
+                        </a>
+                    </c:if>
+
+                    <!-- Last Page -->
+                    <c:if test="${page < totalPage}">
+                        <a href="${pageContext.request.contextPath}/admin/users?page=${totalPage}&search=${currentSearch}&role=${currentRole}&status=${currentStatus}"
+                           class="page-link"
+                           title="Trang cuối">
+                            »
+                        </a>
+                    </c:if>
+                </div>
+            </c:if>
+        </div>
     </div>
 </div>
-</body>
+
 <script src="${pageContext.request.contextPath}/js/userManagement.js"></script>
 <script src="${pageContext.request.contextPath}/js/sidebarAdmin.js"></script>
 <script src="${pageContext.request.contextPath}/js/dashboardAdmin.js"></script>
+</body>
 </html>

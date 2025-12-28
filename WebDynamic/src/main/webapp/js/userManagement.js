@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ================= UI CONTROL FUNCTIONS =================
 
-    // Chuyển sang chế độ edit
     function enterEditMode(elements) {
         const { editBtn, saveBtn, cancelBtn, roleText, roleSelect, statusText, statusSelect } = elements;
 
@@ -45,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         statusSelect.style.display = "inline-block";
     }
 
-    // Thoát chế độ edit (về chế độ view)
     function exitEditMode(elements, updateText = false) {
         const { editBtn, saveBtn, cancelBtn, roleText, roleSelect, statusText, statusSelect } = elements;
 
@@ -59,96 +57,86 @@ document.addEventListener("DOMContentLoaded", () => {
         cancelBtn.style.display = "none";
         editBtn.style.display = "inline-block";
 
-        // Cập nhật text nếu cần (sau khi save thành công)
         if (updateText) {
             roleText.textContent = roleSelect.value == "1" ? "Admin" : "User";
             statusText.textContent = statusSelect.value == "1" ? "Hoạt động" : "Tạm khóa";
         }
     }
 
-    // Reset về giá trị cũ
     function resetToOldValues(elements, oldValues) {
         elements.roleSelect.value = oldValues.role;
         elements.statusSelect.value = oldValues.status;
     }
 
-    // Cập nhật giá trị cũ
     function updateOldValues(oldValues, newValues) {
         oldValues.role = newValues.role;
         oldValues.status = newValues.status;
     }
 
-    // Set loading state cho save button
     function setButtonLoading(btn, isLoading) {
         btn.style.opacity = isLoading ? "0.5" : "1";
         btn.style.pointerEvents = isLoading ? "none" : "auto";
     }
 
-    // ================= SEARCH & FILTER =================
+    // ================= SEARCH & FILTER (CẬP NHẬT URL) =================
     const searchInput = document.getElementById("search-input");
     const roleFilter = document.getElementById("role-filter");
     const statusFilter = document.getElementById("status-filter");
+    const resetBtn = document.getElementById("reset-filter-btn");
 
-    function filterTable() {
-        const searchTerm = searchInput.value.toLowerCase().trim();
+    // Debounce function để tránh gọi quá nhiều lần
+    let debounceTimer;
+    function debounce(func, delay) {
+        return function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(func, delay);
+        };
+    }
+
+    function applyFilter() {
+        const searchTerm = searchInput.value.trim();
         const roleValue = roleFilter.value;
         const statusValue = statusFilter.value;
 
-        let visibleCount = 0;
+        // Tạo URL mới với query parameters
+        const params = new URLSearchParams();
 
-        allRows.forEach(row => {
-            const id = row.querySelector(".id-cell").textContent.toLowerCase();
-            const username = row.querySelectorAll("td")[2].textContent.toLowerCase();
-            const roleText = row.querySelector(".role-text").textContent;
-            const statusText = row.querySelector(".status-text").textContent;
+        if (searchTerm) params.append('search', searchTerm);
+        if (roleValue) params.append('role', roleValue);
+        if (statusValue) params.append('status', statusValue);
 
-            const matchesSearch = id.includes(searchTerm) || username.includes(searchTerm);
-            const matchesRole = !roleValue || roleText === roleValue;
-            const matchesStatus = !statusValue || statusText === statusValue;
+        // Reload trang với filter mới
+        const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+        window.location.href = newUrl;
+    }
 
-            if (matchesSearch && matchesRole && matchesStatus) {
-                row.style.display = "";
-                visibleCount++;
-            } else {
-                row.style.display = "none";
-            }
+    // Gắn sự kiện với debounce cho search input
+    if (searchInput) {
+        searchInput.addEventListener("input", debounce(applyFilter, 500));
+    }
+
+    // Gắn sự kiện cho select filters
+    if (roleFilter) {
+        roleFilter.addEventListener("change", applyFilter);
+    }
+    if (statusFilter) {
+        statusFilter.addEventListener("change", applyFilter);
+    }
+
+    // Reset filter
+    if (resetBtn) {
+        resetBtn.addEventListener("click", () => {
+            window.location.href = window.location.pathname;
         });
-
-        updateNoResultsMessage(visibleCount);
     }
-
-    function updateNoResultsMessage(count) {
-        let noResultsRow = document.getElementById("no-results-row");
-
-        if (count === 0) {
-            if (!noResultsRow) {
-                noResultsRow = document.createElement("tr");
-                noResultsRow.id = "no-results-row";
-                noResultsRow.innerHTML = `
-                    <td colspan="6" style="text-align: center; padding: 40px; color: #666;">
-                        <i class="fa-solid fa-search" style="font-size: 48px; color: #ddd; margin-bottom: 16px;"></i>
-                        <p style="margin: 0; font-size: 16px;">Không tìm thấy người dùng nào</p>
-                    </td>
-                `;
-                document.getElementById("user-table-body").appendChild(noResultsRow);
-            }
-        } else {
-            if (noResultsRow) {
-                noResultsRow.remove();
-            }
-        }
-    }
-
-    // Gắn sự kiện filter
-    if (searchInput) searchInput.addEventListener("input", filterTable);
-    if (roleFilter) roleFilter.addEventListener("change", filterTable);
-    if (statusFilter) statusFilter.addEventListener("change", filterTable);
 
     // ================= ROW EDITING =================
     allRows.forEach(row => {
+        // Bỏ qua row "no results"
+        if (row.id === 'no-results-row') return;
+
         const id = row.dataset.id;
 
-        // Lấy tất cả elements cần thiết
         const elements = {
             editBtn: row.querySelector(".edit-icon"),
             saveBtn: row.querySelector(".save-icon"),
@@ -159,7 +147,6 @@ document.addEventListener("DOMContentLoaded", () => {
             statusSelect: row.querySelector(".status-select")
         };
 
-        // Lưu giá trị gốc
         const oldValues = {
             role: elements.roleSelect.value,
             status: elements.statusSelect.value
@@ -203,13 +190,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     return;
                 }
 
-                // Cập nhật giá trị cũ
                 updateOldValues(oldValues, {
                     role: elements.roleSelect.value,
                     status: elements.statusSelect.value
                 });
 
-                // Thoát edit mode và cập nhật text
                 exitEditMode(elements, true);
 
                 showToast("Cập nhật người dùng thành công", "success");

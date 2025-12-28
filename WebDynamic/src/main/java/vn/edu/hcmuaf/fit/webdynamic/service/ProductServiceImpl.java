@@ -13,7 +13,6 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductDao productDao = new ProductDaoImpl();
 
-
     @Override
     public List<Map<String, Object>> getForAdmin(
             String keyword,
@@ -109,6 +108,16 @@ public class ProductServiceImpl implements ProductService {
                 productDao.findTechByProductId(productId));
 
         return product;
+    }
+
+    @Override
+    public List<Map<String, Object>> getProductsForList() {
+        return ((ProductDaoImpl) productDao).getProductsForListDisplay();
+    }
+
+    @Override
+    public List<Map<String, Object>> getProductsByCategory(int categoryId) {
+        return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
 
 }

@@ -20,15 +20,7 @@ updateBtn.addEventListener('click', function () {
         alert('Mật khẩu xác nhận không khớp!');
         return;
     }
-
-    // Giả lập lưu mật khẩu mới (thực tế: gọi API backend ở đây)
-    // Xóa thông tin tạm và chuyển về trang đăng nhập
-    sessionStorage.removeItem('resetCode');
-    sessionStorage.removeItem('resetCodeCreatedAt');
-    sessionStorage.removeItem('resetEmail');
-
-    alert('Cập nhật mật khẩu thành công!');
-    window.location.href = 'login.html';
+    document.getElementById('reset-form').submit();
 });
 
 // Ẩn / hiện mật khẩu (icon mắt)

@@ -16,8 +16,11 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/paymentForm.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
 </head>
+
 <body>
+<jsp:include page="/views/includes/header.jsp"/>
 <div id="pageWrapper">
     <jsp:include page="/views/includes/sidebarUser.jsp" />
     <div id="contentArea">
@@ -55,6 +58,7 @@
         </div>
     </div>
 </div>
+<script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/paymentForm.js?v=3"></script>
 </body>
 </html>
