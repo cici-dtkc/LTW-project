@@ -33,69 +33,44 @@ public class ProductAddController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        request.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
-                .forward(request, response);
+
     }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-    {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
+        // 1. Lấy thông tin cơ bản Product
         String name = request.getParameter("productName");
         String description = request.getParameter("description");
-
-        // NOTE (FIX): categoryId lấy từ hidden input (luôn tồn tại)
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+
+        // Xử lý Brand
         String brandParam = request.getParameter("brandId");
         Brand brand;
-
         if ("custom".equals(brandParam)) {
-            String customBrand = request.getParameter("customBrand");
-
-            if (customBrand == null || customBrand.isBlank()) {
-                error(request, response, "Vui lòng nhập tên hãng mới");
-                return;
-            }
-
             brand = new Brand();
-            brand.setName(customBrand);
-
-
+            brand.setName(request.getParameter("customBrand"));
         } else {
-            int brandId = Integer.parseInt(brandParam);
-            brand = new Brand(brandId);
-        }
-
-
-        Part mainImage = request.getPart("productImage");
-
-        if (name == null || name.isBlank()) {
-            error(request, response, "Tên sản phẩm không được để trống");
-            return;
-        }
-
-        if (mainImage == null || mainImage.getSize() == 0) {
-            error(request, response, "Chưa chọn ảnh đại diện");
-            return;
+            brand = new Brand(Integer.parseInt(brandParam));
         }
 
         Product product = new Product();
         product.setName(name);
         product.setDescription(description);
-        product.setStatus(1);
-        product.setCreatedAt(LocalDateTime.now());
         product.setCategory(new Category(categoryId));
         product.setBrand(brand);
+        product.setStatus(1);
+        product.setCreatedAt(LocalDateTime.now());
 
-        try {
-            String mainImagePath = FileUploadUtil.saveImage(
-                    mainImage,
-                    getServletContext().getRealPath("/")
-            );
-            product.setMainImage(mainImagePath);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        // 2. Xử lý Ảnh đại diện sản phẩm
+        Part mainImagePart = request.getPart("productImage");
+        if (mainImagePart != null && mainImagePart.getSize() > 0) {
+            try {
+                String path = FileUploadUtil.saveImage(mainImagePart, getServletContext().getRealPath("/"));
+                product.setMainImage(path);
+            } catch (Exception e) { e.printStackTrace(); }
         }
 
-        /*   TECH SPECS   */
+        // 3. Xử lý Thông số kỹ thuật
         String[] techNames = request.getParameterValues("techName[]");
         String[] techValues = request.getParameterValues("techValue[]");
         String[] techPriorities = request.getParameterValues("techPriority[]");
@@ -103,104 +78,86 @@ public class ProductAddController extends HttpServlet {
         if (techNames != null) {
             List<TechSpecs> techList = new ArrayList<>();
             for (int i = 0; i < techNames.length; i++) {
+                if (techNames[i] == null || techNames[i].isBlank()) continue;
                 TechSpecs t = new TechSpecs();
                 t.setName(techNames[i]);
                 t.setValue(techValues[i]);
                 t.setPriority(Integer.parseInt(techPriorities[i]));
-                t.setCreatedAt(LocalDateTime.now()); // bổ sung createdAt
                 techList.add(t);
             }
             product.setTechSpecs(techList);
         }
 
-
-        /*    VARIANTS   */
+        /* 4. XỬ LÝ VARIANTS & COLORS */
         String[] variantNames = request.getParameterValues("variantName[]");
         String[] basePrices = request.getParameterValues("basePrice[]");
+        String[] quantities = request.getParameterValues("quantity[]"); // Dùng cho Điện thoại (mảng màu)
+        String[] variantQuantities = request.getParameterValues("variantQuantity[]"); // Dùng cho Linh kiện
 
-        if (variantNames == null || variantNames.length == 0) {
-            error(request, response, "Phải có ít nhất 1 phiên bản");
-            return;
-        }
+        if (variantNames != null) {
+            List<ProductVariant> variants = new ArrayList<>();
 
-        List<ProductVariant> variants = new ArrayList<>();
+            // Dữ liệu màu (chỉ dùng cho điện thoại)
+            String[] colorVariantIndexes = request.getParameterValues("colorVariantIndex[]");
+            String[] colorIds = request.getParameterValues("colorId[]");
+            String[] customColors = request.getParameterValues("customColor[]");
+            String[] colorPrices = request.getParameterValues("colorPrice[]");
 
-        for (int i = 0; i < variantNames.length; i++) {
-            ProductVariant v = new ProductVariant();
-            v.setName(variantNames[i]);
-            v.setBasePrice(Double.parseDouble(basePrices[i]));
-            v.setStatus(1);
-            v.setCreatedAt(LocalDateTime.now());
-            variants.add(v);
-        }
+            for (int i = 0; i < variantNames.length; i++) {
+                ProductVariant v = new ProductVariant();
+                v.setName(variantNames[i]);
+                v.setBasePrice(parseDbl(basePrices != null ? basePrices[i] : "0"));
+                v.setStatus(1);
+                v.setCreatedAt(LocalDateTime.now());
 
-        /*   COLORS   */
-        String[] colorIds = request.getParameterValues("colorId[]");
-        String[] customColors = request.getParameterValues("customColor[]"); // NOTE
-        String[] colorPrices = request.getParameterValues("colorPrice[]");
-        String[] quantities = request.getParameterValues("quantity[]");
+                List<VariantColor> variantColors = new ArrayList<>();
 
-        List<Part> colorImageParts = request.getParts().stream()
-                .filter(p -> "colorImage[]".equals(p.getName()) && p.getSize() > 0)
-                .toList();
+                if (categoryId == 1) {
+                    // --- TRƯỜNG HỢP ĐIỆN THOẠI ---
+                    if (colorIds != null && colorVariantIndexes != null) {
+                        for (int j = 0; j < colorIds.length; j++) {
+                            // Dùng parseInt an toàn để tránh lỗi chuỗi rỗng hoặc null
+                            int belongsToVariant = parseInt(colorVariantIndexes[j]);
 
-        int colorIndex = 0;
-
-        for (ProductVariant variant : variants) {
-
-            List<VariantColor> variantColors = new ArrayList<>();
-
-            // NOTE: mỗi variant hiện xử lý 1 màu (ổn định, không crash)
-            if (colorIds != null && colorIndex < colorIds.length) {
-
-                VariantColor vc = new VariantColor();
-
-                // NOTE : xử lý màu custom
-                if ("custom".equals(colorIds[colorIndex])) {
-                    Color c = new Color();
-                    c.setName(customColors[colorIndex]);
-                    vc.setColor(c);
-                } else {
-                    vc.setColor(new Color(Integer.parseInt(colorIds[colorIndex])));
-                }
-
-                vc.setPrice(Double.parseDouble(colorPrices[colorIndex]));
-                vc.setQuantity(Integer.parseInt(quantities[colorIndex]));
-                vc.setCreatedAt(LocalDateTime.now());
-
-                // NOTE  : ảnh màu không bắt buộc
-                if (colorIndex < colorImageParts.size()) {
-                    try {
-                        String imgPath = FileUploadUtil.saveImage(
-                                colorImageParts.get(colorIndex),
-                                getServletContext().getRealPath("/")
-                        );
-
-                        Image img = new Image();
-                        img.setImgPath(imgPath);
-                        img.setCreatedAt(LocalDateTime.now());
-
-                        vc.setImages(List.of(img));
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                            if (belongsToVariant == i) {
+                                VariantColor vc = new VariantColor();
+                                if ("custom".equals(colorIds[j])) {
+                                    Color c = new Color();
+                                    c.setName(customColors != null ? customColors[j] : "Màu mới");
+                                    vc.setColor(c);
+                                } else {
+                                    vc.setColor(new Color(parseInt(colorIds[j])));
+                                }
+                                vc.setPrice(parseDbl(colorPrices != null ? colorPrices[j] : "0"));
+                                vc.setQuantity(parseInt(quantities != null ? quantities[j] : "0"));
+                                vc.setCreatedAt(LocalDateTime.now());
+                                variantColors.add(vc);
+                            }
+                        }
                     }
+                } else {
+                    // --- TRƯỜNG HỢP LINH KIỆN ---
+                    VariantColor vc = new VariantColor();
+                    vc.setColor(new Color(1)); // Màu mặc định
+                    vc.setPrice(0.0);
+                    // Quan trọng: Phải dùng variantQuantities[i] cho Linh kiện
+                    vc.setQuantity(parseInt(variantQuantities != null ? variantQuantities[i] : "0"));
+                    vc.setCreatedAt(LocalDateTime.now());
+                    variantColors.add(vc);
                 }
 
-                variantColors.add(vc);
-                colorIndex++;
+                v.setColors(variantColors);
+                variants.add(v);
             }
-
-            variant.setColors(variantColors);
+            product.setVariants(variants);
         }
 
-        product.setVariants(variants);
-
-        /*  SAVE   */
+        // 5. Lưu xuống Database
         productService.addPhone(product);
 
-        response.sendRedirect(request.getContextPath() + "/admin/products");
+        // 6. Redirect về trang danh sách kèm thông báo thành công
+        response.sendRedirect(request.getContextPath() + "/admin/products?status=success");
     }
-
     private void error(HttpServletRequest req,
                        HttpServletResponse resp,
                        String msg)
@@ -210,5 +167,14 @@ public class ProductAddController extends HttpServlet {
         req.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
                 .forward(req, resp);
     }
-    }
 
+private int parseInt(String s) {
+    if (s == null || s.trim().isEmpty()) return 0;
+    return Integer.parseInt(s.trim());
+}
+
+private double parseDbl(String s) {
+    if (s == null || s.trim().isEmpty()) return 0.0;
+    return Double.parseDouble(s.trim());
+}
+}

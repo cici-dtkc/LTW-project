@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
 
+import org.jdbi.v3.core.Handle;
 import vn.edu.hcmuaf.fit.webdynamic.model.Product;
 import vn.edu.hcmuaf.fit.webdynamic.model.ProductVariant;
 import vn.edu.hcmuaf.fit.webdynamic.model.TechSpecs;
@@ -19,11 +20,18 @@ public interface ProductDao {
     int countForAdmin(String keyword, Integer status, Integer categoryId);
     boolean toggleStatus(int productId);
     /*  ADD PRODUCT  */
-    int insertProduct(Product product);
+    int insertProduct(Handle h, Product p);
+    int insertVariant(Handle h, int productId, ProductVariant v);
+    int insertVariantColor(Handle h, int variantId, VariantColor c);
+    void insertTechSpec(Handle h, int productId, TechSpecs t);
+    List<Map<String, Object>> findForAdminByVariantIds(List<Integer> variantIds);
 
-    int insertVariant(int productId,ProductVariant variant);
+    List<Integer> findVariantIdsForAdmin(
+            String keyword,
+            Integer status,
+            Integer categoryId,
+            int offset,
+            int limit
+    );
 
-    void insertVariantColor(VariantColor color);
-
-    void insertTechSpec(int productId, TechSpecs tech);;
 }

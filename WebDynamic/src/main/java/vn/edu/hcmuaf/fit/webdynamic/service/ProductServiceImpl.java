@@ -15,7 +15,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> getForAdmin(
+    public List<Map<String, Object>> getForAdmin(
             String keyword,
             Integer status,
             Integer categoryId,
@@ -24,57 +24,14 @@ public class ProductServiceImpl implements ProductService {
 
         int offset = (page - 1) * limit;
 
-        List<Map<String, Object>> rows =
-                productDao.findForAdmin(keyword, status, categoryId, offset, limit);
+        List<Integer> vcIds = productDao.findVariantIdsForAdmin(
+                keyword, status, categoryId, offset, limit
+        );
 
-        Map<Integer, Product> productMap = new LinkedHashMap<>();
-        Map<Integer, ProductVariant> variantMap = new HashMap<>();
+        if (vcIds.isEmpty()) return List.of();
 
-        for (Map<String, Object> row : rows) {
+        return productDao.findForAdminByVariantIds(vcIds);
 
-            int productId = (int) row.get("p_id");
-            Product product = productMap.computeIfAbsent(productId, id -> {
-                Product p = new Product();
-                p.setId(id);
-                p.setName((String) row.get("p_name"));
-                p.setMainImage((String) row.get("p_img"));
-
-                Category c = new Category();
-                c.setId((int) row.get("c_id"));
-                c.setName((String) row.get("c_name"));
-                p.setCategory(c);
-
-                p.setVariants(new ArrayList<>());
-                return p;
-            });
-
-            int variantId = (int) row.get("v_id");
-            ProductVariant variant = variantMap.computeIfAbsent(variantId, id -> {
-                ProductVariant v = new ProductVariant();
-                v.setId(id);
-                v.setName((String) row.get("v_name"));
-                v.setBasePrice(((BigDecimal) row.get("base_price")).doubleValue());
-                v.setStatus((int) row.get("v_status"));
-                v.setColors(new ArrayList<>());
-
-                product.getVariants().add(v);
-                return v;
-            });
-
-            VariantColor vc = new VariantColor();
-            vc.setId((int) row.get("vc_id"));
-            vc.setPrice(((BigDecimal) row.get("vc_price")).doubleValue());
-            vc.setQuantity((int) row.get("quantity"));
-
-            Color color = new Color();
-            color.setId((int) row.get("color_id"));
-            color.setName((String) row.get("color_name"));
-
-            vc.setColor(color);
-            variant.getColors().add(vc);
-        }
-
-        return new ArrayList<>(productMap.values());
     }
 
     @Override
@@ -89,43 +46,35 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addPhone(Product product) {
-        getJdbi().useTransaction(handle -> {
 
-            //   INSERT PRODUCT
-            int productId = productDao.insertProduct(product);
+        getJdbi().useTransaction(handle -> { //  SỬA: transaction ở SERVICE
 
-            //   TECH SPECS (cả 2 loại đều có)
+            int productId = productDao.insertProduct(handle, product);
+
+            // TECH SPECS
             if (product.getTechSpecs() != null) {
                 for (TechSpecs t : product.getTechSpecs()) {
-                    productDao.insertTechSpec(productId, t);
+                    productDao.insertTechSpec(handle, productId, t);
                 }
             }
 
-            //   ĐIỆN THOẠI
-            if (product.getCategory().getId() == 1) {
+            if (product.getVariants() == null) return;
 
-                for (ProductVariant v : product.getVariants()) {
+            for (ProductVariant v : product.getVariants()) {
 
-                    int variantId = productDao.insertVariant(productId, v);
+                int variantId = productDao.insertVariant(handle, productId, v);
 
-                    for (VariantColor c : v.getColors()) {
+                // linh kiện không có màu → bỏ qua
+                if (v.getColors() == null) continue;
 
-                        c.setId(variantId);
-                        productDao.insertVariantColor(c);
+                for (VariantColor c : v.getColors()) {
+
+                    if (c.getColor() == null) {
+                        throw new RuntimeException("Color is NULL");
                     }
+
+                    productDao.insertVariantColor(handle, variantId, c);
                 }
-
-            }
-            //   LINH KIỆN
-            else {
-
-                // NOTE: linh kiện vẫn cần 1 variant để không vỡ JOIN
-                ProductVariant v = new ProductVariant();
-                v.setName("Default");
-                v.setBasePrice(0);
-                v.setStatus(1);
-
-                productDao.insertVariant(productId, v);
             }
         });
     }

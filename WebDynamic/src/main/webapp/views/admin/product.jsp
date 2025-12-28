@@ -71,70 +71,60 @@
             <thead>
             <tr>
                 <th>Hình ảnh</th>
-                <th>Tên</th>
-                <th>Giá</th>
+                <th>Tên sản phẩm</th>
                 <th>Danh mục</th>
                 <th>Phiên bản</th>
+                <th>Màu sắc</th>
+                <th>Giá cơ bản</th>
+                <th>Giá màu</th>
                 <th>Tồn kho</th>
                 <th>Hành động</th>
             </tr>
             </thead>
 
             <tbody>
-            <c:forEach items="${products}" var="p">
-                <c:forEach items="${p.variants}" var="v">
+            <c:forEach items="${products}" var="row">
+                <tr>
+                    <td>
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${row.p_img}">
+                    </td>
 
-                    <tr>
-                        <td>
-                            <img src="${pageContext.request.contextPath}/assert/img/product/${p.mainImage}">
-                        </td>
+                    <td class="text-left">${row.p_name}</td>
 
-                        <td class="text-left">${p.name}</td>
+                    <td>${row.c_name}</td>
 
-                        <td>
-                            <fmt:formatNumber value="${v.basePrice}" groupingUsed="true"/>₫
-                        </td>
+                    <td>${row.v_name}</td>
 
-                        <td>${p.category.name}</td>
+                    <td>${row.color_name}</td>
 
-                        <td>${v.name}</td>
+                    <td>
+                        <fmt:formatNumber value="${row.base_price}" groupingUsed="true"/>₫
+                    </td>
 
-                        <td>
-                            <c:set var="totalQty" value="0"/>
-                            <c:forEach items="${v.colors}" var="c">
-                                <c:set var="totalQty" value="${totalQty + c.quantity}"/>
-                            </c:forEach>
-                                ${totalQty}
-                        </td>
+                    <td>
+                        <fmt:formatNumber value="${row.vc_price}" groupingUsed="true"/>₫
+                    </td>
 
-                        <td class="actionsProduct">
-                            <a class="btn-edit"
-                               href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}">
-                                <i class="fa-solid fa-pencil"></i>
-                            </a>
+                    <td>${row.quantity}</td>
 
+                    <td class="actionsProduct">
+                        <a class="btn-edit"
+                           href="${pageContext.request.contextPath}/admin/variant-colors/edit?id=${row.vc_id}">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
 
-                            <form action="${pageContext.request.contextPath}/admin/products"
-                                  method="post"
-                                  style="display:inline">
+                        <form action="${pageContext.request.contextPath}/admin/products"
+                              method="post" style="display:inline">
+                            <input type="hidden" name="action" value="toggle"/>
+                            <input type="hidden" name="id" value="${row.v_id}"/>
 
-                                <input type="hidden" name="action" value="toggle"/>
-                                <input type="hidden" name="id" value="${v.id}"/>
-
-                                <button type="submit"
-                                        class="btn-toggle"
-                                        title="${v.status == 1 ? 'Ẩn phiên bản' : 'Hiển thị phiên bản'}">
-
-                                    <i class="fa-solid ${v.status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
-                                </button>
-                            </form>
-
-
-
-                        </td>
-                    </tr>
-
-                </c:forEach>
+                            <button type="submit" class="btn-toggle"
+                                    title="${row.v_status == 1 ? 'Ẩn' : 'Hiện'}">
+                                <i class="fa-solid ${row.v_status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
             </c:forEach>
             </tbody>
         </table>
@@ -143,16 +133,17 @@
         <div class="footer">
 
             <div class="pagination">
-
-                <c:if test="${page > 1}">
-                    <a href="${pageContext.request.contextPath}/admin/products?page=${page-1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
-                        ‹
+                <!-- Previous -->
+                <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/admin/products?page=${currentPage - 1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                        &laquo; Trước
                     </a>
                 </c:if>
 
+                <!-- Page numbers -->
                 <c:forEach begin="1" end="${totalPages}" var="i">
                     <c:choose>
-                        <c:when test="${i == page}">
+                        <c:when test="${i == currentPage}">
                             <span class="active">${i}</span>
                         </c:when>
                         <c:otherwise>
@@ -163,12 +154,12 @@
                     </c:choose>
                 </c:forEach>
 
-                <c:if test="${page < totalPages}">
-                    <a href="${pageContext.request.contextPath}/admin/products?page=${page+1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
-                        ›
+                <!-- Next -->
+                <c:if test="${currentPage < totalPages}">
+                    <a href="${pageContext.request.contextPath}/admin/products?page=${currentPage + 1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                        Sau &raquo;
                     </a>
                 </c:if>
-
             </div>
         </div>
 

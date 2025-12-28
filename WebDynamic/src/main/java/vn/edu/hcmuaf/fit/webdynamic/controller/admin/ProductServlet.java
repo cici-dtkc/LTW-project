@@ -10,6 +10,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.ProductServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/admin/products")
 public class ProductServlet extends HttpServlet {
@@ -35,7 +36,7 @@ public class ProductServlet extends HttpServlet {
         int offset = (page - 1) * limit;
 
         /* ================== SERVICE ================== */
-        List<Product> products =
+        List<Map<String, Object>> products =
                 productService.getForAdmin(keyword, status, categoryId, page, limit);
 
         int total = productService.countForAdmin(keyword, status, categoryId);
@@ -45,7 +46,7 @@ public class ProductServlet extends HttpServlet {
         req.setAttribute("products", products);
         req.setAttribute("totalVariants", total);
         req.setAttribute("totalPages", totalPages);
-        req.setAttribute("page", page);
+        req.setAttribute("currentPage", page);
 
         // giữ filter khi render lại form
         req.setAttribute("keyword", keyword);

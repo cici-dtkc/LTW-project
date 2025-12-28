@@ -135,25 +135,33 @@
     </div>
 </template>
 
-<template id="variantTpl">
+<template id="phoneVariantTpl">
     <div class="variant">
-        <!-- NOTE: thêm [] -->
-        <input name="variantName[]" placeholder="Tên phiên bản">
-        <input name="basePrice[]" placeholder="Giá gốc">
+        <input name="variantName[]" placeholder="Tên phiên bản" required>
+        <input name="basePrice[]" placeholder="Giá gốc" required>
 
-        <div class="colors"></div>
-
-        <button type="button" onclick="addColor(this)">Thêm màu</button>
+        <div class="colors"></div> <button type="button" class="btn-add-color" onclick="addColor(this)">Thêm màu</button>
         <button type="button" class="danger" onclick="removeBlock(this)">Xóa phiên bản</button>
+    </div>
+</template>
+
+<template id="partVariantTpl">
+    <div class="variant">
+        <input name="variantName[]" placeholder="Tên phiên bản" required>
+        <input name="basePrice[]" placeholder="Giá gốc" required>
+
+        <input name="variantQuantity[]" placeholder="Số lượng tồn kho" required>
+
+        <div class="colors" style="display:none"></div> <button type="button" class="danger" onclick="removeBlock(this)">Xóa phiên bản</button>
     </div>
 </template>
 
 <template id="colorTpl">
     <div class="color">
-        <!-- NOTE: đổi name -->
+        <input type="hidden" name="colorVariantIndex[]" class="variant-index-input">
         <div class="color-row">
-            <select name="colorId[]" onchange="toggleColor(this)">
-            <option value="">-- Chọn màu --</option>
+            <select name="colorId[]" onchange="toggleColor(this)" required>
+                <option value="">-- Chọn màu --</option>
                 <option value="1">Đen</option>
                 <option value="2">Trắng</option>
                 <option value="3">Xanh</option>
@@ -162,23 +170,20 @@
                 <option value="6">Xám</option>
                 <option value="custom">Khác...</option>
             </select>
-
-            <input type="text"
-                   name="customColor[]"
-                   placeholder="Nhập màu mới"
-                   style="display:none">
-
+            <input type="text" name="customColor[]" placeholder="Nhập màu mới" style="display:none">
         </div>
-        <input name="colorPrice[]" placeholder="Giá màu">
-        <input name="quantity[]" placeholder="Số lượng">
+        <input name="colorPrice[]" placeholder="Giá màu" value="" required>
+        <input name="quantity[]" placeholder="Số lượng" value="" required>
         <input name="sku[]" placeholder="SKU">
         <input type="file" name="colorImage[]">
-
-
         <button type="button" onclick="removeBlock(this)">✖</button>
     </div>
 </template>
-
+<c:if test="${param.status == 'success'}">
+    <script>
+        alert("Thêm sản phẩm thành công!");
+    </script>
+</c:if>
 <script src="${pageContext.request.contextPath}/js/addProductAdmin.js"></script>
 
 </body>
