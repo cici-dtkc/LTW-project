@@ -77,19 +77,21 @@ public class ProductServlet extends HttpServlet {
             return 1;
         }
     }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-
         String action = req.getParameter("action");
 
         if ("toggle".equals(action)) {
             int id = Integer.parseInt(req.getParameter("id"));
-            productService.toggleStatus(id);
-        }
+            boolean result = productService.toggleStatus(id);
+            System.out.println("toggle result = " + result);
 
-        // Redirect để load lại trạng thái mới
-        resp.sendRedirect(req.getContextPath() + "/admin/products");}
+            resp.sendRedirect(req.getContextPath() + "/admin/products");
+        }
+    }
+
 
 
 }

@@ -78,6 +78,38 @@ public class ProductServiceImpl implements ProductService {
             }
         });
     }
+    @Override
+    public Map<String, Object> getProductForEditByVariantColorId(int vcId) {
+
+        Map<String, Object> product =
+                productDao.findProductByVariantColorId(vcId);
+
+        if (product == null) {
+            throw new RuntimeException("Product not found for vcId=" + vcId);
+        }
+
+        Integer productId = (Integer) product.get("product_id");
+        if (productId == null) {
+            throw new RuntimeException("product_id missing: " + product);
+        }
+
+        List<Map<String, Object>> variants =
+                productDao.findVariantsByProductId(productId);
+
+        for (Map<String, Object> v : variants) {
+            Integer variantId = (Integer) v.get("variant_id");
+            if (variantId == null) continue;
+
+            v.put("colors",
+                    productDao.findColorsByVariantId(variantId));
+        }
+
+        product.put("variants", variants);
+        product.put("techs",
+                productDao.findTechByProductId(productId));
+
+        return product;
+    }
 
 }
 

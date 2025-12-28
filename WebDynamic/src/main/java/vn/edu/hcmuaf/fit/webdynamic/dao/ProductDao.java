@@ -26,12 +26,10 @@ public interface ProductDao {
     void insertTechSpec(Handle h, int productId, TechSpecs t);
     List<Map<String, Object>> findForAdminByVariantIds(List<Integer> variantIds);
 
-    List<Integer> findVariantIdsForAdmin(
-            String keyword,
-            Integer status,
-            Integer categoryId,
-            int offset,
-            int limit
-    );
-
+    List<Integer> findVariantIdsForAdmin( String keyword, Integer status, Integer categoryId, int offset, int limit);
+    // EDIT
+    Map<String, Object> findProductByVariantColorId(int vcId);
+    List<Map<String, Object>> findVariantsByProductId(int productId);
+    List<Map<String, Object>> findTechByProductId(int productId);
+    List<Map<String, Object>> findColorsByVariantId(int variantId);
 }

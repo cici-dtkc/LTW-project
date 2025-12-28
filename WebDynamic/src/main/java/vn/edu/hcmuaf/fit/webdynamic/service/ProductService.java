@@ -12,5 +12,5 @@ public interface ProductService {
     int countForAdmin(String keyword, Integer status, Integer categoryId);
       boolean toggleStatus(int productId) ;
       void addPhone(Product product);
-
+     Map<String, Object> getProductForEditByVariantColorId(int vcId);
 }

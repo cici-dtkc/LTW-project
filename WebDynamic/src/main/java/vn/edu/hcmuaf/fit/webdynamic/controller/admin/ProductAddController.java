@@ -140,7 +140,6 @@ public class ProductAddController extends HttpServlet {
                     VariantColor vc = new VariantColor();
                     vc.setColor(new Color(1)); // Màu mặc định
                     vc.setPrice(0.0);
-                    // Quan trọng: Phải dùng variantQuantities[i] cho Linh kiện
                     vc.setQuantity(parseInt(variantQuantities != null ? variantQuantities[i] : "0"));
                     vc.setCreatedAt(LocalDateTime.now());
                     variantColors.add(vc);

@@ -20,23 +20,25 @@ public class ProductDaoImpl implements ProductDao {
             int limit) {
 
         String sql = """
-        SELECT
-            p.id AS p_id, p.name AS p_name, p.img AS p_img,
-            c.id AS c_id, c.name AS c_name,
-            v.id AS v_id, v.name AS v_name, v.base_price, v.status AS v_status,
-            vc.id AS vc_id, vc.price AS vc_price, vc.quantity,
-            col.id AS color_id, col.name AS color_name
-        FROM products p
-        JOIN categories c ON p.category_id = c.id
-        JOIN product_variants v ON p.id = v.product_id
-         JOIN variant_colors vc ON v.id = vc.variant_id
-          JOIN colors col ON vc.color_id = col.id
-        WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
-          AND (:status IS NULL OR v.status = :status)
-          AND (:categoryId IS NULL OR p.category_id = :categoryId)
-        ORDER BY p.id DESC
-        LIMIT :limit OFFSET :offset
-    """;
+   SELECT
+   p.id AS p_id, p.name AS p_name, p.img AS p_img,
+    c.id AS c_id, c.name AS c_name,
+   v.id AS v_id, v.name AS v_name, v.base_price, v.status AS v_status,
+    vc.id AS vc_id, vc.price AS vc_price, vc.quantity,
+   vc.status AS vc_status,
+   col.id AS color_id, col.name AS color_name,
+     vc.sku AS vc_sku
+     FROM products p
+    JOIN categories c ON p.category_id = c.id
+    JOIN product_variants v ON p.id = v.product_id
+    JOIN variant_colors vc ON v.id = vc.variant_id
+    JOIN colors col ON vc.color_id = col.id
+    WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
+      AND (:status IS NULL OR vc.status = :status)
+      AND (:categoryId IS NULL OR p.category_id = :categoryId)
+    ORDER BY p.id DESC
+    LIMIT :limit OFFSET :offset
+""";
 
         return jdbi.withHandle(h ->
                 h.createQuery(sql)
@@ -59,7 +61,7 @@ public class ProductDaoImpl implements ProductDao {
             JOIN product_variants v ON vc.variant_id = v.id
             JOIN products p ON v.product_id = p.id
             WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
-              AND (:status IS NULL OR v.status = :status)
+              AND (:status IS NULL OR vc.status = :status)
               AND (:categoryId IS NULL OR p.category_id = :categoryId)
         """;
 
@@ -73,18 +75,20 @@ public class ProductDaoImpl implements ProductDao {
         );
     }
     @Override
-    public boolean toggleStatus(int variantId) {
+    public boolean toggleStatus(int variantColorId) {
         String sql = """
-            UPDATE product_variants
-            SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END
-            WHERE id = :id
-        """;
+        UPDATE variant_colors
+        SET status = CASE WHEN status = 1 THEN 0 ELSE 1 END
+        WHERE id = :id
+    """;
 
-        return jdbi.withHandle(h ->
-                h.createUpdate(sql)
-                        .bind("id", variantId)
-                        .execute() > 0
-        );}
+        return jdbi.withHandle(h -> {
+            int rows = h.createUpdate(sql)
+                    .bind("id", variantColorId)
+                    .execute();
+            return rows > 0;
+        });
+    }
 
     @Override
     public int insertProduct(Handle h, Product p) {
@@ -130,16 +134,16 @@ public class ProductDaoImpl implements ProductDao {
     public int insertVariantColor(Handle h, int variantId, VariantColor c) {
 
         String sql = """
-            INSERT INTO variant_colors
-            (variant_id, color_id, price, quantity, created_at)
-            VALUES (:variantId, :colorId, :price, :quantity, :createdAt)
-        """;
+        INSERT INTO variant_colors (variant_id, color_id, price, quantity, status, sku, created_at)
+        VALUES (:variantId, :colorId, :price, :quantity, 1, :sku, :createdAt)
+    """;
 
         int variantColorId = h.createUpdate(sql)
                 .bind("variantId", variantId)
                 .bind("colorId", c.getColor().getId())
                 .bind("price", c.getPrice())
                 .bind("quantity", c.getQuantity())
+                .bind("sku", c.getSku())
                 .bind("createdAt", LocalDateTime.now())
                 .executeAndReturnGeneratedKeys("id")
                 .mapTo(Integer.class)
@@ -202,7 +206,7 @@ public class ProductDaoImpl implements ProductDao {
                 c.id   AS c_id,   c.name AS c_name,
 
                 v.id   AS v_id,   v.name AS v_name,
-                v.base_price,    v.status AS v_status,
+                v.base_price,    vc.status AS vc_status,
 
                 vc.id  AS vc_id,  vc.price AS vc_price, vc.quantity,
 
@@ -234,7 +238,7 @@ public class ProductDaoImpl implements ProductDao {
             JOIN product_variants v ON vc.variant_id = v.id
             JOIN products p ON v.product_id = p.id
             WHERE (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
-              AND (:status IS NULL OR v.status = :status)
+              AND (:status IS NULL OR vc.status = :status)
               AND (:categoryId IS NULL OR p.category_id = :categoryId)
             ORDER BY vc.id DESC
             LIMIT :limit OFFSET :offset
@@ -251,6 +255,97 @@ public class ProductDaoImpl implements ProductDao {
                             .list()
             );
         }
+
+
+        // edit
+        public Map<String, Object> findProductByVariantColorId(int vcId) {
+
+            String sql = """
+        SELECT
+            p.id           AS product_id,
+            p.name         AS product_name,
+            p.img          AS product_img,
+            p.category_id  AS category_id,
+            p.description  AS description
+        FROM variant_colors vc
+        JOIN product_variants v ON vc.variant_id = v.id
+        JOIN products p ON v.product_id = p.id
+        WHERE vc.id = :vcId
+    """;
+
+            return jdbi.withHandle(h ->
+                    h.createQuery(sql)
+                            .bind("vcId", vcId)
+                            .mapToMap()
+                            .one()
+            );
+        }
+    public List<Map<String, Object>> findVariantsByProductId(int productId) {
+        String sql = """
+        SELECT
+            v.id          AS variant_id,
+            v.product_id  AS product_id,
+            v.name        AS variant_name,
+            v.base_price  AS base_price,
+            v.status      AS variant_status
+        FROM product_variants v
+        WHERE v.product_id = :pid
+        ORDER BY v.id
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("pid", productId)
+                        .mapToMap()
+                        .list()
+        );
+    }
+    public List<Map<String, Object>> findColorsByVariantId(int variantId) {
+
+        String sql = """
+        SELECT
+            vc.id        AS vc_id,
+            vc.variant_id,
+            vc.color_id,
+            col.name     AS color_name,
+            vc.price     AS color_price,
+            vc.quantity,
+            vc.status    AS vc_status,
+            vc.sku
+        FROM variant_colors vc
+        JOIN colors col ON vc.color_id = col.id
+        WHERE vc.variant_id = :vid
+        ORDER BY vc.id
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("vid", variantId)
+                        .mapToMap()
+                        .list()
+        );
+    }
+    public List<Map<String, Object>> findTechByProductId(int productId) {
+        String sql = """
+        SELECT
+            t.id          AS tech_id,
+            t.product_id,
+            t.name        AS tech_name,
+            t.value       AS tech_value,
+            t.priority
+        FROM tech_specs t
+        WHERE t.product_id = :pid
+        ORDER BY t.priority
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("pid", productId)
+                        .mapToMap()
+                        .list()
+        );
+    }
+
 
 }
 

@@ -9,8 +9,7 @@
     <meta charset="UTF-8">
     <title>Quản lý sản phẩm - Admin</title>
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
@@ -86,7 +85,8 @@
             <c:forEach items="${products}" var="row">
                 <tr>
                     <td>
-                        <img src="${pageContext.request.contextPath}/assert/img/product/${row.p_img}">
+                        <img src="${pageContext.request.contextPath}/assert/img/product/samsung/${row.p_img}" alt="ảnh lỗi">
+
                     </td>
 
                     <td class="text-left">${row.p_name}</td>
@@ -109,21 +109,22 @@
 
                     <td class="actionsProduct">
                         <a class="btn-edit"
-                           href="${pageContext.request.contextPath}/admin/variant-colors/edit?id=${row.vc_id}">
+                           href="${pageContext.request.contextPath}/admin/products/edit?id=${row.vc_id}">
                             <i class="fa-solid fa-pencil"></i>
                         </a>
 
                         <form action="${pageContext.request.contextPath}/admin/products"
                               method="post" style="display:inline">
                             <input type="hidden" name="action" value="toggle"/>
-                            <input type="hidden" name="id" value="${row.v_id}"/>
+                            <input type="hidden" name="id" value="${row.vc_id}"/>
 
                             <button type="submit" class="btn-toggle"
-                                    title="${row.v_status == 1 ? 'Ẩn' : 'Hiện'}">
-                                <i class="fa-solid ${row.v_status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
+                                    title="${row.vc_status == 1 ? 'Ẩn' : 'Hiện'}">
+                                <i class="fa-solid ${row.vc_status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
                             </button>
                         </form>
                     </td>
+
                 </tr>
             </c:forEach>
             </tbody>
@@ -168,6 +169,5 @@
 </div>
 
 <script src="${pageContext.request.contextPath}/js/sidebarAdmin.js"></script>
-<script src="${pageContext.request.contextPath}/js/productAdmin.js"></script>
 </body>
 </html>
