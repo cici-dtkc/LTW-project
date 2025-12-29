@@ -1,10 +1,11 @@
 /* ===========================
    BODY BACKGROUND
 =========================== */
+/* ===========================
+   BODY BACKGROUND
+=========================== */
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    min-height: 100vh;
+    background: #EFEFEF;
 }
 
 /* ===========================
@@ -13,16 +14,9 @@ body {
 .address-content {
     flex: 1;
     background: #fff;
-    border-radius: 12px;
-    padding: 32px;
+    border-radius: 4px;
+    padding: 24px;
     min-height: 600px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    margin: 20px;
-    transition: box-shadow 0.3s ease;
-}
-
-.address-content:hover {
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* ===========================
@@ -32,71 +26,42 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ececec;
 }
 
 .address-title {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2c3e50;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
     margin: 0;
-    background: linear-gradient(45deg, #3498db, #2980b9);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .btn-add-address {
-    padding: 14px 24px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
+    border-radius: 4px;
+    font-size: 13px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: all 0.3s ease;
-    background: linear-gradient(45deg, #27ae60, #2ecc71);
-    color: white;
-    box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
-}
-
-.btn-add-address:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
-}
-
-.btn-add-address:active {
-    transform: translateY(0);
+    gap: 8px;
+    transition: background 0.3s;
 }
 
 /* ===========================
    ADDRESS SECTION
 =========================== */
 .address-section {
-    margin-top: 32px;
+    margin-top: 24px;
 }
 
 .section-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
-    color: #34495e;
-    margin-bottom: 24px;
-    position: relative;
-}
-
-.section-title::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(45deg, #3498db, #2980b9);
-    border-radius: 2px;
+    color: #333;
+    margin-bottom: 16px;
 }
 
 /* ===========================
@@ -109,92 +74,60 @@ body {
 }
 
 .address-item {
-    padding: 24px;
-    border-bottom: 1px solid #f0f0f0;
+    padding: 20px 0;
+    border-bottom: 1px solid #ececec;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    transition: all 0.3s ease;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    background: #fafbfc;
-    position: relative;
-    overflow: hidden;
-}
-
-.address-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: linear-gradient(45deg, #3498db, #2980b9);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.address-item:hover {
-    transform: translateX(8px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    background: #fff;
-}
-
-.address-item:hover::before {
-    opacity: 1;
-}
-
-.address-item.default {
-    border-left: 4px solid #27ae60;
-    background: linear-gradient(135deg, #f8fff9 0%, #e8f5e8 100%);
-}
-
-.address-item.default::before {
-    background: linear-gradient(45deg, #27ae60, #2ecc71);
-    opacity: 1;
 }
 
 .address-item:last-child {
     border-bottom: none;
-    margin-bottom: 0;
 }
 
-.address-row {
+.address-info {
+    flex: 1;
+}
+
+.address-name-phone {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
 .address-name {
     font-weight: 600;
-    font-size: 18px;
-    color: #2c3e50;
+    font-size: 16px;
+    color: #333;
+}
+
+.address-separator {
+    color: #ccc;
+    font-size: 13px;
 }
 
 .address-phone {
-    font-size: 14px;
-    color: #7f8c8d;
+    font-size: 13px;
+    color: #333;
 }
 
 .address-details {
-    font-size: 15px;
-    color: #34495e;
+    font-size: 13px;
+    color: #333;
     line-height: 1.6;
-    margin-bottom: 16px;
-    max-width: 400px;
+    margin-bottom: 8px;
 }
 
 .address-default-badge {
     display: inline-block;
-    background: linear-gradient(45deg, #27ae60, #2ecc71);
+    background: var(--color-button);
     color: #fff;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: 500;
     margin-top: 8px;
-    box-shadow: 0 2px 8px rgba(39, 174, 96, 0.3);
 }
 
 .address-actions {
@@ -204,51 +137,38 @@ body {
     gap: 12px;
 }
 
-.address-actions a {
-    color: #3498db;
+.address-action-links {
+    display: flex;
+    gap: 13px;
+}
+
+.address-action-link {
+    color: #4AA3B3;
     font-size: 14px;
     cursor: pointer;
     text-decoration: none;
-    transition: all 0.2s ease;
-    padding: 4px 8px;
-    border-radius: 4px;
+    transition: color 0.2s;
 }
 
-.address-actions a:hover {
-    color: #2980b9;
-    background: rgba(52, 152, 219, 0.1);
-    transform: scale(1.05);
+.address-action-link:hover {
+    color: #2d7a87;
+    text-decoration: underline;
 }
 
 .btn-set-default {
-    background: linear-gradient(45deg, #f39c12, #e67e22);
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 16px;
+    border-radius: 4px;
     font-size: 13px;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+    transition: all 0.2s;
 }
 
 .btn-set-default:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
-}
-
-/* ===========================
-   ADDRESS EMPTY
-=========================== */
-.address-empty {
-    text-align: center;
-    padding: 60px 20px;
-    color: #7f8c8d;
-    font-size: 18px;
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    border-radius: 12px;
-    border: 2px dashed #dee2e6;
+    background: #f5f5f5;
+    border-color: #bbb;
 }
 
 /* ===========================
@@ -261,56 +181,35 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    animation: fadeIn 0.3s ease;
 }
 
 .modal-overlay.active {
     display: flex;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
 .modal-content {
     background: #fff;
-    border-radius: 16px;
+    border-radius: 8px;
     width: 100%;
     max-width: 600px;
     max-height: 90vh;
     overflow-y: auto;
-    padding: 32px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.3s ease;
-    position: relative;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .modal-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #f0f0f0;
-    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #ececec;
 }
 
 /* ===========================
@@ -319,47 +218,45 @@ body {
 .address-form {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 }
 
 .form-row {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
 .form-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #34495e;
-    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
 }
 
 .form-input,
+.form-select,
 .form-textarea {
     width: 100%;
-    padding: 14px 16px;
-    border: 2px solid #e1e8ed;
-    border-radius: 8px;
-    font-size: 15px;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
     outline: none;
-    transition: all 0.3s ease;
+    transition: border-color 0.2s;
     font-family: inherit;
-    background: #f8f9fa;
 }
 
 .form-input:focus,
+.form-select:focus,
 .form-textarea:focus {
-    border-color: #3498db;
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-    transform: translateY(-1px);
+    border-color: #4AA3B3;
 }
 
 .form-textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 80px;
 }
+
 
 /* ===========================
    CHECKBOX
@@ -367,24 +264,16 @@ body {
 .checkbox-label {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 14px;
-    color: #34495e;
+    gap: 8px;
+    font-size: 13px;
+    color: #333;
     cursor: pointer;
-    padding: 12px;
-    border-radius: 8px;
-    transition: background 0.2s ease;
 }
 
-.checkbox-label:hover {
-    background: rgba(52, 152, 219, 0.05);
-}
-
-.checkbox-label input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
+.checkbox-input {
+    width: 18px;
+    height: 18px;
     cursor: pointer;
-    accent-color: #3498db;
 }
 
 /* ===========================
@@ -393,52 +282,36 @@ body {
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 16px;
-    margin-top: 16px;
-    padding-top: 24px;
-    border-top: 2px solid #f0f0f0;
+    gap: 12px;
+    margin-top: 8px;
+    padding-top: 20px;
+    border-top: 1px solid #ececec;
 }
 
 .btn-back {
-    background: #ecf0f1;
-    color: #34495e;
-    border: 2px solid #bdc3c7;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 13px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s;
 }
 
 .btn-back:hover {
-    background: #d5dbdb;
-    border-color: #95a5a6;
-    transform: translateY(-1px);
+    background: #f5f5f5;
+    border-color: #bbb;
 }
 
 .btn-complete {
-    background: linear-gradient(45deg, #3498db, #2980b9);
-    color: #fff;
     border: none;
-    padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 13px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+    transition: background 0.2s;
 }
-
-.btn-complete:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
-}
-
-.btn-complete:active {
-    transform: translateY(0);
-}
-
 /* ===========================
    RESPONSIVE DESIGN
 =========================== */
@@ -485,6 +358,216 @@ body {
     }
 }
 
+/* Empty State */
+.address-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
 
+.address-empty i {
+    display: block;
+    margin-bottom: 16px;
+}
+
+.address-empty p {
+    font-size: 16px;
+    margin: 0;
+}
+
+/* Modal Title with Icon */
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #1f2937;
+}
+
+.modal-title i {
+    color: #3b82f6;
+}
+
+/* Form Labels with Icons */
+.form-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #374151;
+}
+
+.form-label i {
+    color: #6b7280;
+    width: 16px;
+}
+
+/* Address Actions with Icons */
+.address-actions a,
+.address-actions button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.address-actions a i,
+.address-actions button i {
+    font-size: 14px;
+}
+
+/* Modal Actions Buttons with Icons */
+.modal-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.modal-actions button i {
+    font-size: 16px;
+}
+
+/* Improved Form Input Focus */
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Phone Number Input */
+.form-input[type="text"][id="phoneNumber"] {
+    letter-spacing: 1px;
+}
+
+/* Checkbox Improved */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-label:hover {
+    background-color: #f9fafb;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* Address Item Hover Effect */
+.address-item {
+    transition: all 0.3s ease;
+}
+
+.address-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+/* Loading State (Optional) */
+.btn-complete:disabled,
+.btn-confirm-delete:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-complete:disabled::after,
+.btn-confirm-delete:disabled::after {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-left: 8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success/Error Messages */
+.form-error {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.form-error i {
+    font-size: 12px;
+}
+
+/* Responsive Improvements */
+@media (max-width: 768px) {
+    .modal-title {
+        font-size: 18px;
+    }
+
+    .form-label {
+        font-size: 14px;
+    }
+
+    .address-actions {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .address-actions a,
+    .address-actions button {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 12px;
+    }
+}
+
+/* Animation cho toast multiple */
+.toast {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Confirm Dialog Animation */
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirm-dialog {
+    animation: scaleIn 0.3s ease-out;
+}
 
 
