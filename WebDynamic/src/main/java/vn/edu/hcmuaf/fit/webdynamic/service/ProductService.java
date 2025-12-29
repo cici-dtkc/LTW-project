@@ -11,11 +11,15 @@ public interface ProductService {
     List<Map<String, Object>> getForAdmin(String keyword, Integer status, Integer categoryId, int page, int limit);
     int countForAdmin(String keyword, Integer status, Integer categoryId);
       boolean toggleStatus(int productId) ;
-      void addPhone(Product product);
      Map<String, Object> getProductForEditByVariantColorId(int vcId);
-    List<Product> getAllForAdmin();
-
     List<Map<String, Object>> getProductsForList();
 
     List<Map<String, Object>> getProductsByCategory(int categoryId);
+    void addProduct(Product product,
+                    String[] techNames, String[] techValues, String[] techPriorities,
+                    String[] variantNames, String[] basePrices,
+                    String[] quantities, String[] variantQuantities,
+                    String[] skus, String[] colorVariantIndexes,
+                    String[] colorIds, String[] customColors, String[] colorPrices) throws Exception;
+
 }
