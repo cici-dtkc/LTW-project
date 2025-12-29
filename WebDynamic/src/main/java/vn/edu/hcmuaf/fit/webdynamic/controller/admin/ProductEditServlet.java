@@ -23,14 +23,15 @@ public class ProductEditServlet  extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         int vcId = Integer.parseInt(req.getParameter("id"));
+        Map<String, Object> product = productService.getProductForEditByVariantColorId(vcId);
 
-        Map<String, Object> product =
-                productService.getProductForEditByVariantColorId(vcId);
+        // Lấy categoryId từ map product (đã join từ bảng products ở DAO)
+        Object categoryId = product.get("category_id");
 
         req.setAttribute("product", product);
         req.setAttribute("isEdit", true);
+        req.setAttribute("categoryId", categoryId); // Gửi categoryId riêng để dễ check
 
-        req.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
-                .forward(req, resp);
+        req.getRequestDispatcher("/views/admin/addProductAdmin.jsp").forward(req, resp);
     }
 }

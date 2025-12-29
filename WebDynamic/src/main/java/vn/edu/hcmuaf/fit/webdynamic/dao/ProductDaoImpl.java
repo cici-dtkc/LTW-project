@@ -8,6 +8,8 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static java.time.LocalTime.now;
+
 public class ProductDaoImpl implements ProductDao {
     private final Jdbi jdbi = DBConnect.getJdbi();
 
@@ -93,8 +95,8 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public int insertProduct(Handle h, Product p) {
         String sql = """
-        INSERT INTO products(name, img, category_id, description, created_at)
-        VALUES (:name, :img, :categoryId, :description, :createdAt)
+        INSERT INTO products(name, img, category_id, description,warranty_period, release_date, created_at)
+        VALUES (:name, :img, :categoryId, :description, :warranty, :releaseDate,:createdAt)
     """;
 
         return
@@ -103,6 +105,8 @@ public class ProductDaoImpl implements ProductDao {
                         .bind("img", p.getMainImage())
                         .bind("categoryId", p.getCategory().getId())
                         .bind("description", p.getDescription())
+                        .bind("warranty", 12)           // Thiết lập bảo hành cứng 12 tháng (1 năm)
+                        .bind("releaseDate", LocalDateTime.now())       // Thiết lập ngày ra mắt là lúc thêm sản phẩm
                         .bind("createdAt", LocalDateTime.now())
                         .executeAndReturnGeneratedKeys("id")
                         .mapTo(Integer.class)
@@ -202,14 +206,11 @@ public class ProductDaoImpl implements ProductDao {
         if (variantIds.isEmpty()) return List.of();
         String sql = """
             SELECT
-                p.id   AS p_id,   p.name AS p_name, p.img AS p_img,
+                p.id   AS p_id,   p.name AS p_name, p.img AS p_img,p.category_id  AS category_id,
                 c.id   AS c_id,   c.name AS c_name,
-
                 v.id   AS v_id,   v.name AS v_name,
                 v.base_price,    vc.status AS vc_status,
-
                 vc.id  AS vc_id,  vc.price AS vc_price, vc.quantity,
-
                 col.id AS color_id, col.name AS color_name
             FROM variant_colors vc
             JOIN product_variants v ON vc.variant_id = v.id

@@ -88,7 +88,7 @@ public class ProductAddController extends HttpServlet {
             product.setTechSpecs(techList);
         }
 
-        /* 4. XỬ LÝ VARIANTS & COLORS */
+        /*   XỬ LÝ VARIANTS & COLORS */
         String[] variantNames = request.getParameterValues("variantName[]");
         String[] basePrices = request.getParameterValues("basePrice[]");
         String[] quantities = request.getParameterValues("quantity[]"); // Dùng cho Điện thoại (mảng màu)
@@ -96,7 +96,7 @@ public class ProductAddController extends HttpServlet {
 
         if (variantNames != null) {
             List<ProductVariant> variants = new ArrayList<>();
-
+            String[] skus = request.getParameterValues("sku[]");
             // Dữ liệu màu (chỉ dùng cho điện thoại)
             String[] colorVariantIndexes = request.getParameterValues("colorVariantIndex[]");
             String[] colorIds = request.getParameterValues("colorId[]");
@@ -132,6 +132,9 @@ public class ProductAddController extends HttpServlet {
                                 vc.setQuantity(parseInt(quantities != null ? quantities[j] : "0"));
                                 vc.setCreatedAt(LocalDateTime.now());
                                 variantColors.add(vc);
+                                if (skus != null && j < skus.length) {
+                                    vc.setSku(skus[j]);
+                                }
                             }
                         }
                     }

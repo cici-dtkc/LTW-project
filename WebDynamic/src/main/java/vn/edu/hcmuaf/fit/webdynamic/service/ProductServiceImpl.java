@@ -44,40 +44,7 @@ public class ProductServiceImpl implements ProductService {
         return productDao.toggleStatus(productId);
     }
 
-    @Override
-    public void addPhone(Product product) {
 
-        getJdbi().useTransaction(handle -> { //  SỬA: transaction ở SERVICE
-
-            int productId = productDao.insertProduct(handle, product);
-
-            // TECH SPECS
-            if (product.getTechSpecs() != null) {
-                for (TechSpecs t : product.getTechSpecs()) {
-                    productDao.insertTechSpec(handle, productId, t);
-                }
-            }
-
-            if (product.getVariants() == null) return;
-
-            for (ProductVariant v : product.getVariants()) {
-
-                int variantId = productDao.insertVariant(handle, productId, v);
-
-                // linh kiện không có màu → bỏ qua
-                if (v.getColors() == null) continue;
-
-                for (VariantColor c : v.getColors()) {
-
-                    if (c.getColor() == null) {
-                        throw new RuntimeException("Color is NULL");
-                    }
-
-                    productDao.insertVariantColor(handle, variantId, c);
-                }
-            }
-        });
-    }
     @Override
     public Map<String, Object> getProductForEditByVariantColorId(int vcId) {
 
@@ -110,7 +77,40 @@ public class ProductServiceImpl implements ProductService {
 
         return product;
     }
+    @Override
+    public void addPhone(Product product) {
 
+        getJdbi().useTransaction(handle -> {
+
+            int productId = productDao.insertProduct(handle, product);
+
+            // TECH SPECS
+            if (product.getTechSpecs() != null) {
+                for (TechSpecs t : product.getTechSpecs()) {
+                    productDao.insertTechSpec(handle, productId, t);
+                }
+            }
+
+            if (product.getVariants() == null) return;
+
+            for (ProductVariant v : product.getVariants()) {
+
+                int variantId = productDao.insertVariant(handle, productId, v);
+
+                // linh kiện không có màu → bỏ qua
+                if (v.getColors() == null) continue;
+
+                for (VariantColor c : v.getColors()) {
+
+                    if (c.getColor() == null) {
+                        throw new RuntimeException("Color is NULL");
+                    }
+
+                    productDao.insertVariantColor(handle, variantId, c);
+                }
+            }
+        });
+    }
 }
 
 
