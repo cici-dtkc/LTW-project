@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -23,20 +26,36 @@
         </div>
 
         <!-- ===== FORM ĐIỆN THOẠI ===== -->
-        <form id="phoneForm" class="form hidden" method="post" enctype="multipart/form-data">
+        <form id="phoneForm"
+              class="form hidden"
+              method="post"
+              action="${pageContext.request.contextPath}/admin/product/add"
+              enctype="multipart/form-data">
+            <!-- NOTE: BỔ SUNG categoryId -->
+            <input type="hidden" name="categoryId" value="1">
 
-            <h3>Điện thoại</h3>
+        <h3>Điện thoại</h3>
 
             <label>Ảnh đại diện</label>
             <input type="file" name="productImage" accept="image/*" required>
 
             <input name="productName" placeholder="Tên sản phẩm" required>
 
-            <select name="brandId" required>
-                <option value="">Chọn hãng</option>
-                <option value="1">Apple</option>
-                <option value="2">Samsung</option>
-            </select>
+            <div class="brand-row">
+                <select name="brandId" onchange="toggleBrand(this)" required>
+                    <option value="">-- Chọn hãng --</option>
+                    <option value="1">Apple</option>
+                    <option value="2">Samsung</option>
+                    <option value="3">Xiaomi</option>
+                    <option value="custom">Khác...</option>
+                </select>
+
+                <input type="text"
+                       name="customBrand"
+                       placeholder="Nhập hãng mới"
+                       style="display:none">
+
+            </div>
 
             <textarea name="description" placeholder="Mô tả"></textarea>
 
@@ -54,14 +73,34 @@
         </form>
 
         <!-- ===== FORM LINH KIỆN ===== -->
-        <form id="partForm" class="form hidden" method="post" enctype="multipart/form-data">
+        <form id="partForm"
+              class="form hidden"
+              method="post"
+              action="${pageContext.request.contextPath}/admin/product/add"
+              enctype="multipart/form-data">
+            <input type="hidden" name="categoryId" value="2">
 
-            <h3>Linh kiện</h3>
+        <h3>Linh kiện</h3>
 
             <label>Ảnh đại diện</label>
             <input type="file" name="productImage" accept="image/*" required>
 
             <input name="productName" placeholder="Tên linh kiện" required>
+            <div class="brand-row">
+                <select name="brandId" onchange="toggleBrand(this)" required>
+                    <option value="">-- Chọn hãng --</option>
+                    <option value="1">Apple</option>
+                    <option value="2">Samsung</option>
+                    <option value="3">Xiaomi</option>
+                    <option value="custom">Khác...</option>
+                </select>
+
+                <input type="text"
+                       name="customBrand"
+                       placeholder="Nhập hãng mới"
+                       style="display:none">
+
+            </div>
 
             <select name="subcategory">
                 <option>Pin</option>
@@ -88,42 +127,63 @@
 
 <template id="techTpl">
     <div class="tech">
-        <input name="techName" placeholder="Tên thông số">
-        <input name="techValue" placeholder="Giá trị">
-        <input name="techPriority" placeholder="Thứ tự" value="50">
+        <!-- NOTE: thêm [] -->
+        <input name="techName[]" placeholder="Tên thông số">
+        <input name="techValue[]" placeholder="Giá trị">
+        <input name="techPriority[]" value="5">
         <button type="button" onclick="removeBlock(this)">✖</button>
     </div>
 </template>
 
-<template id="variantTpl">
+<template id="phoneVariantTpl">
     <div class="variant">
-        <input name="variantName" placeholder="Tên phiên bản">
-        <input name="basePrice" placeholder="Giá gốc">
+        <input name="variantName[]" placeholder="Tên phiên bản" required>
+        <input name="basePrice[]" placeholder="Giá gốc" required>
 
-        <div class="colors"></div>
-
-        <button type="button" onclick="addColor(this)">Thêm màu</button>
+        <div class="colors"></div> <button type="button" class="btn-add-color" onclick="addColor(this)">Thêm màu</button>
         <button type="button" class="danger" onclick="removeBlock(this)">Xóa phiên bản</button>
+    </div>
+</template>
+
+<template id="partVariantTpl">
+    <div class="variant">
+        <input name="variantName[]" placeholder="Tên phiên bản" required>
+        <input name="basePrice[]" placeholder="Giá gốc" required>
+
+        <input name="variantQuantity[]" placeholder="Số lượng tồn kho" required>
+
+        <div class="colors" style="display:none"></div> <button type="button" class="danger" onclick="removeBlock(this)">Xóa phiên bản</button>
     </div>
 </template>
 
 <template id="colorTpl">
     <div class="color">
-        <select name="color">
-            <option>Đen</option>
-            <option>Trắng</option>
-            <option>Xanh</option>
-        </select>
-
-        <input name="colorPrice" placeholder="Giá màu">
-        <input name="quantity" placeholder="Số lượng">
-        <input name="sku" placeholder="SKU">
-        <input type="file" name="colorImage" accept="image/*">
-
+        <input type="hidden" name="colorVariantIndex[]" class="variant-index-input">
+        <div class="color-row">
+            <select name="colorId[]" onchange="toggleColor(this)" required>
+                <option value="">-- Chọn màu --</option>
+                <option value="1">Đen</option>
+                <option value="2">Trắng</option>
+                <option value="3">Xanh</option>
+                <option value="4">Tím</option>
+                <option value="5">Đỏ Lựu</option>
+                <option value="6">Xám</option>
+                <option value="custom">Khác...</option>
+            </select>
+            <input type="text" name="customColor[]" placeholder="Nhập màu mới" style="display:none">
+        </div>
+        <input name="colorPrice[]" placeholder="Giá màu" value="" required>
+        <input name="quantity[]" placeholder="Số lượng" value="" required>
+        <input name="sku[]" placeholder="SKU">
+        <input type="file" name="colorImage[]">
         <button type="button" onclick="removeBlock(this)">✖</button>
     </div>
 </template>
-
+<c:if test="${param.status == 'success'}">
+    <script>
+        alert("Thêm sản phẩm thành công!");
+    </script>
+</c:if>
 <script src="${pageContext.request.contextPath}/js/addProductAdmin.js"></script>
 
 </body>

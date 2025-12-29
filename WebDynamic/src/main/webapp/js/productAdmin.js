@@ -1,15 +1,37 @@
-function toggleProduct(productId, btn) {
-    const icon = btn.querySelector('i');
+document.addEventListener("DOMContentLoaded", function () {
 
-    if (icon.classList.contains('fa-eye')) {
-        icon.classList.remove('fa-eye');
-        icon.classList.add('fa-eye-slash');
-        btn.setAttribute('data-tooltip', 'Hiển thị sản phẩm');
-        console.log('Ẩn sản phẩm ID:', productId);
-    } else {
-        icon.classList.remove('fa-eye-slash');
-        icon.classList.add('fa-eye');
-        btn.setAttribute('data-tooltip', 'Ẩn sản phẩm');
-        console.log('Hiển thị sản phẩm ID:', productId);
-    }
-}
+    document.querySelectorAll(".ajax-toggle").forEach(btn => {
+        btn.addEventListener("click", function () {
+
+            const id = this.dataset.id;
+            const icon = this.querySelector("i");
+
+            fetch(`${contextPath}/admin/products`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                body: `action=toggle&id=${id}`
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error("Toggle failed");
+                    // đổi icon ngay trên UI
+                    if (icon.classList.contains("fa-eye")) {
+                        icon.classList.remove("fa-eye");
+                        icon.classList.add("fa-eye-slash");
+                        icon.style.color = "#e74c3c";
+                    } else {
+                        icon.classList.remove("fa-eye-slash");
+                        icon.classList.add("fa-eye");
+                        icon.style.color = "#2ecc71";
+                    }
+                })
+                .catch(err => {
+                    alert("Không thể đổi trạng thái!");
+                    console.error(err);
+                });
+        });
+    });
+
+});

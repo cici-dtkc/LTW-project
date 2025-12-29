@@ -15,7 +15,7 @@
                     <li><a href="${pageContext.request.contextPath}/home.jsp" id="nav-home">Trang chủ</a></li>
                     <li><a href="${pageContext.request.contextPath}/listproduct.jsp" id="nav-phone">Điện thoại</a></li>
                     <li class="has-mega" id="nav-accessory-item">
-                        <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp" id="nav-accessory">Phụ kiện</a>
+                        <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp" id="nav-accessory">Linh kiện</a>
                         <div class="mega-menu" id="mega-accessory">
                             <div class="mega-inner">
                                 <div class="mega-col">

@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 formAction.value = "addVoucher";
                 console.log("✅ Form action set to:", formAction.value);
             } else {
-                console.error("❌ formAction element not found!");
+                console.error("  formAction element not found!");
             }
 
             if (editId) {
@@ -51,14 +51,14 @@ document.addEventListener("DOMContentLoaded", function () {
             modal.classList.add("show");
             // Force display with inline style to ensure it shows
             modal.style.display = "flex";
-            console.log("✅ Modal opened, classes:", modal.className);
+            console.log("  Modal opened, classes:", modal.className);
             console.log(
-                "✅ Modal display style:",
+                "  Modal display style:",
                 window.getComputedStyle(modal).display
             );
         });
     } else {
-        console.error("❌ btnOpenModal not found!");
+        console.error("  btnOpenModal not found!");
     }
 
     /* ================= CLOSE MODAL ================= */
@@ -92,18 +92,18 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("🟡 Opening EDIT modal...");
 
         if (!btn) {
-            console.error("❌ Button is null!");
+            console.error("  Button is null!");
             return;
         }
 
         if (!modal) {
-            console.error("❌ Modal not found!");
+            console.error("  Modal not found!");
             return;
         }
 
         const row = btn.closest("tr");
         if (!row) {
-            console.error("❌ Row not found!");
+            console.error("  Row not found!");
             return;
         }
 
@@ -154,11 +154,11 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "flex";
 
         console.log(
-            "✅ Edit modal opened, action:",
+            "  Edit modal opened, action:",
             document.getElementById("formAction").value
         );
         console.log(
-            "✅ Modal display style:",
+            "  Modal display style:",
             window.getComputedStyle(modal).display
         );
     };
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!action) {
                 e.preventDefault();
                 alert("Lỗi: Action không được xác định!");
-                console.error("❌ Form action is empty!");
+                console.error("  Form action is empty!");
                 return false;
             }
 
@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 return false;
             }
 
-            console.log("✅ Form validation passed, submitting...");
+            console.log("  Form validation passed, submitting...");
             if (action === "addVoucher") {
                 alert("🎉 Thêm khuyến mãi thành công!");
             }
