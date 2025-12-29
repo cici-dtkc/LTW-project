@@ -9,7 +9,7 @@ public class VariantColor {
     private double price;
     private int quantity;
     private String sku;
-
+    private int status; // Thêm thuộc tính này
     private List<Image> images;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -80,5 +80,13 @@ public class VariantColor {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
