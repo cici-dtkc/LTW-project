@@ -25,7 +25,19 @@ public class UserService {
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
+    /**
+     * Đếm tổng số user (có filter)
+     */
+    public int countUsers(String searchTerm, String roleFilter, String statusFilter) {
+        return userDao.countUsers(searchTerm, roleFilter, statusFilter);
+    }
 
+    /**
+     * Lấy danh sách user có phân trang (có filter)
+     */
+    public List<User> getUsersPaginated(String searchTerm, String roleFilter, String statusFilter, int offset, int limit) {
+        return userDao.getUsersPaginated(searchTerm, roleFilter, statusFilter, offset, limit);
+    }
     public boolean updateUser(int id, int role, int status) {
         return userDao.updateUser(id, role, status);
     }

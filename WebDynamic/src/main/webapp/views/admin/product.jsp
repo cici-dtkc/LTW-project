@@ -9,8 +9,7 @@
     <meta charset="UTF-8">
     <title>Quản lý sản phẩm - Admin</title>
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
@@ -35,28 +34,35 @@
         </div>
 
         <!-- TOOLBAR -->
-        <div class="toolbar">
-            <form method="get" action="${pageContext.request.contextPath}/admin/products">
-                <input type="text" name="keyword" placeholder="Tìm kiếm sản phẩm...">
+        <div class="toolbar-wrapper">
+
+            <form class="toolbar" method="get"
+                  action="${pageContext.request.contextPath}/admin/products">
+
+                <input type="text" name="keyword"
+                       value="${keyword}"
+                       placeholder="Tìm kiếm sản phẩm...">
 
                 <select name="status">
                     <option value="">Tất cả trạng thái</option>
-                    <option value="1">Đang hiển thị</option>
-                    <option value="0">Đang ẩn</option>
+                    <option value="1" ${status == 1 ? "selected" : ""}>Đang hiển thị</option>
+                    <option value="0" ${status == 0 ? "selected" : ""}>Đang ẩn</option>
                 </select>
 
-                <select name="category">
+                <select name="categoryId">
                     <option value="">Tất cả danh mục</option>
-                    <option value="PHONE">Điện thoại</option>
-                    <option value="PART">Linh kiện</option>
+                    <option value="1" ${categoryId == 1 ? "selected" : ""}>Điện thoại</option>
+                    <option value="2" ${categoryId == 2 ? "selected" : ""}>Linh kiện</option>
                 </select>
 
                 <button class="btn-filter">Tìm kiếm</button>
             </form>
 
-            <a href="${pageContext.request.contextPath}/admin/products/add">
-                <button class="btn-add">+ Thêm sản phẩm</button>
+            <a class="btn-add"
+               href="${pageContext.request.contextPath}/views/admin/addProductAdmin.jsp">
+                + Thêm sản phẩm
             </a>
+
         </div>
 
         <!-- TABLE -->
@@ -64,76 +70,104 @@
             <thead>
             <tr>
                 <th>Hình ảnh</th>
-                <th>Tên</th>
-                <th>Giá</th>
+                <th>Tên sản phẩm</th>
                 <th>Danh mục</th>
                 <th>Phiên bản</th>
+                <th>Màu sắc</th>
+                <th>Giá cơ bản</th>
+                <th>Giá màu</th>
                 <th>Tồn kho</th>
                 <th>Hành động</th>
             </tr>
             </thead>
 
             <tbody>
-            <c:forEach items="${products}" var="p">
-                <c:forEach items="${p.variants}" var="v">
+            <c:forEach items="${products}" var="row">
+                <tr>
+                    <td>
+                        <img src="${pageContext.request.contextPath}/assert/img/product/samsung/${row.p_img}" alt="ảnh lỗi">
 
-                    <tr>
-                        <td>
-                            <img src="${pageContext.request.contextPath}/assert/img/product/${p.mainImage}">
-                        </td>
+                    </td>
 
-                        <td class="text-left">${p.name}</td>
+                    <td class="text-left">${row.p_name}</td>
 
-                        <td>
-                            <fmt:formatNumber value="${v.basePrice}" type="number" groupingUsed="true"/>₫
-                        </td>
+                    <td>${row.c_name}</td>
 
-                        <td>${p.category.name}</td>
+                    <td>${row.v_name}</td>
 
-                        <td>${v.name}</td>
+                    <td>${row.color_name}</td>
 
-                        <!-- TỒN KHO (GỘP) -->
-                        <td>
-                            <c:set var="totalQty" value="0"/>
-                            <c:forEach items="${v.colors}" var="c">
-                                <c:set var="totalQty" value="${totalQty + c.quantity}"/>
-                            </c:forEach>
-                                ${totalQty}
-                        </td>
+                    <td>
+                        <fmt:formatNumber value="${row.base_price}" groupingUsed="true"/>₫
+                    </td>
 
-                        <!-- ACTION -->
-                        <td class="actionsProduct">
+                    <td>
+                        <fmt:formatNumber value="${row.vc_price}" groupingUsed="true"/>₫
+                    </td>
 
-                            <!-- EDIT -->
-                            <a href="${pageContext.request.contextPath}/admin/products/edit?id=${p.id}">
-                                <button class="btn-edit tooltip" data-tooltip="Chỉnh sửa">
-                                    <i class="fa-solid fa-pencil"></i>
-                                </button>
-                            </a>
+                    <td>${row.quantity}</td>
 
-                            <!-- TOGGLE -->
-                            <button class="btn-toggle tooltip"
-                                    data-tooltip="${p.status == 1 ? 'Ẩn sản phẩm' : 'Hiển thị sản phẩm'}"
-                                    onclick="toggleVisibility(this)">
-                                <i class="fa-solid ${p.status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
+                    <td class="actionsProduct">
+                        <a class="btn-edit"
+                           href="${pageContext.request.contextPath}/admin/products/edit?id=${row.vc_id}">
+                            <i class="fa-solid fa-pencil"></i>
+                        </a>
+
+                        <form action="${pageContext.request.contextPath}/admin/products"
+                              method="post" style="display:inline">
+                            <input type="hidden" name="action" value="toggle"/>
+                            <input type="hidden" name="id" value="${row.vc_id}"/>
+
+                            <button type="submit" class="btn-toggle"
+                                    title="${row.vc_status == 1 ? 'Ẩn' : 'Hiện'}">
+                                <i class="fa-solid ${row.vc_status == 1 ? 'fa-eye' : 'fa-eye-slash'}"></i>
                             </button>
+                        </form>
+                    </td>
 
-                        </td>
-                    </tr>
-
-                </c:forEach>
+                </tr>
             </c:forEach>
             </tbody>
         </table>
 
+
         <div class="footer">
-            Hiển thị ${fn:length(products)} sản phẩm
+
+            <div class="pagination">
+                <!-- Previous -->
+                <c:if test="${currentPage > 1}">
+                    <a href="${pageContext.request.contextPath}/admin/products?page=${currentPage - 1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                        &laquo; Trước
+                    </a>
+                </c:if>
+
+                <!-- Page numbers -->
+                <c:forEach begin="1" end="${totalPages}" var="i">
+                    <c:choose>
+                        <c:when test="${i == currentPage}">
+                            <span class="active">${i}</span>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${pageContext.request.contextPath}/admin/products?page=${i}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                                    ${i}
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+
+                <!-- Next -->
+                <c:if test="${currentPage < totalPages}">
+                    <a href="${pageContext.request.contextPath}/admin/products?page=${currentPage + 1}&keyword=${keyword}&status=${status}&categoryId=${categoryId}">
+                        Sau &raquo;
+                    </a>
+                </c:if>
+            </div>
         </div>
+
 
     </div>
 </div>
 
 <script src="${pageContext.request.contextPath}/js/sidebarAdmin.js"></script>
-<script src="${pageContext.request.contextPath}/js/productAdmin.js"></script>
 </body>
 </html>

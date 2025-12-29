@@ -98,7 +98,95 @@ public class UserDao {
                 .mapToBean(User.class)
                 .findOne());
     }
+    public int countUsers(String searchTerm, String roleFilter, String statusFilter) {
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM users WHERE 1=1");
 
+        // Filter theo search
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            sql.append(" AND (CAST(id AS CHAR) LIKE :search OR username LIKE :search OR email LIKE :search OR first_name LIKE :search OR last_name LIKE :search)");
+        }
+
+        // Filter theo role
+        if (roleFilter != null && !roleFilter.trim().isEmpty()) {
+            int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
+            sql.append(" AND role = :role");
+        }
+
+        // Filter theo status
+        if (statusFilter != null && !statusFilter.trim().isEmpty()) {
+            int status = "Hoạt động".equalsIgnoreCase(statusFilter) ? 1 : 0;
+            sql.append(" AND status = :status");
+        }
+
+        return DBConnect.getJdbi().withHandle(handle -> {
+            var query = handle.createQuery(sql.toString());
+
+            if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+                query.bind("search", "%" + searchTerm.trim() + "%");
+            }
+
+            if (roleFilter != null && !roleFilter.trim().isEmpty()) {
+                int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
+                query.bind("role", role);
+            }
+
+            if (statusFilter != null && !statusFilter.trim().isEmpty()) {
+                int status = "Hoạt động".equalsIgnoreCase(statusFilter) ? 1 : 0;
+                query.bind("status", status);
+            }
+
+            return query.mapTo(Integer.class).one();
+        });
+    }
+    /**
+     * Lấy danh sách user có phân trang (có filter)
+     */
+    public List<User> getUsersPaginated(String searchTerm, String roleFilter, String statusFilter, int offset, int limit) {
+        StringBuilder sql = new StringBuilder("""
+            SELECT id, username, first_name, last_name, avatar, email, role, status
+            FROM users
+            WHERE 1=1
+        """);
+
+        // Filter theo search
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            sql.append(" AND (CAST(id AS CHAR) LIKE :search OR username LIKE :search OR email LIKE :search OR first_name LIKE :search OR last_name LIKE :search)");
+        }
+
+        // Filter theo role
+        if (roleFilter != null && !roleFilter.trim().isEmpty()) {
+            sql.append(" AND role = :role");
+        }
+
+        // Filter theo status
+        if (statusFilter != null && !statusFilter.trim().isEmpty()) {
+            sql.append(" AND status = :status");
+        }
+
+        // Sắp xếp và phân trang
+        sql.append(" ORDER BY id DESC LIMIT :limit OFFSET :offset");
+
+        return DBConnect.getJdbi().withHandle(handle -> {
+            var query = handle.createQuery(sql.toString())
+                    .bind("limit", limit)
+                    .bind("offset", offset);
+
+            if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+                query.bind("search", "%" + searchTerm.trim() + "%");
+            }
+
+            if (roleFilter != null && !roleFilter.trim().isEmpty()) {
+                int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
+                query.bind("role", role);
+            }
+
+            if (statusFilter != null && !statusFilter.trim().isEmpty()) {
+                int status = "Hoạt động".equalsIgnoreCase(statusFilter) ? 1 : 0;
+                query.bind("status", status);
+            }
+            return query.mapToBean(User.class).list();
+        });
+    }
     // Lấy danh sachs người dùng load từ database
     public List<User> getAllUsers() {
         String sql = """

@@ -67,5 +67,128 @@
 .container td {
     color: #333;
 }
+/* Filter Bar */
+#filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+#filter-bar .btn-reset {
+    padding: 10px 16px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+}
+
+#filter-bar .btn-reset:hover {
+    background: #f3f4f6;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+#filter-bar .btn-reset i {
+    font-size: 16px;
+}
+/* Footer Pagination */
+.footer-user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    margin-top: 20px;
+}
+
+.footer-user .pagination-info p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.footer-user .pagination-info strong {
+    color: #374151;
+    font-weight: 600;
+}
+
+/* Pagination Links */
+.footer-user .pagination {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.footer-user .page-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    background: white;
+    color: #374151;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.footer-user .page-link:hover:not(.active):not(.dots) {
+    background: #f3f4f6;
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.footer-user page-link.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
+    cursor: default;
+}
+
+.footer-user .page-link.dots {
+    border: none;
+    background: transparent;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .page-link {
+        min-width: 32px;
+        height: 32px;
+        padding: 0 8px;
+        font-size: 13px;
+    }
+
+    .email-cell {
+        display: none;
+    }
+
+    table th:nth-child(4) {
+        display: none;
+    }
+}
 
 
