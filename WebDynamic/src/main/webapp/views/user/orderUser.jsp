@@ -16,19 +16,6 @@
 
     // Format tiền tệ
     NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
-
-    // Debug
-    System.out.println("Orders size: " + orders.size());
-    for (Order order : orders) {
-        System.out.println("Order ID: " + order.getId());
-        List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsWithProduct(order.getId());
-        System.out.println("OrderDetails size: " + orderDetails.size());
-        for (OrderDetail detail : orderDetails) {
-            System.out.println("Detail variantId: " + detail.getVariantId());
-            Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
-            System.out.println("ProductInfo: " + productInfo);
-        }
-    }
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -45,6 +32,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/order.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/notification.css">
 </head>
 
 <body>
@@ -164,6 +152,7 @@
 
 <!-- Toast Container -->
 <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+<script src="${pageContext.request.contextPath}/js/notification.js"></script>
 <script src="${pageContext.request.contextPath}/js/order.js"></script>
 
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
