@@ -13,4 +13,9 @@ public interface ProductService {
       boolean toggleStatus(int productId) ;
       void addPhone(Product product);
      Map<String, Object> getProductForEditByVariantColorId(int vcId);
+    List<Product> getAllForAdmin();
+
+    List<Map<String, Object>> getProductsForList();
+
+    List<Map<String, Object>> getProductsByCategory(int categoryId);
 }

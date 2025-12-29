@@ -1,0 +1,188 @@
+package vn.edu.hcmuaf.fit.webdynamic.controller.user;
+
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+import vn.edu.hcmuaf.fit.webdynamic.model.Order;
+import vn.edu.hcmuaf.fit.webdynamic.model.User;
+import vn.edu.hcmuaf.fit.webdynamic.service.OrderDetailService;
+import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
+
+import java.io.IOException;
+import java.util.List;
+
+@WebServlet(name = "OrderUserServlet", urlPatterns = { "/user/order" })
+public class OrderUserServlet extends HttpServlet {
+
+    private OrderService orderService;
+    private OrderDetailService orderDetailService;
+
+    @Override
+    public void init() throws ServletException {
+        orderService = new OrderService();
+        orderDetailService = new OrderDetailService();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        // Kiểm tra user đã login chưa
+        HttpSession session = request.getSession(false);
+        User users = (User) session.getAttribute("user");
+
+        if (users == null) {
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
+            return;
+        }
+        int userId = users.getId();
+        // Lấy action từ request (nếu có)
+        String action = request.getParameter("action");
+
+        System.out.println("UserId: " + userId);
+
+        if ("cancel".equals(action)) {
+            // Xử lý hủy đơn hàng qua GET (nếu cần)
+            handleCancelOrder(request, response, userId);
+            return;
+        }
+
+        // Hiển thị danh sách đơn hàng
+        displayOrders(request, response, userId);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        // Kiểm tra user đã login
+        HttpSession session = request.getSession(false);
+        User users = (User) session.getAttribute("user");
+
+        if (users == null) {
+            response.getWriter().print("{\"success\":false,\"message\":\"Vui lòng đăng nhập\"}");
+            return;
+        }
+        int userId = users.getId();
+        String action = request.getParameter("action");
+
+        if ("cancel".equals(action)) {
+            handleCancelOrderAjax(request, response, userId);
+        } else {
+            response.getWriter().print("{\"success\":false,\"message\":\"Action không hợp lệ\"}");
+        }
+    }
+
+    /**
+     * Hiển thị danh sách đơn hàng
+     */
+    private void displayOrders(HttpServletRequest request, HttpServletResponse response, int userId)
+            throws ServletException, IOException {
+
+        String statusParam = request.getParameter("status");
+        List<Order> orders;
+
+        // Lấy đơn hàng theo status hoặc tất cả
+        if (statusParam != null && !statusParam.equals("all")) {
+            try {
+                int status = Integer.parseInt(statusParam);
+                orders = orderService.getUserOrdersByStatus(userId, status);
+            } catch (NumberFormatException e) {
+                orders = orderService.getUserOrders(userId);
+            }
+        } else {
+            orders = orderService.getUserOrders(userId);
+        }
+
+        System.out.println("Orders size: " + orders.size());
+
+        // Đưa dữ liệu vào request
+        request.setAttribute("orders", orders);
+        request.setAttribute("orderService", orderService);
+        request.setAttribute("orderDetailService", orderDetailService);
+        request.setAttribute("currentStatus", statusParam);
+
+        // Forward đến JSP
+        request.getRequestDispatcher("/views/user/orderUser.jsp").forward(request, response);
+    }
+
+    /**
+     * Xử lý hủy đơn hàng (Ajax - JSON response)
+     */
+    private void handleCancelOrderAjax(HttpServletRequest request, HttpServletResponse response, int userId)
+            throws IOException {
+
+        try {
+            String orderIdParam = request.getParameter("orderId");
+
+            if (orderIdParam == null || orderIdParam.isEmpty()) {
+                response.getWriter().print("{\"success\":false,\"message\":\"Thiếu thông tin đơn hàng\"}");
+                return;
+            }
+
+            int orderId = Integer.parseInt(orderIdParam);
+
+            // Kiểm tra đơn hàng có thuộc về user không
+            if (!orderService.isOrderBelongToUser(orderId, userId)) {
+                response.getWriter().print("{\"success\":false,\"message\":\"Không có quyền hủy đơn hàng này\"}");
+                return;
+            }
+
+            // Hủy đơn hàng
+            boolean success = orderService.cancelOrder(orderId, userId);
+
+            if (success) {
+                response.getWriter().print("{\"success\":true,\"message\":\"Hủy đơn hàng thành công\"}");
+            } else {
+                response.getWriter().print(
+                        "{\"success\":false,\"message\":\"Không thể hủy đơn hàng. Chỉ có thể hủy đơn hàng đang ở trạng thái 'Đang lên đơn'\"}");
+            }
+
+        } catch (NumberFormatException e) {
+            response.getWriter().print("{\"success\":false,\"message\":\"Mã đơn hàng không hợp lệ\"}");
+        } catch (Exception e) {
+            response.getWriter().print(
+                    "{\"success\":false,\"message\":\"Có lỗi xảy ra: " + e.getMessage().replace("\"", "\\\"") + "\"}");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Xử lý hủy đơn hàng (redirect về trang order)
+     */
+    private void handleCancelOrder(HttpServletRequest request, HttpServletResponse response, int userId)
+            throws IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        try {
+            String orderIdParam = request.getParameter("orderId");
+
+            if (orderIdParam != null && !orderIdParam.isEmpty()) {
+                int orderId = Integer.parseInt(orderIdParam);
+
+                if (orderService.isOrderBelongToUser(orderId, userId)) {
+                    boolean success = orderService.cancelOrder(orderId, userId);
+
+                    if (success) {
+                        response.getWriter().print("{\"success\":true,\"message\":\"Hủy đơn hàng thành công\"}");
+                    } else {
+                        response.getWriter().print("{\"success\":false,\"message\":\"Không thể hủy đơn hàng\"}");
+                    }
+                } else {
+                    response.getWriter().print("{\"success\":false,\"message\":\"Đơn hàng không thuộc về bạn\"}");
+                }
+            } else {
+                response.getWriter().print("{\"success\":false,\"message\":\"Thiếu thông tin đơn hàng\"}");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.getWriter().print("{\"success\":false,\"message\":\"Lỗi hệ thống\"}");
+        }
+    }
+}
