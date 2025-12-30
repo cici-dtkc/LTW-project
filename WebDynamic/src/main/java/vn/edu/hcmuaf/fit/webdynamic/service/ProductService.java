@@ -22,4 +22,8 @@ public interface ProductService {
                     String[] skus, String[] colorVariantIndexes,
                     String[] colorIds, String[] customColors, String[] colorPrices) throws Exception;
 
+    void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
+                       String[] variantNames, String[] basePrices, String[] quantities,
+                       String[] variantIds, String[] colorIds, String[] skus,
+                       String[] variantQuantities) throws Exception;
 }

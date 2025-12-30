@@ -347,7 +347,32 @@ public class ProductDaoImpl implements ProductDao {
                         .list()
         );
     }
-
+    @Override
+    public Map<String, Object> findVariantColorDetailForEdit(int vcId) {
+        String sql = """
+        SELECT 
+            v.id AS variant_id, 
+            v.name AS variant_name, 
+            v.base_price, 
+            p.warranty_period AS warranty,
+            vc.id AS color_id, 
+            col.name AS color_name, 
+            vc.quantity, 
+            vc.sku, 
+            vc.price AS color_price
+        FROM variant_colors vc
+        JOIN product_variants v ON vc.variant_id = v.id
+        JOIN products p ON v.product_id = p.id
+        JOIN colors col ON vc.color_id = col.id
+        WHERE vc.id = :vcId
+    """;
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("vcId", vcId)
+                        .mapToMap()
+                        .one()
+        );
+    }
     @Override
     public void updateStatus(int productId, int status) {
         String sql = "UPDATE products SET status = ? WHERE id = ?";
@@ -470,6 +495,49 @@ public class ProductDaoImpl implements ProductDao {
         // Placeholder
         return List.of();
     }
+
+    @Override
+    public void updateProductBasic(Handle h, Product p) {
+        String sql = "UPDATE products SET name = :name, img = :img, description = :description WHERE id = :id";
+        h.createUpdate(sql)
+                .bind("name", p.getName())
+                .bind("img", p.getMainImage())
+                .bind("description", p.getDescription())
+                .bind("id", p.getId())
+                .execute();
+    }
+
+    @Override
+    public void deleteTechSpecsByProductId(Handle h, int productId) {
+        h.createUpdate("DELETE FROM tech_specs WHERE product_id = :id")
+                .bind("id", productId)
+                .execute();
+    }
+
+    @Override
+    public void updateVariant(Handle h, int variantId, String name, double basePrice) {
+        h.createUpdate("UPDATE product_variants SET name = :name, base_price = :price, updated_at = NOW() WHERE id = :id")
+                .bind("id", variantId)
+                .bind("name", name)
+                .bind("price", basePrice)
+                .execute();
+    }
+
+    @Override
+    public void updateVariantColor(Handle h, int vcId, int quantity, String sku, double price) {
+        String sql = """
+        UPDATE variant_colors
+        SET quantity = :qty,sku = :sku,price = :price
+        WHERE id = :id
+    """;
+        h.createUpdate(sql)
+                .bind("id", vcId)
+                .bind("qty", quantity)
+                .bind("sku", sku)
+                .bind("price", price)
+                .execute();
+    }
+
 
     public List<Map<String, Object>> getProductsForListDisplay() {
         String sql = """

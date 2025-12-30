@@ -1,50 +1,39 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const btnPhone = document.getElementById("btnPhone");
-    const btnAccessory = document.getElementById("btnAccessory");
-    const formPhone = document.getElementById("editFormPhone");
-    const formAccessory = document.getElementById("editFormAccessory");
-    const productTag = document.querySelector(".product-tag");
+document.addEventListener('DOMContentLoaded', function() {
+    // Tìm tất cả các nút thêm thông số (vì có cả form Phone và Accessory)
+    const addButtons = document.querySelectorAll('.btn-add-minor');
 
-    // --- LOGIC CHUYỂN TAB ---
-    function showPhone() {
-        formPhone.style.display = "block";
-        formAccessory.style.display = "none";
-        btnPhone.classList.add("active");
-        btnAccessory.classList.remove("active");
-        productTag.textContent = "Điện thoại";
-    }
+    addButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Tìm vùng chứa danh sách thông số cùng cấp với nút vừa bấm
+            const card = this.closest('.card');
+            const list = card.querySelector('.tech-specs-list');
 
-    function showAccessory() {
-        formPhone.style.display = "none";
-        formAccessory.style.display = "block";
-        btnAccessory.classList.add("active");
-        btnPhone.classList.remove("active");
-        productTag.textContent = "Linh kiện";
-    }
+            // Tạo hàng thông số mới
+            const newRow = document.createElement('div');
+            newRow.className = 'tech-row';
+            newRow.innerHTML = `
+                <input name="techNames[]" class="col-name" placeholder="Tên thông số (VD: Pin)">
+                <input name="techValues[]" class="col-value" placeholder="Giá trị (VD: 5000mAh)">
+                <input name="techPriorities[]" class="col-priority" type="number" value="1">
+                <button type="button" class="btn-remove-tech">✕</button>
+            `;
 
-    btnPhone.addEventListener("click", showPhone);
-    btnAccessory.addEventListener("click", showAccessory);
+            // Thêm vào danh sách
+            list.appendChild(newRow);
 
-    // --- LOGIC XEM TRƯỚC ẢNH (PREVIEW) ---
-    function handleImagePreview(inputName, formId) {
-        const input = document.querySelector(`#${formId} input[name="${inputName}"]`);
-        const previewImg = document.querySelector(`#${formId} .current-image-box img`);
-
-        if (input && previewImg) {
-            input.addEventListener("change", function() {
-                const file = this.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        previewImg.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
+            // Gán sự kiện xóa cho nút vừa tạo
+            const removeBtn = newRow.querySelector('.btn-remove-tech');
+            removeBtn.addEventListener('click', function() {
+                newRow.remove();
             });
-        }
-    }
+        });
+    });
 
-    // Khởi chạy preview cho cả 2 form
-    handleImagePreview("imagePhone", "editFormPhone");
-    handleImagePreview("imageAccessory", "editFormAccessory");
+    // Gán sự kiện xóa cho các thông số ĐÃ CÓ SẴN khi load trang
+    const existingRemoveButtons = document.querySelectorAll('.btn-remove-tech');
+    existingRemoveButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.closest('.tech-row').remove();
+        });
+    });
 });

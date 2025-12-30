@@ -121,6 +121,8 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
+
+
     // Giữ nguyên hàm helper của bạn
     private int parseInt(String s) {
         if (s == null || s.trim().isEmpty()) return 0;
@@ -131,38 +133,34 @@ public class ProductServiceImpl implements ProductService {
         if (s == null || s.trim().isEmpty()) return 0.0;
         return Double.parseDouble(s.trim());
     }
+
     @Override
     public Map<String, Object> getProductForEditByVariantColorId(int vcId) {
+        // 1. Lấy thông tin cơ bản sản phẩm
+        Map<String, Object> product = productDao.findProductByVariantColorId(vcId);
+        int productId = (int) product.get("product_id");
 
-        Map<String, Object> product =
-                productDao.findProductByVariantColorId(vcId);
+        // 2. Lấy chi tiết phiên bản và màu sắc đang edit (Dùng hàm mới viết ở trên)
+        // Ép kiểu về ProductDaoImpl để gọi hàm mới nếu interface không có
+        Map<String, Object> detail = ((ProductDaoImpl) productDao).findVariantColorDetailForEdit(vcId);
 
-        if (product == null) {
-            throw new RuntimeException("Product not found for vcId=" + vcId);
-        }
+        // Đưa toàn bộ chi tiết ra ngoài Map cha để JSP gọi trực tiếp ${product.variant_name}
+        product.putAll(detail);
 
-        Integer productId = (Integer) product.get("product_id");
-        if (productId == null) {
-            throw new RuntimeException("product_id missing: " + product);
-        }
+        // 3. Lấy danh sách thông số kỹ thuật
+        product.put("techs", productDao.findTechByProductId(productId));
 
-        List<Map<String, Object>> variants =
-                productDao.findVariantsByProductId(productId);
-
+        // 4. (Tùy chọn) Nếu form Accessory cần danh sách variants
+        List<Map<String, Object>> variants = productDao.findVariantsByProductId(productId);
         for (Map<String, Object> v : variants) {
-            Integer variantId = (Integer) v.get("variant_id");
-            if (variantId == null) continue;
-
-            v.put("colors",
-                    productDao.findColorsByVariantId(variantId));
+            v.put("colors", productDao.findColorsByVariantId((int) v.get("variant_id")));
         }
-
         product.put("variants", variants);
-        product.put("techs",
-                productDao.findTechByProductId(productId));
 
         return product;
     }
+
+
 
 
     @Override
@@ -175,7 +173,56 @@ public class ProductServiceImpl implements ProductService {
         return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
 
-}
+
+    @Override
+    public void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
+                              String[] vNames, String[] bPrices, String[] vIds, String[] cIds,
+                              String[] skus, String[] qtys, String[] cPrices) throws Exception {
+
+        getJdbi().useTransaction(handle -> {
+            productDao.updateProductBasic(handle, product);
+
+            productDao.deleteTechSpecsByProductId(handle, product.getId());
+            if (techNames != null) {
+                for (int i = 0; i < techNames.length; i++) {
+                    // Kiểm tra nếu tên thông số trống thì bỏ qua không lưu
+                    if (techNames[i] == null || techNames[i].isBlank()) continue;
+                    TechSpecs t = new TechSpecs();
+                    t.setName(techNames[i]);
+                    t.setValue(techValues[i]);
+                    t.setPriority(Integer.parseInt(techPriorities[i]));
+                    productDao.insertTechSpec(handle, product.getId(), t);
+                }
+            }
+
+            int categoryId = product.getCategory().getId();
+
+            if (categoryId == 1) {
+                int vId = Integer.parseInt(vIds[0]);
+                int vcId = Integer.parseInt(cIds[0]);
+                double baseP = Double.parseDouble(bPrices[0]);
+                double colorP = Double.parseDouble(cPrices[0]);
+                int quantity = Integer.parseInt(qtys[0]);
+
+                productDao.updateVariant(handle, vId, vNames[0], baseP);
+                productDao.updateVariantColor(handle, vcId, quantity, skus[0], colorP);
+            } else {
+                if (vIds != null) {
+                    for (int i = 0; i < vIds.length; i++) {
+                        int vId = Integer.parseInt(vIds[i]);
+                        int vcId = Integer.parseInt(cIds[i]);
+                        double price = Double.parseDouble(cPrices[i]);
+                        int quantity = Integer.parseInt(qtys[i]);
+
+                        productDao.updateVariant(handle, vId, "Default", price);
+                        productDao.updateVariantColor(handle, vcId, quantity, "", price);
+                    }
+                }
+            }
+        });
+    }
+    }
+
 
 
 
