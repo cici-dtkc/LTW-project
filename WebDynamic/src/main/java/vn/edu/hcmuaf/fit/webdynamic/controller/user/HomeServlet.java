@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.webdynamic.controller.user;
 
+import jakarta.servlet.http.HttpSession;
+import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.HomeService;
 import vn.edu.hcmuaf.fit.webdynamic.service.HomeServiceImpl;
 
@@ -19,6 +21,17 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        // LẤY SESSION HIỆN TẠI
+        HttpSession session = request.getSession(false); // false = không tạo session mới
+
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+
+            // ĐẢM BẢO REQUEST CÓ ATTRIBUTE NÀY
+            request.setAttribute("user", user);
+        }
+
         // Load featured products
         List<Map<String, Object>> featuredProducts = homeService.getFeaturedProducts();
         request.setAttribute("featuredProducts", featuredProducts);
@@ -30,6 +43,11 @@ public class HomeServlet extends HttpServlet {
         // Load active vouchers
         List<Map<String, Object>> activeVouchers = homeService.getActiveVouchers();
         request.setAttribute("activeVouchers", activeVouchers);
+
+        // Disable cache
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
 
         // Forward to home.jsp
         request.getRequestDispatcher("/home.jsp").forward(request, response);
