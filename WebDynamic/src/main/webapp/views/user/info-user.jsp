@@ -24,8 +24,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/toast.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/confirm-dialog.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/notification.css">
 </head>
 
 <body>
@@ -38,7 +39,9 @@
         <div class="container">
 
             <div class="title">
+                <i class="fa-solid fa-user-circle"></i>
                 <span>Hồ Sơ Của Tôi</span>
+                <p class="subtitle">Quản lý thông tin cá nhân của bạn</p>
             </div>
 
             <div class="profile">
@@ -51,37 +54,57 @@
                     <input type="hidden" name="action" value="update">
 
                     <div class="row">
-                        <label class="label">Tên đăng nhập</label>
-                        <div class="readonly"><%= user != null ? user.getUsername() : "" %>
+                        <label class="label">
+                            <i class="fa-solid fa-user"></i> Tên đăng nhập
+                        </label>
+                        <div class="readonly">
+                            <%= user != null ? user.getUsername() : "" %>
                         </div>
                     </div>
 
                     <div class="row">
-                        <label for="firstName" class="label">Họ</label>
+                        <label for="firstName" class="label">
+                            <i class="fa-solid fa-id-card"></i> Họ <span class="required">*</span>
+                        </label>
                         <input type="text" id="firstName" name="firstName" class="input"
                                value="<%= user != null && user.getFirstName() != null ? user.getFirstName() : "" %>"
-                               disabled>
+                               placeholder="Nhập họ của bạn"
+                               disabled
+                               required>
                     </div>
 
                     <div class="row">
-                        <label for="lastName" class="label">Tên</label>
+                        <label for="lastName" class="label">
+                            <i class="fa-solid fa-id-card"></i> Tên <span class="required">*</span>
+                        </label>
                         <input type="text" id="lastName" name="lastName" class="input"
                                value="<%= user != null && user.getLastName() != null ? user.getLastName() : "" %>"
-                               disabled>
+                               placeholder="Nhập tên của bạn"
+                               disabled
+                               required>
                     </div>
 
                     <div class="row">
-                        <label for="emailInput" class="label">Email</label>
+                        <label for="emailInput" class="label">
+                            <i class="fa-solid fa-envelope"></i> Email
+                        </label>
                         <input type="email" id="emailInput" name="email" class="input"
                                value="<%= user != null && user.getEmail() != null ? user.getEmail() : "" %>"
+                               placeholder="example@email.com"
                                disabled>
                         <span class="error" id="emailError"></span>
                     </div>
 
                     <div class="buttons">
-                        <button type="button" class="btn primary" id="btn-edit">Chỉnh sửa</button>
-                        <button type="button" class="btn outline" id="btn-logout">Đăng xuất</button>
-                        <button type="submit" class="btn primary hidden" id="btn-save">Lưu thay đổi</button>
+                        <button type="button" class="btn primary" id="btn-edit">
+                            <i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa
+                        </button>
+                        <button type="button" class="btn outline" id="btn-logout">
+                            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
+                        </button>
+                        <button type="submit" class="btn primary hidden" id="btn-save">
+                            <i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi
+                        </button>
                     </div>
                 </form>
 
@@ -93,20 +116,30 @@
 
                     <input type="hidden" name="action" value="upload-avatar">
 
-                    <div class="avatar">
-                        <img id="user-avatar"
-                             src="<%= avatarPath %>"
-                             alt="User Avatar"
-                             class="avatar-img"
-                             onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                    <div class="avatar-container">
+                        <div class="avatar">
+                            <img id="user-avatar"
+                                 src="<%= avatarPath %>"
+                                 alt="User Avatar"
+                                 class="avatar-img"
+                                 onerror="this.src='${pageContext.request.contextPath}/assert/img/admin.jpg'">
+                        </div>
                     </div>
 
-                    <label for="avatarInput" class="btn small outline">Chọn Ảnh</label>
+                    <label for="avatarInput" class="btn small outline">
+                        <i class="fa-solid fa-camera"></i> Chọn Ảnh
+                    </label>
+
+                    <p class="avatar-note">
+                        <i class="fa-solid fa-circle-info"></i>
+                        Dung lượng tối đa 5MB<br>
+                        Định dạng: JPG, PNG, GIF
+                    </p>
 
                     <input id="avatarInput"
                            name="avatar"
                            type="file"
-                           accept="image/png, image/jpeg"
+                           accept="image/png, image/jpeg, image/jpg, image/gif"
                            class="hidden-input">
                 </form>
 
@@ -115,7 +148,11 @@
     </div>
 </div>
 
-</body>
+<script>
+    window.contextPath = '${pageContext.request.contextPath}';
+</script>
+<script src="${pageContext.request.contextPath}/js/notification.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/info-user.js"></script>
+</body>
 </html>
