@@ -54,7 +54,6 @@ public class BankAccountDao {
                     .bind("userId", b.getUserId())
                     .execute();
 
-            System.out.println("Rows updated = " + rows);
 
             return rows > 0;
         });

@@ -39,7 +39,6 @@ public class OrderUserServlet extends HttpServlet {
         // Lấy action từ request (nếu có)
         String action = request.getParameter("action");
 
-        System.out.println("UserId: " + userId);
 
         if ("cancel".equals(action)) {
             // Xử lý hủy đơn hàng qua GET (nếu cần)
@@ -97,7 +96,6 @@ public class OrderUserServlet extends HttpServlet {
             orders = orderService.getUserOrders(userId);
         }
 
-        System.out.println("Orders size: " + orders.size());
 
         // Đưa dữ liệu vào request
         request.setAttribute("orders", orders);

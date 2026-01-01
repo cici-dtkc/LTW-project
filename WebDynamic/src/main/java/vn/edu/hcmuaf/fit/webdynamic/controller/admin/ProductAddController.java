@@ -39,12 +39,10 @@ public class ProductAddController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
 
         try {
-            // 1. Lấy thông tin cơ bản Product (Y hệt code cũ)
             String name = request.getParameter("productName");
             String description = request.getParameter("description");
             int categoryId = Integer.parseInt(request.getParameter("categoryId"));
 
-            // Xử lý Brand (Giữ nguyên y hệt logic của bạn)
             String brandParam = request.getParameter("brandId");
             Brand brand;
             if ("custom".equals(brandParam)) {
@@ -62,14 +60,12 @@ public class ProductAddController extends HttpServlet {
             product.setStatus(1);
             product.setCreatedAt(LocalDateTime.now());
 
-            // 2. Xử lý Ảnh (Giữ nguyên logic của bạn)
             Part mainImagePart = request.getPart("productImage");
             if (mainImagePart != null && mainImagePart.getSize() > 0) {
                 String path = FileUploadUtil.saveImage(mainImagePart, getServletContext().getRealPath("/"));
                 product.setMainImage(path);
             }
 
-            // 3. Lấy các mảng tham số (Giữ nguyên tên biến của bạn)
             String[] techNames = request.getParameterValues("techName[]");
             String[] techValues = request.getParameterValues("techValue[]");
             String[] techPriorities = request.getParameterValues("techPriority[]");
