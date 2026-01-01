@@ -55,8 +55,8 @@
             <c:forEach var="product" items="${featuredProducts}" varStatus="status">
                 <c:if test="${status.index < 4}">
                     <div class="product-card">
-                        <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
-                            <div class="product-img">
+                    <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
+                        <div class="product-img">
                                 <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
                                 <c:if test="${product.discount_percentage > 0}">
                                     <span class="discount-badge">-${product.discount_percentage}%</span>
@@ -115,7 +115,7 @@
     <section class="product-related" id="product-accessory">
         <h2 class="title-desc"> Linh kiện mới ra mắt</h2>
         <div id="product-list-accessories" class="product-list">
-            <c:forEach var="accessory" items="${featuredAccessories}">
+            <c:forEach var="accessory" items="${featuredAccessories}" varStatus="status">
                 <div class="product-card">
                     <a href="${pageContext.request.contextPath}/productDetail?id=${accessory.id}">
                         <div class="product-img">
@@ -193,16 +193,19 @@
     <!--    Section logo-->
     <section class="brand-section">
         <div class="brand-list">
-            <a href="${pageContext.request.contextPath}/listproduct.jsp" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=1" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoIphone.png" alt="Apple">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct.jsp" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=2" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoOppo.png" alt="Oppo">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct.jsp" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=3" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoVivo.png" alt="Vivo">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct.jsp" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=
+            
+            
+            4" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoSamsung.png" alt="Samsung">
             </a>
         </div>
@@ -241,6 +244,72 @@
             this.parentElement.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
         });
+    });
+
+    // Product navigation for phones
+    const phonesList = document.getElementById('product-list-phones');
+    const phonesCards = phonesList.querySelectorAll('.product-card');
+    let phonesCurrentIndex = 0;
+    const phonesPerPage = 4;
+
+    function showPhones(startIndex) {
+        phonesCards.forEach((card, index) => {
+            if (index >= startIndex && index < startIndex + phonesPerPage) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        // Update button states
+        document.getElementById('phones-prev').disabled = startIndex === 0;
+        document.getElementById('phones-next').disabled = startIndex + phonesPerPage >= phonesCards.length;
+    }
+
+    document.getElementById('phones-next').addEventListener('click', () => {
+        if (phonesCurrentIndex + phonesPerPage < phonesCards.length) {
+            phonesCurrentIndex += phonesPerPage;
+            showPhones(phonesCurrentIndex);
+        }
+    });
+
+    document.getElementById('phones-prev').addEventListener('click', () => {
+        if (phonesCurrentIndex > 0) {
+            phonesCurrentIndex -= phonesPerPage;
+            showPhones(phonesCurrentIndex);
+        }
+    });
+
+    // Product navigation for accessories
+    const accessoriesList = document.getElementById('product-list-accessories');
+    const accessoriesCards = accessoriesList.querySelectorAll('.product-card');
+    let accessoriesCurrentIndex = 0;
+    const accessoriesPerPage = 4;
+
+    function showAccessories(startIndex) {
+        accessoriesCards.forEach((card, index) => {
+            if (index >= startIndex && index < startIndex + accessoriesPerPage) {
+                card.classList.remove('hidden');
+            } else {
+                card.classList.add('hidden');
+            }
+        });
+        // Update button states
+        document.getElementById('accessories-prev').disabled = startIndex === 0;
+        document.getElementById('accessories-next').disabled = startIndex + accessoriesPerPage >= accessoriesCards.length;
+    }
+
+    document.getElementById('accessories-next').addEventListener('click', () => {
+        if (accessoriesCurrentIndex + accessoriesPerPage < accessoriesCards.length) {
+            accessoriesCurrentIndex += accessoriesPerPage;
+            showAccessories(accessoriesCurrentIndex);
+        }
+    });
+
+    document.getElementById('accessories-prev').addEventListener('click', () => {
+        if (accessoriesCurrentIndex > 0) {
+            accessoriesCurrentIndex -= accessoriesPerPage;
+            showAccessories(accessoriesCurrentIndex);
+        }
     });
 </script>
 </body>
