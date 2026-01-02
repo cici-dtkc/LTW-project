@@ -7,6 +7,7 @@
         <div class="inner-wrap">
             <div class="logo" id="logo">
                 <a href="${pageContext.request.contextPath}/home">
+
                     <img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="Logo Website" id="logo-img">
                 </a>
             </div>

@@ -8,9 +8,9 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="assert/css/reset.css">
-  <link rel="stylesheet" href="assert/css/base.css">
-  <link rel="stylesheet" href="assert/css/formChangepass.css">
+  <link rel="stylesheet" href=".${pageContext.request.contextPath}/assert/css/reset.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/formChangepass.css">
   <title>Form Đổi mật khẩu</title>
 </head>
 <body>
@@ -52,5 +52,5 @@
   </form>
 </div>
 </body>
-<script src="js/formChangepass.js"></script>
+<script src="${pageContext.request.contextPath}/js/formChangepass.js"></script>
 </html>

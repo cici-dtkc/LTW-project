@@ -11,7 +11,6 @@ public interface ProductService {
     List<Map<String, Object>> getForAdmin(String keyword, Integer status, Integer categoryId, int page, int limit);
     int countForAdmin(String keyword, Integer status, Integer categoryId);
       boolean toggleStatus(int productId) ;
-      void addPhone(Product product);
      Map<String, Object> getProductForEditByVariantColorId(int vcId);
 
     List<Map<String, Object>> getProductsForList();
@@ -41,4 +40,15 @@ public interface ProductService {
             String condition,
             String sortBy
     );
+    void addProduct(Product product,
+                    String[] techNames, String[] techValues, String[] techPriorities,
+                    String[] variantNames, String[] basePrices,
+                    String[] quantities, String[] variantQuantities,
+                    String[] skus, String[] colorVariantIndexes,
+                    String[] colorIds, String[] customColors, String[] colorPrices) throws Exception;
+
+    void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
+                       String[] variantNames, String[] basePrices, String[] quantities,
+                       String[] variantIds, String[] colorIds, String[] skus,
+                       String[] variantQuantities) throws Exception;
 }

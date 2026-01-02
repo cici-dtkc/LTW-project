@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -125,76 +127,29 @@
                         <td>Nguyễn Văn C</td>
                         <td>2025-11-10</td>
                         <td>
-                            <select class="status-select">
-                                <option value="dang-len-don" selected>Đang lên đơn</option>
-                                <option value="dang-giao"  >Đang giao</option>
-                                <option value="da-giao">Đã giao</option>
-                                <option value="huy">Hủy</option>
+                        <td>
+                            <select class="status-select"
+                                    data-id="${o.id}">
+                                <option value="1" ${o.status == 1 ? 'selected' : ''}>
+                                    Đang lên đơn
+                                </option>
+                                <option value="2" ${o.status == 2 ? 'selected' : ''}>
+                                    Đang giao
+                                </option>
+                                <option value="3" ${o.status == 3 ? 'selected' : ''}>
+                                    Đã giao
+                                </option>
+                                <option value="5" ${o.status == 5 ? 'selected' : ''}>
+                                    Hủy
+                                </option>
                             </select>
+                        </td>
+
                         </td>
                         <td>Thanh toán khi nhận hàng</td>
                         <td>₫2,100,000</td>
                     </tr>
-                    <tr>
-                        <td>DH1007</td>
-                        <td>Phạm F</td>
-                        <td>2025-18-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don">Đang lên đơn</option>
-                                <option value="dang-giao"selected >Đang giao</option>
-                                <option value="da-giao"  >Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Chuyển khoản</td>
-                        <td>₫850,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1006</td>
-                        <td>Phạm G</td>
-                        <td>2025-12-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don" >Đang lên đơn</option>
-                                <option value="dang-giao"selected>Đang giao</option>
-                                <option value="da-giao"  >Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Chuyển khoản</td>
-                        <td>₫150,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1005</td>
-                        <td>Phạm X</td>
-                        <td>2025-11-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don">Đang lên đơn</option>
-                                <option value="dang-giao" selected>Đang giao</option>
-                                <option value="da-giao"  >Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Chuyển khoản</td>
-                        <td>₫950,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1004</td>
-                        <td>Phạm D</td>
-                        <td>2025-11-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don">Đang lên đơn</option>
-                                <option value="dang-giao">Đang giao</option>
-                                <option value="da-giao" selected>Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Thanh toán khi nhận hàng</td>
-                        <td>₫850,000</td>
-                    </tr>
+
                     </tbody>
                 </table>
 
@@ -202,6 +157,6 @@
         </div>
     </main>
 </div>
-<script src="/js/sidebarAdmin.js"></script>
+<script src="../js/sidebarAdmin.js"></script>
 </body>
 </html>

@@ -4,17 +4,17 @@ import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.HomeService;
 import vn.edu.hcmuaf.fit.webdynamic.service.HomeServiceImpl;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet("/home")
+@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 public class HomeServlet extends HttpServlet {
     private final HomeService homeService = new HomeServiceImpl();
 
@@ -52,4 +52,5 @@ public class HomeServlet extends HttpServlet {
         // Forward to home.jsp
         request.getRequestDispatcher("/home.jsp").forward(request, response);
     }
+
 }

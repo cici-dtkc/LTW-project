@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.webdynamic.model.Order;
 import vn.edu.hcmuaf.fit.webdynamic.model.Address;
 import vn.edu.hcmuaf.fit.webdynamic.model.PaymentTypes;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -142,5 +143,15 @@ public class OrderService {
             default:
                 return "fa-solid fa-question";
         }
+    }
+
+    public List<Order> getAllForAdmin() {
+        List<Order> orders = new ArrayList<>();
+
+        return orders;
+    }
+
+    public List<Order> searchForAdmin(String keyword, Integer status) {
+        return orderDao.search(keyword, status);
     }
 }
