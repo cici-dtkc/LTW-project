@@ -9,9 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet" />
     <title>Tạo tài khoản</title>
-    <link rel="stylesheet" href="assert/css/reset.css">
-    <link rel="stylesheet" href="assert/css/base.css">
-    <link rel="stylesheet" href="assert/css/register.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/register.css">
 </head>
 <body>
 <div id="register-form">
@@ -75,7 +75,7 @@
     </form>
 </div>
 </body>
-<script src="js/register.js"></script>
+<script src="${pageContext.request.contextPath}/js/register.js"></script>
 <script>
     function changeTypePass(){
         let password = document.getElementById('password');

@@ -5,14 +5,14 @@
     <div class="container">
         <div class="inner-wrap">
             <div class="logo" id="logo">
-                <a href="${pageContext.request.contextPath}/home.jsp">
+                <a href="${pageContext.request.contextPath}/views/user/home.jsp">
                     <img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="Logo Website" id="logo-img">
                 </a>
             </div>
 
             <nav class="menu" id="menu">
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/home.jsp" id="nav-home">Trang chủ</a></li>
+                    <li><a href="${pageContext.request.contextPath}/views/user/home.jsp" id="nav-home">Trang chủ</a></li>
                     <li><a href="${pageContext.request.contextPath}/listproduct.jsp" id="nav-phone">Điện thoại</a></li>
                     <li class="has-mega" id="nav-accessory-item">
                         <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp" id="nav-accessory">Linh kiện</a>
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </li>
-                    <li><a href="${pageContext.request.contextPath}/home.jsp#footer" id="nav-contact">Liên hệ</a></li>
+                    <li><a href="${pageContext.request.contextPath}/views/user/home.jsp#footer" id="nav-contact">Liên hệ</a></li>
                 </ul>
             </nav>
 

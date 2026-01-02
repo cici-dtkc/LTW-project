@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
         if (user == null) {
             request.setAttribute("error", "Sai tài khoản hoặc mật khẩu!");
             request.setAttribute("inputValue", input);
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
             return;
         }
 
@@ -54,9 +54,9 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (role == 1) { // admin
-            response.sendRedirect(request.getContextPath() + "/admin-dashboard");
+            response.sendRedirect(request.getContextPath() + "/views/adim/admin-dashboard");
         } else { // user
-            response.sendRedirect(request.getContextPath() + "/change-password");
+            response.sendRedirect(request.getContextPath() + "/views/admin/change-password");
         }
     }
 }
