@@ -149,7 +149,7 @@
     color: #3b82f6;
 }
 
-.footer-user page-link.active {
+.footer-user .page-link.active {
     background: #3b82f6;
     border-color: #3b82f6;
     color: white;

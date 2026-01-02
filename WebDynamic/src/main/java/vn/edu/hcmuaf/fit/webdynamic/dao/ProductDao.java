@@ -32,7 +32,6 @@ public interface ProductDao {
     List<Map<String, Object>> findVariantsByProductId(int productId);
     List<Map<String, Object>> findTechByProductId(int productId);
     List<Map<String, Object>> findColorsByVariantId(int variantId);
-    List<Product> findAllWithVariants();
 
     Product getProductById(int id);
 
@@ -41,6 +40,30 @@ public interface ProductDao {
     void updateStatus(int productId, int status);
 
     List<Map<String, Object>> getProductsByCategory(int categoryId);
+
+    List<Map<String, Object>> getProductsByCategoryWithFilters(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    );
+
+    List<Map<String, Object>> getAccessories();
+
+    List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    );
 
     List<Map<String, Object>> getProductsForList();
 }

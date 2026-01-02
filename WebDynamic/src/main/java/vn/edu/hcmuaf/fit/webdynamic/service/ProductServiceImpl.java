@@ -121,10 +121,45 @@ public class ProductServiceImpl implements ProductService {
     public List<Map<String, Object>> getProductsByCategory(int categoryId) {
         return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
+
+
     @Override
-    public List<Product> getAllForAdmin() {
-        return List.of();
+    public List<Map<String, Object>> getProductsByCategoryWithFilters(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    ) {
+        return ((ProductDaoImpl) productDao).getProductsByCategoryWithFilters(
+                categoryId, priceMin, priceMax, memory, colors, year, brandId, types, condition, sortBy
+        );
     }
+
+    @Override
+    public List<Map<String, Object>> getAccessories() {
+        return ((ProductDaoImpl) productDao).getAccessories();
+    }
+
+    @Override
+    public List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    ) {
+        return ((ProductDaoImpl) productDao).getAccessoriesWithFilters(
+                priceMin, priceMax, brandId, types, condition, sortBy
+        );
+    }
+
 }
 
 

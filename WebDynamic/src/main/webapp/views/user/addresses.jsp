@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/addresses.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/confirm-dialog.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/notification.css">
 </head>
 
 <body>
@@ -54,12 +56,16 @@
                                     <span class="address-default-badge">Mặc định</span>
                                 </c:if>
 
-                                <a href="javascript:void(0)" data-action="update" data-id="${a.id}">Sửa</a>
-                                <a href="javascript:void(0)" data-action="delete" data-id="${a.id}">Xóa</a>
+                                <a href="javascript:void(0)" data-action="update" data-id="${a.id}">
+                                    <i class="fa-solid fa-pen-to-square"></i> Sửa
+                                </a>
+                                <a href="javascript:void(0)" data-action="delete" data-id="${a.id}">
+                                    <i class="fa-solid fa-trash"></i> Xóa
+                                </a>
 
                                 <c:if test="${a.status != 1}">
                                     <button data-action="set-default" data-id="${a.id}">
-                                        Đặt mặc định
+                                        <i class="fa-solid fa-check"></i> Đặt mặc định
                                     </button>
                                 </c:if>
                             </div>
@@ -70,6 +76,7 @@
                 <!-- CHƯA CÓ ĐỊA CHỈ -->
                 <c:if test="${empty addresses}">
                     <div class="address-empty">
+                        <i class="fa-solid fa-map-location-dot" style="font-size: 48px; color: #ccc; margin-bottom: 16px;"></i>
                         <p>Bạn chưa có địa chỉ nào. Hãy thêm địa chỉ mới.</p>
                     </div>
                 </c:if>
@@ -82,24 +89,40 @@
 <!-- MODAL ADD ADDRESS -->
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal-content">
-        <h2 class="modal-title">Địa chỉ mới</h2>
+        <h2 class="modal-title">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="modalTitleText">Địa chỉ mới</span>
+        </h2>
 
         <form class="address-form" id="addressForm">
             <input type="hidden" id="addressId">
 
             <div class="form-row">
-                <label class="form-label">Họ và tên</label>
-                <input type="text" id="name" class="form-input" required>
+                <label class="form-label">
+                    <i class="fa-solid fa-user"></i> Họ và tên
+                </label>
+                <input type="text" id="name" class="form-input"
+                       placeholder="Nhập họ và tên" required>
             </div>
 
             <div class="form-row">
-                <label class="form-label">Số điện thoại</label>
-                <input type="text" id="phoneNumber" class="form-input" required>
+                <label class="form-label">
+                    <i class="fa-solid fa-phone"></i> Số điện thoại
+                </label>
+                <input type="text" id="phoneNumber" class="form-input"
+                       placeholder="Nhập số điện thoại"
+                       pattern="[0-9]{10}"
+                       title="Số điện thoại phải gồm 10 chữ số"
+                       required>
             </div>
 
             <div class="form-row">
-                <label class="form-label">Địa chỉ</label>
-                <textarea id="fullAddress" class="form-textarea" rows="3" required></textarea>
+                <label class="form-label">
+                    <i class="fa-solid fa-location-dot"></i> Địa chỉ
+                </label>
+                <textarea id="fullAddress" class="form-textarea" rows="3"
+                          placeholder="Nhập địa chỉ chi tiết (số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố)"
+                          required></textarea>
             </div>
 
             <div class="form-row">
@@ -110,8 +133,12 @@
             </div>
 
             <div class="modal-actions">
-                <button type="button" class="btn-back" id="btnBack">Trở lại</button>
-                <button type="submit" class="btn-complete">Hoàn thành</button>
+                <button type="button" class="btn-back" id="btnBack">
+                    <i class="fa-solid fa-xmark"></i> Hủy
+                </button>
+                <button type="submit" class="btn-complete">
+                    <i class="fa-solid fa-check"></i> Hoàn thành
+                </button>
             </div>
         </form>
     </div>
@@ -120,8 +147,8 @@
 <script>
     window.contextPath = '${pageContext.request.contextPath}';
 </script>
+<script src="${pageContext.request.contextPath}/js/notification.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/addresses.js"></script>
-
 </body>
 </html>

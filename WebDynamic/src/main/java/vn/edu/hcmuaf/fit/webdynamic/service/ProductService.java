@@ -13,9 +13,32 @@ public interface ProductService {
       boolean toggleStatus(int productId) ;
       void addPhone(Product product);
      Map<String, Object> getProductForEditByVariantColorId(int vcId);
-    List<Product> getAllForAdmin();
 
     List<Map<String, Object>> getProductsForList();
 
     List<Map<String, Object>> getProductsByCategory(int categoryId);
+
+    List<Map<String, Object>> getProductsByCategoryWithFilters(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    );
+
+    List<Map<String, Object>> getAccessories();
+
+    List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            Integer brandId,
+            List<String> types,
+            String condition,
+            String sortBy
+    );
 }
