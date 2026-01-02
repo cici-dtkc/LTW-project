@@ -51,7 +51,7 @@
                     </li>
 
                     <li class="cart-item">
-                        <a href="${pageContext.request.contextPath}/cart.jsp" id="btn-cart">
+                        <a href="${pageContext.request.contextPath}/views/user/cart.jsp" id="btn-cart">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <span class="cart-badge" id="cart-badge">
                                 <c:out value="${sessionScope.cartItemCount != null ? sessionScope.cartItemCount : 0}" />
@@ -75,10 +75,10 @@
                         </div>
 
                         <div class="user-dropdown" id="user-dropdown">
-                            <a href="${pageContext.request.contextPath}/info-user.jsp">Tài khoản của tôi</a>
-                            <a href="${pageContext.request.contextPath}/order.jsp">Đơn mua</a>
+                            <a href="${pageContext.request.contextPath}/views/user/info-user.jsp">Tài khoản của tôi</a>
+                            <a href="${pageContext.request.contextPath}/views/user/orderUser.jsp">Đơn mua</a>
                             <c:if test="${sessionScope.user != null}">
-                                <a href="${pageContext.request.contextPath}/logout.jsp" id="logout-link">Đăng xuất</a>
+                                <a href="${pageContext.request.contextPath}/views/user/home.jsp" id="logout-link">Đăng xuất</a>
                             </c:if>
                         </div>
                     </li>

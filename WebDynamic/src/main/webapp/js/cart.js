@@ -125,3 +125,12 @@ function updateSubTotal() {
 }
 
 
+
+function updateQty(id, delta) {
+    window.location.href = "cart?action=update&vcId=" + id + "&delta=" + delta;
+}
+function removeItem(id) {
+    if(confirm('Bạn có chắc muốn xóa sản phẩm này?')) {
+        window.location.href = "cart?action=remove&vcId=" + id;
+    }
+}
