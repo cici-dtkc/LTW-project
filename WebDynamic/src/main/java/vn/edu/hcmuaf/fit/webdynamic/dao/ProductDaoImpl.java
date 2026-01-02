@@ -326,6 +326,8 @@ public class ProductDaoImpl implements ProductDao {
                         .list()
         );
     }
+
+
     public List<Map<String, Object>> findTechByProductId(int productId) {
         String sql = """
         SELECT
@@ -1022,4 +1024,9 @@ public class ProductDaoImpl implements ProductDao {
     // p.setStatus(rs.getInt("status"));
     // return p;
     // }
+
+    @Override
+    public List<Product> findAllWithVariants() {
+        return List.of();
+    }
 }

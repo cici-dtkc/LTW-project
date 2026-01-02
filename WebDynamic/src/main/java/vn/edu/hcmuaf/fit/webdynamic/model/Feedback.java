@@ -12,6 +12,9 @@ public class Feedback {
     private int status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String username;
+
+
 
     // ===== Constructor rỗng (bắt buộc cho JDBI / JSP) =====
     public Feedback() {
@@ -20,7 +23,7 @@ public class Feedback {
     // ===== Constructor đầy đủ =====
     public Feedback(int id, int productId, int userId, int rating,
                     String comment, int status,
-                    LocalDateTime createdAt, LocalDateTime updatedAt) {
+                    LocalDateTime createdAt, LocalDateTime updatedAt, String username) {
         this.id = id;
         this.productId = productId;
         this.userId = userId;
@@ -29,6 +32,7 @@ public class Feedback {
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.username = username;
     }
 
     // ===== Getter & Setter =====
@@ -94,5 +98,11 @@ public class Feedback {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

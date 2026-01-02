@@ -7,9 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Đăng Nhập</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="assert/css/reset.css">
-    <link rel="stylesheet" href="assert/css/base.css">
-    <link rel="stylesheet" href="assert/css/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/login.css">
 </head>
 <body>
 <div class="login">
@@ -77,6 +77,6 @@
     </div>
 </div>
 
-<script src="js/login.js"></script>
+<script src="${pageContext.request.contextPath}/js/login.js"></script>
 </body>
 </html>

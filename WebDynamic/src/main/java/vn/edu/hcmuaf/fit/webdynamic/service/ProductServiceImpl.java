@@ -110,6 +110,8 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
+
+
     @Override
     public List<Map<String, Object>> getProductsForList() {
         return ((ProductDaoImpl) productDao).getProductsForListDisplay();
@@ -119,6 +121,7 @@ public class ProductServiceImpl implements ProductService {
     public List<Map<String, Object>> getProductsByCategory(int categoryId) {
         return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
+
 
     @Override
     public List<Map<String, Object>> getProductsByCategoryWithFilters(

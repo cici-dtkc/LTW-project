@@ -103,4 +103,59 @@ public class OrderDao {
                         .execute()
         ) > 0;
     }
+
+    // Lấy tất cả đơn hàng
+    public List<Order> findAll() {
+        String sql = "SELECT * FROM orders ORDER BY created_at DESC";
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .mapToBean(Order.class)
+                        .list()
+        );
+    }
+
+    // Tìm kiếm + lọc trạng thái
+    public List<Order> search(String keyword, Integer status) {
+        StringBuilder sql = new StringBuilder(
+                "SELECT o.* FROM orders o " +
+                        "JOIN users u ON o.user_id = u.id WHERE 1=1 "
+        );
+
+        if (keyword != null && !keyword.isEmpty()) {
+            sql.append("AND (o.id LIKE :kw OR u.fullname LIKE :kw) ");
+        }
+        if (status != null) {
+            sql.append("AND o.status = :status ");
+        }
+
+        return jdbi.withHandle(handle -> {
+            var query = handle.createQuery(sql.toString());
+
+            if (keyword != null && !keyword.isEmpty()) {
+                query.bind("kw", "%" + keyword + "%");
+            }
+            if (status != null) {
+                query.bind("status", status);
+            }
+
+            return query.mapToBean(Order.class).list();
+        });
+    }
+
+    // Cập nhật trạng thái đơn hàng
+    public boolean updateStatus(int orderId, int status) {
+        String sql = """
+                UPDATE orders
+                SET status = :status,
+                    updated_at = NOW()
+                WHERE id = :id
+                """;
+
+        return jdbi.withHandle(handle ->
+                handle.createUpdate(sql)
+                        .bind("status", status)
+                        .bind("id", orderId)
+                        .execute()
+        ) > 0;
+    }
 }
