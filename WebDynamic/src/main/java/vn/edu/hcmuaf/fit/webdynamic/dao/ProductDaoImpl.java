@@ -9,6 +9,8 @@ import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static java.time.LocalTime.now;
+
 public class ProductDaoImpl implements ProductDao {
     private final Jdbi jdbi = DBConnect.getJdbi();
 
@@ -94,8 +96,8 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public int insertProduct(Handle h, Product p) {
         String sql = """
-        INSERT INTO products(name, img, category_id, description, created_at)
-        VALUES (:name, :img, :categoryId, :description, :createdAt)
+        INSERT INTO products(name, img, category_id, description,warranty_period, release_date, created_at)
+        VALUES (:name, :img, :categoryId, :description, :warranty, :releaseDate,:createdAt)
     """;
 
         return
@@ -104,6 +106,8 @@ public class ProductDaoImpl implements ProductDao {
                         .bind("img", p.getMainImage())
                         .bind("categoryId", p.getCategory().getId())
                         .bind("description", p.getDescription())
+                        .bind("warranty", 12)           // Thiết lập bảo hành cứng 12 tháng (1 năm)
+                        .bind("releaseDate", LocalDateTime.now())       // Thiết lập ngày ra mắt là lúc thêm sản phẩm
                         .bind("createdAt", LocalDateTime.now())
                         .executeAndReturnGeneratedKeys("id")
                         .mapTo(Integer.class)
@@ -203,14 +207,11 @@ public class ProductDaoImpl implements ProductDao {
         if (variantIds.isEmpty()) return List.of();
         String sql = """
             SELECT
-                p.id   AS p_id,   p.name AS p_name, p.img AS p_img,
+                p.id   AS p_id,   p.name AS p_name, p.img AS p_img,p.category_id  AS category_id,
                 c.id   AS c_id,   c.name AS c_name,
-
                 v.id   AS v_id,   v.name AS v_name,
                 v.base_price,    vc.status AS vc_status,
-
                 vc.id  AS vc_id,  vc.price AS vc_price, vc.quantity,
-
                 col.id AS color_id, col.name AS color_name
             FROM variant_colors vc
             JOIN product_variants v ON vc.variant_id = v.id
@@ -348,7 +349,32 @@ public class ProductDaoImpl implements ProductDao {
                         .list()
         );
     }
-
+    @Override
+    public Map<String, Object> findVariantColorDetailForEdit(int vcId) {
+        String sql = """
+        SELECT 
+            v.id AS variant_id, 
+            v.name AS variant_name, 
+            v.base_price, 
+            p.warranty_period AS warranty,
+            vc.id AS color_id, 
+            col.name AS color_name, 
+            vc.quantity, 
+            vc.sku, 
+            vc.price AS color_price
+        FROM variant_colors vc
+        JOIN product_variants v ON vc.variant_id = v.id
+        JOIN products p ON v.product_id = p.id
+        JOIN colors col ON vc.color_id = col.id
+        WHERE vc.id = :vcId
+    """;
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("vcId", vcId)
+                        .mapToMap()
+                        .one()
+        );
+    }
     @Override
     public void updateStatus(int productId, int status) {
         String sql = "UPDATE products SET status = ? WHERE id = ?";
@@ -960,6 +986,49 @@ public class ProductDaoImpl implements ProductDao {
         // Placeholder
         return List.of();
     }
+
+    @Override
+    public void updateProductBasic(Handle h, Product p) {
+        String sql = "UPDATE products SET name = :name, img = :img, description = :description WHERE id = :id";
+        h.createUpdate(sql)
+                .bind("name", p.getName())
+                .bind("img", p.getMainImage())
+                .bind("description", p.getDescription())
+                .bind("id", p.getId())
+                .execute();
+    }
+
+    @Override
+    public void deleteTechSpecsByProductId(Handle h, int productId) {
+        h.createUpdate("DELETE FROM tech_specs WHERE product_id = :id")
+                .bind("id", productId)
+                .execute();
+    }
+
+    @Override
+    public void updateVariant(Handle h, int variantId, String name, double basePrice) {
+        h.createUpdate("UPDATE product_variants SET name = :name, base_price = :price, updated_at = NOW() WHERE id = :id")
+                .bind("id", variantId)
+                .bind("name", name)
+                .bind("price", basePrice)
+                .execute();
+    }
+
+    @Override
+    public void updateVariantColor(Handle h, int vcId, int quantity, String sku, double price) {
+        String sql = """
+        UPDATE variant_colors
+        SET quantity = :qty,sku = :sku,price = :price
+        WHERE id = :id
+    """;
+        h.createUpdate(sql)
+                .bind("id", vcId)
+                .bind("qty", quantity)
+                .bind("sku", sku)
+                .bind("price", price)
+                .execute();
+    }
+
 
     public List<Map<String, Object>> getProductsForListDisplay() {
         String sql = """
