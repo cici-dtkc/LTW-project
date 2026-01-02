@@ -2,12 +2,9 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.Order;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
-
 
 import java.io.IOException;
 import java.util.List;
@@ -22,13 +19,14 @@ public class OrderAdminServlet extends HttpServlet {
         orderService = new OrderService();
     }
 
-    // Hiển thị + search + filter
+    // Load + search + filter
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         String keyword = req.getParameter("keyword");
         String statusRaw = req.getParameter("status");
+        String ajax = req.getParameter("ajax");
 
         Integer status = null;
         if (statusRaw != null && !statusRaw.isEmpty()) {
@@ -41,10 +39,18 @@ public class OrderAdminServlet extends HttpServlet {
                         : orderService.getAllForAdmin();
 
         req.setAttribute("orders", orders);
-        req.getRequestDispatcher("/admin/orders.jsp").forward(req, resp);
+
+        // AJAX → chỉ render bảng
+        if ("true".equals(ajax)) {
+            req.getRequestDispatcher("/views/admin/orderAdmin.jsp").include(req, resp);
+            return;
+        }
+
+        // Load trang
+        req.getRequestDispatcher("/views/admin/orderAdmin.jsp").forward(req, resp);
     }
 
-    // Update trạng thái (AJAX)
+    // Update trạng thái đơn hàng
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -55,7 +61,4 @@ public class OrderAdminServlet extends HttpServlet {
         boolean ok = orderService.updateOrderStatus(orderId, status);
         resp.getWriter().print(ok ? "success" : "fail");
     }
-
 }
-
-

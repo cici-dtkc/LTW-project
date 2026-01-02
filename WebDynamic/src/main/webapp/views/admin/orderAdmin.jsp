@@ -6,10 +6,10 @@
     <meta charset="UTF-8">
     <title>Quản Lý Đơn Hàng</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assert/css/reset.css">
-    <link rel="stylesheet" href="../assert/css/base.css">
-    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
-    <link rel="stylesheet" href="../assert/css/admin-orders.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/admin-orders.css">
 </head>
 
 <body>
@@ -98,12 +98,12 @@
                     </button>
                 </div>
                 <div class="filter-options">
-                    <select id="statusFilter" class="filter-select">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="dang-len-don">Đang lên đơn</option>
-                        <option value="dang-giao">Đang giao</option>
-                        <option value="da-giao">Đã giao</option>
-                        <option value="huy">Hủy</option>
+                    <select id="statusFilter">
+                        <option value="">Tất cả</option>
+                        <option value="1">Đang lên đơn</option>
+                        <option value="2">Đang giao</option>
+                        <option value="3">Đã giao</option>
+                        <option value="5">Hủy</option>
                     </select>
                 </div>
             </div>
@@ -122,41 +122,34 @@
                     </thead>
 
                     <tbody>
-                    <tr>
-                        <td>DH1008</td>
-                        <td>Nguyễn Văn C</td>
-                        <td>2025-11-10</td>
-                        <td>
-                        <td>
-                            <select class="status-select"
-                                    data-id="${o.id}">
-                                <option value="1" ${o.status == 1 ? 'selected' : ''}>
-                                    Đang lên đơn
-                                </option>
-                                <option value="2" ${o.status == 2 ? 'selected' : ''}>
-                                    Đang giao
-                                </option>
-                                <option value="3" ${o.status == 3 ? 'selected' : ''}>
-                                    Đã giao
-                                </option>
-                                <option value="5" ${o.status == 5 ? 'selected' : ''}>
-                                    Hủy
-                                </option>
-                            </select>
-                        </td>
+                    <c:forEach var="o" items="${orders}">
+                        <tr>
+                            <td>DH${o.id}</td>
+                            <td>${o.userId}</td>
+                            <td>${o.createdAt}</td>
 
-                        </td>
-                        <td>Thanh toán khi nhận hàng</td>
-                        <td>₫2,100,000</td>
-                    </tr>
+                            <td>
+                                <select class="status-select" data-id="${o.id}">
+                                    <option value="1" ${o.status == 1 ? 'selected' : ''}>Đang lên đơn</option>
+                                    <option value="2" ${o.status == 2 ? 'selected' : ''}>Đang giao</option>
+                                    <option value="3" ${o.status == 3 ? 'selected' : ''}>Đã giao</option>
+                                    <option value="5" ${o.status == 5 ? 'selected' : ''}>Hủy</option>
+                                </select>
+                            </td>
 
+                            <td>COD</td>
+                            <td>₫${o.totalAmount}</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
+
                 </table>
 
             </div>
         </div>
     </main>
 </div>
-<script src="../js/sidebarAdmin.js"></script>
+<script src="${pageContext.request.contextPath}/js/sidebarAdmin.js"></script>
+<script src="${pageContext.request.contextPath}/js/orderAdmin.js"></script>
 </body>
 </html>

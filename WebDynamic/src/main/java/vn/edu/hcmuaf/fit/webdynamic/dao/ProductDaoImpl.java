@@ -1094,8 +1094,5 @@ public class ProductDaoImpl implements ProductDao {
     // return p;
     // }
 
-    @Override
-    public List<Product> findAllWithVariants() {
-        return List.of();
-    }
+
 }
