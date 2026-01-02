@@ -1093,9 +1093,31 @@ public class ProductDaoImpl implements ProductDao {
     // p.setStatus(rs.getInt("status"));
     // return p;
     // }
-
+// Cart
     @Override
-    public List<Product> findAllWithVariants() {
-        return List.of();
+    public Map<String, Object> getCartItemDetail(int variantColorId) {
+        String sql = """
+        SELECT
+            vc.id AS vc_id,
+            p.name AS product_name,
+            v.name AS variant_name,
+            col.name AS color_name,
+            p.img AS main_img,
+            vc.price AS unit_price,
+            p.discount_percentage
+        FROM variant_colors vc
+        JOIN product_variants v ON vc.variant_id = v.id
+        JOIN products p ON v.product_id = p.id
+        JOIN colors col ON vc.color_id = col.id
+        WHERE vc.id = :vcId
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("vcId", variantColorId)
+                        .mapToMap()
+                        .findOne()
+                        .orElse(null)
+        );
     }
 }
