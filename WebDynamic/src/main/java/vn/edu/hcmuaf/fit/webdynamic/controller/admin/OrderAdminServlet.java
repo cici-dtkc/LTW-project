@@ -19,7 +19,6 @@ public class OrderAdminServlet extends HttpServlet {
         orderService = new OrderService();
     }
 
-    // Load + search + filter
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -34,31 +33,29 @@ public class OrderAdminServlet extends HttpServlet {
         }
 
         List<Order> orders =
-                (keyword != null || status != null)
+                (keyword != null && !keyword.isEmpty()) || status != null
                         ? orderService.searchForAdmin(keyword, status)
                         : orderService.getAllForAdmin();
 
         req.setAttribute("orders", orders);
 
-        // AJAX → chỉ render bảng
-        if ("true".equals(ajax)) {
-            req.getRequestDispatcher("/views/admin/orderAdmin.jsp").include(req, resp);
-            return;
-        }
-
-        // Load trang
-        req.getRequestDispatcher("/views/admin/orderAdmin.jsp").forward(req, resp);
+        // AJAX hoặc load trang đều dùng chung JSP
+        req.getRequestDispatcher("/views/admin/orderAdmin.jsp")
+                .forward(req, resp);
     }
 
-    // Update trạng thái đơn hàng
     @Override
+   
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
         int orderId = Integer.parseInt(req.getParameter("orderId"));
-        int status = Integer.parseInt(req.getParameter("status"));
+        int newStatus = Integer.parseInt(req.getParameter("status"));
 
-        boolean ok = orderService.updateOrderStatus(orderId, status);
-        resp.getWriter().print(ok ? "success" : "fail");
+        String result = orderService.updateStatusWithMessage(orderId, newStatus);
+
+        resp.setContentType("text/plain");
+        resp.getWriter().print(result);
     }
+
 }
