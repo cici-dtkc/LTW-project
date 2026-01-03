@@ -1,10 +1,7 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
 
 import org.jdbi.v3.core.Handle;
-import vn.edu.hcmuaf.fit.webdynamic.model.Product;
-import vn.edu.hcmuaf.fit.webdynamic.model.ProductVariant;
-import vn.edu.hcmuaf.fit.webdynamic.model.TechSpecs;
-import vn.edu.hcmuaf.fit.webdynamic.model.VariantColor;
+import vn.edu.hcmuaf.fit.webdynamic.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -67,4 +64,17 @@ public interface ProductDao {
     void deleteTechSpecsByProductId(Handle h, int productId);
      void updateVariant(Handle h, int variantId, String name, double basePrice);
     void updateVariantColor(Handle h, int vcId, int quantity, String sku, double price);
+    // ===== PRODUCT DETAIL =====
+
+    // Thông tin chính product (brand, category)
+    Product findProductDetailById(int productId);
+
+    // Variants của product
+    List<ProductVariant> getVariantsByProduct(int productId);
+
+    // Colors theo variant
+    List<VariantColor> getTechSpecsByProduct(int variantId);
+
+     // VariantColor mặc định (load trang)
+    VariantColor getDefaultVariantColor(int productId);
 }

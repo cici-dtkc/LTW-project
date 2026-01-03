@@ -146,12 +146,35 @@ public class OrderService {
     }
 
     public List<Order> getAllForAdmin() {
-        List<Order> orders = new ArrayList<>();
-
-        return orders;
+        return orderDao.findAll();
     }
 
     public List<Order> searchForAdmin(String keyword, Integer status) {
         return orderDao.search(keyword, status);
     }
+
+
+    public String updateStatusWithMessage(int orderId, int newStatus) {
+        Optional<Order> opt = orderDao.getOrderById(orderId);
+        if (opt.isEmpty()) return "Đơn hàng không tồn tại";
+
+        int current = opt.get().getStatus();
+
+        if (current == 5) return "Đơn hàng đã bị hủy";
+        if (current == 4) return "Đơn hàng đã hoàn thành";
+
+        if (current == 1 && (newStatus == 2 || newStatus == 5))
+            return orderDao.updateStatus(orderId, newStatus) ? "success" : "Lỗi DB";
+
+        if (current == 2 && newStatus == 3)
+            return orderDao.updateStatus(orderId, newStatus) ? "success" : "Lỗi DB";
+
+        if (current == 3 && newStatus == 4)
+            return orderDao.updateStatus(orderId, newStatus) ? "success" : "Lỗi DB";
+
+        return "Không thể chuyển trạng thái từ "
+                + getStatusName(current) + " sang "
+                + getStatusName(newStatus);
+    }
+
 }
