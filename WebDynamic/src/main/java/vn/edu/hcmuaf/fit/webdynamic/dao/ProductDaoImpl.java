@@ -1093,9 +1093,4 @@ public class ProductDaoImpl implements ProductDao {
     // p.setStatus(rs.getInt("status"));
     // return p;
     // }
-
-    @Override
-    public List<Product> findAllWithVariants() {
-        return List.of();
-    }
 }

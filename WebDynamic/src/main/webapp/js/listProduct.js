@@ -632,10 +632,13 @@ function getBrandIdFromImage(brandElement) {
     
     const alt = img.alt || '';
     const brandMap = {
-        'Samsung': 1,
-        'iPhone': 2,
+        'iPhone': 1,
+        'Samsung': 2,
         'Oppo': 3,
-        'Vivo': 4
+        'Vivo': 4,
+        'Realme': 5,
+        'Sony': 6,
+        'Honor': 7
     };
     return brandMap[alt] || null;
 }

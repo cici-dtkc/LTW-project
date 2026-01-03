@@ -1,10 +1,9 @@
 // ============ HEADER INTERACTIONS ============
 document.addEventListener("DOMContentLoaded", () => {
     initHeaderSearch();
-    initCart();
-    initUserArea();
-    initNavigation();
+    initUserDropdown();
     initMegaMenu();
+    initLoginRedirect();
 });
 
 // ===== SEARCH =====
@@ -21,126 +20,59 @@ function initHeaderSearch() {
     };
 
     searchInput.onblur = () => {
-        if (searchInput.value.trim() === "") searchInput.classList.remove("show");
-    };
-}
-
-// ===== USER LOGIN CHECK =====
-function getCurrentUser() {
-    try { return JSON.parse(localStorage.getItem("currentUser")); }
-    catch { return null; }
-}
-
-// ===== CART =====
-function getCartItems() {
-    try { return JSON.parse(localStorage.getItem("cart")) || []; }
-    catch { return []; }
-}
-
-function getCartTotalQuantity() {
-    return getCartItems().reduce((sum, item) => sum + (item.quantity || 1), 0);
-}
-
-function updateCartBadge() {
-    const badge = document.getElementById("cart-badge");
-    const user = getCurrentUser();
-
-    if (!badge) return;
-
-    // Chưa đăng nhập → ẩn badge
-    if (!user) {
-        badge.classList.add("hidden");
-        return;
-    }
-
-    // Đã đăng nhập → hiển thị badge và cập nhật số lượng
-    const count = getCartTotalQuantity();
-    if (count > 0) {
-        badge.textContent = count > 99 ? "99+" : count;
-        badge.classList.remove("hidden");
-    } else {
-        // Giỏ hàng trống: hiển thị số mặc định trong HTML (số 3)
-        badge.classList.remove("hidden");
-    }
-}
-
-function initCart() {
-    const cartBtn = document.getElementById("btn-cart");
-    const user = getCurrentUser();
-
-    if (!cartBtn) return;
-
-    cartBtn.onclick = (e) => {
-        e.preventDefault();
-
-        // Chưa đăng nhập → chuyển sang login
-        if (!user) {
-            window.location.href = "login.html";
-            return;
+        if (searchInput.value.trim() === "") {
+            searchInput.classList.remove("show");
         }
-
-        window.location.href = "cart.html";
     };
-
-    updateCartBadge();
-
-    window.addEventListener("storage", (e) => {
-        if (e.key === "cart") updateCartBadge();
-    });
 }
 
-// ===== USER AREA =====
-function initUserArea() {
+// ===== USER DROPDOWN (chỉ toggle menu, không thay đổi username) =====
+function initUserDropdown() {
     const userArea = document.getElementById("user-area");
     const profileBtn = document.getElementById("user-profile");
-    const dropdown = document.getElementById("user-dropdown");
-    const logoutLink = document.getElementById("logout-link");
     const usernameSpan = document.getElementById("header-username");
 
-    const user = getCurrentUser();
+    if (!userArea || !profileBtn || !usernameSpan) return;
 
-    if (!userArea || !profileBtn || !dropdown || !logoutLink || !usernameSpan) return;
+    // Kiểm tra xem user đã đăng nhập chưa (dựa vào nội dung span)
+    const isLoggedIn = usernameSpan.textContent.trim() !== "Đăng nhập";
 
-    // Nếu chưa đăng nhập
-    if (!user) {
-        usernameSpan.textContent = "Đăng nhập";
-        dropdown.style.display = "none";
-        profileBtn.onclick = () => window.location.href = "login.html";
-        return;
+    if (isLoggedIn) {
+        // Đã đăng nhập: toggle dropdown
+        profileBtn.onclick = (e) => {
+            e.preventDefault();
+            userArea.classList.toggle("open");
+        };
+
+        // Click outside để đóng dropdown
+        document.addEventListener("click", (e) => {
+            if (!userArea.contains(e.target)) {
+                userArea.classList.remove("open");
+            }
+        });
+    } else {
+        // Chưa đăng nhập: chuyển đến trang login
+        profileBtn.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = getContextPath() + "/login";
+        };
     }
-
-    // Nếu đã đăng nhập
-    usernameSpan.textContent = user.username || "Người dùng";
-
-    profileBtn.onclick = (e) => {
-        e.preventDefault();
-        userArea.classList.toggle("open");
-    };
-
-    document.addEventListener("click", (e) => {
-        if (!userArea.contains(e.target)) userArea.classList.remove("open");
-    });
-
-    logoutLink.onclick = (e) => {
-        e.preventDefault();
-        localStorage.removeItem("currentUser");
-        localStorage.removeItem("cart"); // reset giỏ hàng sau khi logout
-        updateCartBadge();
-        window.location.href = "login.html";
-    };
 }
 
-// ===== NAVIGATION =====
-function initNavigation() {
-    const navHome = document.getElementById("nav-home");
-    const navPhone = document.getElementById("nav-phone");
-    const navAccessory = document.getElementById("nav-accessory");
-    const navContact = document.getElementById("nav-contact");
+// ===== LOGIN REDIRECT - Xử lý khi click vào text "Đăng nhập" =====
+function initLoginRedirect() {
+    const usernameSpan = document.getElementById("header-username");
 
-    if (navHome) navHome.onclick = () => (window.location.href = "home.html");
-    if (navPhone) navPhone.onclick = () => (window.location.href = "listproduct.html");
-    if (navAccessory) navAccessory.onclick = () => (window.location.href = "listproduct_accessory.html");
-    if (navContact) navContact.onclick = () => (window.location.hash = "footer");
+    if (!usernameSpan) return;
+
+    // Nếu nội dung là "Đăng nhập", cho phép click
+    if (usernameSpan.textContent.trim() === "Đăng nhập") {
+        usernameSpan.style.cursor = "pointer";
+        usernameSpan.onclick = (e) => {
+            e.preventDefault();
+            window.location.href = getContextPath() + "/login";
+        };
+    }
 }
 
 // ===== MEGA MENU =====
@@ -150,14 +82,32 @@ function initMegaMenu() {
 
     if (!accessoryItem || !megaAccessory) return;
 
-    accessoryItem.onclick = (e) => {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            const isOpen = accessoryItem.classList.toggle("open");
-            megaAccessory.style.display = isOpen ? "block" : "none";
+    // Mobile menu toggle
+    accessoryItem.addEventListener("mouseenter", () => {
+        if (window.innerWidth > 768) {
+            megaAccessory.style.display = "block";
         }
-    };
+    });
 
+    accessoryItem.addEventListener("mouseleave", () => {
+        if (window.innerWidth > 768) {
+            megaAccessory.style.display = "none";
+        }
+    });
+
+    // Mobile click toggle
+    const accessoryLink = document.getElementById("nav-accessory");
+    if (accessoryLink) {
+        accessoryLink.onclick = (e) => {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                const isOpen = accessoryItem.classList.toggle("open");
+                megaAccessory.style.display = isOpen ? "block" : "none";
+            }
+        };
+    }
+
+    // Reset on window resize
     window.addEventListener("resize", () => {
         if (window.innerWidth > 768) {
             megaAccessory.style.display = "";
@@ -166,24 +116,19 @@ function initMegaMenu() {
     });
 }
 
-// ===== ADD TO CART =====
-function addToCart(product) {
-    const user = getCurrentUser();
-
-    if (!user) {
-        window.location.href = "login.html";
-        return;
+// ===== UTILITY: Get Context Path =====
+function getContextPath() {
+    // Cách 1: Lấy từ data attribute của header
+    const header = document.querySelector('header');
+    if (header && header.getAttribute('data-context-path')) {
+        return header.getAttribute('data-context-path');
     }
 
-    const cart = getCartItems();
-    const idx = cart.findIndex(i => i.id === product.id);
-
-    if (idx >= 0) cart[idx].quantity += 1;
-    else cart.push({ ...product, quantity: 1 });
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartBadge();
+    // Cách 2: Lấy từ URL hiện tại (fallback)
+    // Ví dụ: http://localhost:8080/WebDynamic_war/home -> /WebDynamic_war
+    const pathArray = window.location.pathname.split('/');
+    return pathArray.length > 1 && pathArray[1] ? '/' + pathArray[1] : '';
 }
 
-window.addToCart = addToCart;
-window.updateCartBadge = updateCartBadge;
+// ===== EXPORT cho các file khác sử dụng =====
+window.getContextPath = getContextPath;
