@@ -1093,6 +1093,4 @@ public class ProductDaoImpl implements ProductDao {
     // p.setStatus(rs.getInt("status"));
     // return p;
     // }
-
-
 }

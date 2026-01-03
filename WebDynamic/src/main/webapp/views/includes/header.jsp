@@ -1,45 +1,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!-- Header -->
-<header id="header">
+<header id="header" data-context-path="${pageContext.request.contextPath}">
     <div class="container">
         <div class="inner-wrap">
             <div class="logo" id="logo">
-                <a href="${pageContext.request.contextPath}/views/user/home.jsp">
+                <a href="${pageContext.request.contextPath}/home">
+
                     <img src="${pageContext.request.contextPath}/assert/img/logo.png" alt="Logo Website" id="logo-img">
                 </a>
             </div>
 
             <nav class="menu" id="menu">
                 <ul>
-                    <li><a href="${pageContext.request.contextPath}/views/user/home.jsp" id="nav-home">Trang chủ</a></li>
-                    <li><a href="${pageContext.request.contextPath}/listproduct.jsp" id="nav-phone">Điện thoại</a></li>
+                    <li><a href="${pageContext.request.contextPath}/home" id="nav-home">Trang chủ</a></li>
+                    <li><a href="${pageContext.request.contextPath}/listproduct" id="nav-phone">Điện thoại</a></li>
                     <li class="has-mega" id="nav-accessory-item">
-                        <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp" id="nav-accessory">Linh kiện</a>
+                        <a href="${pageContext.request.contextPath}/listproduct_accessory" id="nav-accessory">Linh kiện</a>
                         <div class="mega-menu" id="mega-accessory">
                             <div class="mega-inner">
                                 <div class="mega-col">
                                     <h4>Linh kiện di động</h4>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Màn hình cảm ứng</a>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Pin</a>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Camera</a>
+                                    <c:url var="manHinhUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Màn hình cảm ứng"/>
+                                    </c:url>
+                                    <a href="${manHinhUrl}">Màn hình cảm ứng</a>
+                                    
+                                    <c:url var="pinUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Pin"/>
+                                    </c:url>
+                                    <a href="${pinUrl}">Pin</a>
+                                    
+                                    <c:url var="cameraUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Camera"/>
+                                    </c:url>
+                                    <a href="${cameraUrl}">Camera</a>
                                 </div>
                                 <div class="mega-col">
                                     <h4>&nbsp;</h4>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Loa/mic</a>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Cáp sạc / Cổng sạc</a>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Giá đỡ điện thoại</a>
+                                    <c:url var="loaMicUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Loa/ Mic"/>
+                                    </c:url>
+                                    <a href="${loaMicUrl}">Loa/mic</a>
+                                    
+                                    <c:url var="capSacUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Cáp sạc/ Cổng sạc"/>
+                                    </c:url>
+                                    <a href="${capSacUrl}">Cáp sạc / Cổng sạc</a>
+                                    
+                                    <c:url var="giaDoUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Giá đỡ điện thoại"/>
+                                    </c:url>
+                                    <a href="${giaDoUrl}">Giá đỡ điện thoại</a>
                                 </div>
                                 <div class="mega-col">
                                     <h4>&nbsp;</h4>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Quạt tản nhiệt / Cooling fan</a>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Ốp lưng / Vỏ lưng</a>
-                                    <a href="${pageContext.request.contextPath}/listproduct_accessory.jsp">Kính cường lực / Mặt kính</a>
+                                    <c:url var="quatTanUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Quạt tản nhiệt / Cooling fan"/>
+                                    </c:url>
+                                    <a href="${quatTanUrl}">Quạt tản nhiệt / Cooling fan</a>
+                                    
+                                    <c:url var="opLungUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Ốp lưng / Vỏ lưng"/>
+                                    </c:url>
+                                    <a href="${opLungUrl}">Ốp lưng / Vỏ lưng</a>
+                                    
+                                    <c:url var="kinhCuongUrl" value="/listproduct_accessory">
+                                        <c:param name="type" value="Kính cường lực / Mặt kính"/>
+                                    </c:url>
+                                    <a href="${kinhCuongUrl}">Kính cường lực / Mặt kính</a>
                                 </div>
                             </div>
                         </div>
                     </li>
-                    <li><a href="${pageContext.request.contextPath}/views/user/home.jsp#footer" id="nav-contact">Liên hệ</a></li>
+                    <li><a href="${pageContext.request.contextPath}/home#footer" id="nav-contact">Liên hệ</a></li>
                 </ul>
             </nav>
 
@@ -51,7 +86,7 @@
                     </li>
 
                     <li class="cart-item">
-                        <a href="${pageContext.request.contextPath}/cart.jsp" id="btn-cart">
+                        <a href="${pageContext.request.contextPath}/cart" id="btn-cart">
                             <i class="fa-solid fa-cart-shopping"></i>
                             <span class="cart-badge" id="cart-badge">
                                 <c:out value="${sessionScope.cartItemCount != null ? sessionScope.cartItemCount : 0}" />
@@ -64,7 +99,7 @@
                             <i class="fa-solid fa-user"></i>
                             <span class="username" id="header-username">
                                 <c:choose>
-                                    <c:when test="${sessionScope.user != null}">
+                                    <c:when test="${not empty sessionScope.user}">
                                         ${sessionScope.user.username}
                                     </c:when>
                                     <c:otherwise>
@@ -75,11 +110,13 @@
                         </div>
 
                         <div class="user-dropdown" id="user-dropdown">
-                            <a href="${pageContext.request.contextPath}/info-user.jsp">Tài khoản của tôi</a>
-                            <a href="${pageContext.request.contextPath}/order.jsp">Đơn mua</a>
-                            <c:if test="${sessionScope.user != null}">
-                                <a href="${pageContext.request.contextPath}/logout.jsp" id="logout-link">Đăng xuất</a>
-                            </c:if>
+                            <c:choose>
+                                <c:when test="${not empty sessionScope.user}">
+                                    <a href="${pageContext.request.contextPath}/user/profile">Tài khoản của tôi</a>
+                                    <a href="${pageContext.request.contextPath}/user/order">Đơn mua</a>
+                                    <a href="${pageContext.request.contextPath}/logout" id="logout-link">Đăng xuất</a>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </li>
                 </ul>
