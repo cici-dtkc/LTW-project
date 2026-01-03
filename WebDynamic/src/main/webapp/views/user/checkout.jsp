@@ -1,0 +1,121 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/checkout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/cart.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
+</head>
+<body>
+<jsp:include page="/views/includes/header.jsp" />
+<main>
+    <section class="address">
+        <i class="fa-solid fa-location-dot"></i>
+        <span class="title">Địa Chỉ Nhận Hàng</span>
+        <c:choose>
+            <c:when test="${not empty defaultAddress}">
+                <p>
+                    <strong>${defaultAddress.receiverName}</strong>
+                    <span>(${defaultAddress.phone})</span>
+                </p>
+                <p>
+                        ${defaultAddress.detail}
+                    <span class="default">Mặc định</span>
+                    <a href="change-address">Thay đổi</a>
+                </p>
+            </c:when>
+            <c:otherwise>
+                <p>Chưa có địa chỉ. <a href="add-address">Thêm địa chỉ mới</a></p>
+            </c:otherwise>
+        </c:choose>
+    </section>
+
+    <section class="products">
+        <h3 class="title">Sản phẩm</h3>
+        <table class="product-table">
+            <thead>
+            <tr>
+                <th>Sản phẩm</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="item" items="${cartItems}">
+                <tr class="product-item">
+                    <td class="product-info">
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${item.productImage}" alt="${item.productName}"/>
+                        <div class="details">
+                            <p class="name">${item.productName}</p>
+                            <p class="type">${item.variantName}</p>
+                        </div>
+                    </td>
+                    <td class="price">
+                        <fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/>
+                    </td>
+                    <td class="quantity">${item.quantity}</td>
+                    <td class="total">
+                        <fmt:formatNumber value="${item.price * item.quantity}" type="currency" currencySymbol="₫"/>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="voucher-section">
+        <h3 class="title">Voucher Ưu Đãi</h3>
+        <div class="voucher-wrapper">
+            <div class="voucher-scroll" id="voucherScroll">
+                <div class="voucher-container">
+                    <c:forEach var="v" items="${availableVouchers}">
+                        <div class="voucher">
+                            <div class="voucher-left">
+                                <div class="icon"><img src="assert/img/logo.png" alt="logo"></div>
+                            </div>
+                            <div class="voucher-right">
+                                <div>
+                                    <h3>Giảm <fmt:formatNumber value="${v.discountAmount}"/>đ</h3>
+                                    <p>Đơn từ: <fmt:formatNumber value="${v.minOrderValue}"/>đ</p>
+                                    <p>Tối đa: <fmt:formatNumber value="${v.maxReduce}"/>đ</p>
+                                </div>
+                                <button type="button" onclick="applyVoucher('${v.voucherCode}')">Áp dụng</button>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <form action="placeOrder" method="POST">
+        <section class="payment">
+            <h3 class="title">Phương thức thanh toán</h3>
+            <label><input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)</label><br>
+            <label><input type="radio" name="payment" value="bank"> Chuyển khoản ngân hàng</label>
+        </section>
+
+        <section class="summary">
+            <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
+            <p>Tạm tính: <strong><fmt:formatNumber value="${subtotal}" />₫</strong></p>
+            <p>Phí vận chuyển: <strong><fmt:formatNumber value="${shippingFee}" />₫</strong></p>
+            <p>Giảm giá: <strong>-<fmt:formatNumber value="${discountAmount}" />₫</strong></p>
+            <p class="total">Tổng cộng: <strong><fmt:formatNumber value="${subtotal + shippingFee - discountAmount}" />₫</strong></p>
+
+            <input type="hidden" name="addressId" value="${defaultAddress.id}">
+            <button type="submit" class="round-black-btn">Đặt hàng</button>
+        </section>
+    </form>
+</main>
+
+<script src="${pageContext.request.contextPath}/js/checkout.js"></script>
+</body>
+</html>

@@ -69,5 +69,5 @@ public interface ProductDao {
     void updateVariantColor(Handle h, int vcId, int quantity, String sku, double price);
 
     // cart
-    public Map<String, Object> getCartItemDetail(int variantColorId);
+     Map<String, Object> getCartItemDetail(int variantColorId);
 }
