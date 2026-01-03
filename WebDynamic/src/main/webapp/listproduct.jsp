@@ -30,10 +30,13 @@
             </div>
 
             <div class="brand-list">
-                <div class="brand" data-brand-id="1"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
-                <div class="brand" data-brand-id="2"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
+                <div class="brand" data-brand-id="1"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
+                <div class="brand" data-brand-id="2"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
                 <div class="brand" data-brand-id="3"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
                 <div class="brand" data-brand-id="4"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
+                <div class="brand" data-brand-id="5"><img src="assert/img/logoRealme.png" alt="Realme"></div>
+                <div class="brand" data-brand-id="6"><img src="assert/img/logoSony.png" alt="Sony"></div>
+                <div class="brand" data-brand-id="7"><img src="assert/img/logoHonor.png" alt="Honor"></div>
             </div>
         </div>
 
@@ -125,7 +128,7 @@
             <div class="product-card">
                 <a href="productDetail.jsp?id=${product.id}">
                     <div class="product-img">
-                        <img src="${product.image}" alt="${product.name}">
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${product.image}" alt="${product.name}">
                         <c:if test="${product.discount > 0}">
                             <span class="discount-badge">-${product.discount}%</span>
                         </c:if>

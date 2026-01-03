@@ -19,6 +19,14 @@ html {
     backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
+#header-username {
+    cursor: default;
+}
+
+/* Khi chưa đăng nhập, cho phép click */
+#user-area .username:only-child {
+    cursor: pointer !important;
+}
 
 /* Thêm padding-top cho body để tránh nội dung bị che bởi header fixed */
 body:has(#header) {

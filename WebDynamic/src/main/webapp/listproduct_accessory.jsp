@@ -70,6 +70,9 @@
                 <button>iPhone</button>
                 <button>Oppo</button>
                 <button>Vivo</button>
+                <button>Realme</button>
+                <button>Sony</button>
+                <button>Honor</button>
                 <button>Generic</button>
             </div>
             <div class="dropdown-actions">
@@ -118,7 +121,7 @@
             <div class="product-card">
                 <a href="productDetailAccessory.jsp?id=${product.id}">
                     <div class="product-img">
-                        <img src="${product.image}" alt="${product.name}">
+                        <img src="${pageContext.request.contextPath}/assert/img/acessory/${product.image}" alt="${product.name}">
                         <c:if test="${product.discount > 0}">
                             <span class="discount-badge">-${product.discount}%</span>
                         </c:if>
