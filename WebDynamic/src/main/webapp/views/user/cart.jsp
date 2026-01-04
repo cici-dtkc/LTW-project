@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -28,7 +28,7 @@
                     <th>Sản Phẩm</th>
                     <th>Số Lượng</th>
                     <th>Thành Tiền</th>
-                    <th>Thao tác</th>
+                    <th> </th>
                 </tr>
                 </thead>
                 <tbody id="cart-body">
@@ -54,8 +54,7 @@
                                     </div>
                                 </td>
                                 <td class="price">
-                                    <fmt:formatNumber value="${item.subTotal}" type="currency" currencySymbol="₫" />
-                                </td>
+                                    <fmt:formatNumber value="${item.subTotal}" pattern="#,###" />đ                                </td>
                                 <td>
                                         <%-- Gửi vc_id (ID biến thể màu) để xóa đúng sản phẩm --%>
                                     <button class="delete" onclick="removeItem(${item.vc_id})">Xóa</button>
@@ -85,8 +84,7 @@
         <span class="summary-item">Tổng cộng:
             <span id="sub-total" class="subtotal">
                 <%-- Khớp với biến 'totalCartPrice' từ Servlet --%>
-                <fmt:formatNumber value="${totalCartPrice != null ? totalCartPrice : 0}" type="currency" currencySymbol="₫" />
-            </span>
+            <fmt:formatNumber value="${totalCartPrice != null ? totalCartPrice : 0}" pattern="#,###" />đ            </span>
         </span>
         <a href="checkout.jsp"><button class="checkout-btn" ${empty cartItems ? 'disabled' : ''}>Thanh Toán</button></a>
     </div>

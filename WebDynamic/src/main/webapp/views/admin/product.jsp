@@ -85,7 +85,7 @@
             <c:forEach items="${products}" var="row">
                 <tr>
                     <td>
-                        <img src="${pageContext.request.contextPath}/assert/img/product/samsung/${row.p_img}" alt="ảnh lỗi">
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${row.p_img}" alt="ảnh lỗi">
 
                     </td>
 

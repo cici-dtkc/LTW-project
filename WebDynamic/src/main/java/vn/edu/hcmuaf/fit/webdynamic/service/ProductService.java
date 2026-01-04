@@ -54,5 +54,5 @@ public interface ProductService {
                        String[] variantQuantities) throws Exception;
 
     // Cart
-    public Map<String, Object> getProductForCart(int variantColorId);
+      Map<String, Object> getProductForCart(int variantColorId);
 }

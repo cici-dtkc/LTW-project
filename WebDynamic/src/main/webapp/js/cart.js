@@ -12,68 +12,68 @@ if (cartBody.querySelectorAll("tr").length === 0) {
 // ===============================
 // Xử lý các nút trong bảng
 // ===============================
-cartBody.addEventListener("click", e => {
-    const row = e.target.closest("tr");
-    if (!row) return;
-
-    // Xóa sản phẩm
-    if (e.target.classList.contains("delete")) {
-        row.remove();
-        if (cartBody.querySelectorAll("tr").length === 0) showEmptyMessage();
-        updateSubTotal();
-        updateTotal();
-        return;
-    }
-
-    // Nút + / -
-    if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
-        const qtySpan = row.querySelector(".quantity");
-        let qty = parseInt(qtySpan.textContent, 10);
-        if (e.target.classList.contains("plus")) qty++;
-        if (e.target.classList.contains("minus") && qty > 1) qty--;
-        qtySpan.textContent = qty;
-
-        const basePrice = getBasePrice(row);
-        if (isNaN(basePrice)) {
-            const raw = row.querySelector(".price").textContent.replace(/[^\d]/g, "");
-            const unit = Math.max(1, Math.floor(Number(raw) / Math.max(1, qty)));
-            updateRowTotal(row, unit, qty);
-        } else {
-            updateRowTotal(row, basePrice, qty);
-        }
-        updateSubTotal();
-
-    }
-});
+// cartBody.addEventListener("click", e => {
+//     const row = e.target.closest("tr");
+//     if (!row) return;
+//
+//     // Xóa sản phẩm
+//     if (e.target.classList.contains("delete")) {
+//         row.remove();
+//         if (cartBody.querySelectorAll("tr").length === 0) showEmptyMessage();
+//         updateSubTotal();
+//         updateTotal();
+//         return;
+//     }
+//
+//     // Nút + / -
+//     if (e.target.classList.contains("plus") || e.target.classList.contains("minus")) {
+//         const qtySpan = row.querySelector(".quantity");
+//         let qty = parseInt(qtySpan.textContent, 10);
+//         if (e.target.classList.contains("plus")) qty++;
+//         if (e.target.classList.contains("minus") && qty > 1) qty--;
+//         qtySpan.textContent = qty;
+//
+//         const basePrice = getBasePrice(row);
+//         if (isNaN(basePrice)) {
+//             const raw = row.querySelector(".price").textContent.replace(/[^\d]/g, "");
+//             const unit = Math.max(1, Math.floor(Number(raw) / Math.max(1, qty)));
+//             updateRowTotal(row, unit, qty);
+//         } else {
+//             updateRowTotal(row, basePrice, qty);
+//         }
+//         updateSubTotal();
+//
+//     }
+// });
 
 // ===============================
 // Checkbox chọn tất cả
 // ===============================
-selectAll.addEventListener("change", e => {
-    document.querySelectorAll(".select-item").forEach(chk => chk.checked = e.target.checked);
-    updateSubTotal();
-});
+// selectAll.addEventListener("change", e => {
+//     document.querySelectorAll(".select-item").forEach(chk => chk.checked = e.target.checked);
+//     updateSubTotal();
+// });
 
 // ===============================
 // Checkbox từng sản phẩm
 // ===============================
-cartBody.addEventListener("change", e => {
-    if (e.target.classList.contains("select-item")) {
-        const all = document.querySelectorAll(".select-item");
-        const checked = document.querySelectorAll(".select-item:checked");
-        selectAll.checked = all.length > 0 && all.length === checked.length;
-        updateSubTotal();
-    }
-});
+// cartBody.addEventListener("change", e => {
+//     if (e.target.classList.contains("select-item")) {
+//         const all = document.querySelectorAll(".select-item");
+//         const checked = document.querySelectorAll(".select-item:checked");
+//         selectAll.checked = all.length > 0 && all.length === checked.length;
+//         updateSubTotal();
+//     }
+// });
 
 // ===============================
 // Nút xóa các sản phẩm đã chọn
 // ===============================
-deleteSelected.addEventListener("click", () => {
-    document.querySelectorAll(".select-item:checked").forEach(chk => chk.closest("tr").remove());
-    if (cartBody.querySelectorAll("tr").length === 0) showEmptyMessage();
-    updateSubTotal();
-});
+// deleteSelected.addEventListener("click", () => {
+//     document.querySelectorAll(".select-item:checked").forEach(chk => chk.closest("tr").remove());
+//     if (cartBody.querySelectorAll("tr").length === 0) showEmptyMessage();
+//     updateSubTotal();
+// });
 
 // ===============================
 // Khi giỏ hàng trống
@@ -110,18 +110,15 @@ function getBasePrice(row) {
 // Cập nhật tổng phụ
 function updateSubTotal() {
     let total = 0;
+    // Lấy tất cả các dòng có checkbox được chọn
     document.querySelectorAll(".select-item:checked").forEach(chk => {
         const row = chk.closest("tr");
-        const base = Number(row.querySelector(".price").dataset.base);
-        const qty = Number(row.querySelector(".quantity").textContent);
-        if (!isNaN(base)) {
-            total += base * qty;
-        } else {
-            const raw = row.querySelector(".price").textContent.replace(/[^\d]/g, "");
-            total += Number(raw);
-        }
+        // Lấy giá trị số từ thuộc tính data hoặc text (loại bỏ ký tự không phải số)
+        const priceText = row.querySelector(".price").textContent.replace(/[^\d]/g, "");
+        total += Number(priceText);
     });
-    subTotal.textContent = total.toLocaleString("vi-VN") + "₫";
+    // Hiển thị lại với dấu chấm chuẩn VN
+    subTotal.textContent = total.toLocaleString("de-DE") + "đ";
 }
 
 

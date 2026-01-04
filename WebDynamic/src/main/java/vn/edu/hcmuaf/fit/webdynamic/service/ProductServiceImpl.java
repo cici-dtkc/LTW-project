@@ -260,8 +260,8 @@ public class ProductServiceImpl implements ProductService {
 
 
 
-    // edit
-    // ProductService.java
+    // cart
+
     @Override
         public Map<String, Object> getProductForCart(int variantColorId) {
             Map<String, Object> detail = productDao.getCartItemDetail(variantColorId);
