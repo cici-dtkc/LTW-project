@@ -143,12 +143,12 @@ public class OrderService {
         }
     }
 
-    public List<Order> getAllForAdmin() {
+    public List<Map<String, Object>> getAllForAdmin() {
         return orderDao.findAll();
     }
 
-    public List<Order> searchForAdmin(String keyword, Integer status) {
-        return orderDao.search(keyword, status);
+    public List<Map<String, Object>> searchForAdmin(String keyword, Integer status) {
+        return orderDao.searchOrders(keyword, status);
     }
 
 
@@ -164,22 +164,22 @@ public class OrderService {
 
         int current = opt.get().getStatus();
 
-        if (current == 5) {
+        // Không cho cập nhật nếu đã giao hoặc đã hủy
+        if (current == 3) {
             result.put("success", false);
-            result.put("message", "Đơn hàng đã bị hủy");
+            result.put("message", "Đơn hàng đã giao, không thể thay đổi trạng thái");
             return result;
         }
 
         if (current == 4) {
             result.put("success", false);
-            result.put("message", "Đơn hàng đã hoàn thành");
+            result.put("message", "Đơn hàng đã bị hủy");
             return result;
         }
 
         boolean isValidTransition =
-                (current == 1 && (newStatus == 2 || newStatus == 5)) ||
-                        (current == 2 && newStatus == 3) ||
-                        (current == 3 && newStatus == 4);
+                (current == 1 && (newStatus == 2 || newStatus == 4)) ||
+                        (current == 2 && (newStatus == 3 || newStatus == 4));
 
         if (!isValidTransition) {
             result.put("success", false);
@@ -197,8 +197,9 @@ public class OrderService {
         }
 
         result.put("success", true);
-        result.put("message", "Đã cập nhật trạng thái đơn hàng thành công");
+        result.put("message", "Cập nhật trạng thái đơn hàng thành công");
         return result;
     }
+
 
 }

@@ -42,6 +42,14 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // --- Kiểm tra mật khẩu mạnh ---
+        const strongPasswordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+        if (!strongPasswordRegex.test(passwordVal)) {
+            errorMessageDiv.textContent = "Mật khẩu phải ít nhất 8 ký tự, gồm chữ hoa, chữ thường, số và ký tự đặc biệt!";
+            password.focus();
+            return;
+        }
+
         // --- Nếu không lỗi, submit form ---
         registerForm.submit();
     });
