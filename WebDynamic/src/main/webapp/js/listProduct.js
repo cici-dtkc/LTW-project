@@ -501,30 +501,21 @@ function initCartSystem() {
             e.stopPropagation();
 
             const productCard = btn.closest('.product-card');
-            const productName = productCard.querySelector('h2').textContent.trim();
             const activeVariant = productCard.querySelector('.capacity button.active');
+            //   ĐOẠN QUAN TRỌNG ĐỂ BAY
 
-            console.log("--- DEBUG GIỎ HÀNG ---");
-            console.log("Sản phẩm đang chọn:", productName);
-
-            if (!activeVariant) {
-                console.error("LỖI: Chưa chọn dung lượng cho sản phẩm này!");
-                alert("Vui lòng chọn dung lượng!");
-                return;
+            const productImg = productCard.querySelector('.product-img img');
+            if (productImg) {
+                flyToCart(productImg);
             }
 
-            // ĐÂY LÀ DÒNG QUAN TRỌNG NHẤT
             const vcId = activeVariant.getAttribute('data-id');
-            console.log("Mã ID gửi lên Server (vcId):", vcId);
-            console.log("Tên phiên bản:", activeVariant.textContent.trim());
-
             const header = document.getElementById('header');
             const contextPath = header ? header.getAttribute('data-context-path') : '';
 
             fetch(`${contextPath}/cart?action=add&vcId=${vcId}`)
                 .then(response => response.text())
                 .then(totalCount => {
-                    console.log("Server phản hồi tổng số món đồ:", totalCount);
                     if (cartBadge) cartBadge.textContent = totalCount.trim();
                     renderSuccessState(btn);
                 })
@@ -547,42 +538,99 @@ function renderSuccessState(btn) {
         btn.disabled = false;
     }, 1200);
 }
-
-
 function flyToCart(productImg) {
     const imgClone = productImg.cloneNode(true);
     const rect = productImg.getBoundingClientRect();
+    console.log("Hàm bay đang chạy với ảnh:", productImg.src);
+    // Lấy link ảnh gốc để đảm bảo clone hiện ra hình ảnh
+    imgClone.src = productImg.src;
 
     imgClone.style.position = 'fixed';
     imgClone.style.left = rect.left + 'px';
     imgClone.style.top = rect.top + 'px';
     imgClone.style.width = rect.width + 'px';
     imgClone.style.height = rect.height + 'px';
-    imgClone.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-    imgClone.style.zIndex = '9999';
-    imgClone.style.pointerEvents = 'none';
+
+    // ÉP BUỘC HIỂN THỊ
+    imgClone.style.display = 'block';
+    imgClone.style.visibility = 'visible';
+    imgClone.style.zIndex = '2147483647';
+    imgClone.style.transition = 'all 0.8s cubic-bezier(0.42, 0, 0.58, 1)';
 
     document.body.appendChild(imgClone);
 
-    const cartIcon = document.getElementById('btn-cart');
-    if (!cartIcon) return;
+    // 3. Tìm đích đến là badge số lượng (chính xác nhất)
+    const cartBadge = document.getElementById('cart-badge');
 
-    const cartRect = cartIcon.getBoundingClientRect();
+    if (!cartBadge) {
+        console.error("Không tìm thấy id='cart-badge' trên Header!");
+        document.body.removeChild(imgClone);
+        return;
+    }
 
+    // Lấy tọa độ tâm của giỏ hàng
+    const badgeRect = cartBadge.getBoundingClientRect();
+    const targetX = badgeRect.left + (badgeRect.width / 2) - 15;
+    const targetY = badgeRect.top + (badgeRect.height / 2) - 15;
+
+    // 4. Thực hiện bay
     setTimeout(() => {
-        imgClone.style.left = cartRect.left + 'px';
-        imgClone.style.top = cartRect.top + 'px';
+        imgClone.style.left = targetX + 'px';
+        imgClone.style.top = targetY + 'px';
         imgClone.style.width = '30px';
         imgClone.style.height = '30px';
-        imgClone.style.opacity = '0';
-    }, 50);
+        imgClone.style.opacity = '0.3';
+    }, 20);
 
+    // 5. Kết thúc và dọn dẹp
     setTimeout(() => {
         if (document.body.contains(imgClone)) {
             document.body.removeChild(imgClone);
+
+            // Hiệu ứng "nảy" số lượng giỏ hàng
+            cartBadge.style.transform = 'scale(1.5)';
+            cartBadge.style.transition = 'transform 0.2s';
+            setTimeout(() => {
+                cartBadge.style.transform = 'scale(1)';
+            }, 200);
         }
     }, 900);
 }
+
+// function flyToCart(productImg) {
+//     const imgClone = productImg.cloneNode(true);
+//     const rect = productImg.getBoundingClientRect();
+//
+//     imgClone.style.position = 'fixed';
+//     imgClone.style.left = rect.left + 'px';
+//     imgClone.style.top = rect.top + 'px';
+//     imgClone.style.width = rect.width + 'px';
+//     imgClone.style.height = rect.height + 'px';
+//     imgClone.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+//     imgClone.style.zIndex = '9999';
+//     imgClone.style.pointerEvents = 'none';
+//
+//     document.body.appendChild(imgClone);
+//
+//     const cartIcon = document.getElementById('btn-cart');
+//     if (!cartIcon) return;
+//
+//     const cartRect = cartIcon.getBoundingClientRect();
+//
+//     setTimeout(() => {
+//         imgClone.style.left = cartRect.left + 'px';
+//         imgClone.style.top = cartRect.top + 'px';
+//         imgClone.style.width = '30px';
+//         imgClone.style.height = '30px';
+//         imgClone.style.opacity = '0';
+//     }, 50);
+//
+//     setTimeout(() => {
+//         if (document.body.contains(imgClone)) {
+//             document.body.removeChild(imgClone);
+//         }
+//     }, 900);
+// }
 
 // ===== HỆ THỐNG LOAD MORE =====
 function initLoadMore() {

@@ -77,10 +77,11 @@
                             </div>
                             <div class="capacity">
                                 <c:forEach var="variant" items="${product.variants}" varStatus="status">
-                                    <button class="${status.first ? 'active' : ''}" 
-                                            data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}" 
-                                            data-old-price="${variant.variant_color_price}" 
-                                            data-product-id="${product.id}">
+                                    <button class="${status.first ? 'active' : ''}"
+                                            data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}"
+                                            data-old-price="${variant.variant_color_price}"
+                                            data-product-id="${product.id}"
+                                            data-id="${variant.id}">
                                         ${variant.variant_name}
                                     </button>
                                 </c:forEach>
@@ -219,98 +220,5 @@
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/listProduct.js"></script>
 <script src="${pageContext.request.contextPath}/js/listVoucher.js"></script>
-
-<script>
-    // Update price when variant button is clicked
-    document.querySelectorAll('.capacity button').forEach(button => {
-        button.addEventListener('click', function() {
-            const productId = this.getAttribute('data-product-id');
-            const newPrice = this.getAttribute('data-price');
-            const oldPrice = this.getAttribute('data-old-price');
-
-            // Update price-new
-            const priceNewEl = document.getElementById('price-new-' + productId);
-            if (priceNewEl) {
-                priceNewEl.textContent = new Intl.NumberFormat('vi-VN').format(newPrice) + '₫';
-            }
-
-            // Update price-old if exists
-            const priceOldEl = document.getElementById('price-old-' + productId);
-            if (priceOldEl) {
-                priceOldEl.textContent = new Intl.NumberFormat('vi-VN').format(oldPrice) + '₫';
-            }
-
-            // Update active class
-            this.parentElement.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-
-    // Product navigation for phones
-    const phonesList = document.getElementById('product-list-phones');
-    const phonesCards = phonesList.querySelectorAll('.product-card');
-    let phonesCurrentIndex = 0;
-    const phonesPerPage = 4;
-
-    function showPhones(startIndex) {
-        phonesCards.forEach((card, index) => {
-            if (index >= startIndex && index < startIndex + phonesPerPage) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-        // Update button states
-        document.getElementById('phones-prev').disabled = startIndex === 0;
-        document.getElementById('phones-next').disabled = startIndex + phonesPerPage >= phonesCards.length;
-    }
-
-    document.getElementById('phones-next').addEventListener('click', () => {
-        if (phonesCurrentIndex + phonesPerPage < phonesCards.length) {
-            phonesCurrentIndex += phonesPerPage;
-            showPhones(phonesCurrentIndex);
-        }
-    });
-
-    document.getElementById('phones-prev').addEventListener('click', () => {
-        if (phonesCurrentIndex > 0) {
-            phonesCurrentIndex -= phonesPerPage;
-            showPhones(phonesCurrentIndex);
-        }
-    });
-
-    // Product navigation for accessories
-    const accessoriesList = document.getElementById('product-list-accessories');
-    const accessoriesCards = accessoriesList.querySelectorAll('.product-card');
-    let accessoriesCurrentIndex = 0;
-    const accessoriesPerPage = 4;
-
-    function showAccessories(startIndex) {
-        accessoriesCards.forEach((card, index) => {
-            if (index >= startIndex && index < startIndex + accessoriesPerPage) {
-                card.classList.remove('hidden');
-            } else {
-                card.classList.add('hidden');
-            }
-        });
-        // Update button states
-        document.getElementById('accessories-prev').disabled = startIndex === 0;
-        document.getElementById('accessories-next').disabled = startIndex + accessoriesPerPage >= accessoriesCards.length;
-    }
-
-    document.getElementById('accessories-next').addEventListener('click', () => {
-        if (accessoriesCurrentIndex + accessoriesPerPage < accessoriesCards.length) {
-            accessoriesCurrentIndex += accessoriesPerPage;
-            showAccessories(accessoriesCurrentIndex);
-        }
-    });
-
-    document.getElementById('accessories-prev').addEventListener('click', () => {
-        if (accessoriesCurrentIndex > 0) {
-            accessoriesCurrentIndex -= accessoriesPerPage;
-            showAccessories(accessoriesCurrentIndex);
-        }
-    });
-</script>
 </body>
 </html>

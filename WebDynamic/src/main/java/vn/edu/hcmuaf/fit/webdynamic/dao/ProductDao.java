@@ -60,9 +60,13 @@ public interface ProductDao {
     );
 
     List<Map<String, Object>> getProductsForList();
+
     void updateProductBasic(Handle h, Product p);
+
     void deleteTechSpecsByProductId(Handle h, int productId);
+
      void updateVariant(Handle h, int variantId, String name, double basePrice);
+
     void updateVariantColor(Handle h, int vcId, int quantity, String sku, double price);
 
     // ===== PRODUCT DETAIL =====

@@ -34,19 +34,38 @@ public class CartServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action == null) action = "view";
 
+        // CartServlet.java
         if ("add".equals(action)) {
-            int vcId = Integer.parseInt(request.getParameter("vcId"));
-            cart.put(vcId, cart.getOrDefault(vcId, 0) + 1);
+            try {
+                String vcIdParam = request.getParameter("vcId");
+                if (vcIdParam == null || vcIdParam.isEmpty() || "undefined".equals(vcIdParam)) {
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    return;
+                }
 
-            // Tính tổng số lượng (ví dụ: mua 2 iPhone, 1 Samsung -> hiện số 3)
-            int totalQuantity = cart.values().stream().mapToInt(Integer::intValue).sum();
+                int vcId = Integer.parseInt(vcIdParam);
 
-            // Lưu vào session để khi load trang không bị mất
-            request.getSession().setAttribute("cartItemCount", totalQuantity);
+                // Thêm vào Map giỏ hàng
+                cart.put(vcId, cart.getOrDefault(vcId, 0) + 1);
 
-            response.getWriter().print(totalQuantity);
-            response.getWriter().flush();
-            return;
+                // Lưu lại Map vào Session (Quan trọng)
+                session.setAttribute("cart", cart);
+
+                // Tính tổng số lượng hiển thị trên badge
+                int totalQuantity = cart.values().stream().mapToInt(Integer::intValue).sum();
+                session.setAttribute("cartItemCount", totalQuantity);
+
+                // Phản hồi cho Ajax
+                response.setContentType("text/plain");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().print(totalQuantity);
+                response.getWriter().flush();
+                return;
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
         }
         else if ("remove".equals(action)) {
             int vcId = Integer.parseInt(request.getParameter("vcId"));
