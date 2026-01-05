@@ -1030,6 +1030,8 @@ public class ProductDaoImpl implements ProductDao {
     }
 
 
+
+
     public List<Map<String, Object>> getProductsForListDisplay() {
         String sql = """
                     SELECT
@@ -1093,6 +1095,108 @@ public class ProductDaoImpl implements ProductDao {
     // p.setStatus(rs.getInt("status"));
     // return p;
     // }
+    @Override
+    // Lấy thông tin Product chính
+    public Product findProductDetailById(int productId) {
+        String sql = """
+            SELECT p.*, 
+                   c.id AS c_id, c.name AS c_name,
+                   b.id AS b_id, b.name AS b_name
+            FROM products p
+            LEFT JOIN categories c ON p.category_id = c.id
+            LEFT JOIN brands b ON p.brand_id = b.id
+            WHERE p.id = ?
+        """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, productId)
+                        .map((rs, ctx) -> {
+                            Product p = new Product();
+                            p.setId(rs.getInt("id"));
+                            p.setName(rs.getString("name"));
+                            p.setDescription(rs.getString("description"));
+                            p.setMainImage(rs.getString("img"));
+                            p.setDiscountPercentage(rs.getInt("discount_percentage"));
+                            p.setTotalSold(rs.getInt("total_sold"));
+                            p.setWarrantyPeriod(rs.getInt("warranty_period"));
+                            p.setStatus(rs.getInt("status"));
+                            p.setReleaseDate(rs.getTimestamp("release_date") != null
+                                    ? rs.getTimestamp("release_date").toLocalDateTime()
+                                    : null);
+
+                            Category c = new Category();
+                            c.setId(rs.getInt("c_id"));
+                            c.setName(rs.getString("c_name"));
+                            p.setCategory(c);
+
+                            Brand b = new Brand();
+                            b.setId(rs.getInt("b_id"));
+                            b.setName(rs.getString("b_name"));
+                            p.setBrand(b);
+
+                            return p;
+                        }).findOne().orElse(null)
+        );
+    }
+    @Override
+    // Danh sách Variant theo Product
+    public List<ProductVariant> getVariantsByProduct(int productId) {
+        String sql = """
+            SELECT id, name, base_price, status, created_at, updated_at
+            FROM product_variants
+            WHERE product_id = ? AND status = 'active'
+            ORDER BY base_price
+        """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, productId)
+                        .map((rs, ctx) -> {
+                            ProductVariant v = new ProductVariant();
+                            v.setId(rs.getInt("id"));
+                            v.setName(rs.getString("name"));
+                            v.setBasePrice(rs.getDouble("base_price"));
+                            v.setStatus(1);
+                            v.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                            v.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+                            return v;
+                        }).list()
+        );
+    }
+    @Override
+    //  Lấy Tech Specs theo product
+    public List<TechSpecs> getTechSpecsByProduct(int productId) {
+        String sql = """
+            SELECT *
+            FROM tech_specs
+            WHERE product_id = ?
+            ORDER BY priority
+        """;
+
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, productId)
+                        .map((rs, ctx) -> {
+                            TechSpecs t = new TechSpecs();
+                            t.setId(rs.getInt("id"));
+                            t.setProductId(rs.getInt("product_id"));
+                            t.setName(rs.getString("name"));
+                            t.setValue(rs.getString("value"));
+                            t.setPriority(rs.getInt("priority"));
+                            t.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
+                            t.setUpdatedAt(rs.getTimestamp("updated_at").toLocalDateTime());
+                            return t;
+                        }).list()
+        );
+    }
+
+    @Override
+    public VariantColor getDefaultVariantColor(int productId) {
+        return null;
+    }
+
+
 // Cart
     @Override
     public Map<String, Object> getCartItemDetail(int variantColorId) {

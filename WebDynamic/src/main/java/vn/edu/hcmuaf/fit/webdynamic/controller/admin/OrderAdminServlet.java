@@ -2,12 +2,9 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.Order;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
-
 
 import java.io.IOException;
 import java.util.List;
@@ -22,13 +19,13 @@ public class OrderAdminServlet extends HttpServlet {
         orderService = new OrderService();
     }
 
-    // Hiển thị + search + filter
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         String keyword = req.getParameter("keyword");
         String statusRaw = req.getParameter("status");
+        String ajax = req.getParameter("ajax");
 
         Integer status = null;
         if (statusRaw != null && !statusRaw.isEmpty()) {
@@ -36,26 +33,29 @@ public class OrderAdminServlet extends HttpServlet {
         }
 
         List<Order> orders =
-                (keyword != null || status != null)
+                (keyword != null && !keyword.isEmpty()) || status != null
                         ? orderService.searchForAdmin(keyword, status)
                         : orderService.getAllForAdmin();
 
         req.setAttribute("orders", orders);
-        req.getRequestDispatcher("/admin/orders.jsp").forward(req, resp);
+
+        // AJAX hoặc load trang đều dùng chung JSP
+        req.getRequestDispatcher("/views/admin/orderAdmin.jsp")
+                .forward(req, resp);
     }
 
-    // Update trạng thái (AJAX)
     @Override
+   
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
         int orderId = Integer.parseInt(req.getParameter("orderId"));
-        int status = Integer.parseInt(req.getParameter("status"));
+        int newStatus = Integer.parseInt(req.getParameter("status"));
 
-        boolean ok = orderService.updateOrderStatus(orderId, status);
-        resp.getWriter().print(ok ? "success" : "fail");
+        String result = orderService.updateStatusWithMessage(orderId, newStatus);
+
+        resp.setContentType("text/plain");
+        resp.getWriter().print(result);
     }
 
 }
-
-
