@@ -127,7 +127,7 @@
     <div id="product-list" class="product-list phone">
         <c:forEach var="product" items="${products}">
             <div class="product-card">
-                <a href="productDetail.jsp?id=${product.id}">
+                <a href="product-detail?id=${product.id}">
                     <div class="product-img">
                         <img src="${pageContext.request.contextPath}/assert/img/product/${product.image}" alt="${product.name}">
                         <c:if test="${product.discount > 0}">

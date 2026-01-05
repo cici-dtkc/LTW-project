@@ -5,9 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdynamic.dao.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.*;
+import vn.edu.hcmuaf.fit.webdynamic.service.ProductService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet(name = "ProductDetailServlet", value = "/product-detail")
 public class ProductDetailServlet extends HttpServlet {
@@ -15,12 +17,14 @@ public class ProductDetailServlet extends HttpServlet {
     private ProductDao productDao;
     private VariantDao variantDao;
     private FeedbackDao feedbackDao;
+    private ProductService productService;
 
     @Override
     public void init() {
         productDao = new ProductDaoImpl();
         variantDao = new VariantDao();
         feedbackDao = new FeedbackDao();
+        productService = new ProductService();
     }
 
     @Override
@@ -28,9 +32,9 @@ public class ProductDetailServlet extends HttpServlet {
             throws ServletException, IOException {
 
         // Lấy productId
-        int productId = Integer.parseInt(request.getParameter("id"));
+//        int productId = Integer.parseInt(request.getParameter("id"));
         // test tạm
-        // int productId = 3;
+       int productId = 3;
 
         // Product chính
         Product product = productDao.findProductDetailById(productId);
@@ -57,6 +61,11 @@ public class ProductDetailServlet extends HttpServlet {
         List<Feedback> feedbacks = feedbackDao.getFeedbacksByProductId(productId);
         int totalFeedbacks = feedbackDao.countByProductId(productId);
 
+        List<Map<String, Object>> relatedProducts =
+                productService.getRelatedProductsByBrand(product.getBrand().getId(), productId, 4);
+
+        request.setAttribute("relatedProducts", relatedProducts);
+        request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
         // 8️⃣ Set attribute
         request.setAttribute("product", product);
         request.setAttribute("variants", variants);

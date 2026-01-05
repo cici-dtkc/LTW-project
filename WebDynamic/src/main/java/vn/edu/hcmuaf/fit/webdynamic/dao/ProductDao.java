@@ -82,4 +82,6 @@ public interface ProductDao {
 
     // cart
      Map<String, Object> getCartItemDetail(int variantColorId);
+
+    List<Map<String, Object>> getRelatedProductsByBrand(int brandId, int excludeProductId, int limit);
 }

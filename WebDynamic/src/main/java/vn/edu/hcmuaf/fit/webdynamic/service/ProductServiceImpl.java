@@ -276,7 +276,17 @@ public class ProductServiceImpl implements ProductService {
             }
             return detail;
         }
+
+    @Override
+    public List<Map<String, Object>> getRelatedProductsByBrand(
+            int brandId,
+            int excludeProductId,
+            int limit
+    ) {
+        return productDao.getRelatedProductsByBrand(brandId, excludeProductId, limit);
     }
+
+}
 
 
 
