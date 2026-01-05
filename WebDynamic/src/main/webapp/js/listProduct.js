@@ -502,20 +502,33 @@ function initCartSystem() {
 
             const productCard = btn.closest('.product-card');
             const activeVariant = productCard.querySelector('.capacity button.active');
-            //   ĐOẠN QUAN TRỌNG ĐỂ BAY
+
+            if (!activeVariant) {
+                alert("Vui lòng chọn phiên bản sản phẩm!");
+                return;
+            }
+
+            // LẤY vcId TRƯỚC KHI KIỂM TRA
+            const vcId = activeVariant.getAttribute('data-id');
+
+            if (!vcId || vcId === "undefined") {
+                console.error("ID biến thể không hợp lệ");
+                alert("Lỗi: Không tìm thấy mã phiên bản sản phẩm.");
+                return;
+            }
 
             const productImg = productCard.querySelector('.product-img img');
             if (productImg) {
                 flyToCart(productImg);
             }
 
-            const vcId = activeVariant.getAttribute('data-id');
             const header = document.getElementById('header');
             const contextPath = header ? header.getAttribute('data-context-path') : '';
 
             fetch(`${contextPath}/cart?action=add&vcId=${vcId}`)
                 .then(response => response.text())
                 .then(totalCount => {
+                    const cartBadge = document.getElementById('cart-badge');
                     if (cartBadge) cartBadge.textContent = totalCount.trim();
                     renderSuccessState(btn);
                 })
@@ -523,6 +536,7 @@ function initCartSystem() {
         };
     });
 }
+
 // HÀM QUAN TRỌNG: Hiệu ứng nút khi thêm thành công
 function renderSuccessState(btn) {
     const originalHTML = btn.innerHTML;
@@ -596,41 +610,6 @@ function flyToCart(productImg) {
         }
     }, 900);
 }
-
-// function flyToCart(productImg) {
-//     const imgClone = productImg.cloneNode(true);
-//     const rect = productImg.getBoundingClientRect();
-//
-//     imgClone.style.position = 'fixed';
-//     imgClone.style.left = rect.left + 'px';
-//     imgClone.style.top = rect.top + 'px';
-//     imgClone.style.width = rect.width + 'px';
-//     imgClone.style.height = rect.height + 'px';
-//     imgClone.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-//     imgClone.style.zIndex = '9999';
-//     imgClone.style.pointerEvents = 'none';
-//
-//     document.body.appendChild(imgClone);
-//
-//     const cartIcon = document.getElementById('btn-cart');
-//     if (!cartIcon) return;
-//
-//     const cartRect = cartIcon.getBoundingClientRect();
-//
-//     setTimeout(() => {
-//         imgClone.style.left = cartRect.left + 'px';
-//         imgClone.style.top = cartRect.top + 'px';
-//         imgClone.style.width = '30px';
-//         imgClone.style.height = '30px';
-//         imgClone.style.opacity = '0';
-//     }, 50);
-//
-//     setTimeout(() => {
-//         if (document.body.contains(imgClone)) {
-//             document.body.removeChild(imgClone);
-//         }
-//     }, 900);
-// }
 
 // ===== HỆ THỐNG LOAD MORE =====
 function initLoadMore() {

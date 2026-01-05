@@ -80,8 +80,7 @@
                                     <button class="${status.first ? 'active' : ''}"
                                             data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}"
                                             data-old-price="${variant.variant_color_price}"
-                                            data-product-id="${product.id}"
-                                            data-id="${variant.id}">
+                                            data-id="${variant.variant_color_id}">
                                         ${variant.variant_name}
                                     </button>
                                 </c:forEach>
@@ -126,10 +125,15 @@
                     <div class="product-info">
                         <h2>${accessory.name}</h2>
                         <div class="price-wrap">
-                            <span class="price-new">
-                                <fmt:formatNumber value="${accessory.variant_color_price}" type="number" groupingUsed="true"/>₫
-                            </span>
+        <span class="price-new">
+            <fmt:formatNumber value="${accessory.variant_color_price}" type="number" groupingUsed="true"/>₫
+        </span>
                         </div>
+
+                        <div class="capacity" style="display:none;">
+                            <button class="active" data-id="${accessory.variant_color_id}"></button>
+                        </div>
+
                         <div class="rating-cart">
                             <div class="rating">
                                 <i class="fa-solid fa-star"></i>
@@ -204,8 +208,8 @@
                 <img src="${pageContext.request.contextPath}/assert/img/logoVivo.png" alt="Vivo">
             </a>
             <a href="${pageContext.request.contextPath}/listproduct?brandId=
-            
-            
+
+
             4" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoSamsung.png" alt="Samsung">
             </a>
