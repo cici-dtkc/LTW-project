@@ -83,5 +83,9 @@ public interface ProductDao {
     // cart
      Map<String, Object> getCartItemDetail(int variantColorId);
 
+     // Sản phẩm liên quan
+     //int brandId,           : ID thương hiệu để lấy sản phẩm cùng hãng
+     //int excludeProductId,  : ID sản phẩm hiện tại (loại trừ khỏi danh sách liên quan)
+     //int limit              : Số lượng sản phẩm liên quan cần lấy (ví dụ: 4)
     List<Map<String, Object>> getRelatedProductsByBrand(int brandId, int excludeProductId, int limit);
 }
