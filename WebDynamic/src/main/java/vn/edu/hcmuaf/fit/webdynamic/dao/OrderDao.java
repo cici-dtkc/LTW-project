@@ -2,9 +2,16 @@ package vn.edu.hcmuaf.fit.webdynamic.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
+import vn.edu.hcmuaf.fit.webdynamic.model.Address;
 import vn.edu.hcmuaf.fit.webdynamic.model.Order;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class OrderDao {
@@ -157,5 +164,90 @@ public class OrderDao {
                         .bind("id", orderId)
                         .execute()
         ) > 0;
+    }
+
+// Lấy địa chỉ mặc định của user
+    public List<Address> getDefaultAddressByUserId(int userId) {
+        return jdbi.withHandle(handle ->
+                handle.createQuery("SELECT * FROM addresses WHERE user_id = :userId AND status = 1")
+                        .bind("userId", userId)
+                        .mapToBean(Address.class)
+                        .list() // Trả về danh sách, nếu không có sẽ là list rỗng
+        );
+    }
+    // Lấy thông tin sản phẩm trong giỏ hàng
+    public Map<String, Object> getProductForCart(int variantColorId) {
+        String sql = """
+        SELECT 
+            vc.id AS vc_id, 
+            p.name AS product_name, 
+            v.name AS variant_name, 
+            col.name AS color_name,
+            vc.price AS unit_price, 
+            p.img AS main_img,
+            p.discount_percentage
+        FROM variant_colors vc
+        JOIN product_variants v ON vc.variant_id = v.id
+        JOIN products p ON v.product_id = p.id
+        JOIN colors col ON vc.color_id = col.id
+        WHERE vc.id = :vcId AND vc.status = 1
+    """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("vcId", variantColorId)
+                        .mapToMap()
+                        .findFirst()
+                        .orElse(null)
+        );
+    }
+    // Chèn đơn hàng cùng chi tiết đơn hàng trong transaction
+    public int insertOrderWithDetails(Order order, Map<Integer, Integer> cart) {
+        return jdbi.withHandle(handle -> handle.inTransaction(h -> {
+            // 1. Chèn dữ liệu vào bảng orders
+            String sqlOrder = """
+            INSERT INTO orders (user_id, address_id, payment_type_id, voucher_id, 
+                               status, fee_shipping, discount_amount, total_amount, created_at)
+            VALUES (:userId, :addressId, :paymentTypeId, :voucherId, 
+                   :status, :feeShipping, :discountAmount, :totalAmount, NOW())
+        """;
+
+            int orderId = h.createUpdate(sqlOrder)
+                    .bindBean(order)
+                    .executeAndReturnGeneratedKeys("id")
+                    .mapTo(Integer.class)
+                    .one();
+
+            // 2. Chèn chi tiết đơn hàng (order_details)
+            String sqlDetail = """
+            INSERT INTO order_details (order_id, variant_color_id, quantity, unit_price, subtotal)
+            VALUES (:orderId, :vcId, :quantity, :price, :subtotal)
+        """;
+
+            for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+                int vcId = entry.getKey();
+                int qty = entry.getValue();
+
+                // Lấy giá hiện tại từ DB để lưu vào hóa đơn (tránh việc sau này sản phẩm đổi giá)
+                Map<String, Object> product = getProductForCart(vcId);
+                double price = ((BigDecimal) product.get("unit_price")).doubleValue();
+
+                h.createUpdate(sqlDetail)
+                        .bind("orderId", orderId)
+                        .bind("vcId", vcId)
+                        .bind("quantity", qty)
+                        .bind("price", price)
+                        .bind("subtotal", price * qty)
+                        .execute();
+
+                // 3. Cập nhật giảm số lượng tồn kho (Inventory)
+                h.createUpdate("UPDATE variant_colors SET quantity = quantity - :qty WHERE id = :vcId")
+                        .bind("qty", qty)
+                        .bind("vcId", vcId)
+                        .execute();
+            }
+
+            return orderId;
+        }));
     }
 }
