@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -6,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết sản phẩm</title>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
@@ -62,7 +64,8 @@
                     <ul>
                         <li class="search-item">
                             <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
-                            <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
+                            <input id="header-search" class="search-input" type="text"
+                                   placeholder="Tìm kiếm sản phẩm..."/>
                         </li>
 
                         <li class="cart-item">
@@ -95,12 +98,13 @@
         <div class="breadcrumb">
             <a href="#">Điện thoại</a>
             <span>›</span>
-            <a href="#">Điện thoại Iphone 15</a>
+            <a href="#"> ${product.name}</a>
         </div>
         <h1 class="product-title">
-            Điện thoại iPhone 15 Pro Max 256GB
-            <span class="sold-info">Đã bán 22,4k</span>
-            <span class="rating"><i class="fa-solid fa-star" style="color: #f5a623;"></i> 4.9</span>
+            ${product.name}
+            <span class="sold-info">Đã bán ${product.totalSold}</span>
+            <span class="rating"><i class="fa-solid fa-star" style="color: #f5a623;"></i>
+                ${totalFeedbacks}</span>
             <a href="#" class="spec-link">Thông số</a>
         </h1>
     </div>
@@ -111,17 +115,20 @@
             <div class="product-detail">
                 <div class="product-gallery">
                     <div class="main">
-                        <img src="../../assert/img/product/iphone15.jpg" alt="Ảnh chính" class="img-feature"/>
+                        <c:if test="${not empty images}">
+                            <img class="img-feature"
+                                 src="${pageContext.request.contextPath}/${images[0].imgPath}"
+                                 alt="${product.name}">
+                        </c:if>
                         <div class="control prev"><i class="fas fa-angle-left"></i></div>
                         <div class="control next"><i class="fas fa-angle-right"></i></div>
                     </div>
 
                     <div class="list-image">
-                        <div><img src="../../assert/img/product/iphone15.jpg" alt=""/></div>
-                        <div><img src="../../assert/img/product/iphone15_behind.jpg" alt=""/></div>
-                        <div><img src="../../assert/img/product/iphone15_after.jpg" alt=""/></div>
-                        <div><img src="../../assert/img/product/iphone15_camera.jpg" alt=""/></div>
-                        <div><img src="../../assert/img/product/iphone15.jpg" alt=""/></div>
+                        <c:forEach items="${images}" var="img">
+                            <img src="${pageContext.request.contextPath}/${img.imgPath}"
+                                 alt="${product.name}">
+                        </c:forEach>
                     </div>
                 </div>
             </div>
@@ -129,42 +136,13 @@
             <div class="tech-specs">
                 <h3 class="specs-title">Cấu hình &amp; Bộ nhớ</h3>
                 <table class="specs-table">
-                    <tr>
-                        <td>Hệ điều hành:</td>
-                        <td>iOS 17</td>
-                    </tr>
-                    <tr>
-                        <td>Chip xử lý (CPU):</td>
-                        <td>Apple A17 Pro 6 nhân</td>
-                    </tr>
-                    <tr>
-                        <td>Tốc độ CPU:</td>
-                        <td>3.78 GHz</td>
-                    </tr>
-                    <tr>
-                        <td>Chip đồ họa (GPU):</td>
-                        <td>Apple GPU 6 nhân</td>
-                    </tr>
-                    <tr>
-                        <td>RAM:</td>
-                        <td>8 GB</td>
-                    </tr>
-                    <tr>
-                        <td>Dung lượng lưu trữ:</td>
-                        <td>256 GB</td>
-                    </tr>
-                    <tr>
-                        <td>Dung lượng còn lại (khả dụng) khoảng:</td>
-                        <td>241 GB</td>
-                    </tr>
-                    <tr>
-                        <td>Thẻ nhớ:</td>
-                        <td>MicroSD, hỗ trợ tối đa 1 TB</td>
-                    </tr>
-                    <tr>
-                        <td>Danh bạ:</td>
-                        <td>Không giới hạn</td>
-                    </tr>
+                    <c:forEach items="${techSpecs}" var="spec">
+                        <tr>
+                            <td>${spec.name}</td>
+                            <td>${spec.value}</td>
+                        </tr>
+                    </c:forEach>
+
                 </table>
             </div>
         </div>
@@ -176,32 +154,37 @@
                     <h2 class="price-label">Giá sản phẩm</h2>
                     <div class="price-box">
                         <div class="price-content">
-                            <span class="current-price">8.490.000₫</span>
+                <span class="current-price">
+                <fmt:formatNumber value="${defaultVariantColor.price}" type="currency"/>
+                </span>
+
                             <span class="old-price">9.990.000₫</span>
                             <span class="discount">-15%</span>
                         </div>
                     </div>
                     <h2>Chọn phiên bản</h2>
                     <div class="version-select">
-                        <button class="version active">256GB</button>
-                        <button class="version">128GB</button>
+                        <div class="version-select">
+                            <c:forEach items="${variants}" var="v" varStatus="st">
+                                <button class="version ${st.first ? 'active' : ''}">
+                                        ${v.name}
+                                </button>
+                            </c:forEach>
+                        </div>
+
                     </div>
 
                     <h2>Chọn màu sắc</h2>
                     <div class="color-options">
-                        <div class="color-item">
-                            <span class="color-list" style="background: #2d85f3"></span>
-                            <span>Xanh biển</span>
-                        </div>
-                        <div class="color-item active">
-                            <span class="color-list" style="background: #a19999"></span>
-                            <span>Bạc ánh sao</span>
-                        </div>
-                        <div class="color-item">
-                            <span class="color-list" style="background: #d8d83a"></span>
-                            <span>Vàng mộng mơ</span>
-                        </div>
+                        <c:forEach items="${colors}" var="c" varStatus="st">
+                            <div class="color-item ${st.first ? 'active' : ''}">
+        <span class="color-list"
+              style="background:${c.colorCode}"></span>
+                                <span>${c.name}</span>
+                            </div>
+                        </c:forEach>
                     </div>
+
                 </div>
                 <div class="note-promotion">
                     <ul>
@@ -220,7 +203,8 @@
                                     <i class="fa-solid fa-percent"></i>
                                     <div class="promo-content">
                                         <p class="discount">MIỄN PHÍ VẬN CHUYỂN</p>
-                                        <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                        <a href="voucherDetail.html">Xem chi tiết <i
+                                                class="fa-solid fa-angle-right"></i></a>
                                     </div>
                                     <div class="promo-status remain">Còn 20 suất</div>
                                 </div>
@@ -238,7 +222,8 @@
                                     <i class="fa-solid fa-percent"></i>
                                     <div class="promo-content">
                                         <p class="discount">TẶNG QUÀ PHỤ KIỆN</p>
-                                        <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                        <a href="voucherDetail.html">Xem chi tiết <i
+                                                class="fa-solid fa-angle-right"></i></a>
                                     </div>
                                     <div class="promo-status remain">Còn 45 suất</div>
                                 </div>
@@ -256,7 +241,8 @@
                                     <i class="fa-solid fa-percent"></i>
                                     <div class="promo-content">
                                         <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                                        <a href="voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                        <a href="voucherDetail.html">Xem chi tiết <i
+                                                class="fa-solid fa-angle-right"></i></a>
                                     </div>
                                     <div class="promo-status remain">Còn 10 suất</div>
                                 </div>
@@ -281,14 +267,16 @@
 
                     <!--  Giao đến -->
                     <div class="shipping-destination">
-                            <span><i class="fa fa-map-marker-alt"></i> Giao đến:
-                            <strong>Hà Nội - Quận Cầu Giấy</strong></span>
+                <span><i class="fa fa-map-marker-alt"></i> Giao đến:
+        <strong>Hà Nội - Quận Cầu Giấy</strong></span>
                         <button class="btn-change">Thay đổi</button>
                     </div>
                 </div>
                 <!--  Nút hành động -->
                 <div class="action-buttons">
-                    <a href="checkout.html"><button class="btn-buy">Mua ngay</button></a>
+                    <a href="checkout.html">
+                        <button class="btn-buy">Mua ngay</button>
+                    </a>
                     <button class="btn-cart"><i class="fa-solid fa-cart-plus" style="margin-right: 5px;"></i>Thêm vào
                         giỏ hàng
                     </button>
@@ -310,14 +298,14 @@
     </div>
     <!--  Đánh giá sản phẩm -->
     <section class="review-section">
-        <h2>Đánh giá Điện thoại Điện thoại iPhone 15 Pro Max 256GB</h2>
+        <h2>Đánh giá ${product.name}</h2>
 
         <div class="review-summary">
             <div class="review-score">
-                <span class="score">4.9</span><span class="outof">/5</span>
-                <p>109,2k khách hàng hài lòng</p>
+                <span class="score">${totalFeedbacks}</span><span class="outof">/5</span>
+<%--                <p>109,2k khách hàng hài lòng</p>--%>
                 <c:if test="${totalFeedbacks > 0}">
-                     <p class="review-count">${totalFeedbacks} đánh giá</p>
+                    <p class="review-count">${totalFeedbacks} đánh giá</p>
                 </c:if>
             </div>
 
@@ -373,9 +361,9 @@
                 <div class="review-item">
 
                     <div class="review-header">
-                <span class="name">
-                    User #${fb.userId}
-                </span>
+        <span class="name">
+        User #${fb.userId}
+        </span>
                         <span class="bought">Đã mua tại cửa hàng</span>
                     </div>
 
@@ -394,9 +382,9 @@
                     </p>
 
                     <div class="review-footer">
-                <span class="time">
-                        ${fb.createdAt}
-                </span>
+        <span class="time">
+                ${fb.createdAt}
+        </span>
                     </div>
 
                 </div>
@@ -414,172 +402,87 @@
                     </button>
                 </a>
             </c:if>
-            <a href="review.html"><button class="btn-write">Viết đánh giá</button></a>
+            <a href="review.html">
+                <button class="btn-write">Viết đánh giá</button>
+            </a>
         </div>
     </section>
     <!-- Sản phẩm liên quan -->
     <section class="product-related">
         <h2>Sản phẩm liên quan</h2>
         <div id="product-list" class="product-list">
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="../../assert/img/product/realme14T.jpg" alt="Realme 14T">
-                    <span class="discount-badge">-12%</span>
-                </div>
+            <c:forEach items="${relatedProducts}" var="product">
+                <div class="product-card">
+                    <a href="product-detail?id=${product.id}">
+                        <div class="product-img">
+                            <img src="${pageContext.request.contextPath}/assert/img/product/${product.image}" alt="${product.name}">
+                            <c:if test="${product.discount > 0}">
+                                <span class="discount-badge">-${product.discount}%</span>
+                            </c:if>
+                        </div>
+                    </a>
+                    <div class="product-info">
+                        <h2>${product.name}</h2>
+                        <div class="price-wrap">
+            <span class="price-new">
+              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"  />đ
+            </span>
+                            <c:if test="${product.priceOld > product.priceNew}">
+              <span class="price-old">
+                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"  />đ
+              </span>
+                            </c:if>
+                        </div>
+                        <c:if test="${not empty product.variants}">
+                            <c:set var="hasValidVariant" value="false"/>
+                            <c:forEach var="variant" items="${product.variants}">
+                                <c:if test="${not empty variant.name and not hasValidVariant}">
+                                    <c:set var="hasValidVariant" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${hasValidVariant}">
+                                <div class="capacity">
+                                    <c:set var="firstActive" value="true"/>
+                                    <c:forEach var="variant" items="${product.variants}" varStatus="status">
+                                        <c:if test="${not empty variant.name}">
+                                            <button class="${firstActive ? 'active' : ''}"
+                                                    data-id="${variant.
+                                                id}"  <%-- THÊM DÒNG NÀY --%>
+                                                    data-price="${variant.priceNew}"
+                                                    data-old-price="${variant.priceOld}">
+                                                    ${variant.name}
+                                            </button>
+                                            <c:set var="firstActive" value="false"/>
+                                        </c:if>
+                                    </c:forEach>
+                                </div>
+                            </c:if>
 
-                <div class="product-info">
-                    <h2>Realme 14T</h2>
-
-                    <div class="price-wrap">
-                        <span class="price-new">63.990.000₫</span>
-                        <span class="price-old">72.790.000₫</span>
-                    </div>
-
-                    <div class="capacity">
-                        <button class="active">256 GB</button>
-                        <button>512 GB</button>
-                        <button>1 TB</button>
-                        <button>2 TB</button>
-                    </div>
-
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+                        </c:if>
+                        <div class="rating-cart">
+                            <div class="rating">
+                                <c:forEach begin="1" end="5" var="i">
+                                    <c:choose>
+                                        <c:when test="${i <= product.rating}">
+                                            <i class="fa-solid fa-star"></i>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="fa-regular fa-star"></i>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <div class="bottom-info">
+                            <span class="sold-count">Đã bán ${product.soldCount}</span>
+                            <button class="cart-btn">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
                         </div>
                     </div>
-
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1.2k</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
                 </div>
-            </div>
+            </c:forEach>
 
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="../../assert/img/product/realmeC71.jpg" alt="realme C71">
-                    <span class="discount-badge">-12%</span>
-                </div>
-
-                <div class="product-info">
-                    <h2>realme C71</h2>
-
-                    <div class="price-wrap">
-                        <span class="price-new">63.990.000₫</span>
-                        <span class="price-old">72.790.000₫</span>
-                    </div>
-
-                    <div class="capacity">
-                        <button class="active">256 GB</button>
-                        <button>512 GB</button>
-                        <button>1 TB</button>
-                        <button>2 TB</button>
-                    </div>
-
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1.2k</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="../../assert/img/product/vivoV30e.jpg" alt="vivo V30e">
-                    <span class="discount-badge">-12%</span>
-                </div>
-
-                <div class="product-info">
-                    <h2>vivo V30e</h2>
-
-                    <div class="price-wrap">
-                        <span class="price-new">63.990.000₫</span>
-                        <span class="price-old">72.790.000₫</span>
-                    </div>
-
-                    <div class="capacity">
-                        <button class="active">256 GB</button>
-                        <button>512 GB</button>
-                        <button>1 TB</button>
-                        <button>2 TB</button>
-                    </div>
-
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1.2k</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-img">
-                    <img src="../../assert/img/product/vivoY19.jpg" alt="vivo Y19">
-                    <span class="discount-badge">-12%</span>
-                </div>
-
-                <div class="product-info">
-                    <h2>vivo Y19</h2>
-
-                    <div class="price-wrap">
-                        <span class="price-new">63.990.000₫</span>
-                        <span class="price-old">72.790.000₫</span>
-                    </div>
-
-                    <div class="capacity">
-                        <button class="active">256 GB</button>
-                        <button>512 GB</button>
-                        <button>1 TB</button>
-                        <button>2 TB</button>
-                    </div>
-
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1.2k</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="view-all-btn">
             <a href="#"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>

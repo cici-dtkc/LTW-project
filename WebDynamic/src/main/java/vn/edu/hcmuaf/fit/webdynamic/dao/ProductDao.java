@@ -78,7 +78,7 @@ public interface ProductDao {
     List<ProductVariant> getVariantsByProduct(int productId);
 
     // Colors theo variant
-    List<VariantColor> getTechSpecsByProduct(int variantId);
+    List <TechSpecs> getTechSpecsByProduct(int variantId);
 
      // VariantColor mặc định (load trang)
     VariantColor getDefaultVariantColor(int productId);
@@ -86,4 +86,22 @@ public interface ProductDao {
 
     // cart
      Map<String, Object> getCartItemDetail(int variantColorId);
+
+     // Sản phẩm liên quan
+     //int brandId,           : ID thương hiệu để lấy sản phẩm cùng hãng
+     //int excludeProductId,  : ID sản phẩm hiện tại (loại trừ khỏi danh sách liên quan)
+     //int limit              : Số lượng sản phẩm liên quan cần lấy (ví dụ: 4)
+// Lấy sản phẩm liên quan cùng brand (ưu tiên)
+     List<Map<String, Object>> findRelatedBySameBrand(
+             int brandId,
+             int excludeProductId,
+             int limit
+     );
+
+    // Lấy sản phẩm bán chạy / mới nhất để bù khi chưa đủ
+    List<Map<String, Object>> findFallbackRelatedProducts(
+            int excludeProductId,
+            List<Integer> excludeIds,
+            int limit
+    );
 }

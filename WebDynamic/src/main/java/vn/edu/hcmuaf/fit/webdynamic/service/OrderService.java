@@ -7,9 +7,7 @@ import vn.edu.hcmuaf.fit.webdynamic.model.Order;
 import vn.edu.hcmuaf.fit.webdynamic.model.Address;
 import vn.edu.hcmuaf.fit.webdynamic.model.PaymentTypes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class OrderService {
     private final OrderDao orderDao;
@@ -154,27 +152,53 @@ public class OrderService {
     }
 
 
-    public String updateStatusWithMessage(int orderId, int newStatus) {
+    public Map<String, Object> updateStatus(int orderId, int newStatus) {
+        Map<String, Object> result = new HashMap<>();
+
         Optional<Order> opt = orderDao.getOrderById(orderId);
-        if (opt.isEmpty()) return "Đơn hàng không tồn tại";
+        if (opt.isEmpty()) {
+            result.put("success", false);
+            result.put("message", "Đơn hàng không tồn tại");
+            return result;
+        }
 
         int current = opt.get().getStatus();
 
-        if (current == 5) return "Đơn hàng đã bị hủy";
-        if (current == 4) return "Đơn hàng đã hoàn thành";
+        if (current == 5) {
+            result.put("success", false);
+            result.put("message", "Đơn hàng đã bị hủy");
+            return result;
+        }
 
-        if (current == 1 && (newStatus == 2 || newStatus == 5))
-            return orderDao.updateStatus(orderId, newStatus) ? "success" : "Lỗi DB";
+        if (current == 4) {
+            result.put("success", false);
+            result.put("message", "Đơn hàng đã hoàn thành");
+            return result;
+        }
 
-        if (current == 2 && newStatus == 3)
-            return orderDao.updateStatus(orderId, newStatus) ? "success" : "Lỗi DB";
+        boolean isValidTransition =
+                (current == 1 && (newStatus == 2 || newStatus == 5)) ||
+                        (current == 2 && newStatus == 3) ||
+                        (current == 3 && newStatus == 4);
 
-        if (current == 3 && newStatus == 4)
-            return orderDao.updateStatus(orderId, newStatus) ? "success" : "Lỗi DB";
+        if (!isValidTransition) {
+            result.put("success", false);
+            result.put("message",
+                    "Không thể chuyển trạng thái từ "
+                            + getStatusName(current) + " sang "
+                            + getStatusName(newStatus));
+            return result;
+        }
 
-        return "Không thể chuyển trạng thái từ "
-                + getStatusName(current) + " sang "
-                + getStatusName(newStatus);
+        if (!orderDao.updateStatus(orderId, newStatus)) {
+            result.put("success", false);
+            result.put("message", "Lỗi hệ thống, vui lòng thử lại");
+            return result;
+        }
+
+        result.put("success", true);
+        result.put("message", "Đã cập nhật trạng thái đơn hàng thành công");
+        return result;
     }
 
 }

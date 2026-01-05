@@ -8,6 +8,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @WebServlet("/admin/orders")
 public class OrderAdminServlet extends HttpServlet {
@@ -45,17 +46,26 @@ public class OrderAdminServlet extends HttpServlet {
     }
 
     @Override
-   
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
 
         int orderId = Integer.parseInt(req.getParameter("orderId"));
         int newStatus = Integer.parseInt(req.getParameter("status"));
 
-        String result = orderService.updateStatusWithMessage(orderId, newStatus);
+        Map<String, Object> result = orderService.updateStatus(orderId, newStatus);
 
-        resp.setContentType("text/plain");
-        resp.getWriter().print(result);
+        resp.setContentType("application/json;charset=UTF-8");
+
+        boolean success = (boolean) result.get("success");
+        String message = (String) result.get("message");
+
+        String json = String.format(
+                "{\"success\": %s, \"message\": \"%s\"}",
+                success,
+                message.replace("\"", "\\\"")
+        );
+
+        resp.getWriter().print(json);
     }
 
 }

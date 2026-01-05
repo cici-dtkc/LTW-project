@@ -10,6 +10,8 @@
         <meta charset="UTF-8">
         <title>Quản Lý Đơn Hàng</title>
 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/admin-orders.css">
@@ -70,8 +72,8 @@
         <td>${o.createdAt}</td>
 
         <td>
-            <select class="status-select" data-id="${o.id}">
-                <option value="1" ${o.status == 1 ? 'selected' : ''}>Đang lên đơn</option>
+            <select class="status-select status-${o.status}" data-id="${o.id}">
+            <option value="1" ${o.status == 1 ? 'selected' : ''}>Đang lên đơn</option>
                 <option value="2" ${o.status == 2 ? 'selected' : ''}>Đang giao</option>
                 <option value="3" ${o.status == 3 ? 'selected' : ''}>Đã giao</option>
                 <option value="5" ${o.status == 5 ? 'selected' : ''}>Hủy</option>
