@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -111,25 +112,46 @@ public class OrderDao {
         ) > 0;
     }
 
-    // Lấy tất cả đơn hàng
-    public List<Order> findAll() {
-        String sql = "SELECT * FROM orders ORDER BY created_at DESC";
+    /// Lấy tất cả order
+    public List<Map<String, Object>> findAll() {
+        String sql = "SELECT o.*, a.name AS customer_name, a.phone_number AS customer_phone " +
+                "FROM orders o " +
+                "JOIN addresses a ON o.address_id = a.id " +
+                "ORDER BY o.created_at DESC";
+
         return jdbi.withHandle(handle ->
                 handle.createQuery(sql)
-                        .mapToBean(Order.class)
-                        .list()
+                        .map((rs, ctx) -> {
+                            Map<String, Object> map = new HashMap<>();
+                            Order order = new Order();
+                            order.setId(rs.getInt("id"));
+                            order.setStatus(rs.getInt("status"));
+                            order.setPaymentTypeId(rs.getInt("payment_type_id"));
+                            order.setTotalAmount(rs.getDouble("total_amount"));
+                            order.setUserId(rs.getInt("user_id"));
+                            order.setAddressId(rs.getInt("address_id"));
+                            order.setCreatedAt(rs.getTimestamp("created_at"));
+                            order.setUpdatedAt(rs.getTimestamp("updated_at"));
+
+                            map.put("order", order);
+                            map.put("customerName", rs.getString("customer_name"));
+                            map.put("customerPhone", rs.getString("customer_phone"));
+                            return map;
+                        }).list()
         );
     }
 
-    // Tìm kiếm + lọc trạng thái
-    public List<Order> search(String keyword, Integer status) {
+    // Tìm kiếm theo mã đơn hàng và tên khách
+    public List<Map<String, Object>> searchOrders(String keyword, Integer status) {
         StringBuilder sql = new StringBuilder(
-                "SELECT o.* FROM orders o " +
-                        "JOIN users u ON o.user_id = u.id WHERE 1=1 "
+                "SELECT o.*, a.name AS customer_name, a.phone_number AS customer_phone " +
+                        "FROM orders o " +
+                        "JOIN addresses a ON o.address_id = a.id " +
+                        "WHERE 1=1 "
         );
 
         if (keyword != null && !keyword.isEmpty()) {
-            sql.append("AND (o.id LIKE :kw OR u.fullname LIKE :kw) ");
+            sql.append("AND (o.id LIKE :kw OR a.name LIKE :kw) ");
         }
         if (status != null) {
             sql.append("AND o.status = :status ");
@@ -137,7 +159,6 @@ public class OrderDao {
 
         return jdbi.withHandle(handle -> {
             var query = handle.createQuery(sql.toString());
-
             if (keyword != null && !keyword.isEmpty()) {
                 query.bind("kw", "%" + keyword + "%");
             }
@@ -145,7 +166,23 @@ public class OrderDao {
                 query.bind("status", status);
             }
 
-            return query.mapToBean(Order.class).list();
+            return query.map((rs, ctx) -> {
+                Map<String, Object> map = new HashMap<>();
+                Order order = new Order();
+                order.setId(rs.getInt("id"));
+                order.setStatus(rs.getInt("status"));
+                order.setPaymentTypeId(rs.getInt("payment_type_id"));
+                order.setTotalAmount(rs.getDouble("total_amount"));
+                order.setUserId(rs.getInt("user_id"));
+                order.setAddressId(rs.getInt("address_id"));
+                order.setCreatedAt(rs.getTimestamp("created_at"));
+                order.setUpdatedAt(rs.getTimestamp("updated_at"));
+
+                map.put("order", order);
+                map.put("customerName", rs.getString("customer_name"));
+                map.put("customerPhone", rs.getString("customer_phone"));
+                return map;
+            }).list();
         });
     }
 

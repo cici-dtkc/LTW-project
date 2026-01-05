@@ -20,31 +20,32 @@ public class OrderAdminServlet extends HttpServlet {
         orderService = new OrderService();
     }
 
+    // ================== GET: LOAD + FILTER ==================
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
         String keyword = req.getParameter("keyword");
-        String statusRaw = req.getParameter("status");
+        String statusFilterRaw = req.getParameter("statusFilter");
         String ajax = req.getParameter("ajax");
 
-        Integer status = null;
-        if (statusRaw != null && !statusRaw.isEmpty()) {
-            status = Integer.parseInt(statusRaw);
+        Integer statusFilter = null;
+        if (statusFilterRaw != null && !statusFilterRaw.isEmpty()) {
+            statusFilter = Integer.parseInt(statusFilterRaw);
         }
 
-        List<Order> orders =
-                (keyword != null && !keyword.isEmpty()) || status != null
-                        ? orderService.searchForAdmin(keyword, status)
+        List<Map<String, Object>>  orders =
+                (keyword != null && !keyword.isEmpty()) || statusFilter != null
+                        ? orderService.searchForAdmin(keyword, statusFilter)
                         : orderService.getAllForAdmin();
 
         req.setAttribute("orders", orders);
 
-        // AJAX hoặc load trang đều dùng chung JSP
         req.getRequestDispatcher("/views/admin/orderAdmin.jsp")
                 .forward(req, resp);
     }
 
+    // ================== POST: UPDATE STATUS ==================
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
@@ -52,20 +53,21 @@ public class OrderAdminServlet extends HttpServlet {
         int orderId = Integer.parseInt(req.getParameter("orderId"));
         int newStatus = Integer.parseInt(req.getParameter("status"));
 
-        Map<String, Object> result = orderService.updateStatus(orderId, newStatus);
+        Map<String, Object> result =
+                orderService.updateStatus(orderId, newStatus);
 
         resp.setContentType("application/json;charset=UTF-8");
 
         boolean success = (boolean) result.get("success");
         String message = (String) result.get("message");
 
-        String json = String.format(
+        resp.getWriter().print(String.format(
                 "{\"success\": %s, \"message\": \"%s\"}",
                 success,
                 message.replace("\"", "\\\"")
-        );
-
-        resp.getWriter().print(json);
+        ));
     }
-
 }
+
+
+

@@ -54,7 +54,8 @@
     <thead>
     <tr>
         <th>Mã ĐH</th>
-        <th>Khách</th>
+        <th>Khách hàng</th>
+        <th>Số điện thoại</th>
         <th>Ngày đặt</th>
         <th>Trạng thái</th>
         <th>Thanh toán</th>
@@ -65,25 +66,34 @@
 </c:if>
 
 <!-- ================= TBODY (AJAX + NORMAL) ================= -->
-<c:forEach var="o" items="${orders}">
-    <tr>
-        <td>DH${o.id}</td>
-        <td>${o.userId}</td>
-        <td>${o.createdAt}</td>
-
-        <td>
-            <select class="status-select status-${o.status}" data-id="${o.id}">
-            <option value="1" ${o.status == 1 ? 'selected' : ''}>Đang lên đơn</option>
-                <option value="2" ${o.status == 2 ? 'selected' : ''}>Đang giao</option>
-                <option value="3" ${o.status == 3 ? 'selected' : ''}>Đã giao</option>
-                <option value="5" ${o.status == 5 ? 'selected' : ''}>Hủy</option>
-            </select>
-        </td>
-
-        <td>COD</td>
-        <td>₫${o.totalAmount}</td>
-    </tr>
-</c:forEach>
+<c:choose>
+    <c:when test="${not empty orders}">
+        <c:forEach var="item" items="${orders}">
+            <tr>
+                <td>DH${item.order.id}</td>
+                <!-- Lấy tên khách từ Map -->
+                <td>${item.customerName}</td>
+                <td>${item.customerPhone}</td>
+                <td>${item.order.createdAt}</td>
+                <td>
+                    <select class="status-select status-${item.order.status}" data-id="${item.order.id}">
+                        <option value="1" ${item.order.status == 1 ? 'selected' : ''}>Đang lên đơn</option>
+                        <option value="2" ${item.order.status == 2 ? 'selected' : ''}>Đang giao</option>
+                        <option value="3" ${item.order.status == 3 ? 'selected' : ''}>Đã giao</option>
+                        <option value="4" ${item.order.status == 4 ? 'selected' : ''}>Hoàn thành</option>
+                    </select>
+                </td>
+                <td>COD</td>
+                <td>₫${item.order.totalAmount}</td>
+            </tr>
+        </c:forEach>
+    </c:when>
+    <c:otherwise>
+        <tr>
+            <td colspan="7" style="text-align:center;">Không có đơn hàng nào</td>
+        </tr>
+    </c:otherwise>
+</c:choose>
 
 <c:if test="${!isAjax}">
     </tbody>
