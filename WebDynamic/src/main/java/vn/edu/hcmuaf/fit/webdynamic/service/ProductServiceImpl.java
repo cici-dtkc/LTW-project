@@ -278,12 +278,35 @@ public class ProductServiceImpl implements ProductService {
         }
 
     @Override
-    public List<Map<String, Object>> getRelatedProductsByBrand(
+    public List<Map<String, Object>> getRelatedProducts(
             int brandId,
-            int excludeProductId,
-            int limit
+            int excludeProductId, int limit
     ) {
-        return productDao.getRelatedProductsByBrand(brandId, excludeProductId, limit);
+
+
+        // 1. Ưu tiên cùng brand
+        List<Map<String, Object>> products =
+                productDao.findRelatedBySameBrand(brandId, excludeProductId, limit);
+
+        // 2. Nếu chưa đủ → lấy bù
+        if (products.size() < limit) {
+            int remain = limit - products.size();
+
+            List<Integer> existedIds = products.stream()
+                    .map(p -> (Integer) p.get("id"))
+                    .toList();
+
+            List<Map<String, Object>> fallback =
+                    productDao.findFallbackRelatedProducts(
+                            excludeProductId,
+                            existedIds,
+                            remain
+                    );
+
+            products.addAll(fallback);
+        }
+
+        return products;
     }
 
 }

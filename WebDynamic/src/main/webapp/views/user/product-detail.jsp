@@ -298,12 +298,12 @@
     </div>
     <!--  Đánh giá sản phẩm -->
     <section class="review-section">
-        <h2>Đánh giá Điện thoại Điện thoại iPhone 15 Pro Max 256GB</h2>
+        <h2>Đánh giá ${product.name}</h2>
 
         <div class="review-summary">
             <div class="review-score">
-                <span class="score">4.9</span><span class="outof">/5</span>
-                <p>109,2k khách hàng hài lòng</p>
+                <span class="score">${totalFeedbacks}</span><span class="outof">/5</span>
+<%--                <p>109,2k khách hàng hài lòng</p>--%>
                 <c:if test="${totalFeedbacks > 0}">
                     <p class="review-count">${totalFeedbacks} đánh giá</p>
                 </c:if>

@@ -57,5 +57,9 @@ public interface ProductService {
     // Cart
       Map<String, Object> getProductForCart(int variantColorId);
 
-    List<Map<String, Object>> getRelatedProductsByBrand(int brandId, int productId, int i);
-}
+    // Lấy 4 sản phẩm liên quan
+    List<Map<String, Object>> getRelatedProducts(
+            int brandId,
+            int excludeProductId,
+            int limit
+    );}

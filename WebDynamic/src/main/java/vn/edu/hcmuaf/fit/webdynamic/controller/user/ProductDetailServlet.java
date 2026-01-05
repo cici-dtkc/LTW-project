@@ -6,6 +6,7 @@ import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdynamic.dao.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.*;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductService;
+import vn.edu.hcmuaf.fit.webdynamic.service.ProductServiceImpl;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,18 +25,17 @@ public class ProductDetailServlet extends HttpServlet {
         productDao = new ProductDaoImpl();
         variantDao = new VariantDao();
         feedbackDao = new FeedbackDao();
-        productService = new ProductService();
+        productService = new ProductServiceImpl();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        // Lấy productId
-//        int productId = Integer.parseInt(request.getParameter("id"));
-        // test tạm
-       int productId = 3;
-
+        int productId = 3;
+        if (null!=request.getParameter("id")) {
+            // Lấy productId
+            productId = Integer.parseInt(request.getParameter("id"));
+        }
         // Product chính
         Product product = productDao.findProductDetailById(productId);
 
@@ -62,10 +62,10 @@ public class ProductDetailServlet extends HttpServlet {
         int totalFeedbacks = feedbackDao.countByProductId(productId);
 
         List<Map<String, Object>> relatedProducts =
-                productService.getRelatedProductsByBrand(product.getBrand().getId(), productId, 4);
+                productService.getRelatedProducts(product.getBrand().getId(), productId, 4);
 
         request.setAttribute("relatedProducts", relatedProducts);
-        request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
+//        request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
         // 8️⃣ Set attribute
         request.setAttribute("product", product);
         request.setAttribute("variants", variants);

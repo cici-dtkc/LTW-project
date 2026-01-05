@@ -87,5 +87,17 @@ public interface ProductDao {
      //int brandId,           : ID thương hiệu để lấy sản phẩm cùng hãng
      //int excludeProductId,  : ID sản phẩm hiện tại (loại trừ khỏi danh sách liên quan)
      //int limit              : Số lượng sản phẩm liên quan cần lấy (ví dụ: 4)
-    List<Map<String, Object>> getRelatedProductsByBrand(int brandId, int excludeProductId, int limit);
+// Lấy sản phẩm liên quan cùng brand (ưu tiên)
+     List<Map<String, Object>> findRelatedBySameBrand(
+             int brandId,
+             int excludeProductId,
+             int limit
+     );
+
+    // Lấy sản phẩm bán chạy / mới nhất để bù khi chưa đủ
+    List<Map<String, Object>> findFallbackRelatedProducts(
+            int excludeProductId,
+            List<Integer> excludeIds,
+            int limit
+    );
 }
