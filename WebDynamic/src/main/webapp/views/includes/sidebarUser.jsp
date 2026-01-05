@@ -85,7 +85,7 @@ if (activeMenu == null) {
                 </li>
 
                 <li class="menu-item">
-                    <a href="newPassword.html" id="menuPassword">Đổi Mật Khẩu</a>
+                    <a href="${pageContext.request.contextPath}/user/change-password" id="menuPassword">Đổi Mật Khẩu</a>
                 </li>
             </ul>
 

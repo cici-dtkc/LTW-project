@@ -74,7 +74,7 @@ public interface ProductDao {
     List<ProductVariant> getVariantsByProduct(int productId);
 
     // Colors theo variant
-    List<VariantColor> getTechSpecsByProduct(int variantId);
+    List <TechSpecs> getTechSpecsByProduct(int variantId);
 
      // VariantColor mặc định (load trang)
     VariantColor getDefaultVariantColor(int productId);
