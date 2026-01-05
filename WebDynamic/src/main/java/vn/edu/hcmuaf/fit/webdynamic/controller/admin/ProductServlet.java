@@ -35,14 +35,14 @@ public class ProductServlet extends HttpServlet {
         int limit = 10;
         int offset = (page - 1) * limit;
 
-        /* ================== SERVICE ================== */
+        /*   SERVICE   */
         List<Map<String, Object>> products =
                 productService.getForAdmin(keyword, status, categoryId, page, limit);
 
         int total = productService.countForAdmin(keyword, status, categoryId);
         int totalPages = (int) Math.ceil((double) total / limit);
 
-        /* ================== SET ATTRIBUTE ================== */
+        /*   SET ATTRIBUTE   */
         req.setAttribute("products", products);
         req.setAttribute("totalVariants", total);
         req.setAttribute("totalPages", totalPages);
@@ -53,12 +53,12 @@ public class ProductServlet extends HttpServlet {
         req.setAttribute("status", status);
         req.setAttribute("categoryId", categoryId);
 
-        /* ================== FORWARD ================== */
+        /*   FORWARD  */
         req.getRequestDispatcher("/views/admin/product.jsp")
                 .forward(req, resp);
     }
 
-    /* ================== UTILS ================== */
+    /*   UTILS   */
 
     private Integer parseInteger(String value) {
         if (value == null || value.isBlank()) return null;

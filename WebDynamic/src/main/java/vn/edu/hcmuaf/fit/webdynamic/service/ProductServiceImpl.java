@@ -139,9 +139,8 @@ public class ProductServiceImpl implements ProductService {
         Map<String, Object> product = productDao.findProductByVariantColorId(vcId);
         int productId = (int) product.get("product_id");
 
-        // 2. Lấy chi tiết phiên bản và màu sắc đang edit (Dùng hàm mới viết ở trên)
-        // Ép kiểu về ProductDaoImpl để gọi hàm mới nếu interface không có
-        Map<String, Object> detail = ((ProductDaoImpl) productDao).findVariantColorDetailForEdit(vcId);
+        // 2. Lấy chi tiết phiên bản và màu sắc đang edit
+        Map<String, Object> detail = (  productDao).findVariantColorDetailForEdit(vcId);
 
         // Đưa toàn bộ chi tiết ra ngoài Map cha để JSP gọi trực tiếp ${product.variant_name}
         product.putAll(detail);
@@ -259,7 +258,26 @@ public class ProductServiceImpl implements ProductService {
         );
     }
 
-}
+
+
+    // cart
+
+    @Override
+        public Map<String, Object> getProductForCart(int variantColorId) {
+            Map<String, Object> detail = productDao.getCartItemDetail(variantColorId);
+            if (detail != null) {
+                // Lấy giá gốc và % giảm giá từ DB
+                double unitPrice = Double.parseDouble(detail.get("unit_price").toString());
+                int discount = Integer.parseInt(detail.get("discount_percentage").toString());
+
+                // Tính giá bán thực tế
+                double finalPrice = unitPrice * (100 - discount) / 100;
+                detail.put("price_final", finalPrice);
+            }
+            return detail;
+        }
+    }
+
 
 
 

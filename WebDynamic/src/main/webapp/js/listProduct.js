@@ -491,53 +491,63 @@ function updatePrice(card, newPrice, oldPrice) {
     }
 }
 
-// ===== HỆ THỐNG GIỎ HÀNG =====
 function initCartSystem() {
     const cartButtons = document.querySelectorAll('.cart-btn');
     const cartBadge = document.getElementById('cart-badge');
-    let cartCount = parseInt(cartBadge?.textContent) || 0;
 
     cartButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
+        btn.onclick = function(e) {
             e.preventDefault();
             e.stopPropagation();
 
             const productCard = btn.closest('.product-card');
-            const productImg = productCard.querySelector('.product-img img');
-            const productName = productCard.querySelector('h2').textContent;
-            const activeCapacity = productCard.querySelector('.capacity button.active');
-            const capacity = activeCapacity?.textContent.trim() || '';
-            const price = productCard.querySelector('.price-new').textContent;
+            const productName = productCard.querySelector('h2').textContent.trim();
+            const activeVariant = productCard.querySelector('.capacity button.active');
 
-            // Hiệu ứng bay vào giỏ hàng
-            flyToCart(productImg);
+            console.log("--- DEBUG GIỎ HÀNG ---");
+            console.log("Sản phẩm đang chọn:", productName);
 
-            // Animation nút
-            const originalHTML = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
-            btn.style.backgroundColor = '#4caf50';
-
-            setTimeout(() => {
-                btn.innerHTML = originalHTML;
-                btn.style.backgroundColor = '';
-            }, 1500);
-
-            // Cập nhật số lượng giỏ hàng
-            cartCount++;
-            if (cartBadge) {
-                cartBadge.textContent = cartCount;
+            if (!activeVariant) {
+                console.error("LỖI: Chưa chọn dung lượng cho sản phẩm này!");
+                alert("Vui lòng chọn dung lượng!");
+                return;
             }
 
-            console.log('Đã thêm vào giỏ:', {
-                name: productName,
-                capacity: capacity,
-                price: price
-            });
+            // ĐÂY LÀ DÒNG QUAN TRỌNG NHẤT
+            const vcId = activeVariant.getAttribute('data-id');
+            console.log("Mã ID gửi lên Server (vcId):", vcId);
+            console.log("Tên phiên bản:", activeVariant.textContent.trim());
 
-            // TODO: Gọi API thêm vào giỏ hàng thực tế
-        });
+            const header = document.getElementById('header');
+            const contextPath = header ? header.getAttribute('data-context-path') : '';
+
+            fetch(`${contextPath}/cart?action=add&vcId=${vcId}`)
+                .then(response => response.text())
+                .then(totalCount => {
+                    console.log("Server phản hồi tổng số món đồ:", totalCount);
+                    if (cartBadge) cartBadge.textContent = totalCount.trim();
+                    renderSuccessState(btn);
+                })
+                .catch(err => console.error("Lỗi Ajax:", err));
+        };
     });
 }
+// HÀM QUAN TRỌNG: Hiệu ứng nút khi thêm thành công
+function renderSuccessState(btn) {
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+    btn.style.backgroundColor = '#4caf50';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+
+    setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
+        btn.disabled = false;
+    }, 1200);
+}
+
 
 function flyToCart(productImg) {
     const imgClone = productImg.cloneNode(true);
@@ -620,10 +630,11 @@ function initLoadMore() {
 function formatPrice(price) {
     const num = parseFloat(price);
     if (isNaN(num)) return '0';
-    return num.toLocaleString('vi-VN', {
+    // Sử dụng 'de-DE' (tiếng Đức) để mặc định có dấu chấm phân cách hàng nghìn
+    return num.toLocaleString('de-DE', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
-    });
+    }) + 'đ';
 }
 
 function getBrandIdFromImage(brandElement) {

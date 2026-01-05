@@ -40,15 +40,19 @@ public interface ProductService {
             String condition,
             String sortBy
     );
+    //add
     void addProduct(Product product,
                     String[] techNames, String[] techValues, String[] techPriorities,
                     String[] variantNames, String[] basePrices,
                     String[] quantities, String[] variantQuantities,
                     String[] skus, String[] colorVariantIndexes,
                     String[] colorIds, String[] customColors, String[] colorPrices) throws Exception;
-
+//edit
     void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
                        String[] variantNames, String[] basePrices, String[] quantities,
                        String[] variantIds, String[] colorIds, String[] skus,
                        String[] variantQuantities) throws Exception;
+
+    // Cart
+      Map<String, Object> getProductForCart(int variantColorId);
 }

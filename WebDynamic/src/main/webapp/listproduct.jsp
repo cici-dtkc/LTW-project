@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="vi_VN"/>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -138,11 +139,11 @@
                     <h2>${product.name}</h2>
                     <div class="price-wrap">
             <span class="price-new">
-              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true"/>₫
+              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"  />đ
             </span>
                         <c:if test="${product.priceOld > product.priceNew}">
               <span class="price-old">
-                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true"/>₫
+                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"  />đ
               </span>
                         </c:if>
                     </div>
@@ -156,9 +157,11 @@
                         <c:if test="${hasValidVariant}">
                             <div class="capacity">
                                 <c:set var="firstActive" value="true"/>
-                                <c:forEach var="variant" items="${product.variants}">
+                                <c:forEach var="variant" items="${product.variants}" varStatus="status">
                                     <c:if test="${not empty variant.name}">
                                         <button class="${firstActive ? 'active' : ''}"
+                                                data-id="${variant.
+                                                id}"  <%-- THÊM DÒNG NÀY --%>
                                                 data-price="${variant.priceNew}"
                                                 data-old-price="${variant.priceOld}">
                                                 ${variant.name}
@@ -168,6 +171,7 @@
                                 </c:forEach>
                             </div>
                         </c:if>
+
                     </c:if>
                     <div class="rating-cart">
                         <div class="rating">

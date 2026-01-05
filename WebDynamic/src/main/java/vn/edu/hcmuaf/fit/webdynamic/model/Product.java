@@ -2,6 +2,7 @@ package vn.edu.hcmuaf.fit.webdynamic.model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class Product {
     private int id;
@@ -144,5 +145,17 @@ public class Product {
 
     public void setTechSpecs(List<TechSpecs> techSpecs) {
         this.techSpecs = techSpecs;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && discountPercentage == product.discountPercentage && totalSold == product.totalSold && warrantyPeriod == product.warrantyPeriod && status == product.status && Objects.equals(name, product.name) && Objects.equals(description, product.description) && Objects.equals(mainImage, product.mainImage) && Objects.equals(category, product.category) && Objects.equals(brand, product.brand) && Objects.equals(releaseDate, product.releaseDate) && Objects.equals(createdAt, product.createdAt) && Objects.equals(updatedAt, product.updatedAt) && Objects.equals(techSpecs, product.techSpecs) && Objects.equals(variants, product.variants);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, discountPercentage, totalSold, warrantyPeriod, status, mainImage, category, brand, releaseDate, createdAt, updatedAt, techSpecs, variants);
     }
 }
