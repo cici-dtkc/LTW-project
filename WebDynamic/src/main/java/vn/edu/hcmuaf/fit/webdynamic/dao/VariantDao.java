@@ -15,7 +15,7 @@ public class VariantDao {
         return instance;
     }
 
-    private VariantDao() {
+    public VariantDao() {
     }
 
     // 5️⃣ Lấy danh sách màu theo Variant (nút chọn màu)

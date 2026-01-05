@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.webdynamic.service;
 
+import vn.edu.hcmuaf.fit.webdynamic.model.Brand;
 import vn.edu.hcmuaf.fit.webdynamic.model.Product;
 import vn.edu.hcmuaf.fit.webdynamic.model.VariantColor;
 
@@ -55,4 +56,10 @@ public interface ProductService {
 
     // Cart
       Map<String, Object> getProductForCart(int variantColorId);
-}
+
+    // Lấy 4 sản phẩm liên quan
+    List<Map<String, Object>> getRelatedProducts(
+            int brandId,
+            int excludeProductId,
+            int limit
+    );}

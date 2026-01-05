@@ -1224,4 +1224,165 @@ public class ProductDaoImpl implements ProductDao {
                         .orElse(null)
         );
     }
+
+
+    @Override
+    public List<Map<String, Object>> findRelatedBySameBrand(
+            int brandId,
+            int excludeProductId,
+            int limit
+    ) {
+        String sql = """
+        SELECT
+            p.id,
+            p.name,
+            p.img AS image,
+            p.discount_percentage AS discount,
+            p.total_sold AS soldCount,
+            p.release_date,
+            v.id AS variant_id,
+            v.name AS variant_name,
+            vc.price AS variant_price,
+            (vc.price * (100 - p.discount_percentage) / 100) AS variant_price_new,
+            COALESCE(AVG(f.rating), 0) AS rating
+        FROM products p
+        LEFT JOIN product_variants v ON p.id = v.product_id
+        LEFT JOIN variant_colors vc ON v.id = vc.variant_id
+        LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
+        WHERE p.status = 1
+          AND p.brand_id = :brandId
+          AND p.id <> :excludeId
+        GROUP BY p.id, p.name, p.img, p.discount_percentage,
+                 p.total_sold, p.release_date,
+                 v.id, v.name, vc.price
+        ORDER BY p.total_sold DESC, p.release_date DESC
+        LIMIT :limit
+    """;
+
+        return jdbi.withHandle(handle -> {
+            List<Map<String, Object>> rawResults = handle.createQuery(sql)
+                    .bind("brandId", brandId)
+                    .bind("excludeId", excludeProductId)
+                    .bind("limit", limit)
+                    .map((rs, ctx) -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("id", rs.getInt("id"));
+                        map.put("name", rs.getString("name"));
+                        map.put("image", rs.getString("image"));
+                        map.put("discount", rs.getInt("discount"));
+                        map.put("rating", Math.round(rs.getDouble("rating")));
+                        map.put("soldCount", rs.getInt("soldCount"));
+                        map.put("variant_id", rs.getInt("variant_id"));
+                        map.put("variant_name", rs.getString("variant_name"));
+                        map.put("variant_price", rs.getDouble("variant_price"));
+                        map.put("variant_price_new", rs.getDouble("variant_price_new"));
+                        return map;
+                    }).list();
+
+            return groupProductVariants(rawResults);
+        });
+    }
+
+
+    @Override
+    public List<Map<String, Object>> findFallbackRelatedProducts(
+            int excludeProductId,
+            List<Integer> excludeIds,
+            int limit
+    ) {
+        String sql = """
+        SELECT
+            p.id,
+            p.name,
+            p.img AS image,
+            p.discount_percentage AS discount,
+            p.total_sold AS soldCount,
+            p.release_date,
+            v.id AS variant_id,
+            v.name AS variant_name,
+            vc.price AS variant_price,
+            (vc.price * (100 - p.discount_percentage) / 100) AS variant_price_new,
+            COALESCE(AVG(f.rating), 0) AS rating
+        FROM products p
+        LEFT JOIN product_variants v ON p.id = v.product_id
+        LEFT JOIN variant_colors vc ON v.id = vc.variant_id
+        LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
+        WHERE p.status = 1
+          AND p.id <> :excludeId
+          AND p.id NOT IN (<excludeIds>)
+        GROUP BY p.id, p.name, p.img, p.discount_percentage,
+                 p.total_sold, p.release_date,
+                 v.id, v.name, vc.price
+        ORDER BY p.total_sold DESC, p.release_date DESC
+        LIMIT :limit
+    """;
+
+        return jdbi.withHandle(handle -> {
+            List<Map<String, Object>> rawResults = handle.createQuery(sql)
+                    .bind("excludeId", excludeProductId)
+                    .bindList("excludeIds", excludeIds.isEmpty() ? List.of(-1) : excludeIds)
+                    .bind("limit", limit)
+                    .map((rs, ctx) -> {
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("id", rs.getInt("id"));
+                        map.put("name", rs.getString("name"));
+                        map.put("image", rs.getString("image"));
+                        map.put("discount", rs.getInt("discount"));
+                        map.put("rating", Math.round(rs.getDouble("rating")));
+                        map.put("soldCount", rs.getInt("soldCount"));
+                        map.put("variant_id", rs.getInt("variant_id"));
+                        map.put("variant_name", rs.getString("variant_name"));
+                        map.put("variant_price", rs.getDouble("variant_price"));
+                        map.put("variant_price_new", rs.getDouble("variant_price_new"));
+                        return map;
+                    }).list();
+
+            return groupProductVariants(rawResults);
+        });
+    }
+    private List<Map<String, Object>> groupProductVariants(List<Map<String, Object>> rawResults) {
+        Map<Integer, Map<String, Object>> productMap = new LinkedHashMap<>();
+
+        for (Map<String, Object> row : rawResults) {
+            int productId = (int) row.get("id");
+
+            if (!productMap.containsKey(productId)) {
+                Map<String, Object> product = new HashMap<>();
+                product.put("id", row.get("id"));
+                product.put("name", row.get("name"));
+                product.put("image", row.get("image"));
+                product.put("discount", row.get("discount"));
+                product.put("rating", row.get("rating"));
+                product.put("soldCount", row.get("soldCount"));
+                product.put("variants", new ArrayList<Map<String, Object>>());
+                productMap.put(productId, product);
+            }
+
+            Map<String, Object> variant = new HashMap<>();
+            variant.put("id", row.get("variant_id"));
+            variant.put("name", row.get("variant_name"));
+            variant.put("priceOld", row.get("variant_price"));
+            variant.put("priceNew", row.get("variant_price_new"));
+
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> variants =
+                    (List<Map<String, Object>>) productMap.get(productId).get("variants");
+            variants.add(variant);
+        }
+
+        // set giá mặc định
+        for (Map<String, Object> product : productMap.values()) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> variants =
+                    (List<Map<String, Object>>) product.get("variants");
+
+            if (!variants.isEmpty()) {
+                product.put("priceNew", variants.get(0).get("priceNew"));
+                product.put("priceOld", variants.get(0).get("priceOld"));
+            }
+        }
+
+        return new ArrayList<>(productMap.values());
+    }
+
 }

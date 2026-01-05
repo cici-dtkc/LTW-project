@@ -11,7 +11,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/change-password")
+@WebServlet("/user/change-password")
 public class ChangepassServlet extends HttpServlet {
 
     private UserService userService = new UserService();
