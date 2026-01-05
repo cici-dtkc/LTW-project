@@ -53,8 +53,8 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        if (role == 1) { // admin
-            response.sendRedirect(request.getContextPath() + "/views/adim/admin-dashboard");
+        if (role == 0) { // admin
+            response.sendRedirect(request.getContextPath() + "/views/admin/admin-dashboard");
         } else { // user
             response.sendRedirect(request.getContextPath() + "/views/admin/change-password");
         }
