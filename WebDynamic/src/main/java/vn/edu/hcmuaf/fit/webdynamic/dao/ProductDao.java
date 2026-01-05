@@ -64,6 +64,7 @@ public interface ProductDao {
     void deleteTechSpecsByProductId(Handle h, int productId);
      void updateVariant(Handle h, int variantId, String name, double basePrice);
     void updateVariantColor(Handle h, int vcId, int quantity, String sku, double price);
+
     // ===== PRODUCT DETAIL =====
 
     // Thông tin chính product (brand, category)
@@ -77,4 +78,8 @@ public interface ProductDao {
 
      // VariantColor mặc định (load trang)
     VariantColor getDefaultVariantColor(int productId);
+
+
+    // cart
+     Map<String, Object> getCartItemDetail(int variantColorId);
 }
