@@ -1,207 +1,237 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Lý Đơn Hàng</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assert/css/reset.css">
-    <link rel="stylesheet" href="../assert/css/base.css">
-    <link rel="stylesheet" href="../assert/css/sidebarAdmin.css">
-    <link rel="stylesheet" href="../assert/css/admin-orders.css">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tổng quan - Admin</title>
 
+    <!-- ICON -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+          integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/dashboardAdmin.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
+</head>
 <body>
 <div class="app">
-    <aside class="sidebar" id="sidebar">
-        <div class="brand">
-            <button
-                    class="toggle-icon sidebar-toggle"
-                    id="sidebarToggle"
-                    style="cursor: pointer"
-            >
-                <i class="fa-solid fa-bars" style="font-size: 16px"></i>
-            </button>
-            <div>
-                <div class="muted">Quản lý bán hàng</div>
-            </div>
-        </div>
+    <%@ include file="/views/includes/sideBarAdmin.jsp" %>
 
-        <div class="section-title">Điều hướng</div>
-        <nav class="nav-section" id="nav-section">
-            <ul class="nav-list primary-nav" id="nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-target="dashboard" href="dashboardAdmin.html"
-                    ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
-                        <span class="nav-label">Tổng Quan</span></a
-                    >
-                    <span class="nav-tooltip">Tổng Quan</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-target="products" href="productAdmin.html"
-                    ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
-                        <span class="nav-label">Sản phẩm</span></a
-                    >
-                    <span class="nav-tooltip">Sản phẩm</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-target="orders" href="admin-orders.html"
-                    ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
-              hàng</span></a
-                    >
-                    <span class="nav-tooltip">Đơn hàng</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-target="customers" href="userManagement.html"
-                    ><span class="icon"><i class="fa-solid fa-users"></i></span> <span class="nav-label">Người dùng</span></a
-                    >
-                    <span class="nav-tooltip">Người dùng</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" data-target="promotions" href="vouchersAdmin.html"
-                    ><span class="icon"><i class="fa-solid fa-tags"></i></span> <span class="nav-label">Khuyến
-              mãi</span></a
-                    >
-                    <span class="nav-tooltip">Khuyến mãi</span>
-                </li>
-            </ul>
-            <ul class="nav-list second-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-target="logout" href="#">
-                    <span class="icon">
-                    <i class="fa-solid fa-right-from-bracket"></i></span>
-                        <span class="nav-label">Đăng xuất</span>
-                    </a>
-                    <span class="nav-tooltip">Đăng xuất</span>
-                </li>
-            </ul>
-        </nav>
-    </aside>
-    <!-- MAIN CONTENT -->
-    <main class="content">
-        <div class="orders-section">
-            <h2>Quản Lý Đơn Hàng</h2>
-
-            <!-- Search and Filter Section -->
-            <div class="search-filter-bar">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input
-                            type="text"
-                            id="searchInput"
-                            placeholder="Tìm kiếm theo mã đơn hàng hoặc tên khách hàng..."
-                            autocomplete="off"
-                    />
-                    <button type="button" id="clearSearch" class="clear-btn" style="display: none;">
-                        <i class="fa-solid fa-times"></i>
-                    </button>
+    <div class="container">
+        <main class="content">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <div>
+                        <h2 class="page-title" id="pageTitle">Tổng Quan</h2>
+                        <div class="muted hidden" id="pageDesc">
+                            Tổng quan nhanh về cửa hàng và hiệu suất bán hàng
+                        </div>
+                    </div>
                 </div>
-                <div class="filter-options">
-                    <select id="statusFilter" class="filter-select">
-                        <option value="">Tất cả trạng thái</option>
-                        <option value="dang-len-don">Đang lên đơn</option>
-                        <option value="dang-giao">Đang giao</option>
-                        <option value="da-giao">Đã giao</option>
-                        <option value="huy">Hủy</option>
-                    </select>
+                <div class="topbar-right">
+                    <div class="muted hidden">Xin chào, Admin</div>
                 </div>
             </div>
 
-            <div class="table-container">
-                <table class="orders-table" id="ordersTable">
-                    <thead>
-                    <tr>
-                        <th>Mã ĐH</th>
-                        <th>Khách</th>
-                        <th>Ngày đặt</th>
-                        <th>Trạng thái</th>
-                        <th>Phương thức thanh toán</th>
-                        <th>Tổng</th>
-                    </tr>
-                    </thead>
+            <!-- Error Message -->
+            <c:if test="${not empty error}">
+                <div class="error-message" style="background-color: #fee; color: #c33; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #fcc;">
+                    <i class="fas fa-exclamation-circle"></i> ${error}
+                </div>
+            </c:if>
 
-                    <tbody>
-                    <tr>
-                        <td>DH1008</td>
-                        <td>Nguyễn Văn C</td>
-                        <td>2025-11-10</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don" selected>Đang lên đơn</option>
-                                <option value="dang-giao"  >Đang giao</option>
-                                <option value="da-giao">Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Thanh toán khi nhận hàng</td>
-                        <td>₫2,100,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1007</td>
-                        <td>Phạm F</td>
-                        <td>2025-18-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don">Đang lên đơn</option>
-                                <option value="dang-giao"selected >Đang giao</option>
-                                <option value="da-giao"  >Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Chuyển khoản</td>
-                        <td>₫850,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1006</td>
-                        <td>Phạm G</td>
-                        <td>2025-12-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don" >Đang lên đơn</option>
-                                <option value="dang-giao"selected>Đang giao</option>
-                                <option value="da-giao"  >Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Chuyển khoản</td>
-                        <td>₫150,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1005</td>
-                        <td>Phạm X</td>
-                        <td>2025-11-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don">Đang lên đơn</option>
-                                <option value="dang-giao" selected>Đang giao</option>
-                                <option value="da-giao"  >Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Chuyển khoản</td>
-                        <td>₫950,000</td>
-                    </tr>
-                    <tr>
-                        <td>DH1004</td>
-                        <td>Phạm D</td>
-                        <td>2025-11-09</td>
-                        <td>
-                            <select class="status-select">
-                                <option value="dang-len-don">Đang lên đơn</option>
-                                <option value="dang-giao">Đang giao</option>
-                                <option value="da-giao" selected>Đã giao</option>
-                                <option value="huy">Hủy</option>
-                            </select>
-                        </td>
-                        <td>Thanh toán khi nhận hàng</td>
-                        <td>₫850,000</td>
-                    </tr>
-                    </tbody>
-                </table>
+            <!-- Success Message -->
+            <c:if test="${not empty success}">
+                <div class="success-message" style="background-color: #efe; color: #3c3; padding: 10px; margin-bottom: 15px; border-radius: 4px; border: 1px solid #cfc;">
+                    <i class="fas fa-check-circle"></i> ${success}
+                </div>
+            </c:if>
 
-            </div>
-        </div>
-    </main>
+            <section id="pages">
+                <div class="page card" id="page-dashboard">
+                    <h3>Thống kê</h3>
+
+                    <!-- Actions Row -->
+                    <div class="actions-row">
+                        <a href="${pageContext.request.contextPath}/admin/products/add">
+                            <button id="dashAddProduct" class="btn btn-outline-accent">
+                                <i class="fa-solid fa-plus"></i> Thêm sản phẩm
+                            </button>
+                        </a>
+                        <a href="${pageContext.request.contextPath}/admin/vouchers">
+                            <button id="dashAddPromo" class="btn btn-outline-accent">
+                                <i class="fa-solid fa-tags"></i> Thêm khuyến mãi
+                            </button>
+                        </a>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="grid kpi-grid">
+                        <div class="card">
+                            <strong>Doanh thu hôm nay</strong>
+                            <div class="muted">
+                                <fmt:formatNumber value="${todayRevenue != null ? todayRevenue : 0}" pattern="#,###"/> ₫
+                            </div>
+                        </div>
+                        <div class="card">
+                            <strong>Đơn hàng mới</strong>
+                            <div class="muted">${newOrders != null ? newOrders : 0}</div>
+                        </div>
+                        <div class="card">
+                            <strong>Số khách truy cập</strong>
+                            <div class="muted">${visitors != null ? visitors : 0}</div>
+                        </div>
+                        <div class="card">
+                            <strong>Sản phẩm hết hàng</strong>
+                            <div class="muted">${outOfStock != null ? outOfStock : 0}</div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Grid -->
+                    <div class="charts-grid">
+                        <!-- Revenue Chart -->
+                        <div id="chart-cart" class="chart-card card">
+                            <div class="filter-container">
+                                <div class="filter-time">
+                                    <button class="filter-btn ${days == 7 ? 'active' : ''}"
+                                            onclick="location.href='${pageContext.request.contextPath}/admin/dashboard?days=7'">
+                                        7 ngày
+                                    </button>
+                                    <button class="filter-btn ${days == 30 || empty days ? 'active' : ''}"
+                                            onclick="location.href='${pageContext.request.contextPath}/admin/dashboard?days=30'">
+                                        30 ngày
+                                    </button>
+                                    <button class="filter-btn ${days == 90 ? 'active' : ''}"
+                                            onclick="location.href='${pageContext.request.contextPath}/admin/dashboard?days=90'">
+                                        90 ngày
+                                    </button>
+                                </div>
+                            </div>
+                            <strong>Doanh thu theo ngày (${days != null ? days : 30} ngày)</strong>
+                            <img id="salesLine" src="${pageContext.request.contextPath}/assert/img/bddoanhthu.png"
+                                 style="width: 100%;" alt="Biểu đồ doanh thu"/>
+                        </div>
+
+                        <div class="right-column">
+                            <!-- Category Revenue Chart -->
+                            <div class="chart-card card">
+                                <strong>Doanh thu theo danh mục</strong>
+                                <img id="categoryPie"
+                                     src="${pageContext.request.contextPath}/assert/img/bddanhmuc.png"
+                                     alt="Biểu đồ danh mục"/>
+                            </div>
+
+                            <!-- Top Products Chart -->
+                            <div class="chart-card card">
+                                <strong>Sản phẩm bán chạy</strong>
+                                <img id="topProductsBar" class="short-canvas"
+                                     src="${pageContext.request.contextPath}/assert/img/bdsanphambc.png"
+                                     alt="Sản phẩm bán chạy"/>
+                            </div>
+
+                            <!-- Recent Users -->
+                            <div class="chart-card card">
+                                <strong>5 người dùng mới</strong>
+                                <div class="users-list">
+                                    <c:choose>
+                                        <c:when test="${not empty recentUsers}">
+                                            <c:forEach var="user" items="${recentUsers}" varStatus="status">
+                                                <div class="user-item ${status.last ? 'last' : ''}">
+                                                    <div class="avatar variant-${(status.index % 5) + 1}">
+                                                            ${user.initials}
+                                                    </div>
+                                                    <div>
+                                                        <div class="user-name">${user.fullName}</div>
+                                                        <div class="muted user-meta">
+                                                                ${user.email} · Đăng ký ${user.daysAgo} ngày trước
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </c:forEach>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="user-item">
+                                                <div class="avatar variant-1">NT</div>
+                                                <div>
+                                                    <div class="user-name">Nguyễn Minh Trí</div>
+                                                    <div class="muted user-meta">
+                                                        minhtri@example.com · Đăng ký 2 ngày trước
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="user-item">
+                                                <div class="avatar variant-2">LH</div>
+                                                <div>
+                                                    <div class="user-name">Lê Hương</div>
+                                                    <div class="muted user-meta">
+                                                        lehuong@example.com · Đăng ký 3 ngày trước
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="user-item">
+                                                <div class="avatar variant-3">TV</div>
+                                                <div>
+                                                    <div class="user-name">Trần Văn A</div>
+                                                    <div class="muted user-meta">
+                                                        tranva@example.com · Đăng ký 4 ngày trước
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="user-item">
+                                                <div class="avatar variant-4">PB</div>
+                                                <div>
+                                                    <div class="user-name">Phạm Thị B</div>
+                                                    <div class="muted user-meta">
+                                                        phamtb@example.com · Đăng ký 5 ngày trước
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="user-item last">
+                                                <div class="avatar variant-5">HA</div>
+                                                <div>
+                                                    <div class="user-name">Hoàng An</div>
+                                                    <div class="muted user-meta">
+                                                        hoangan@example.com · Đăng ký 7 ngày trước
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </div>
+
+                                <div class="view-all-wrap">
+                                    <button id="viewAllUsers" class="btn btn-outline-accent">
+                                        <a href="${pageContext.request.contextPath}/admin/users"
+                                           style="color: white;">
+                                            Xem tất cả
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
 </div>
-<script src="/js/sidebarAdmin.js"></script>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- JS -->
+<script src="${pageContext.request.contextPath}/js/sidebarAdmin.js"></script>
+<script src="${pageContext.request.contextPath}/js/dashboardAdmin.js"></script>
 </body>
 </html>
