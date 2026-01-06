@@ -19,7 +19,7 @@
     <nav class="nav-section" id="nav-section">
         <ul class="nav-list primary-nav" id="nav">
             <li class="nav-item">
-                <a class="nav-link" data-target="dashboard" href="${pageContext.request.contextPath}/views/admin/dashboard.jsp"
+                <a class="nav-link" data-target="dashboard" href="${pageContext.request.contextPath}/admin/dashboard"
                 ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
                     <span class="nav-label">Tổng Quan</span></a
                 >

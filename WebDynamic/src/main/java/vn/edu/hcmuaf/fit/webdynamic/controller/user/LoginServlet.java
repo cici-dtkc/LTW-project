@@ -54,9 +54,9 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (role == 0) { // admin
-            response.sendRedirect(request.getContextPath() + "/views/admin/admin-dashboard");
+            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
         } else { // user
-            response.sendRedirect(request.getContextPath() + "/views/admin/change-password");
+            response.sendRedirect(request.getContextPath() + "/home");
         }
     }
 }
