@@ -1,130 +1,105 @@
+// --- XỬ LÝ ĐỊA CHỈ ---
 const addressList = document.getElementById("addressList");
 const changeBtn = document.getElementById("changeAddressBtn");
 
-// Danh sách địa chỉ (có thể sau này lấy từ API)
-const addresses = [
-    { name: "Nguyễn Văn A", phone: "(+84) 912 345 678", address: "123 Lê Lợi, Quận 1, TP.HCM" },
-    { name: "Trần Thị B", phone: "(+84) 988 112 233", address: "45 Nguyễn Huệ, Quận 3, TP.HCM" },
-    { name: "Huỳnh Đức", phone: "(+84) 902 275 080", address: "Sau Ủy Ban Khánh Bình, Xã Khánh Bình, Huyện An Phú, An Giang" }
-];
-
-// Tạo danh sách địa chỉ
-function renderAddressList() {
-    addressList.innerHTML = `
-    <h4>Chọn địa chỉ giao hàng khác:</h4>
-    <ul>
-      ${addresses.map((a, index) => `
-        <li data-index="${index}">
-          <strong>${a.name}</strong> <span>${a.phone}</span><br>
-          <small>${a.address}</small>
-        </li>
-      `).join('')}
-    </ul>
-  `;
+// Sửa lỗi dòng 27: Chỉ gán sự kiện nếu nút tồn tại
+if (changeBtn && addressList) {
+    changeBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        addressList.classList.toggle("hidden");
+    });
 }
 
-// Khi nhấn "Thay đổi" thì hiện/ẩn danh sách
-changeBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    addressList.classList.toggle("hidden");
-});
+function updateAddress(name, phone, address, id) {
+    const nameEl = document.querySelector(".address strong");
+    const phoneEl = document.querySelector(".address span");
+    const addrEl = document.querySelector(".address p:nth-of-type(2)");
+    const hiddenInput = document.querySelector("input[name='addressId']");
 
-// Khi chọn 1 item
-addressList.addEventListener("click", (e) => {
-    const item = e.target.closest("li");
-    if (!item) return; // click ra ngoài thì bỏ qua
+    if (nameEl) nameEl.textContent = name;
+    if (phoneEl) phoneEl.textContent = `(${phone})`;
+    if (addrEl) addrEl.childNodes[0].textContent = address + ' ';
+    if (hiddenInput) hiddenInput.value = id;
 
-    const index = item.getAttribute("data-index");
-    const selected = addresses[index];
+    if (addressList) addressList.classList.add("hidden");
+}
 
-    // Cập nhật thông tin người nhận
-    document.getElementById("receiver-name").textContent = selected.name;
-    document.getElementById("receiver-phone").textContent = selected.phone;
-    document.getElementById("receiver-address").childNodes[0].textContent = selected.address + ' ';
-
-    // Ẩn danh sách sau khi chọn
-    addressList.classList.add("hidden");
-});
-
-renderAddressList();
-
-
-// voucher
+// --- XỬ LÝ VOUCHER ---
 const scrollContainer = document.getElementById("voucherScroll");
-
-document.getElementById("nextBtn").addEventListener("click", () => {
-    scrollContainer.scrollBy({ left: 400, behavior: "smooth" });
-});
-
-document.getElementById("prevBtn").addEventListener("click", () => {
-    scrollContainer.scrollBy({ left: -400, behavior: "smooth" });
-});
-document.addEventListener("DOMContentLoaded", function () {
-    const vouchers = document.querySelectorAll(".voucher");
-
-    // ✅ Lấy giá trị trực tiếp từ HTML theo ID
-    const subtotalEl = document.getElementById("subtotal");
-    const shippingEl = document.getElementById("shipping");
-    const discountEl = document.getElementById("discount");
-    const totalEl = document.getElementById("grandTotal");
-
-    let activeVoucher = null;
-
-    // 👉 Chuyển "1.290.000₫" → 1290000
-    function parseCurrency(value) {
-        return parseInt(value.replace(/[^\d]/g, "")) || 0;
-    }
-
-    // 👉 Cập nhật lại phần tóm tắt đơn hàng
-    function updateSummary(discount) {
-        const subtotal = parseCurrency(subtotalEl.textContent);
-        const shipping = parseCurrency(shippingEl.textContent);
-        const total = subtotal + shipping - discount;
-
-        discountEl.textContent = discount.toLocaleString("vi-VN") + "₫";
-        totalEl.textContent = total.toLocaleString("vi-VN") + "₫";
-    }
-
-    // 👉 Xử lý khi chọn voucher
-    vouchers.forEach(voucher => {
-        const useBtn = voucher.querySelector("button");
-        const percentText = voucher.querySelector("h3").innerText;
-        const percent = parseInt(percentText.replace(/\D/g, ""));
-
-        useBtn.addEventListener("click", () => {
-            // Nếu voucher đang được áp dụng → bỏ chọn
-            if (activeVoucher === voucher) {
-                voucher.classList.remove("active");
-                useBtn.textContent = "Sử dụng";
-                activeVoucher = null;
-                updateSummary(0);
-                return;
-            }
-
-            // Bỏ chọn voucher cũ (nếu có)
-            if (activeVoucher) {
-                const oldBtn = activeVoucher.querySelector("button");
-                activeVoucher.classList.remove("active");
-                oldBtn.textContent = "Sử dụng";
-            }
-
-            // Áp dụng voucher mới
-            voucher.classList.add("active");
-            useBtn.textContent = "Đã áp dụng";
-            activeVoucher = voucher;
-
-            const subtotal = parseCurrency(subtotalEl.textContent);
-            let discount = subtotal * (percent / 100);
-
-            // Giới hạn giảm tối đa ("Giảm tối đa 100kđ")
-            const maxText = voucher.querySelector("p").innerText;
-            const maxMatch = maxText.match(/(\d+)k/);
-            if (maxMatch) {
-                const maxDiscount = parseInt(maxMatch[1]) * 1000;
-                discount = Math.min(discount, maxDiscount);
-            }
-
-            updateSummary(discount);
-        });
+if (scrollContainer) {
+    document.getElementById("nextBtn")?.addEventListener("click", () => {
+        scrollContainer.scrollBy({ left: 400, behavior: "smooth" });
     });
-});
+
+    document.getElementById("prevBtn")?.addEventListener("click", () => {
+        scrollContainer.scrollBy({ left: -400, behavior: "smooth" });
+    });
+}
+
+/**
+ * Hàm áp dụng Voucher khi nhấn nút
+ */
+function applyVoucher(code, discountAmount, minOrder, maxReduce, type) {
+    try {
+        // 1. Lấy giá trị từ các thuộc tính data-value
+        const subtotalEl = document.getElementById('subtotal-val');
+        const shippingEl = document.getElementById('shipping-val');
+
+        if (!subtotalEl || !shippingEl) {
+            console.error("Không tìm thấy phần tử hiển thị giá tiền.");
+            return;
+        }
+
+        const subtotal = parseFloat(subtotalEl.getAttribute('data-value'));
+        const shipping = parseFloat(shippingEl.getAttribute('data-value'));
+
+        // 2. Kiểm tra điều kiện đơn hàng tối thiểu
+        if (subtotal < minOrder) {
+            alert("Đơn hàng tối thiểu " + minOrder.toLocaleString("vi-VN") + "₫ mới có thể sử dụng mã này!");
+            return;
+        }
+
+        // 3. Tính toán số tiền giảm
+        let discount = 0;
+        if (type === 'percentage' || type === '1') {
+            discount = subtotal * (discountAmount / 100);
+            if (maxReduce > 0 && discount > maxReduce) {
+                discount = maxReduce;
+            }
+        } else {
+            discount = discountAmount;
+        }
+
+        // 4. Cập nhật giao diện
+        const discountDisplay = document.getElementById('discount-display');
+        const finalTotalDisplay = document.getElementById('final-total-display');
+
+        if (discountDisplay) {
+            discountDisplay.innerText = discount.toLocaleString("vi-VN");
+        }
+
+        if (finalTotalDisplay) {
+            const finalTotal = subtotal + shipping - discount;
+            finalTotalDisplay.innerText = finalTotal.toLocaleString("vi-VN") + "₫";
+        }
+
+        // 5. Lưu mã vào input ẩn
+        const voucherInput = document.getElementById('appliedVoucherInput');
+        if (voucherInput) {
+            voucherInput.value = code;
+        }
+
+        // Hiệu ứng UI
+        document.querySelectorAll('.voucher').forEach(v => v.classList.remove('active'));
+        // Tìm element cha để highlight (sửa lỗi 'event is not defined' trong một số trình duyệt)
+        const btn = window.event ? window.event.target : null;
+        if (btn) {
+            btn.closest('.voucher').classList.add('active');
+        }
+
+        alert("Đã áp dụng mã: " + code);
+
+    } catch (error) {
+        console.error("Lỗi khi áp dụng voucher:", error);
+    }
+}

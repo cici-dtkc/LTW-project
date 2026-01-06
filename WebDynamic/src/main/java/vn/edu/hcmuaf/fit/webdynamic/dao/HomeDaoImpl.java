@@ -18,7 +18,7 @@ public class HomeDaoImpl implements HomeDao {
                     c.name AS category_name,
                     b.name AS brand_name,
                     pv.name AS variant_name, pv.base_price,
-                    vc.price AS variant_color_price, vc.quantity, vc.sku,
+                    vc.price AS variant_color_price, vc.quantity, vc.sku,vc.id AS variant_color_id,
                     col.name AS color_name
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id

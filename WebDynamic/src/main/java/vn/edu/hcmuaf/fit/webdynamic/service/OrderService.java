@@ -1,19 +1,19 @@
 package vn.edu.hcmuaf.fit.webdynamic.service;
 
-import vn.edu.hcmuaf.fit.webdynamic.dao.OrderDao;
-import vn.edu.hcmuaf.fit.webdynamic.dao.AddressDao;
-import vn.edu.hcmuaf.fit.webdynamic.dao.PaymentTypesDao;
+import vn.edu.hcmuaf.fit.webdynamic.dao.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.Order;
 import vn.edu.hcmuaf.fit.webdynamic.model.Address;
 import vn.edu.hcmuaf.fit.webdynamic.model.PaymentTypes;
+import vn.edu.hcmuaf.fit.webdynamic.model.VoucherAdmin;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 public class OrderService {
     private final OrderDao orderDao;
     private final AddressDao addressDao;
     private final PaymentTypesDao paymentTypesDao;
-
+    private final VoucherAdminDao voucherDao = new VoucherAdminDaoImpl();
     public OrderService() {
         this.orderDao = new OrderDao();
         this.addressDao = new AddressDao();
@@ -198,5 +198,67 @@ public class OrderService {
         return result;
     }
 
+
+    public int processOrder(int userId, int addressId, String paymentMethod, String voucherCode, Map<Integer, Integer> cart) {
+        // 1. Tính tổng tiền hàng (Subtotal) sử dụng OrderDao
+        double subtotal = 0;
+        for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
+            Map<String, Object> product = orderDao.getProductForCart(entry.getKey());
+            if (product != null) {
+                // Jdbi có thể trả về BigDecimal cho kiểu dữ liệu DECIMAL/DOUBLE trong MySQL
+                Object priceObj = product.get("unit_price");
+                double price = (priceObj instanceof BigDecimal) ?
+                        ((BigDecimal) priceObj).doubleValue() : (double) priceObj;
+
+                subtotal += price * entry.getValue();
+            }
+        }
+
+        // 2. Xử lý Voucher (Giữ nguyên logic kiểm tra an toàn)
+        double discount = 0;
+        Integer appliedVoucherId = null;
+
+        if (voucherCode != null && !voucherCode.isEmpty()) {
+            VoucherAdmin voucher = voucherDao.getByCode(voucherCode);
+            if (voucher != null && voucher.getStatus() == 1 && subtotal >= voucher.getMinOrderValue()) {
+                appliedVoucherId = voucher.getId();
+
+                // Kiểm tra type: '1' là %, '0' là tiền mặt
+                if ("percentage".equals(voucher.getType()) || "1".equals(voucher.getType())) {
+                    discount = subtotal * (voucher.getDiscountAmount() / 100);
+                    if (voucher.getMaxReduce() > 0 && discount > voucher.getMaxReduce()) {
+                        discount = voucher.getMaxReduce();
+                    }
+                } else {
+                    discount = voucher.getDiscountAmount();
+                }
+            }
+        }
+
+        // 3. Đóng gói đối tượng Order
+        Order order = new Order();
+        order.setUserId(userId);
+        order.setAddressId(addressId);
+        order.setPaymentTypeId("bank".equals(paymentMethod) ? 2 : 1);
+        order.setStatus(1); // Trạng thái Chờ xác nhận
+        order.setFeeShipping(30000.0);
+        order.setVoucherId(appliedVoucherId);
+        order.setDiscountAmount(discount);
+        order.setTotalAmount(subtotal + 30000.0 - discount);
+
+        // 4. Thực hiện lưu toàn bộ thông tin qua OrderDao
+        return orderDao.insertOrderWithDetails(order, cart);
+    }
+    public Address getDefaultAddress(int userId) {
+        List<Address> addresses = orderDao.getDefaultAddressByUserId(userId);
+        // Nếu list không trống, lấy phần tử đầu tiên (địa chỉ mặc định)
+        if (!addresses.isEmpty()) {
+            return addresses.get(0);
+        }
+        return null; // Trả về null để JSP hiển thị phần "Chưa có địa chỉ"
+    }
+    public List<VoucherAdmin> getActiveVouchers() {
+        return voucherDao.getActiveVouchers();
+    }
 
 }

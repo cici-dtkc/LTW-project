@@ -86,7 +86,7 @@
                 <%-- Khớp với biến 'totalCartPrice' từ Servlet --%>
             <fmt:formatNumber value="${totalCartPrice != null ? totalCartPrice : 0}" pattern="#,###" />đ            </span>
         </span>
-        <a href="checkout.jsp"><button class="checkout-btn" ${empty cartItems ? 'disabled' : ''}>Thanh Toán</button></a>
+        <a href="cart?action=checkout"><button class="checkout-btn" ${empty cartItems ? 'disabled' : ''}>Thanh Toán</button></a>
     </div>
 </div>
 

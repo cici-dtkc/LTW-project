@@ -150,5 +150,16 @@ public class VoucherAdminDaoImpl implements VoucherAdminDao {
         );
     }
 
+    @Override
+    public VoucherAdmin getByCode(String code) {
+        String sql = "SELECT * FROM vouchers WHERE voucher_code = :code LIMIT 1";
 
+        return jdbi.withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind("code", code)
+                        .mapToBean(VoucherAdmin.class)
+                        .findFirst()
+                        .orElse(null) // Nếu không thấy thì trả về null
+        );
+    }
 }
