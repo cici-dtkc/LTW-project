@@ -19,21 +19,21 @@
     <nav class="nav-section" id="nav-section">
         <ul class="nav-list primary-nav" id="nav">
             <li class="nav-item">
-                <a class="nav-link" data-target="dashboard" href="${pageContext.request.contextPath}/views/admin/dashboard.jsp"
+                    <a class="nav-link" data-target="dashboard" href="${pageContext.request.contextPath}/views/admin/dashboard.jsp"
                 ><span class="icon"><i class="fa-solid fa-chart-pie"></i></span>
                     <span class="nav-label">Tổng Quan</span></a
                 >
                 <span class="nav-tooltip">Tổng Quan</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-target="products" href="${pageContext.request.contextPath}/views/admin/productAdmin.jsp"
+                <a class="nav-link" data-target="products" href="${pageContext.request.contextPath}/views/admin/product"
                 ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
                     <span class="nav-label">Sản phẩm</span></a
                 >
                 <span class="nav-tooltip">Sản phẩm</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-target="orders" href="${pageContext.request.contextPath}/views/admin/admin-orders.jsp"
+                <a class="nav-link" data-target="orders" href="${pageContext.request.contextPath}/views/admin/orders"
                 ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
           hàng</span></a
                 >

@@ -22,14 +22,16 @@
         <c:choose>
             <c:when test="${not empty defaultAddress}">
                 <p>
-                    <strong>${defaultAddress.receiverName}</strong>
-                    <span>(${defaultAddress.phone})</span>
+                    <strong>${defaultAddress.name}</strong>
+                    <span>(${defaultAddress.phoneNumber})</span>
                 </p>
                 <p>
-                        ${defaultAddress.detail}
+                        ${defaultAddress.address}
                     <span class="default">Mặc định</span>
-                    <a href="change-address">Thay đổi</a>
+                    <a href="addresses">Thay đổi</a>
                 </p>
+
+                <input type="hidden" name="addressId" value="${defaultAddress.id}">
             </c:when>
             <c:otherwise>
                 <p>Chưa có địa chỉ. <a href="add-address">Thêm địa chỉ mới</a></p>
@@ -52,18 +54,18 @@
             <c:forEach var="item" items="${cartItems}">
                 <tr class="product-item">
                     <td class="product-info">
-                        <img src="${pageContext.request.contextPath}/assert/img/product/${item.productImage}" alt="${item.productName}"/>
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${item.main_img}" alt="${item.product_name}"/>
                         <div class="details">
-                            <p class="name">${item.productName}</p>
-                            <p class="type">${item.variantName}</p>
+                            <p class="name">${item.product_name}</p>
+                            <p class="type">${item.variant_name} | ${item.color_name}</p>
                         </div>
                     </td>
                     <td class="price">
-                        <fmt:formatNumber value="${item.price}" type="currency" currencySymbol="₫"/>
+                        <fmt:formatNumber value="${item.unit_price}" pattern="#,###"/>₫
                     </td>
                     <td class="quantity">${item.quantity}</td>
                     <td class="total">
-                        <fmt:formatNumber value="${item.price * item.quantity}" type="currency" currencySymbol="₫"/>
+                        <fmt:formatNumber value="${item.subTotal}" pattern="#,###"/>₫
                     </td>
                 </tr>
             </c:forEach>
@@ -87,7 +89,10 @@
                                     <p>Đơn từ: <fmt:formatNumber value="${v.minOrderValue}"/>đ</p>
                                     <p>Tối đa: <fmt:formatNumber value="${v.maxReduce}"/>đ</p>
                                 </div>
-                                <button type="button" onclick="applyVoucher('${v.voucherCode}')">Áp dụng</button>
+                                <button type="button"
+                                        onclick="applyVoucher('${v.voucherCode}', ${v.discountAmount}, ${v.minOrderValue}, ${v.maxReduce}, '${v.type}')">
+                                    Áp dụng
+                                </button>
                             </div>
                         </div>
                     </c:forEach>
@@ -105,12 +110,16 @@
 
         <section class="summary">
             <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
-            <p>Tạm tính: <strong><fmt:formatNumber value="${subtotal}" />₫</strong></p>
-            <p>Phí vận chuyển: <strong><fmt:formatNumber value="${shippingFee}" />₫</strong></p>
-            <p>Giảm giá: <strong>-<fmt:formatNumber value="${discountAmount}" />₫</strong></p>
-            <p class="total">Tổng cộng: <strong><fmt:formatNumber value="${subtotal + shippingFee - discountAmount}" />₫</strong></p>
+            <p>Tạm tính: <strong id="subtotal-val" data-value="${subtotal}"><fmt:formatNumber value="${subtotal}" />₫</strong></p>
+            <p>Phí vận chuyển: <strong id="shipping-val" data-value="${shippingFee}"><fmt:formatNumber value="${shippingFee}" />₫</strong></p>
 
+            <p>Giảm giá: <strong style="color: red;">-<span id="discount-display">0</span>₫</strong></p>
+
+            <p class="total">Tổng cộng: <strong id="final-total-display"><fmt:formatNumber value="${subtotal + shippingFee}" />₫</strong></p>
+
+            <input type="hidden" name="appliedVoucher" id="appliedVoucherInput" value="">
             <input type="hidden" name="addressId" value="${defaultAddress.id}">
+
             <button type="submit" class="round-black-btn">Đặt hàng</button>
         </section>
     </form>
