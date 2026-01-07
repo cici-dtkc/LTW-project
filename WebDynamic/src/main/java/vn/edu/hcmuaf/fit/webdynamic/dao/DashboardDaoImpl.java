@@ -25,10 +25,8 @@ public class DashboardDaoImpl implements DashboardDao {
 
     @Override
     public int getVisitors() {
-        // Giả sử có bảng visits hoặc sessions. Nếu không, trả về 0 hoặc tính từ orders.
-        // Tạm thời trả về số đơn hàng hôm nay * 2 hoặc gì đó. Cần điều chỉnh theo DB
-        // thực.
-        String sql = "SELECT COUNT(DISTINCT user_id) FROM orders WHERE DATE(created_at) = CURDATE()";
+        // Số user đăng ký hôm nay (tất cả user sử dụng hệ thống)
+        String sql = "SELECT COUNT(*) FROM users WHERE DATE(created_at) = CURDATE()";
         return jdbi.withHandle(h -> h.createQuery(sql).mapTo(Integer.class).one());
     }
 

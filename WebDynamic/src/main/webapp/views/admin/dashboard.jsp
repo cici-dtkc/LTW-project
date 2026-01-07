@@ -18,8 +18,28 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/dashboardAdmin.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+<script>
+    const revenueByDaysData = [
+        <c:forEach var="item" items="${revenueByDays}" varStatus="status">
+            {date: '${item.date}', revenue: ${item.revenue}}<c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+    ];
+    const revenueByCategoryData = [
+        <c:forEach var="item" items="${revenueByCategory}" varStatus="status">
+            {category: '${item.category}', revenue: ${item.revenue}}<c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+    ];
+    const topProductsData = [
+        <c:forEach var="item" items="${topProducts}" varStatus="status">
+            {product: '${item.product}', sold: ${item.sold}}<c:if test="${!status.last}">,</c:if>
+        </c:forEach>
+    ];
+</script>
 <div class="app">
     <%@ include file="/views/includes/sideBarAdmin.jsp" %>
 
@@ -115,25 +135,20 @@
                                 </div>
                             </div>
                             <strong>Doanh thu theo ngày (${days != null ? days : 30} ngày)</strong>
-                            <img id="salesLine" src="${pageContext.request.contextPath}/assert/img/bddoanhthu.png"
-                                 style="width: 100%;" alt="Biểu đồ doanh thu"/>
+                            <canvas id="salesLine" width="400" height="200"></canvas>
                         </div>
 
                         <div class="right-column">
                             <!-- Category Revenue Chart -->
                             <div class="chart-card card">
                                 <strong>Doanh thu theo danh mục</strong>
-                                <img id="categoryPie"
-                                     src="${pageContext.request.contextPath}/assert/img/bddanhmuc.png"
-                                     alt="Biểu đồ danh mục"/>
+                                <canvas id="categoryPie" width="400" height="200"></canvas>
                             </div>
 
                             <!-- Top Products Chart -->
                             <div class="chart-card card">
                                 <strong>Sản phẩm bán chạy</strong>
-                                <img id="topProductsBar" class="short-canvas"
-                                     src="${pageContext.request.contextPath}/assert/img/bdsanphambc.png"
-                                     alt="Sản phẩm bán chạy"/>
+                                <canvas id="topProductsBar" width="400" height="200"></canvas>
                             </div>
 
                             <!-- Recent Users -->
