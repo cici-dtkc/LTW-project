@@ -28,10 +28,10 @@
                 <p>
                         ${defaultAddress.address}
                     <span class="default">Mặc định</span>
-                    <a href="addresses">Thay đổi</a>
+                    <a href="${pageContext.request.contextPath}/user/addresses">Thay đổi</a>
                 </p>
 
-                <input type="hidden" name="addressId" value="${defaultAddress.id}">
+                <input type="hidden" name="addr essId" value="${defaultAddress.id}">
             </c:when>
             <c:otherwise>
                 <p>Chưa có địa chỉ. <a href="add-address">Thêm địa chỉ mới</a></p>

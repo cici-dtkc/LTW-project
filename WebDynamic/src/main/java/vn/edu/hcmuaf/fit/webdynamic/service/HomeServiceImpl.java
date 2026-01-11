@@ -50,6 +50,7 @@ public class HomeServiceImpl implements HomeService {
             variant.put("variant_name", row.get("variant_name"));
             variant.put("base_price", row.get("base_price"));
             variant.put("variant_color_price", row.get("variant_color_price"));
+            variant.put("variant_color_id", row.get("variant_color_id")); // THÊM DÒNG NÀY
             variant.put("quantity", row.get("quantity"));
             variant.put("sku", row.get("sku"));
             variant.put("color_name", row.get("color_name"));
