@@ -33,8 +33,7 @@ public class OrderService {
      * 1 - Đang lên đơn (prepare)
      * 2 - Đang giao (shipping)
      * 3 - Đã giao (delivered)
-     * 4 - Hoàn thành
-     * 5 - Đã hủy (cancelled)
+     * 4 - Đã hủy (cancelled)
      */
     public List<Order> getUserOrdersByStatus(int userId, int status) {
         return orderDao.getOrdersByUserIdAndStatus(userId, status);
@@ -99,8 +98,6 @@ public class OrderService {
             case 3:
                 return "Đã giao";
             case 4:
-                return "Hoàn thành";
-            case 5:
                 return "Đã hủy";
             default:
                 return "Không xác định";
@@ -118,7 +115,7 @@ public class OrderService {
                 return "shipping";
             case 3:
                 return "delivered";
-            case 5:
+            case 4:
                 return "cancelled";
             default:
                 return "";
@@ -136,7 +133,7 @@ public class OrderService {
                 return "fa-solid fa-truck";
             case 3:
                 return "fa-solid fa-box";
-            case 5:
+            case 4:
                 return "fa-solid fa-xmark";
             default:
                 return "fa-solid fa-question";

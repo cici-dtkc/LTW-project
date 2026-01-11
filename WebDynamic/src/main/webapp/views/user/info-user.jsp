@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/confirm-dialog.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/notification.css">
 </head>

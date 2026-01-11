@@ -62,7 +62,7 @@
                     onclick="location.href='<%= request.getContextPath() %>/user/order?status=3'">Đã giao</button>
             <button class="tab <%= "5".equals(currentStatus) ? "active" : "" %>"
                     data-status="cancelled"
-                    onclick="location.href='<%= request.getContextPath() %>/user/order?status=5'">Đã hủy</button>
+                    onclick="location.href='<%= request.getContextPath() %>/user/order?status=4'">Đã hủy</button>
         </div>
 
         <!-- Danh sách đơn -->

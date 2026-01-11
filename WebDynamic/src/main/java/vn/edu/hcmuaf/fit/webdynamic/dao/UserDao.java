@@ -98,17 +98,19 @@ public class UserDao {
                 .mapToBean(User.class)
                 .findOne());
     }
+
     public int countUsers(String searchTerm, String roleFilter, String statusFilter) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM users WHERE 1=1");
 
         // Filter theo search
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            sql.append(" AND (CAST(id AS CHAR) LIKE :search OR username LIKE :search OR email LIKE :search OR first_name LIKE :search OR last_name LIKE :search)");
+            sql.append(
+                    " AND (CAST(id AS CHAR) LIKE :search OR username LIKE :search OR email LIKE :search OR first_name LIKE :search OR last_name LIKE :search)");
         }
 
         // Filter theo role
         if (roleFilter != null && !roleFilter.trim().isEmpty()) {
-            int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
+            int role = "Admin".equalsIgnoreCase(roleFilter) ? 0 : 1;
             sql.append(" AND role = :role");
         }
 
@@ -126,7 +128,7 @@ public class UserDao {
             }
 
             if (roleFilter != null && !roleFilter.trim().isEmpty()) {
-                int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
+                int role = "Admin".equalsIgnoreCase(roleFilter) ? 0 : 1;
                 query.bind("role", role);
             }
 
@@ -138,19 +140,22 @@ public class UserDao {
             return query.mapTo(Integer.class).one();
         });
     }
+
     /**
      * Lấy danh sách user có phân trang (có filter)
      */
-    public List<User> getUsersPaginated(String searchTerm, String roleFilter, String statusFilter, int offset, int limit) {
+    public List<User> getUsersPaginated(String searchTerm, String roleFilter, String statusFilter, int offset,
+            int limit) {
         StringBuilder sql = new StringBuilder("""
-            SELECT id, username, first_name, last_name, avatar, email, role, status
-            FROM users
-            WHERE 1=1
-        """);
+                    SELECT id, username, first_name, last_name, avatar, email, role, status
+                    FROM users
+                    WHERE 1=1
+                """);
 
         // Filter theo search
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            sql.append(" AND (CAST(id AS CHAR) LIKE :search OR username LIKE :search OR email LIKE :search OR first_name LIKE :search OR last_name LIKE :search)");
+            sql.append(
+                    " AND (CAST(id AS CHAR) LIKE :search OR username LIKE :search OR email LIKE :search OR first_name LIKE :search OR last_name LIKE :search)");
         }
 
         // Filter theo role
@@ -176,7 +181,7 @@ public class UserDao {
             }
 
             if (roleFilter != null && !roleFilter.trim().isEmpty()) {
-                int role = "Admin".equalsIgnoreCase(roleFilter) ? 1 : 0;
+                int role = "Admin".equalsIgnoreCase(roleFilter) ? 0 : 1;
                 query.bind("role", role);
             }
 
@@ -187,6 +192,7 @@ public class UserDao {
             return query.mapToBean(User.class).list();
         });
     }
+
     // Lấy danh sachs người dùng load từ database
     public List<User> getAllUsers() {
         String sql = """
@@ -246,36 +252,32 @@ public class UserDao {
     // Cập nhật mật khẩu
     public boolean updatePassword(int userId, String newPassword) {
         String sql = """
-                UPDATE users 
+                UPDATE users
                 SET password = :pw, updated_at = NOW()
                 WHERE id = :id
                 """;
 
-        return DBConnect.getJdbi().withHandle(h ->
-                h.createUpdate(sql)
-                        .bind("pw", newPassword) // hashed password
-                        .bind("id", userId)
-                        .execute() > 0
-        );
+        return DBConnect.getJdbi().withHandle(h -> h.createUpdate(sql)
+                .bind("pw", newPassword) // hashed password
+                .bind("id", userId)
+                .execute() > 0);
     }
 
     public User findByInput(String input) {
         String sql = """
-        SELECT id, username, first_name, last_name, avatar, email,
-               role, status, provider, provider_id, password,
-               created_at, updated_at
-        FROM users
-        WHERE (email = :input OR username = :input)
-        LIMIT 1
-    """;
+                    SELECT id, username, first_name, last_name, avatar, email,
+                           role, status, provider, provider_id, password,
+                           created_at, updated_at
+                    FROM users
+                    WHERE (email = :input OR username = :input)
+                    LIMIT 1
+                """;
 
-        return DBConnect.getJdbi().withHandle(handle ->
-                handle.createQuery(sql)
-                        .bind("input", input)
-                        .mapToBean(User.class)
-                        .findOne()
-                        .orElse(null)
-        );
+        return DBConnect.getJdbi().withHandle(handle -> handle.createQuery(sql)
+                .bind("input", input)
+                .mapToBean(User.class)
+                .findOne()
+                .orElse(null));
     }
 
 }
