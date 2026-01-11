@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         editBtn.style.display = "inline-block";
 
         if (updateText) {
-            roleText.textContent = roleSelect.value == "1" ? "Admin" : "User";
+            roleText.textContent = roleSelect.value == "0" ? "Admin" : "User";
             statusText.textContent = statusSelect.value == "1" ? "Hoạt động" : "Tạm khóa";
         }
     }

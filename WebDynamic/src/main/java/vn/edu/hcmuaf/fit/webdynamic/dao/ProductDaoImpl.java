@@ -466,7 +466,7 @@ public class ProductDaoImpl implements ProductDao {
                 FROM products p
                 LEFT JOIN product_variants v ON p.id = v.product_id
                 LEFT JOIN variant_colors vc ON v.id = vc.variant_id
-                LEFT JOIN feedback f ON p.id = f.product_id AND f.status = 1
+                LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
                 WHERE p.status = 1 AND p.category_id = ?
                 GROUP BY p.id, p.name, p.img, p.discount_percentage, p.total_sold, 
                          v.id, v.name, vc.price
@@ -571,7 +571,7 @@ public class ProductDaoImpl implements ProductDao {
                 LEFT JOIN product_variants v ON p.id = v.product_id
                 LEFT JOIN variant_colors vc ON v.id = vc.variant_id
                 LEFT JOIN colors col ON vc.color_id = col.id
-                LEFT JOIN feedback f ON p.id = f.product_id AND f.status = 1
+                LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
                 WHERE p.status = 1 AND p.category_id = ?
             """);
 
@@ -752,7 +752,7 @@ public class ProductDaoImpl implements ProductDao {
                 FROM products p
                 LEFT JOIN product_variants v ON p.id = v.product_id
                 LEFT JOIN variant_colors vc ON v.id = vc.variant_id
-                LEFT JOIN feedback f ON p.id = f.product_id AND f.status = 1
+                LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
                 WHERE p.status = 1 AND p.category_id != 1
                 GROUP BY p.id, p.name, p.img, p.discount_percentage, p.total_sold, 
                          v.id, v.name, vc.price
@@ -852,7 +852,7 @@ public class ProductDaoImpl implements ProductDao {
                 LEFT JOIN product_variants v ON p.id = v.product_id
                 LEFT JOIN variant_colors vc ON v.id = vc.variant_id
                 LEFT JOIN colors col ON vc.color_id = col.id
-                LEFT JOIN feedback f ON p.id = f.product_id AND f.status = 1
+                LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
                 WHERE p.status = 1 AND p.category_id != 1
             """);
 
@@ -1049,7 +1049,7 @@ public class ProductDaoImpl implements ProductDao {
                     FROM products p
                     LEFT JOIN product_variants v ON p.id = v.product_id
                     LEFT JOIN variant_colors vc ON v.id = vc.variant_id
-                    LEFT JOIN feedback f ON p.id = f.product_id AND f.status = 1
+                    LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
                     WHERE p.status = 1
                     GROUP BY p.id, p.name, p.img, p.discount_percentage, p.total_sold
                     ORDER BY p.id DESC

@@ -124,7 +124,7 @@
                             <td class="role-cell">
                                 <span class="role-text">
                                     <c:choose>
-                                        <c:when test="${u.role == 1}">Admin</c:when>
+                                        <c:when test="${u.role == 0}">Admin</c:when>
                                         <c:otherwise>User</c:otherwise>
                                     </c:choose>
                                 </span>

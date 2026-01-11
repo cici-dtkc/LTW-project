@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     // Redirect to vouchersAdmin page
-    response.sendRedirect(request.getContextPath() + "/admin/vouchers");
+    response.sendRedirect(request.getContextPath() + "/home");
 %>
