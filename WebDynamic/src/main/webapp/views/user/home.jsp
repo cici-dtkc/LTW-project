@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,110 +9,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cửa hàng điện thoại</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/reset.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/base.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/header.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/footer.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/login.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/cart.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/listproduct.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/productDetail.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/listVouchers.css">
-    <link rel="stylesheet" href="../../../../../../WebStatic/assert/css/home.css">
-
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/footer.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/login.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/cart.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/listproduct.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/productDetail.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/listVouchers.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/home.css">
 </head>
 <body>
-<!-- Header -->
-<header id="header">
-    <div class="container">
-        <div class="inner-wrap">
-            <div class="logo" id="logo">
-                <a href="#"><img src="../../../../../../WebStatic/assert/img/logo.png" alt="Logo Website" id="logo-img"></a>
-            </div>
-
-            <nav class="menu" id="menu">
-                <ul>
-                    <li><a href="#" id="nav-home">Trang chủ</a></li>
-                    <li><a href="../../../../../../WebStatic/listproduct.html" id="nav-phone">Điện thoại</a></li>
-                    <li class="has-mega" id="nav-accessory-item">
-                        <a href="../../../../../../WebStatic/listproduct_accessory.html" id="nav-accessory">Linh kiện</a>
-                        <div class="mega-menu" id="mega-accessory">
-                            <div class="mega-inner">
-                                <div class="mega-col">
-                                    <h4>Linh kiện di động</h4>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Màn hình cảm ứng</a>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Pin</a>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">camera</a>
-                                </div>
-                                <div class="mega-col">
-                                    <h4>&nbsp;</h4>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Loa/mic</a>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Cáp sạc / Cổng sạc</a>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Giá đỡ điện thoại</a>
-                                </div>
-                                <div class="mega-col">
-                                    <h4>&nbsp;</h4>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Quạt tản nhiệt / Cooling fan</a>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Ốp lưng / Vỏ lưng</a>
-                                    <a href="../../../../../../WebStatic/listproduct_accessory.html">Kính cường lực / Mặt kính</a>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li><a href="home.html#footer" id="nav-contact">Liên hệ</a></li>
-                </ul>
-            </nav>
-
-            <div class="box" id="icon-box">
-                <ul>
-                    <li class="search-item">
-                        <a href="#" id="btn-search"><i class="fa-solid fa-magnifying-glass"></i></a>
-                        <input id="header-search" class="search-input" type="text" placeholder="Tìm kiếm sản phẩm..." />
-                    </li>
-
-                    <li class="cart-item">
-                        <a href="../../../../../../WebStatic/cart.html" id="btn-cart">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span class="cart-badge" id="cart-badge">3</span>
-                        </a>
-                    </li>
-
-                    <li id="user-area" class="user-area">
-                        <div class="user-profile" id="user-profile">
-                            <i class="fa-solid fa-user"></i>
-                            <span class="username" id="header-username">Đăng nhập</span>
-                        </div>
-
-                        <div class="user-dropdown" id="user-dropdown">
-                            <a href="../../../../../../WebStatic/info-user.html">Tài khoản của tôi</a>
-                            <a href="../../../../../../WebStatic/order.html">Đơn mua</a>
-                            <a href="../../../../../../WebStatic/login.html" id="logout-link">Đăng xuất</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- End Header -->
+<jsp:include page="/views/includes/header.jsp"/>
 
 <div id="main-content">
     <!-- Slider Banner -->
     <section id="banner-slider" class="slider-banner">
         <div id="slider-container" class="slider">
-
-            <!-- Slide item -->
+            <!-- Slide items - Có thể load từ database sau -->
             <div class="slide active" id="slide-1">
-                <a href="#"><img src="../../../../../../WebStatic/assert/img/banner-1.png" alt=""></a>
+                <a href="#"><img src="${pageContext.request.contextPath}/assert/img/banner-1.png" alt=""></a>
             </div>
             <div class="slide" id="slide-2">
-                <a href="#"> <img src="../../../../../../WebStatic/assert/img/banner-3.png" alt=""></a>
+                <a href="#"> <img src="${pageContext.request.contextPath}/assert/img/banner-3.png" alt=""></a>
             </div>
             <div class="slide" id="slide-3">
-                <a href="#"><img src="../../../../../../WebStatic/assert/img/banner-2.png" alt=""></a>
+                <a href="#"><img src="${pageContext.request.contextPath}/assert/img/banner-2.png" alt=""></a>
             </div>
             <div class="slide" id="slide-4">
-                <a href="#">  <img src="../../../../../../WebStatic/assert/img/banner-4.png" alt=""></a>
+                <a href="#">  <img src="${pageContext.request.contextPath}/assert/img/banner-4.png" alt=""></a>
             </div>
 
             <!-- Navigation buttons -->
@@ -118,284 +48,134 @@
     </section>
     <!--    End slider banner-->
 
-    <!-- Section sản phẩm nổi bật -->
     <section class="product-related" id="product-phones">
         <h2 class="title-desc"> Điện thoại mới ra mắt</h2>
         <div id="product-list-phones" class="product-list">
-            <div class="product-card" >
-                <a href="../../../../../../WebStatic/productDetail.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/iphone_17_pro_max.png" alt="iPhone 17 Pro Max">
-                        <span class="discount-badge">-12%</span>
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>iPhone 17 Pro Max 2TB</h2>
+            <c:forEach var="product" items="${featuredProducts}" varStatus="status">
+                <c:if test="${status.index < 4}">
+                    <div class="product-card">
+                        <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
+                            <div class="product-img">
+                                <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
+                                <c:if test="${product.discount_percentage > 0}">
+                                    <span class="discount-badge">-${product.discount_percentage}%</span>
+                                </c:if>
+                            </div>
+                        </a>
+                        <div class="product-info">
+                            <h2>${product.name}</h2>
+                            <div class="price-wrap">
+                                    <%-- Giá mới --%>
+                                <span class="price-new" id="price-new-${product.id}">
+        <fmt:formatNumber value="${product.variants[0].variant_color_price * (1 - product.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
+    </span>
 
-                    <div class="price-wrap">
-                        <span class="price-new">63.990.000₫</span>
-                        <span class="price-old">72.790.000₫</span>
-                    </div>
+                                    <%-- Giá cũ (Chỉ hiện nếu có giảm giá) --%>
+                                <c:if test="${product.discount_percentage > 0}">
+        <span class="price-old" id="price-old-${product.id}">
+            <fmt:formatNumber value="${product.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
+        </span>
+                                </c:if>
+                            </div>
+                            <div class="capacity">
+                                    <%-- Khởi tạo chuỗi rỗng để chứa các tên đã in --%>
+                                <c:set var="printed" value="" />
 
-                    <div class="capacity">
-                        <button class="active">256 GB</button>
-                        <button>512 GB</button>
-                        <button>1 TB</button>
-                        <button>2 TB</button>
-                    </div>
+                                <c:forEach var="variant" items="${product.variants}">
+                                    <%-- Trim khoảng trắng để so sánh chính xác tuyệt đối --%>
+                                    <c:set var="vName" value="${fn:trim(variant.variant_name)}" />
 
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+                                    <%-- Kiểm tra xem tên dung lượng đã tồn tại trong chuỗi 'printed' chưa --%>
+                                    <c:if test="${!fn:contains(printed, vName)}">
+
+                                        <button class="${empty printed ? 'active' : ''}"
+                                                data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}"
+                                                data-old-price="${variant.variant_color_price}"
+                                                data-id="${variant.variant_color_id}"
+                                                data-product-id="${product.id}">
+                                                ${variant.variant_name}
+                                        </button>
+
+                                        <%-- Lưu vào chuỗi ghi nhớ, dùng dấu phẩy để phân tách các tên --%>
+                                        <c:set var="printed" value="${printed},${vName}" />
+
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+                            <div class="rating-cart">
+                                <div class="rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="bottom-info">
+                                <span class="sold-count">Đã bán ${product.total_sold}</span>
+                                <button class="cart-btn add-to-cart">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1.2k</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetail.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/vivoV30e.jpg" alt="Vivo V30 5G 256GB">
-                        <span class="discount-badge">-8%</span>
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Vivo V30 5G 256GB</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">11.916.000₫</span>
-                        <span class="price-old">12.990.000₫</span>
-                    </div>
-                    <div class="capacity">
-                        <button class="active">128GB</button>
-                        <button>256GB</button>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1.8k</span>
-                        <button class="cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetail.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/honor400.jpg" alt="Honor 400 Pro 5G">
-                        <span class="discount-badge">-7%</span>
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Honor 400 Pro 5G 256GB</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">8.367.000₫</span>
-                        <span class="price-old">8.990.000₫</span>
-                    </div>
-                    <div class="capacity">
-                        <button class="active">512GB</button>
-                        <button>256GB</button>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 650</span>
-                        <button class="cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetail.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/honorx9c.jpg" alt="Honor X9b 5G 256GB">
-                        <span class="discount-badge">-6%</span>
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Honor X9b 5G 256GB</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">8.446.000₫</span>
-                        <span class="price-old">8.990.000₫</span>
-                    </div>
-                    <div class="capacity">
-                        <button class="active">256GB</button>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 900</span>
-                        <button class="cart-btn"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-            </div>
+                </c:if>
+            </c:forEach>
         </div>
         <div class="view-all-btn">
-            <a href="../../../../../../WebStatic/listproduct.html"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
+            <a href="${pageContext.request.contextPath}/listproduct"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
         </div>
     </section>
-    <!--End section-->
 
-
-    <!-- Section linh kiện nổi bật -->
     <section class="product-related" id="product-accessory">
         <h2 class="title-desc"> Linh kiện mới ra mắt</h2>
         <div id="product-list-accessories" class="product-list">
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetailAccessory.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/lens_camera_sau_iphone_11_den.jpg" alt="Lens camera sau iPhone 11/11 Pro...">
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Lens camera sau iPhone 11/11 Pro...</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">20.000₫</span>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
+            <c:forEach var="accessory" items="${featuredAccessories}">
+                <div class="product-card">
+                    <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
+                        <div class="product-img">
+                            <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
+                            <c:if test="${product.discount_percentage > 0}">
+                                <span class="discount-badge">-${product.discount_percentage}%</span>
+                            </c:if>
+                        </div>
+                    </a>
+                    <div class="product-info">
+                        <h2>${accessory.name}</h2>
+                        <div class="price-wrap">
+                            <span class="price-new" id="price-new-${accessory.id}">
+        <fmt:formatNumber value="${accessory.variants[0].variant_color_price * (1 - accessory.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
+    </span>
+                            <c:if test="${accessory.discount_percentage > 0}">
+        <span class="price-old" id="price-old-${accessory.id}">
+            <fmt:formatNumber value="${accessory.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
+        </span>
+                            </c:if>
+                        </div>
+                        <div class="rating-cart">
+                            <div class="rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
+                        </div>
+                        <div class="bottom-info">
+                            <span class="sold-count">Đã bán ${accessory.total_sold}</span>
+                            <button class="cart-btn add-to-cart">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 1200</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
                 </div>
-            </div>
-
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetailAccessory.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/lens_camera_sau_iphone_11_vuong.jpg" alt="Lens camera sau iPhone 11/11 Pro... (X0.5 LOẠI VUÔNG)">
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Lens camera sau iPhone 11/11 Pro... (X0.5 LOẠI VUÔNG)</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">15.000₫</span>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 950</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetailAccessory.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/camera_sau_iphone_6s.jpg" alt="Camera sau iPhone 6S">
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Camera sau iPhone 6S</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">215.000₫</span>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 50</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-card">
-                <a href="../../../../../../WebStatic/productDetailAccessory.html">
-                    <div class="product-img">
-                        <img src="../../../../../../WebStatic/assert/img/product/camera_sau_iphone_6_plus.jpg" alt="Camera sau iPhone 6 Plus">
-                    </div>
-                </a>
-                <div class="product-info">
-                    <h2>Camera sau iPhone 6 Plus</h2>
-                    <div class="price-wrap">
-                        <span class="price-new">255.000₫</span>
-                    </div>
-                    <div class="rating-cart">
-                        <div class="rating">
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-regular fa-star"></i>
-                        </div>
-                    </div>
-                    <div class="bottom-info">
-                        <span class="sold-count">Đã bán 75</span>
-                        <button class="cart-btn">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-
+            </c:forEach>
         </div>
         <div class="view-all-btn">
-            <a href="../../../../../../WebStatic/listproduct_accessory.html"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
+            <a href="${pageContext.request.contextPath}/listproduct"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
         </div>
     </section>
     <!--End section-->
-
 
     <!-- Section voucher-->
     <section class="promotions">
@@ -403,84 +183,29 @@
             <h3 class="promo-title">ƯU ĐÃI KHUYẾN MÃI</h3>
             <div class="promo-slider">
                 <div class="promo-list">
-                    <div class="promo-item">
-                        <i class="fa-solid fa-truck"></i>
-                        <div class="promo-content">
-                            <p class="discount">MIỄN PHÍ VẬN CHUYỂN</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                    <c:forEach var="voucher" items="${activeVouchers}">
+                        <div class="promo-item">
+                            <i class="fa-solid fa-percent"></i>
+                            <div class="promo-content">
+                                <p class="discount">
+                                    <c:choose>
+                                        <c:when test="${voucher.discount_type == 1}">
+                                            Giảm ${voucher.discount_value}₫
+                                        </c:when>
+                                        <c:when test="${voucher.discount_type == 2}">
+                                            Giảm ${voucher.discount_value}%
+                                        </c:when>
+                                        <c:otherwise>
+                                            ${voucher.name}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </p>
+                                <a href="${pageContext.request.contextPath}/voucherDetail?id=${voucher.id}">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                            </div>
+                            <div class="promo-status remain">Còn ${voucher.quantity} suất</div>
                         </div>
-                        <div class="promo-status remain">Còn 20 suất</div>
-                    </div>
-
-                    <div class="promo-item">
-                        <i class="fa-solid fa-percent"></i>
-                        <div class="promo-content">
-                            <p class="discount">GIẢM 300.000₫</p>
-                            <a href="">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status soldout">Hết suất</div>
-                    </div>
-
-                    <div class="promo-item">
-                        <i class="fa-solid fa-gift"></i>
-                        <div class="promo-content">
-                            <p class="discount">TẶNG QUÀ PHỤ KIỆN</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status remain">Còn 45 suất</div>
-                    </div>
-
-                    <div class="promo-item">
-                        <i class="fa-solid fa-wallet"></i>
-                        <div class="promo-content">
-                            <p class="discount">GIẢM 5% QUA MOMO</p>
-                            <a href="">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status soldout">Hết suất</div>
-                    </div>
-
-                    <div class="promo-item">
-                        <i class="fa-solid fa-credit-card"></i>
-                        <div class="promo-content">
-                            <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status remain">Còn 10 suất</div>
-                    </div>
-                    <div class="promo-item">
-                        <i class="fa-solid fa-percent"></i>
-                        <div class="promo-content">
-                            <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status remain">Còn 10 suất</div>
-                    </div>
-                    <div class="promo-item">
-                        <i class="fa-solid fa-percent"></i>
-                        <div class="promo-content">
-                            <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status remain">Còn 10 suất</div>
-                    </div>
-                    <div class="promo-item">
-                        <i class="fa-solid fa-percent"></i>
-                        <div class="promo-content">
-                            <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status remain">Còn 10 suất</div>
-                    </div>
-                    <div class="promo-item">
-                        <i class="fa-solid fa-percent"></i>
-                        <div class="promo-content">
-                            <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                            <a href="../../../../../../WebStatic/voucherDetail.html">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                        </div>
-                        <div class="promo-status remain">Còn 10 suất</div>
-                    </div>
+                    </c:forEach>
                 </div>
-
                 <div class="promo-control prev"><i class="fa-solid fa-chevron-left"></i></div>
                 <div class="promo-control next"><i class="fa-solid fa-chevron-right"></i></div>
             </div>
@@ -491,114 +216,31 @@
     <!--    Section logo-->
     <section class="brand-section">
         <div class="brand-list">
-            <a href="../../../../../../WebStatic/listproduct.html" class="brand-item">
-                <img src="../../../../../../WebStatic/assert/img/logoIphone.png" alt="Apple">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=1" class="brand-item">
+                <img src="${pageContext.request.contextPath}/assert/img/logoIphone.png" alt="Apple">
             </a>
-
-            <a href="../../../../../../WebStatic/listproduct.html" class="brand-item">
-                <img src="../../../../../../WebStatic/assert/img/logoOppo.png" alt="Oppo">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=2" class="brand-item">
+                <img src="${pageContext.request.contextPath}/assert/img/logoOppo.png" alt="Oppo">
             </a>
-
-            <a href="../../../../../../WebStatic/listproduct.html" class="brand-item">
-                <img src="../../../../../../WebStatic/assert/img/logoVivo.png" alt="Vivo">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=3" class="brand-item">
+                <img src="${pageContext.request.contextPath}/assert/img/logoVivo.png" alt="Vivo">
             </a>
+            <a href="${pageContext.request.contextPath}/listproduct?brandId=
 
-            <a href="../../../../../../WebStatic/listproduct.html" class="brand-item">
-                <img src="../../../../../../WebStatic/assert/img/logoSamsung.png" alt="Samsung">
+
+            4" class="brand-item">
+                <img src="${pageContext.request.contextPath}/assert/img/logoSamsung.png" alt="Samsung">
             </a>
         </div>
     </section>
-
     <!--   End Section logo-->
-    <footer id="footer">
-        <div class="container">
-            <div id="footer-content" class="footer-content">
-
-                <!-- Company Info Section -->
-                <div id="footer-company" class="footer-section">
-                    <div id="footer-logo" class="footer-logo">
-                        <img src="../../../../../../WebStatic/assert/img/logo.png" alt="Logo công ty">
-                    </div>
-                    <p id="footer-description" class="company-description">
-                        Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
-                    </p>
-                    <div id="footer-social" class="social-links">
-                        <a href="#" class="social-link" title="Facebook" id="social-facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Instagram" id="social-instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Twitter" id="social-twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" title="YouTube" id="social-youtube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Quick Links Section -->
-                <div id="footer-links" class="footer-section">
-                    <h3 class="footer-title">Liên kết nhanh</h3>
-                    <ul id="quick-links" class="footer-links">
-                        <li><a href="home.html" id="link-home">Trang chủ</a></li>
-                        <li><a href="../../../../../../WebStatic/cart.html" id="link-cart">Giỏ hàng</a></li>
-                        <li><a href="../../../../../../WebStatic/checkout.html" id="link-checkout">Thanh toán</a></li>
-                        <li><a href="../../../../../../WebStatic/order_detail.html" id="link-orders">Đơn hàng</a></li>
-                        <li><a href="../../../../../../WebStatic/info-user.html" id="link-user">Thông tin cá nhân</a></li>
-                    </ul>
-                </div>
-
-                <!-- Customer Service Section -->
-                <div id="footer-support" class="footer-section">
-                    <h3 class="footer-title">Hỗ trợ khách hàng</h3>
-                    <ul id="support-links" class="footer-links">
-                        <li><a href="#" id="policy-return">Chính sách đổi trả</a></li>
-                        <li><a href="#" id="policy-privacy">Chính sách bảo mật</a></li>
-                        <li><a href="#" id="policy-terms">Điều khoản sử dụng</a></li>
-                        <li><a href="#" id="policy-guide">Hướng dẫn mua hàng</a></li>
-                        <li><a href="#" id="policy-faq">Câu hỏi thường gặp</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Info Section -->
-                <div id="footer-contact" class="footer-section">
-                    <h3 class="footer-title">Thông tin liên hệ</h3>
-                    <div id="contact-info" class="contact-info">
-                        <div class="contact-item" id="contact-address">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>123 Đường ABC, Quận XYZ, TP.HCM</span>
-                        </div>
-                        <div class="contact-item" id="contact-phone">
-                            <i class="fas fa-phone"></i>
-                            <span>+84 123 456 789</span>
-                        </div>
-                        <div class="contact-item" id="contact-email">
-                            <i class="fas fa-envelope"></i>
-                            <span>info@company.com</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Bottom -->
-            <div id="footer-bottom" class="footer-bottom">
-                <div id="footer-bottom-content" class="footer-bottom-content">
-                    <p id="footer-copyright">
-                        &copy; 2024 Công ty ABC. Tất cả quyền được bảo lưu.
-                    </p>
-
-                </div>
-            </div>
-        </div>
-    </footer>
-
 </div>
-<script src="../../../../../../WebStatic/js/home.js"></script>
-<script src="../../../../../../WebStatic/js/header.js"></script>
-<script src="../../../../../../WebStatic/js/listProduct.js"></script>
-<script src="../../../../../../WebStatic/js/listVoucher.js"></script>
+
+<jsp:include page="/views/includes/footer.jsp"/>
+<script src="${pageContext.request.contextPath}/js/home.js"></script>
+<script src="${pageContext.request.contextPath}/js/header.js"></script>
+<script src="${pageContext.request.contextPath}/js/listProduct.js"></script>
+<script src="${pageContext.request.contextPath}/js/listVoucher.js"></script>
 
 
 </body>

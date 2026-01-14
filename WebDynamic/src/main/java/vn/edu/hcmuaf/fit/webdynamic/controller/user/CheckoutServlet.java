@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @WebServlet("/placeOrder")
-public class OrderServlet extends HttpServlet {
+public class CheckoutServlet extends HttpServlet {
     private final OrderService orderService = new OrderService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -22,7 +22,7 @@ public class OrderServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
 
         if (user == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("/login");
             return;
         }
 
@@ -48,11 +48,12 @@ public class OrderServlet extends HttpServlet {
                 session.setAttribute("cartItemCount", 0);
 
                 // Chuyển hướng đến trang thành công
-                response.sendRedirect(request.getContextPath() + "/order-success?id=" + orderId);
+                response.sendRedirect(request.getContextPath() + "/user/order-detail?id=" + orderId);
             } else {
                 response.sendRedirect("cart?action=checkout&error=system");
             }
         } catch (Exception e) {
+            System.out.println("LỖI TẠI CHECKOUT: " + e.getMessage());
             e.printStackTrace();
             response.sendRedirect("cart?action=checkout&error=invalid_data");
         }

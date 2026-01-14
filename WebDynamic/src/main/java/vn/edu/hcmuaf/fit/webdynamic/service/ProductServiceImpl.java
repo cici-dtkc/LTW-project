@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
             // 1. Lưu sản phẩm chính (Dùng hàm của bạn đã có warranty_period và release_date)
             int productId = productDao.insertProduct(handle, product);
 
-            // 2. Xử lý Thông số kỹ thuật (Bê nguyên từ Controller sang)
+            // 2. Xử lý Thông số kỹ thuật
             if (techNames != null) {
                 for (int i = 0; i < techNames.length; i++) {
                     if (techNames[i] == null || techNames[i].isBlank()) continue;
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
 
-            // 3. XỬ LÝ VARIANTS & COLORS (Bê nguyên từ Controller sang)
+            // 3. XỬ LÝ VARIANTS & COLORS
             if (variantNames != null) {
                 for (int i = 0; i < variantNames.length; i++) {
                     ProductVariant v = new ProductVariant();

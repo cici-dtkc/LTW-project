@@ -56,23 +56,31 @@ public class CartServlet extends HttpServlet {
     // --- CÁC PHƯƠNG THỨC XỬ LÝ RIÊNG BIỆT ---
 
     private void addToCart(HttpServletRequest request, HttpServletResponse response, Map<Integer, Integer> cart, HttpSession session) throws IOException {
+        User user = (User) session.getAttribute("user");
+
+        // NẾU CHƯA ĐĂNG NHẬP
+        if (user == null) {
+            response.reset(); // Xóa bỏ mọi thứ định gửi đi
+            response.setStatus(401); // Gửi mã 401 để JS biết là chưa login
+            response.setContentType("text/plain");
+            response.getWriter().print("LOGIN_REQUIRED");
+            return;
+        }
+
+        // NẾU ĐÃ ĐĂNG NHẬP THÌ MỚI CHẠY TIẾP
         try {
             String vcIdParam = request.getParameter("vcId");
-            if (vcIdParam == null || vcIdParam.isEmpty() || "undefined".equals(vcIdParam)) {
-                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                return;
-            }
             int vcId = Integer.parseInt(vcIdParam);
             cart.put(vcId, cart.getOrDefault(vcId, 0) + 1);
-
             syncCartSession(session, cart);
 
             response.setContentType("text/plain");
             response.getWriter().print(session.getAttribute("cartItemCount"));
         } catch (Exception e) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(400);
         }
     }
+
 
     private void removeFromCart(HttpServletRequest request, HttpServletResponse response, Map<Integer, Integer> cart, HttpSession session) throws IOException {
         int vcId = Integer.parseInt(request.getParameter("vcId"));

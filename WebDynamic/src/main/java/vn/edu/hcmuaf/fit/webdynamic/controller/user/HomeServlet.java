@@ -50,7 +50,7 @@ public class HomeServlet extends HttpServlet {
         response.setDateHeader("Expires", 0);
 
         // Forward to home.jsp
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/user/home.jsp").forward(request, response);
     }
 
 }
