@@ -28,7 +28,7 @@
                 <p>
                         ${defaultAddress.address}
                     <span class="default">Mặc định</span>
-                    <a href="addresses">Thay đổi</a>
+                    <a href="${pageContext.request.contextPath}/user/addresses">Thay đổi</a>
                 </p>
 
                 <input type="hidden" name="addressId" value="${defaultAddress.id}">

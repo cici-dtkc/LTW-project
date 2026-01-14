@@ -526,14 +526,35 @@ function initCartSystem() {
             const contextPath = header ? header.getAttribute('data-context-path') : '';
 
             fetch(`${contextPath}/cart?action=add&vcId=${vcId}`)
-                .then(response => response.text())
-                .then(totalCount => {
-                    const cartBadge = document.getElementById('cart-badge');
-                    if (cartBadge) cartBadge.textContent = totalCount.trim();
-                    renderSuccessState(btn);
+                .then(response => {
+                    // Nếu Server trả về 401 hoặc nội dung chứa HTML (do Filter ép)
+                    if (response.status === 401 || response.redirected) {
+                        alert("Vui lòng đăng nhập để tiếp tục!");
+                        window.location.href = contextPath + "/login";
+                        throw new Error("REDIRECT_TO_LOGIN");
+                    }
+                    return response.text();
                 })
-                .catch(err => console.error("Lỗi Ajax:", err));
-        };
+                .then(totalCount => {
+                    // KIỂM TRA CHẶN LỖI VỠ FORM CUỐI CÙNG
+                    if (totalCount.includes("<!DOCTYPE html>")) {
+                        console.error("Vẫn bị trả về HTML thay vì số lượng!");
+                        window.location.href = contextPath + "/login";
+                        return;
+                    }
+
+                    const cartBadge = document.getElementById('cart-badge');
+                    if (cartBadge && !isNaN(totalCount.trim())) {
+                        cartBadge.textContent = totalCount.trim();
+                    }
+                })
+                .catch(err => {
+                    if (err.message !== "REDIRECT_TO_LOGIN") console.error(err);
+                });
+
+            // Hiệu ứng nút
+            renderSuccessState(btn);
+        }
     });
 }
 

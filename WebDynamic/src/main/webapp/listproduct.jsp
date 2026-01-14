@@ -138,13 +138,10 @@
                 <div class="product-info">
                     <h2>${product.name}</h2>
                     <div class="price-wrap">
-            <span class="price-new">
-              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"  />đ
-            </span>
+                        <span class="price-new" id="price-new-${product.id}"> <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###" />đ </span>
                         <c:if test="${product.priceOld > product.priceNew}">
-              <span class="price-old">
-                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"  />đ
-              </span>
+        <span class="price-old" id="price-old-${product.id}"> <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###" />đ
+        </span>
                         </c:if>
                     </div>
                     <c:if test="${not empty product.variants}">
@@ -160,11 +157,10 @@
                                 <c:forEach var="variant" items="${product.variants}" varStatus="status">
                                     <c:if test="${not empty variant.name}">
                                         <button class="${firstActive ? 'active' : ''}"
-                                                data-id="${variant.
-                                                id}"  <%-- THÊM DÒNG NÀY --%>
+                                                data-id="${variant.id}"
                                                 data-price="${variant.priceNew}"
-                                                data-old-price="${variant.priceOld}">
-                                                ${variant.name}
+                                                data-old-price="${variant.priceOld}"
+                                                data-product-id="${product.id}"> ${variant.name}
                                         </button>
                                         <c:set var="firstActive" value="false"/>
                                     </c:if>
@@ -189,7 +185,7 @@
                     </div>
                     <div class="bottom-info">
                         <span class="sold-count">Đã bán ${product.soldCount}</span>
-                        <button class="cart-btn">
+                        <button class="cart-btn add-to-cart" data-product-id="${product.id}">
                             <i class="fa-solid fa-cart-plus"></i>
                         </button>
                     </div>

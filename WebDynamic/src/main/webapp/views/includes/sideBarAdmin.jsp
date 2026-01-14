@@ -26,14 +26,14 @@
                 <span class="nav-tooltip">Tổng Quan</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-target="products" href="${pageContext.request.contextPath}/views/admin/product"
+                <a class="nav-link" data-target="products" href="${pageContext.request.contextPath}/admin/products"
                 ><span class="icon"><i class="fa-solid fa-box-open"></i></span>
                     <span class="nav-label">Sản phẩm</span></a
                 >
                 <span class="nav-tooltip">Sản phẩm</span>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-target="orders" href="${pageContext.request.contextPath}/views/admin/orders"
+                <a class="nav-link" data-target="orders" href="${pageContext.request.contextPath}/admin/orders"
                 ><span class="icon"><i class="fa-solid fa-receipt"></i></span> <span class="nav-label">Đơn
           hàng</span></a
                 >
