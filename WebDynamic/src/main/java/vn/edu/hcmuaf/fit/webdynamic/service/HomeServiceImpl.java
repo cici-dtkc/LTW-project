@@ -47,7 +47,7 @@ public class HomeServiceImpl implements HomeService {
             }
             // Add variant
             Map<String, Object> variant = new HashMap<>();
-            variant.put("variant_name", row.get("variant_name"));
+            variant.put("variant_name", String.valueOf(row.get("variant_name")).trim());
             variant.put("base_price", row.get("base_price"));
             variant.put("variant_color_price", row.get("variant_color_price"));
             variant.put("variant_color_id", row.get("variant_color_id")); // THÊM DÒNG NÀY

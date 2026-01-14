@@ -243,9 +243,9 @@ public class OrderDao {
         return jdbi.withHandle(handle -> handle.inTransaction(h -> {
             // 1. Chèn dữ liệu vào bảng orders
             String sqlOrder = """
-            INSERT INTO orders (user_id, address_id, payment_type_id, voucher_id, 
+            INSERT INTO orders (user_id, address_id, payment_type_id, voucher_id,
                                status, fee_shipping, discount_amount, total_amount, created_at)
-            VALUES (:userId, :addressId, :paymentTypeId, :voucherId, 
+            VALUES (:userId, :addressId, :paymentTypeId, :voucherId,
                    :status, :feeShipping, :discountAmount, :totalAmount, NOW())
         """;
 
@@ -257,7 +257,7 @@ public class OrderDao {
 
             // 2. Chèn chi tiết đơn hàng (order_details)
             String sqlDetail = """
-            INSERT INTO order_details (order_id, variant_color_id, quantity, unit_price, subtotal)
+            INSERT INTO order_details (order_id, variant_id, quantity, price, subtotal)
             VALUES (:orderId, :vcId, :quantity, :price, :subtotal)
         """;
 

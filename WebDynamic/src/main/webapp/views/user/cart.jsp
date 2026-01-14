@@ -24,7 +24,7 @@
             <table>
                 <thead>
                 <tr>
-                    <th><input type="checkbox" id="selectAll"></th>
+                    <th><input type="checkbox" id="selectAll" ></th>
                     <th>Sản Phẩm</th>
                     <th>Số Lượng</th>
                     <th>Thành Tiền</th>
@@ -37,15 +37,17 @@
                     <c:when test="${not empty cartItems}">
                         <c:forEach var="item" items="${cartItems}">
                             <tr>
-                                <td><input type="checkbox" class="select-item"></td>
-                                <td class="product-info">
-                                    <img src="${pageContext.request.contextPath}/assert/img/product/${item.main_img}" alt="${item.product_name}">
-                                    <div class="product-detail">
-                                        <span class="product-name">${item.product_name}</span>
-                                            <%-- Hiển thị phiên bản và màu sắc --%>
-                                        <small class="product-variant">${item.variant_name} | ${item.color_name}</small>
-                                    </div>
-                                </td>
+                                <td><input type="checkbox" class="select-item" data-price="${item.subTotal}"></td>
+
+                                    <td class="product-info">
+                                        <img src="${pageContext.request.contextPath}/assert/img/product/${item.main_img}" alt="${item.product_name}">
+                                        <div class="product-detail">
+                                            <span class="product-name">${item.product_name}</span>
+                                                <%-- Hiển thị phiên bản và màu sắc --%>
+                                            <small class="product-variant">${item.variant_name} | ${item.color_name}</small>
+                                        </div>
+                                    </td>
+
                                 <td>
                                     <div class="qty-control">
                                         <button class="minus" onclick="updateQty(${item.vc_id}, -1)">-</button>
@@ -54,7 +56,7 @@
                                     </div>
                                 </td>
                                 <td class="price">
-                                    <fmt:formatNumber value="${item.subTotal}" pattern="#,###" />đ                                </td>
+                                    <fmt:formatNumber value="${item.subTotal}" pattern="#,###" />đ </td>
                                 <td>
                                         <%-- Gửi vc_id (ID biến thể màu) để xóa đúng sản phẩm --%>
                                     <button class="delete" onclick="removeItem(${item.vc_id})">Xóa</button>
@@ -67,7 +69,7 @@
                             <td colspan="5" style="text-align: center; padding: 50px 0;">
                                 <i class="fa-solid fa-cart-shopping" style="font-size: 48px; color: #ccc;"></i>
                                 <p>Giỏ hàng của bạn đang trống.</p>
-                                <a href="listproduct.jsp" class="btn-buy">Mua sắm ngay</a>
+                                <a href="${pageContext.request.contextPath}/listproduct" class="btn-buy">Mua sắm ngay</a>
                             </td>
                         </tr>
                     </c:otherwise>
@@ -82,9 +84,7 @@
 <div class="sticky-summary-bottom">
     <div class="summary-box">
         <span class="summary-item">Tổng cộng:
-            <span id="sub-total" class="subtotal">
-                <%-- Khớp với biến 'totalCartPrice' từ Servlet --%>
-            <fmt:formatNumber value="${totalCartPrice != null ? totalCartPrice : 0}" pattern="#,###" />đ            </span>
+            <span id="sub-total" class="subtotal">0đ</span>
         </span>
         <a href="cart?action=checkout"><button class="checkout-btn" ${empty cartItems ? 'disabled' : ''}>Thanh Toán</button></a>
     </div>

@@ -103,3 +103,28 @@ function applyVoucher(code, discountAmount, minOrder, maxReduce, type) {
         console.error("Lỗi khi áp dụng voucher:", error);
     }
 }
+// --- XỬ LÝ ĐẶT HÀNG ---
+document.addEventListener("DOMContentLoaded", function () {
+    const orderBtn = document.querySelector(".round-black-btn");
+    const orderForm = document.querySelector("form[action='placeOrder']");
+
+    if (orderBtn && orderForm) {
+        orderBtn.addEventListener("click", function (e) {
+            e.preventDefault(); // Ngăn chặn mọi hành động mặc định
+
+            // Kiểm tra Address ID trước khi gửi
+            const addressInput = document.querySelector("input[name='addressId']");
+            const addressId = addressInput ? addressInput.value : "";
+
+            if (!addressId || addressId === "" || addressId === "0") {
+                alert("Vui lòng chọn địa chỉ nhận hàng!");
+                return;
+            }
+
+            if (confirm("Xác nhận thanh toán và đặt hàng?")) {
+                // Chỉ gọi lệnh submit duy nhất này
+                orderForm.submit();
+            }
+        });
+    }
+});

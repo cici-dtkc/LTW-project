@@ -65,27 +65,52 @@
                         <div class="product-info">
                             <h2>${product.name}</h2>
                             <div class="price-wrap">
-                            <span class="price-new" id="price-new-${product.id}">
-                                <fmt:formatNumber value="${product.variants[0].variant_color_price * (1 - product.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
-                            </span>
+                                    <%-- Giá mới --%>
+                                <span class="price-new" id="price-new-${product.id}">
+        <fmt:formatNumber value="${product.variants[0].variant_color_price * (1 - product.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
+    </span>
+
+                                    <%-- Giá cũ (Chỉ hiện nếu có giảm giá) --%>
                                 <c:if test="${product.discount_percentage > 0}">
-                                <span class="price-old" id="price-old-${product.id}">
-                                    <fmt:formatNumber value="${product.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
-                                </span>
+        <span class="price-old" id="price-old-${product.id}">
+            <fmt:formatNumber value="${product.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
+        </span>
                                 </c:if>
                             </div>
                             <div class="capacity">
-                                <c:forEach var="variant" items="${product.variants}" varStatus="vStatus">
-                                    <button class="${vStatus.first ? 'active' : ''}"
-                                            data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}"
-                                            data-old-price="${variant.variant_color_price}"
-                                            data-id="${variant.variant_color_id}"
-                                            data-product-id="${product.id}">
-                                            ${variant.variant_name}
-                                    </button>
+                                    <%-- Khởi tạo chuỗi rỗng để chứa các tên đã in --%>
+                                <c:set var="printed" value="" />
+
+                                <c:forEach var="variant" items="${product.variants}">
+                                    <%-- Trim khoảng trắng để so sánh chính xác tuyệt đối --%>
+                                    <c:set var="vName" value="${fn:trim(variant.variant_name)}" />
+
+                                    <%-- Kiểm tra xem tên dung lượng đã tồn tại trong chuỗi 'printed' chưa --%>
+                                    <c:if test="${!fn:contains(printed, vName)}">
+
+                                        <button class="${empty printed ? 'active' : ''}"
+                                                data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}"
+                                                data-old-price="${variant.variant_color_price}"
+                                                data-id="${variant.variant_color_id}"
+                                                data-product-id="${product.id}">
+                                                ${variant.variant_name}
+                                        </button>
+
+                                        <%-- Lưu vào chuỗi ghi nhớ, dùng dấu phẩy để phân tách các tên --%>
+                                        <c:set var="printed" value="${printed},${vName}" />
+
+                                    </c:if>
                                 </c:forEach>
                             </div>
-                                <%-- ... (rating) ... --%>
+                            <div class="rating-cart">
+                                <div class="rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
                             <div class="bottom-info">
                                 <span class="sold-count">Đã bán ${product.total_sold}</span>
                                 <button class="cart-btn add-to-cart">
@@ -97,6 +122,9 @@
                 </c:if>
             </c:forEach>
         </div>
+        <div class="view-all-btn">
+            <a href="${pageContext.request.contextPath}/listproduct"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
+        </div>
     </section>
 
     <section class="product-related" id="product-accessory">
@@ -104,22 +132,35 @@
         <div id="product-list-accessories" class="product-list">
             <c:forEach var="accessory" items="${featuredAccessories}">
                 <div class="product-card">
-                        <%-- ... (ảnh) ... --%>
+                    <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
+                        <div class="product-img">
+                            <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
+                            <c:if test="${product.discount_percentage > 0}">
+                                <span class="discount-badge">-${product.discount_percentage}%</span>
+                            </c:if>
+                        </div>
+                    </a>
                     <div class="product-info">
                         <h2>${accessory.name}</h2>
                         <div class="price-wrap">
-                        <span class="price-new">
-                            <%-- Lưu ý: Đảm bảo field variants[0] tồn tại --%>
-                            <fmt:formatNumber value="${accessory.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
-                        </span>
+                            <span class="price-new" id="price-new-${accessory.id}">
+        <fmt:formatNumber value="${accessory.variants[0].variant_color_price * (1 - accessory.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
+    </span>
+                            <c:if test="${accessory.discount_percentage > 0}">
+        <span class="price-old" id="price-old-${accessory.id}">
+            <fmt:formatNumber value="${accessory.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
+        </span>
+                            </c:if>
                         </div>
-
-                            <%-- Phần ẩn này giúp listProduct.js lấy được ID biến thể --%>
-                        <div class="capacity" style="display:none;">
-                            <button class="active" data-id="${accessory.variants[0].variant_color_id}"></button>
+                        <div class="rating-cart">
+                            <div class="rating">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-regular fa-star"></i>
+                            </div>
                         </div>
-
-                            <%-- ... (rating) ... --%>
                         <div class="bottom-info">
                             <span class="sold-count">Đã bán ${accessory.total_sold}</span>
                             <button class="cart-btn add-to-cart">
@@ -129,6 +170,9 @@
                     </div>
                 </div>
             </c:forEach>
+        </div>
+        <div class="view-all-btn">
+            <a href="${pageContext.request.contextPath}/listproduct"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
         </div>
     </section>
     <!--End section-->
@@ -193,10 +237,11 @@
 </div>
 
 <jsp:include page="/views/includes/footer.jsp"/>
-
 <script src="${pageContext.request.contextPath}/js/home.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/listProduct.js"></script>
 <script src="${pageContext.request.contextPath}/js/listVoucher.js"></script>
+
+
 </body>
 </html>

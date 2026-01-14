@@ -177,10 +177,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const formatter = new Intl.NumberFormat('vi-VN');
 
             if (priceNewEl && !isNaN(newPrice)) {
-                priceNewEl.textContent = formatter.format(Math.round(newPrice)) + '₫';
+                priceNewEl.textContent = formatCurrency(newPrice);
             }
+
+
             if (priceOldEl && !isNaN(oldPrice)) {
-                priceOldEl.textContent = formatter.format(Math.round(oldPrice)) + '₫';
+                priceOldEl.textContent = formatCurrency(oldPrice);
+
+                priceOldEl.style.display = 'inline-block';
+            } else if (priceOldEl) {
+
+                priceOldEl.style.display = 'none';
             }
 
             const parent = this.parentElement;
@@ -188,6 +195,10 @@ document.addEventListener("DOMContentLoaded", () => {
             this.classList.add('active');
         });
     });
+
+    function formatCurrency(number) {
+        return new Intl.NumberFormat('vi-VN').format(Math.round(number)) + '₫';
+    }
 
     // 3. ĐIỀU HƯỚNG SẢN PHẨM (PHONES & ACCESSORIES)
     function setupNavigation(listId, prevBtnId, nextBtnId) {
@@ -253,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (response.status === 401) {
                         alert("Vui lòng đăng nhập để thêm vào giỏ hàng!");
                         window.location.href = contextPath + "/login";
-                        // CHẶN LỖI VỠ FORM: Dừng mọi xử lý .then tiếp theo
+
                         throw new Error("UNAUTHORIZED");
                     }
                     if (!response.ok) throw new Error("SERVER_ERROR");
