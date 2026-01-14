@@ -25,6 +25,12 @@ public class HomeServiceImpl implements HomeService {
         return homeDao.getActiveVouchers();
     }
 
+    @Override
+    public List<Map<String, Object>> getBannerProducts() {
+        List<Map<String, Object>> rawList = homeDao.getBannerProducts();
+        return groupByProduct(rawList);
+    }
+
     private List<Map<String, Object>> groupByProduct(List<Map<String, Object>> rawList) {
         Map<Integer, Map<String, Object>> productMap = new LinkedHashMap<>();
         for (Map<String, Object> row : rawList) {

@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
+@WebServlet(name = "HomeServlet", urlPatterns = { "/home" })
 public class HomeServlet extends HttpServlet {
     private final HomeService homeService = new HomeServiceImpl();
 
@@ -43,6 +43,10 @@ public class HomeServlet extends HttpServlet {
         // Load active vouchers
         List<Map<String, Object>> activeVouchers = homeService.getActiveVouchers();
         request.setAttribute("activeVouchers", activeVouchers);
+
+        // Load banner products
+        List<Map<String, Object>> bannerProducts = homeService.getBannerProducts();
+        request.setAttribute("bannerProducts", bannerProducts);
 
         // Disable cache
         response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
