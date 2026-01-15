@@ -51,10 +51,26 @@
             </div>
             <div style="text-align:right">
                 <div id="paid-badge" class="status-pill" aria-live="polite">
-                    <span id="paid-text"><%= order.getStatus() == 3 ? "Đã thanh toán" : "Chưa thanh toán" %></span>
+                    <%
+                        String paymentStatusText;
+                        String paymentStatusClass;
+
+                        // Kiểm tra phương thức thanh toán
+                        // Nếu là chuyển khoản ngân hàng (ID = 2) thì đã thanh toán
+                        // Nếu là thanh toán khi nhận hàng (ID = 1) thì chưa thanh toán
+                        if (paymentType != null && paymentType.getId() == 2) {
+                            paymentStatusText = "Đã thanh toán";
+                            paymentStatusClass = "status-paid";
+                        } else {
+                            paymentStatusText = "Chưa thanh toán";
+                            paymentStatusClass = "status-unpaid";
+                        }
+                    %>
+                    <span id="paid-text" class="<%= paymentStatusClass %>"><%= paymentStatusText %></span>
                 </div>
-                <div class="muted" style="font-size:12px;margin-top:6px" id="order-status-small">Trạng thái: <strong
-                        id="order-status"><%= OrderService.getStatusName(order.getStatus()) %></strong></div>
+                <div class="muted" style="font-size:12px;margin-top:6px" id="order-status-small">
+                    Trạng thái đơn hàng: <strong id="order-status"><%= OrderService.getStatusName(order.getStatus()) %></strong>
+                </div>
             </div>
         </header>
 
