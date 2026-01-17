@@ -33,11 +33,11 @@
             <div id="footer-links" class="footer-section">
                 <h3 class="footer-title">Liên kết nhanh</h3>
                 <ul id="quick-links" class="footer-links">
-                    <li><a href="${pageContext.request.contextPath}/WebStatic/home.jsp" id="link-home">Trang chủ</a></li>
-                    <li><a href="${pageContext.request.contextPath}/WebStatic/cart.jsp" id="link-cart">Giỏ hàng</a></li>
-                    <li><a href="${pageContext.request.contextPath}/WebStatic/checkout.jsp" id="link-checkout">Thanh toán</a></li>
-                    <li><a href="${pageContext.request.contextPath}/WebStatic/order_detail.jsp" id="link-orders">Đơn hàng</a></li>
-                    <li><a href="${pageContext.request.contextPath}/WebStatic/info-user.jsp" id="link-user">Thông tin cá nhân</a></li>
+                    <li><a href="${pageContext.request.contextPath}/home" id="link-home">Trang chủ</a></li>
+                    <li><a href="${pageContext.request.contextPath}/cart" id="link-cart">Giỏ hàng</a></li>
+                    <li><a href="${pageContext.request.contextPath}/cart" id="link-checkout">Thanh toán</a></li>
+                    <li><a href="${pageContext.request.contextPath}/user/order" id="link-orders">Đơn hàng</a></li>
+                    <li><a href="${pageContext.request.contextPath}/user/profile" id="link-user">Thông tin cá nhân</a></li>
                 </ul>
             </div>
 

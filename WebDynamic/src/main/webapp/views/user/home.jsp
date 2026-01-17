@@ -27,19 +27,14 @@
     <!-- Slider Banner -->
     <section id="banner-slider" class="slider-banner">
         <div id="slider-container" class="slider">
-            <!-- Slide items - Có thể load từ database sau -->
-            <div class="slide active" id="slide-1">
-                <a href="#"><img src="${pageContext.request.contextPath}/assert/img/banner-1.png" alt=""></a>
-            </div>
-            <div class="slide" id="slide-2">
-                <a href="#"> <img src="${pageContext.request.contextPath}/assert/img/banner-3.png" alt=""></a>
-            </div>
-            <div class="slide" id="slide-3">
-                <a href="#"><img src="${pageContext.request.contextPath}/assert/img/banner-2.png" alt=""></a>
-            </div>
-            <div class="slide" id="slide-4">
-                <a href="#">  <img src="${pageContext.request.contextPath}/assert/img/banner-4.png" alt=""></a>
-            </div>
+            <!-- Slide items - Load từ database -->
+            <c:forEach var="product" items="${bannerProducts}" varStatus="status">
+                <div class="slide ${status.first ? 'active' : ''}" id="slide-${status.index + 1}">
+                    <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}">
+                        <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
+                    </a>
+                </div>
+            </c:forEach>
 
             <!-- Navigation buttons -->
             <button id="btn-prev" class="prev">&#10094;</button>
@@ -200,7 +195,7 @@
                                         </c:otherwise>
                                     </c:choose>
                                 </p>
-                                <a href="${pageContext.request.contextPath}/voucherDetail?id=${voucher.id}">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                <a href="${pageContext.request.contextPath}/user/voucher-detail?id=${voucher.id}">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
                             </div>
                             <div class="promo-status remain">Còn ${voucher.quantity} suất</div>
                         </div>

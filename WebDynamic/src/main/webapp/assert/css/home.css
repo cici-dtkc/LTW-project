@@ -10,9 +10,9 @@
 #banner-slider .slider {
     position: relative;
     width: 95%;
-    max-width: 992px;
+    max-width: 1200px;
     margin: 10px auto 30px; /* căn giữa */
-    height: 400px;
+    height: 350px;
     border-radius: 12px;
     overflow: hidden;
 }
@@ -25,39 +25,55 @@
     height: 100%;
     opacity: 0;
     transition: 0.7s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: #f9f9f9;
 }
 
 #banner-slider .slide.active {
     opacity: 1;
 }
 
+#banner-slider .slide a {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+}
+
 #banner-slider .slide img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
-    background: #000;
 }
 
-
 /* Buttons */
-#banner-slider .prev, .next {
+#banner-slider .prev, 
+#banner-slider .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     padding: 12px 15px;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.5);
     color: #fff;
     font-size: 20px;
     cursor: pointer;
     border: none;
     border-radius: 50%;
     transition: .3s;
+    z-index: 10;
 }
-#banner-slider .prev:hover, .next:hover {
-    background: rgba(0,0,0,0.7);
-    border: #787a80;
+
+#banner-slider .prev:hover, 
+#banner-slider .next:hover {
+    background: rgba(0,0,0,0.8);
 }
 
 #banner-slider .prev { left: 15px; }

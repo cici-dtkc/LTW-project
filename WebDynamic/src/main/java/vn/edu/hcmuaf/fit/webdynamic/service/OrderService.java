@@ -14,6 +14,7 @@ public class OrderService {
     private final AddressDao addressDao;
     private final PaymentTypesDao paymentTypesDao;
     private final VoucherAdminDao voucherDao = new VoucherAdminDaoImpl();
+
     public OrderService() {
         this.orderDao = new OrderDao();
         this.addressDao = new AddressDao();
@@ -78,7 +79,7 @@ public class OrderService {
      * Lấy thông tin phương thức thanh toán
      */
     public PaymentTypes getPaymentType(int paymentTypeId) {
-        return null;
+        return paymentTypesDao.findById(paymentTypeId);
     }
 
     /**
@@ -148,7 +149,6 @@ public class OrderService {
         return orderDao.searchOrders(keyword, status);
     }
 
-
     public Map<String, Object> updateStatus(int orderId, int newStatus) {
         Map<String, Object> result = new HashMap<>();
 
@@ -174,9 +174,8 @@ public class OrderService {
             return result;
         }
 
-        boolean isValidTransition =
-                (current == 1 && (newStatus == 2 || newStatus == 4)) ||
-                        (current == 2 && (newStatus == 3 || newStatus == 4));
+        boolean isValidTransition = (current == 1 && (newStatus == 2 || newStatus == 4)) ||
+                (current == 2 && (newStatus == 3 || newStatus == 4));
 
         if (!isValidTransition) {
             result.put("success", false);
@@ -198,8 +197,8 @@ public class OrderService {
         return result;
     }
 
-
-    public int processOrder(int userId, int addressId, String paymentMethod, String voucherCode, Map<Integer, Integer> cart) {
+    public int processOrder(int userId, int addressId, String paymentMethod, String voucherCode,
+            Map<Integer, Integer> cart, int paymentStatus) {
         // 1. Tính tổng tiền hàng (Subtotal) sử dụng OrderDao
         double subtotal = 0;
         for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
@@ -207,8 +206,8 @@ public class OrderService {
             if (product != null) {
                 // Jdbi có thể trả về BigDecimal cho kiểu dữ liệu DECIMAL/DOUBLE trong MySQL
                 Object priceObj = product.get("unit_price");
-                double price = (priceObj instanceof BigDecimal) ?
-                        ((BigDecimal) priceObj).doubleValue() : (double) priceObj;
+                double price = (priceObj instanceof BigDecimal) ? ((BigDecimal) priceObj).doubleValue()
+                        : (double) priceObj;
 
                 subtotal += price * entry.getValue();
             }
@@ -240,7 +239,9 @@ public class OrderService {
         order.setUserId(userId);
         order.setAddressId(addressId);
         order.setPaymentTypeId("bank".equals(paymentMethod) ? 2 : 1);
-        order.setStatus(1); // Trạng thái Chờ xác nhận
+        order.setStatus(1);
+        int paymentTypeId = "bank".equalsIgnoreCase(paymentMethod) ? 2 : 1;
+        order.setPaymentTypeId(paymentTypeId);// Trạng thái Chờ xác nhận
         order.setFeeShipping(30000.0);
         order.setVoucherId(appliedVoucherId);
         order.setDiscountAmount(discount);
@@ -249,6 +250,7 @@ public class OrderService {
         // 4. Thực hiện lưu toàn bộ thông tin qua OrderDao
         return orderDao.insertOrderWithDetails(order, cart);
     }
+
     public Address getDefaultAddress(int userId) {
         List<Address> addresses = orderDao.getDefaultAddressByUserId(userId);
         // Nếu list không trống, lấy phần tử đầu tiên (địa chỉ mặc định)
@@ -257,6 +259,7 @@ public class OrderService {
         }
         return null; // Trả về null để JSP hiển thị phần "Chưa có địa chỉ"
     }
+
     public List<VoucherAdmin> getActiveVouchers() {
         return voucherDao.getActiveVouchers();
     }

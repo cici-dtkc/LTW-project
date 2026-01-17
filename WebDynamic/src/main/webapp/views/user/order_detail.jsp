@@ -35,6 +35,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/order_detail.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/notification.css">
 </head>
 
 <body>
@@ -51,10 +52,26 @@
             </div>
             <div style="text-align:right">
                 <div id="paid-badge" class="status-pill" aria-live="polite">
-                    <span id="paid-text"><%= order.getStatus() == 3 ? "Đã thanh toán" : "Chưa thanh toán" %></span>
+                    <%
+                        String paymentStatusText;
+                        String paymentStatusClass;
+
+                        // Kiểm tra phương thức thanh toán
+                        // Nếu là chuyển khoản ngân hàng (ID = 2) thì đã thanh toán
+                        // Nếu là thanh toán khi nhận hàng (ID = 1) thì chưa thanh toán
+                        if (paymentType != null && paymentType.getId() == 2) {
+                            paymentStatusText = "Đã thanh toán";
+                            paymentStatusClass = "status-paid";
+                        } else {
+                            paymentStatusText = "Chưa thanh toán";
+                            paymentStatusClass = "status-unpaid";
+                        }
+                    %>
+                    <span id="paid-text" class="<%= paymentStatusClass %>"><%= paymentStatusText %></span>
                 </div>
-                <div class="muted" style="font-size:12px;margin-top:6px" id="order-status-small">Trạng thái: <strong
-                        id="order-status"><%= OrderService.getStatusName(order.getStatus()) %></strong></div>
+                <div class="muted" style="font-size:12px;margin-top:6px" id="order-status-small">
+                    Trạng thái đơn hàng: <strong id="order-status"><%= OrderService.getStatusName(order.getStatus()) %></strong>
+                </div>
             </div>
         </header>
 
@@ -102,6 +119,8 @@
             <div class="actions" role="group" aria-label="Hành động đơn hàng">
                 <% if (order.getStatus() == 1) { %>
                 <button id="btn-request-cancel" class="btn-ghost" onclick="cancelOrder(<%= order.getId() %>)">Yêu cầu hủy</button>
+                <% } else if (order.getStatus() == 3 || order.getStatus() == 4) { %>
+                <button class="btn-ghost" onclick="repurchaseOrder(<%= order.getId() %>)">Mua lại</button>
                 <% } %>
             </div>
 
@@ -135,10 +154,18 @@
 
 <script src="${pageContext.request.contextPath}/js/orderDetail.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
+<script src="${pageContext.request.contextPath}/js/notification.js"></script>
 
 <script>
 function cancelOrder(orderId) {
-    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+    showConfirmDialog('Bạn có chắc chắn muốn hủy đơn hàng này?', 'Xác nhận hủy đơn', {
+        iconType: 'warning',
+        confirmText: 'Hủy',
+        cancelText: 'Không',
+        confirmButtonClass: 'btn-confirm-delete'
+    }).then(confirmed => {
+        if (!confirmed) return;
+        
         fetch('${pageContext.request.contextPath}/user/order', {
             method: 'POST',
             headers: {
@@ -149,17 +176,65 @@ function cancelOrder(orderId) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Hủy đơn hàng thành công');
-                location.reload();
+                setTimeout(() => {
+                    showToast('Hủy đơn hàng thành công!', 'success', 3000);
+                    setTimeout(() => location.reload(), 1500);
+                }, 300);
             } else {
-                alert('Lỗi: ' + data.message);
+                setTimeout(() => {
+                    showToast('Lỗi: ' + data.message, 'error', 3000);
+                }, 300);
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Có lỗi xảy ra khi hủy đơn hàng');
+            setTimeout(() => {
+                showToast('Có lỗi xảy ra khi hủy đơn hàng', 'error', 3000);
+            }, 300);
         });
-    }
+    });
+}
+
+function repurchaseOrder(orderId) {
+    showConfirmDialog('Bạn có muốn mua lại đơn hàng này?', 'Xác nhận mua lại', {
+        iconType: 'info',
+        confirmText: 'Mua lại',
+        cancelText: 'Không',
+        confirmButtonClass: 'btn-confirm'
+    }).then(confirmed => {
+        if (!confirmed) return;
+        
+        fetch('${pageContext.request.contextPath}/user/order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'action=repurchase&orderId=' + orderId
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setTimeout(() => {
+                    showToast('Sản phẩm đã được thêm vào giỏ hàng!', 'success', 3000);
+                    if (data.redirectUrl) {
+                        setTimeout(() => location.href = data.redirectUrl, 1500);
+                    } else {
+                        setTimeout(() => location.href = '${pageContext.request.contextPath}/user/cart', 1500);
+                    }
+                }, 300);
+            } else {
+                setTimeout(() => {
+                    showToast('Lỗi: ' + data.message, 'error', 3000);
+                }, 300);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            setTimeout(() => {
+                showToast('Có lỗi xảy ra khi mua lại đơn hàng', 'error', 3000);
+            }, 300);
+        });
+    });
 }
 </script>
 

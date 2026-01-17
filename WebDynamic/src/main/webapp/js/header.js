@@ -12,11 +12,24 @@ function initHeaderSearch() {
     const searchInput = document.getElementById("header-search");
     if (!searchBtn || !searchInput) return;
 
+    // Set value từ URL parameter nếu có
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get('search');
+    if (searchQuery) {
+        searchInput.value = searchQuery;
+        searchInput.classList.add("show");
+    }
+
     searchBtn.onclick = (e) => {
         e.preventDefault();
-        const show = !searchInput.classList.contains("show");
-        searchInput.classList.toggle("show", show);
-        if (show) searchInput.focus();
+        const query = searchInput.value.trim();
+        if (query) {
+            performSearch(query);
+        } else {
+            const show = !searchInput.classList.contains("show");
+            searchInput.classList.toggle("show", show);
+            if (show) searchInput.focus();
+        }
     };
 
     searchInput.onblur = () => {
@@ -24,6 +37,51 @@ function initHeaderSearch() {
             searchInput.classList.remove("show");
         }
     };
+
+    // Thêm logic tìm kiếm khi nhấn Enter
+    searchInput.onkeydown = (e) => {
+        if (e.key === "Enter") {
+            performSearch(searchInput.value.trim());
+        }
+    };
+}
+
+function performSearch(query) {
+    if (!query) return;
+
+    const contextPath = document.getElementById("header").getAttribute("data-context-path") || "";
+    const currentPath = window.location.pathname;
+    
+    console.log("Context path:", contextPath);
+    console.log("Query:", query);
+    console.log("Current path:", currentPath);
+    
+    let targetUrl;
+
+    // Nếu đang ở trang accessory, giữ nguyên
+    if (currentPath.includes("listproduct_accessory")) {
+        targetUrl = contextPath + "/listproduct_accessory?search=" + encodeURIComponent(query);
+    } 
+    // Nếu đang ở trang phone, giữ nguyên
+    else if (currentPath.includes("listproduct")) {
+        targetUrl = contextPath + "/listproduct?search=" + encodeURIComponent(query);
+    } 
+    // Từ trang khác: phân loại theo từ khóa
+    else {
+        // Danh sách từ khóa điện thoại
+        const phoneKeywords = ['iphone', 'samsung', 'oppo', 'xiaomi', 'vivo', 'realme', 
+                               'nokia', 'phone', 'điện thoại', 'smartphone'];
+        
+        const queryLower = query.toLowerCase();
+        const isPhoneQuery = phoneKeywords.some(keyword => queryLower.includes(keyword));
+        
+        targetUrl = isPhoneQuery 
+            ? contextPath + "/listproduct?search=" + encodeURIComponent(query)
+            : contextPath + "/listproduct_accessory?search=" + encodeURIComponent(query);
+    }
+
+    console.log("Target URL:", targetUrl);
+    window.location.href = targetUrl;
 }
 
 // ===== USER DROPDOWN (chỉ toggle menu, không thay đổi username) =====

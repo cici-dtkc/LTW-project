@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Order {
     private int id;
     private int status;
-    private int voucherId;
+    private Integer voucherId;
     private int paymentTypeId;
     private double feeShipping;
     private double totalAmount;
@@ -18,7 +18,8 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, int status, int voucherId, int paymentTypeId, double feeShipping, double totalAmount, double discountAmount, int userId, int addressId, Timestamp createdAt, Timestamp updatedAt) {
+    public Order(int id, int status, Integer voucherId, int paymentTypeId, double feeShipping, double totalAmount,
+            double discountAmount, int userId, int addressId, Timestamp createdAt, Timestamp updatedAt) {
         this.id = id;
         this.status = status;
         this.voucherId = voucherId;
@@ -48,11 +49,11 @@ public class Order {
         this.status = status;
     }
 
-    public int getVoucherId() {
+    public Integer getVoucherId() {
         return voucherId;
     }
 
-    public void setVoucherId(int voucherId) {
+    public void setVoucherId(Integer voucherId) {
         this.voucherId = voucherId;
     }
 

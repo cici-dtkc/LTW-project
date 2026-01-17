@@ -26,7 +26,7 @@ public class HomeDaoImpl implements HomeDao {
                 LEFT JOIN product_variants pv ON p.id = pv.product_id
                 LEFT JOIN variant_colors vc ON pv.id = vc.variant_id
                 LEFT JOIN colors col ON vc.color_id = col.id
-                WHERE p.category_id = 1
+                WHERE p.category_id = 1 AND p.status = 1
                 ORDER BY p.id DESC
                 LIMIT 50
                 """;
@@ -69,6 +69,31 @@ public class HomeDaoImpl implements HomeDao {
                 WHERE status = 1
                 ORDER BY id DESC
                 LIMIT 10
+                """;
+
+        return jdbi.withHandle(h -> h.createQuery(sql).mapToMap().list());
+    }
+
+    @Override
+    public List<Map<String, Object>> getBannerProducts() {
+        String sql = """
+                SELECT
+                    p.id, p.name, p.description, p.discount_percentage,
+                    p.total_sold, p.warranty_period, p.status, p.img AS main_image,
+                    c.name AS category_name,
+                    b.name AS brand_name,
+                    pv.name AS variant_name, pv.base_price,
+                    vc.price AS variant_color_price, vc.quantity, vc.sku, vc.id AS variant_color_id,
+                    col.name AS color_name
+                FROM products p
+                LEFT JOIN categories c ON p.category_id = c.id
+                LEFT JOIN brands b ON p.brand_id = b.id
+                LEFT JOIN product_variants pv ON p.id = pv.product_id
+                LEFT JOIN variant_colors vc ON pv.id = vc.variant_id
+                LEFT JOIN colors col ON vc.color_id = col.id
+                WHERE p.status = 1
+                ORDER BY p.id DESC, p.total_sold DESC
+                LIMIT 4
                 """;
 
         return jdbi.withHandle(h -> h.createQuery(sql).mapToMap().list());
