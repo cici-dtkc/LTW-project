@@ -50,16 +50,29 @@ document.addEventListener("DOMContentLoaded", function () {
         const key = `${selectedVariantId}_${selectedColorId}`;
         const priceData = window.variantColorPrices[key];
 
-        if (priceData) {
-            const price = priceData.price;
-            currentPriceEl.textContent = new Intl.NumberFormat('vi-VN').format(price) + "₫";
+        // Ưu tiên lấy giá từ variant_color, nếu không có thì lấy từ variant base_price
+        let oldPrice = null;
+        if (priceData && priceData.price) {
+            oldPrice = priceData.price;
+        } else if (window.variantBasePrices && window.variantBasePrices[selectedVariantId]) {
+            oldPrice = window.variantBasePrices[selectedVariantId];
+        }
 
-            // Tính giá cũ và phần trăm giảm (nếu cần)
-            const oldPrice = price * 1.15; // Giả sử giảm ~15%
+        if (oldPrice !== null) {
+            // Tính giá mới sau khi áp dụng discount
+            const discountPercent = window.productDiscount || 0;
+            const newPrice = oldPrice * (100 - discountPercent) / 100;
+
+            // Hiển thị giá mới (đã giảm)
+            currentPriceEl.textContent = new Intl.NumberFormat('vi-VN').format(Math.round(newPrice)) + "₫";
+
+            // Hiển thị giá cũ
             oldPriceEl.textContent = new Intl.NumberFormat('vi-VN').format(Math.round(oldPrice)) + "₫";
 
-            const discountPercent = Math.round(100 - (price / oldPrice) * 100);
-            discountEl.textContent = `-${discountPercent}%`;
+            // Hiển thị phần trăm giảm giá
+            if (discountPercent > 0 && discountEl) {
+                discountEl.textContent = `-${discountPercent}%`;
+            }
         }
     }
 
