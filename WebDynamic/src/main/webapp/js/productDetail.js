@@ -11,42 +11,112 @@ if (promoNext && promoPrev) {
     });
 }
 
-// --- Xử lý thay đổi phiên bản và cập nhật giá ---
+// --- Xử lý thay đổi phiên bản, màu sắc và cập nhật giá ---
 document.addEventListener("DOMContentLoaded", function () {
     const versionButtons = document.querySelectorAll(".version-select .version");
+    const colorItems = document.querySelectorAll(".color-item");
     const currentPriceEl = document.querySelector(".current-price");
     const oldPriceEl = document.querySelector(".old-price");
     const discountEl = document.querySelector(".discount");
+    const btnCart = document.querySelector(".btn-cart");
 
-    // Dữ liệu giả định cho từng phiên bản
-    const versionPrices = {
-        "256GB": {
-            current: 8490000, old: 9990000
-        }, "128GB": {
-            current: 7990000, old: 9490000
+    // Biến lưu lựa chọn hiện tại
+    let selectedVariantId = null;
+    let selectedColorId = null;
+    let selectedVariantName = null;
+    let selectedColorName = null;
+
+    // Khởi tạo phiên bản và màu mặc định
+    function initializeDefaults() {
+        const activeVersion = document.querySelector(".version-select .version.active");
+        const activeColor = document.querySelector(".color-item.active");
+
+        if (activeVersion) {
+            selectedVariantId = activeVersion.getAttribute("data-variant-id");
+            selectedVariantName = activeVersion.textContent.trim();
         }
-    };
+        if (activeColor) {
+            selectedColorId = activeColor.getAttribute("data-color-id");
+            selectedColorName = activeColor.getAttribute("data-color-name");
+        }
 
+        updatePrice();
+    }
+
+    // Cập nhật giá dựa trên phiên bản và màu được chọn
+    function updatePrice() {
+        if (!selectedVariantId || !selectedColorId) return;
+
+        const key = `${selectedVariantId}_${selectedColorId}`;
+        const priceData = window.variantColorPrices[key];
+
+        if (priceData) {
+            const price = priceData.price;
+            currentPriceEl.textContent = new Intl.NumberFormat('vi-VN').format(price) + "₫";
+
+            // Tính giá cũ và phần trăm giảm (nếu cần)
+            const oldPrice = price * 1.15; // Giả sử giảm ~15%
+            oldPriceEl.textContent = new Intl.NumberFormat('vi-VN').format(Math.round(oldPrice)) + "₫";
+
+            const discountPercent = Math.round(100 - (price / oldPrice) * 100);
+            discountEl.textContent = `-${discountPercent}%`;
+        }
+    }
+
+    // Xử lý chọn phiên bản
     versionButtons.forEach(button => {
         button.addEventListener("click", () => {
-            // Bỏ active cũ và thêm active mới
             versionButtons.forEach(btn => btn.classList.remove("active"));
             button.classList.add("active");
 
-            const versionName = button.textContent.trim();
-            const priceData = versionPrices[versionName];
+            selectedVariantId = button.getAttribute("data-variant-id");
+            selectedVariantName = button.textContent.trim();
 
-            if (priceData) {
-                // Cập nhật giá
-                currentPriceEl.textContent = priceData.current.toLocaleString("vi-VN") + "₫";
-                oldPriceEl.textContent = priceData.old.toLocaleString("vi-VN") + "₫";
-
-                // Tính phần trăm giảm
-                const discountPercent = Math.round(100 - (priceData.current / priceData.old) * 100);
-                discountEl.textContent = `-${discountPercent}%`;
+            // Cập nhật giá nếu đã chọn màu
+            if (selectedColorId) {
+                updatePrice();
             }
         });
     });
+
+    // Xử lý chọn màu
+    colorItems.forEach(item => {
+        item.addEventListener("click", () => {
+            colorItems.forEach(ci => ci.classList.remove("active"));
+            item.classList.add("active");
+
+            selectedColorId = item.getAttribute("data-color-id");
+            selectedColorName = item.getAttribute("data-color-name");
+
+            // Cập nhật giá nếu đã chọn phiên bản
+            if (selectedVariantId) {
+                updatePrice();
+            }
+        });
+    });
+
+    // Xử lý nút "Thêm vào giỏ hàng"
+    btnCart.addEventListener("click", () => {
+        if (!selectedVariantId || !selectedColorId) {
+            alert("Vui lòng chọn phiên bản và màu sắc");
+            return;
+        }
+
+        // Lưu thông tin lựa chọn vào sessionStorage hoặc gửi AJAX
+        const selectedInfo = {
+            variantId: selectedVariantId,
+            variantName: selectedVariantName,
+            colorId: selectedColorId,
+            colorName: selectedColorName
+        };
+
+        // In ra console để test (có thể thay bằng AJAX gửi lên server)
+        console.log("Sản phẩm được chọn:", selectedInfo);
+        alert(`Đã thêm vào giỏ hàng:\n${selectedVariantName} - ${selectedColorName}`);
+    });
+
+    // Khởi tạo
+    initializeDefaults();
 });
 function updateGalleryEvents() {
     const listImgs = document.querySelectorAll('.list-image img');
@@ -81,7 +151,6 @@ function updateGalleryEvents() {
 
 //Thay đổi màu ảnh theo lựa chọn
 document.addEventListener("DOMContentLoaded", function () {
-    const colorItems = document.querySelectorAll(".color-item");
     const imgFeature = document.querySelector(".img-feature");
     const listImageContainer = document.querySelector(".list-image");
     // Dữ liệu ảnh theo màu
@@ -93,13 +162,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "Vàng mộng mơ": ["assert/img/product/iphone-15-plus-vang-126gb.jpg","assert/img/product/iphone-15-plus-yellow-2.jpg", "assert/img/product/iphone-15-plus-128gb-vang.jpg","assert/img/product/iphone-15-plus-vang-126gb.jpg","assert/img/product/iphone-15-plus-yellow-2.jpg"]
     };
 
-    // Khi chọn màu
+    // Khi chọn màu - đổi ảnh
+    const colorItems = document.querySelectorAll(".color-item");
     colorItems.forEach(item => {
         item.addEventListener("click", () => {
-            document.querySelector(".color-item.active")?.classList.remove("active");
-            item.classList.add("active");
-
-            const colorName = item.querySelector("span:last-child").textContent.trim();
+            const colorName = item.getAttribute("data-color-name");
             const images = colorImages[colorName];
             if (!images || images.length === 0) return;
 
@@ -126,7 +193,6 @@ document.addEventListener("DOMContentLoaded", function () {
             updateGalleryEvents();
         });
     });
-
 
     // Cho phép click ảnh nhỏ đổi ảnh chính
     document.addEventListener("click", e => {

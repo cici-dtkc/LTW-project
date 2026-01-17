@@ -55,8 +55,8 @@
 
                     <div class="list-image">
                         <c:forEach items="${images}" var="img">
-                            <img src="${pageContext.request.contextPath}/${img.imgPath}"
-                                 alt="${product.name}">
+                            <div><img src="${pageContext.request.contextPath}/${img.imgPath}"
+                                      alt="${product.name}"></div>
                         </c:forEach>
                     </div>
                 </div>
@@ -93,20 +93,17 @@
                     </div>
                     <h2>Chọn phiên bản</h2>
                     <div class="version-select">
-                        <div class="version-select">
-                            <c:forEach items="${variants}" var="v" varStatus="st">
-                                <button class="version ${st.first ? 'active' : ''}">
-                                        ${v.name}
-                                </button>
-                            </c:forEach>
-                        </div>
-
+                        <c:forEach items="${variants}" var="v" varStatus="st">
+                            <button class="version ${st.first ? 'active' : ''}" data-variant-id="${v.id}">
+                                    ${v.name}
+                            </button>
+                        </c:forEach>
                     </div>
 
                     <h2>Chọn màu sắc</h2>
                     <div class="color-options">
                         <c:forEach items="${colors}" var="c" varStatus="st">
-                            <div class="color-item ${st.first ? 'active' : ''}">
+                            <div class="color-item ${st.first ? 'active' : ''}" data-color-id="${c.id}" data-color-name="${c.name}">
         <span class="color-list"
               style="background:${c.colorCode}"></span>
                                 <span>${c.name}</span>
@@ -232,7 +229,7 @@
         <div class="review-summary">
             <div class="review-score">
                 <span class="score">${totalFeedbacks}</span><span class="outof">/5</span>
-<%--                <p>109,2k khách hàng hài lòng</p>--%>
+                <%--                <p>109,2k khách hàng hài lòng</p>--%>
                 <c:if test="${totalFeedbacks > 0}">
                     <p class="review-count">${totalFeedbacks} đánh giá</p>
                 </c:if>
@@ -504,6 +501,17 @@
     </footer>
 </section>
 </body>
+<script>
+    // Dữ liệu giá theo variant và color từ backend
+    window.variantColorPrices = {};
+    <c:forEach items="${variantColors}" var="vc">
+    const key = "${vc.variantId}_${vc.colorId}";
+    window.variantColorPrices[key] = {
+        price: ${vc.price},
+        quantity: ${vc.quantity}
+    };
+    </c:forEach>
+</script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/productDetail.js"></script>
 <script src="${pageContext.request.contextPath}/js/cartCount.js"></script>
