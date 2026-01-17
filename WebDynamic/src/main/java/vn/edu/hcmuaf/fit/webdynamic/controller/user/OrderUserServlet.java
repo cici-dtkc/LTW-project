@@ -4,6 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.Order;
+import vn.edu.hcmuaf.fit.webdynamic.model.OrderDetail;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderDetailService;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
@@ -39,7 +40,6 @@ public class OrderUserServlet extends HttpServlet {
         // Lấy action từ request (nếu có)
         String action = request.getParameter("action");
 
-
         if ("cancel".equals(action)) {
             // Xử lý hủy đơn hàng qua GET (nếu cần)
             handleCancelOrder(request, response, userId);
@@ -70,6 +70,8 @@ public class OrderUserServlet extends HttpServlet {
 
         if ("cancel".equals(action)) {
             handleCancelOrderAjax(request, response, userId);
+        } else if ("repurchase".equals(action)) {
+            handleRepurchaseOrderAjax(request, response, userId);
         } else {
             response.getWriter().print("{\"success\":false,\"message\":\"Action không hợp lệ\"}");
         }
@@ -95,7 +97,6 @@ public class OrderUserServlet extends HttpServlet {
         } else {
             orders = orderService.getUserOrders(userId);
         }
-
 
         // Đưa dữ liệu vào request
         request.setAttribute("orders", orders);
@@ -181,6 +182,73 @@ public class OrderUserServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             response.getWriter().print("{\"success\":false,\"message\":\"Lỗi hệ thống\"}");
+        }
+    }
+
+    /**
+     * Xử lý mua lại đơn hàng (copy sản phẩm vào giỏ hàng)
+     */
+    private void handleRepurchaseOrderAjax(HttpServletRequest request, HttpServletResponse response, int userId)
+            throws IOException {
+
+        try {
+            String orderIdParam = request.getParameter("orderId");
+
+            if (orderIdParam == null || orderIdParam.isEmpty()) {
+                response.getWriter().print("{\"success\":false,\"message\":\"Thiếu thông tin đơn hàng\"}");
+                return;
+            }
+
+            int orderId = Integer.parseInt(orderIdParam);
+
+            // Kiểm tra đơn hàng có thuộc về user không
+            if (!orderService.isOrderBelongToUser(orderId, userId)) {
+                response.getWriter().print("{\"success\":false,\"message\":\"Không có quyền mua lại đơn hàng này\"}");
+                return;
+            }
+
+            // Lấy thông tin chi tiết đơn hàng
+            List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsWithProduct(orderId);
+
+            if (orderDetails == null || orderDetails.isEmpty()) {
+                response.getWriter()
+                        .print("{\"success\":false,\"message\":\"Không tìm thấy sản phẩm trong đơn hàng\"}");
+                return;
+            }
+
+            // Thêm sản phẩm vào giỏ hàng thông qua session
+            HttpSession session = request.getSession(true);
+
+            // Lấy cart hiện tại hoặc tạo mới
+            @SuppressWarnings("unchecked")
+            java.util.Map<Integer, Integer> cart = (java.util.Map<Integer, Integer>) session.getAttribute("cart");
+            if (cart == null) {
+                cart = new java.util.LinkedHashMap<>();
+            }
+
+            // Thêm các sản phẩm từ đơn hàng cũ vào cart
+            for (OrderDetail detail : orderDetails) {
+                int variantId = detail.getVariantId();
+                int quantity = detail.getQuantity();
+                // Nếu sản phẩm đã có trong cart, cộng thêm số lượng; nếu chưa có thì thêm mới
+                cart.put(variantId, cart.getOrDefault(variantId, 0) + quantity);
+            }
+
+            // Lưu cart trở lại session
+            session.setAttribute("cart", cart);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter()
+                    .print("{\"success\":true,\"message\":\"Sản phẩm đã được thêm vào giỏ hàng\",\"redirectUrl\":\""
+                            + request.getContextPath() + "/cart" + "\"}");
+
+        } catch (NumberFormatException e) {
+            response.getWriter().print("{\"success\":false,\"message\":\"Mã đơn hàng không hợp lệ\"}");
+        } catch (Exception e) {
+            response.getWriter().print(
+                    "{\"success\":false,\"message\":\"Có lỗi xảy ra: " + e.getMessage().replace("\"", "\\\"") + "\"}");
+            e.printStackTrace();
         }
     }
 }

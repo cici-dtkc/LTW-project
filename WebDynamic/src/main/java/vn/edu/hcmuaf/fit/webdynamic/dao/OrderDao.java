@@ -93,7 +93,7 @@ public class OrderDao {
      * Hủy đơn hàng
      */
     public boolean cancelOrder(int orderId, int userId) {
-        String sql = "UPDATE orders SET status = 5 WHERE id = ? AND user_id = ? AND status = 1";
+        String sql = "UPDATE orders SET status = 4 WHERE id = ? AND user_id = ? AND status = 1";
         return jdbi.withHandle(handle -> handle.createUpdate(sql)
                 .bind(0, orderId)
                 .bind(1, userId)
