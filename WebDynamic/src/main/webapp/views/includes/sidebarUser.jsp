@@ -1,35 +1,10 @@
 <%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    // Dữ liệu được set bởi servlet qua SidebarUtil
     User user = (User) request.getAttribute("user");
-    // Nếu không có trong request, thử lấy từ session
-    if (user == null) {
-        HttpSession session1 = request.getSession(false);
-        if (session1 != null) {
-            user = (User) session1.getAttribute("user");
-        }
-    }
-
-String activeMenu = (String) request.getAttribute("activeMenu");
-if (activeMenu == null) {
-    activeMenu = "profile"; // default
-}
-    String avatarPath;
-    if (user != null && user.getAvatar() != null && !user.getAvatar().isEmpty()) {
-        String avatar = user.getAvatar();
-
-        // Nếu avatar bắt đầu bằng / (đường dẫn tương đối) → thêm contextPath
-        if (avatar.startsWith("/")) {
-            avatarPath = request.getContextPath() + avatar;
-        }
-        // Các trường hợp khác → thêm contextPath
-        else {
-            avatarPath = request.getContextPath() + "/" + avatar;
-        }
-    } else {
-        // Avatar mặc định
-        avatarPath = request.getContextPath() + "/assert/img/admin.jpg";
-    }
+    String activeMenu = (String) request.getAttribute("activeMenu");
+    String avatarPath = (String) request.getAttribute("avatarPath");
 %>
 <html>
 <head>

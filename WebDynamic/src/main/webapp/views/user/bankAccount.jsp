@@ -1,12 +1,8 @@
 <%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<%--%>
-<%--    User user = (User) session.getAttribute("user");--%>
-<%--    if (user == null) {--%>
-<%--        response.sendRedirect(request.getContextPath() + "/login");--%>
-<%--        return;--%>
-<%--    }--%>
-<%--%>--%>
+<%--
+    Dữ liệu được set bởi BankAccountServlet
+--%>
 <html>
 <head>
     <title>Title</title>
