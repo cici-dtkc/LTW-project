@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 @WebServlet("/listproduct")
 public class ProductListServlet extends HttpServlet {
@@ -34,18 +36,33 @@ public class ProductListServlet extends HttpServlet {
         Integer year = getIntegerParameter(request, "year");
         Integer brandId = getIntegerParameter(request, "brandId");
         String sortBy = request.getParameter("sort");
+        String search = request.getParameter("search");
 
         // Lấy tham số phân trang
         int page = getIntegerParameter(request, "page") != null ? getIntegerParameter(request, "page") : 1;
         int pageSize = DEFAULT_PAGE_SIZE;
-        if (page < 1) page = 1;
+        if (page < 1)
+            page = 1;
 
         // Lấy danh sách sản phẩm với bộ lọc
         List<Map<String, Object>> allProducts;
-        if (hasFilters(priceMin, priceMax, memory, colors, year, brandId, sortBy)) {
+        if (hasFilters(priceMin, priceMax, memory, colors, year, brandId, sortBy)
+                || (search != null && !search.trim().isEmpty())) {
             allProducts = productService.getProductsByCategoryWithFilters(
-                    categoryId, priceMin, priceMax, memory, colors, year, brandId, null, null, sortBy
-            );
+                    categoryId, priceMin, priceMax, memory, colors, year, brandId, null, null, sortBy);
+
+            // Lọc theo search nếu có
+            if (search != null && !search.trim().isEmpty()) {
+                String searchLower = search.toLowerCase();
+                allProducts = allProducts.stream()
+                        .filter(product -> {
+                            String productName = (String) product.get("name");
+                            if (productName == null)
+                                return false;
+                            return productName.toLowerCase().contains(searchLower);
+                        })
+                        .collect(toList());
+            }
         } else {
             allProducts = productService.getProductsByCategory(categoryId);
         }
@@ -53,8 +70,10 @@ public class ProductListServlet extends HttpServlet {
         // Tính toán phân trang đơn giản
         int totalItems = allProducts.size();
         int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-        if (totalPages < 1) totalPages = 1;
-        if (page > totalPages) page = totalPages;
+        if (totalPages < 1)
+            totalPages = 1;
+        if (page > totalPages)
+            page = totalPages;
 
         // Lấy danh sách cho trang hiện tại
         int startIndex = (page - 1) * pageSize;
@@ -70,6 +89,7 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalItems", totalItems);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("/listproduct.jsp").forward(request, response);
     }
 
@@ -106,9 +126,9 @@ public class ProductListServlet extends HttpServlet {
     }
 
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> memory,
-                               List<String> colors, Integer year, Integer brandId, String sortBy) {
+            List<String> colors, Integer year, Integer brandId, String sortBy) {
         return priceMin != null || priceMax != null || (memory != null && !memory.isEmpty()) ||
-               (colors != null && !colors.isEmpty()) || year != null || brandId != null ||
-               (sortBy != null && !sortBy.trim().isEmpty());
+                (colors != null && !colors.isEmpty()) || year != null || brandId != null ||
+                (sortBy != null && !sortBy.trim().isEmpty());
     }
 }

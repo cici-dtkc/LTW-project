@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/notification.css">
 </head>
 
-<body>
+<body data-context-path="${pageContext.request.contextPath}">
 <jsp:include page="/views/includes/header.jsp"/>
 
 <div id="pageWrapper">
@@ -60,7 +60,7 @@
             <button class="tab <%= "3".equals(currentStatus) ? "active" : "" %>"
                     data-status="delivered"
                     onclick="location.href='<%= request.getContextPath() %>/user/order?status=3'">Đã giao</button>
-            <button class="tab <%= "5".equals(currentStatus) ? "active" : "" %>"
+            <button class="tab <%= "4".equals(currentStatus) ? "active" : "" %>"
                     data-status="cancelled"
                     onclick="location.href='<%= request.getContextPath() %>/user/order?status=4'">Đã hủy</button>
         </div>
@@ -134,7 +134,7 @@
                         <div class="actions">
                             <% if (order.getStatus() == 1) { %>
                             <button class="btn repurchase" onclick="cancelOrder(<%= order.getId() %>)">Hủy</button>
-                            <% } else if (order.getStatus() == 3 || order.getStatus() == 5) { %>
+                            <% } else if (order.getStatus() == 3 || order.getStatus() == 4) { %>
                             <button class="btn repurchase" onclick="repurchaseOrder(<%= order.getId() %>)">Mua lại</button>
                             <% } %>
                         </div>

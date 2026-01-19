@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 
 @WebServlet("/listproduct_accessory")
 public class AccessoryListServlet extends HttpServlet {
@@ -34,30 +35,45 @@ public class AccessoryListServlet extends HttpServlet {
         String condition = request.getParameter("condition");
         List<String> models = getListParameter(request, "model");
         String sortBy = request.getParameter("sort");
+        String search = request.getParameter("search");
 
         // Lấy tham số phân trang
         int page = getIntegerParameter(request, "page") != null ? getIntegerParameter(request, "page") : 1;
         int pageSize = DEFAULT_PAGE_SIZE;
-        if (page < 1) page = 1;
+        if (page < 1)
+            page = 1;
 
         // Lấy danh sách linh kiện với bộ lọc (tất cả category_id != 1)
         List<Map<String, Object>> allAccessories;
-        if (hasFilters(priceMin, priceMax, types, brandId, condition, models, sortBy)) {
+        if (hasFilters(priceMin, priceMax, types, brandId, condition, models, sortBy)
+                || (search != null && !search.trim().isEmpty())) {
             allAccessories = productService.getAccessoriesWithFilters(
-                    priceMin, priceMax, brandId, types, condition, sortBy
-            );
-            
+                    priceMin, priceMax, brandId, types, condition, sortBy);
+
             // Lọc theo model sau khi lấy dữ liệu (nếu có)
             if (models != null && !models.isEmpty()) {
                 allAccessories = allAccessories.stream()
-                    .filter(product -> {
-                        String productName = (String) product.get("name");
-                        if (productName == null) return false;
-                        return models.stream().anyMatch(model -> 
-                            productName.toLowerCase().contains(model.toLowerCase())
-                        );
-                    })
-                    .collect(Collectors.toList());
+                        .filter(product -> {
+                            String productName = (String) product.get("name");
+                            if (productName == null)
+                                return false;
+                            return models.stream()
+                                    .anyMatch(model -> productName.toLowerCase().contains(model.toLowerCase()));
+                        })
+                        .collect(toList());
+            }
+
+            // Lọc theo search nếu có
+            if (search != null && !search.trim().isEmpty()) {
+                String searchLower = search.toLowerCase();
+                allAccessories = allAccessories.stream()
+                        .filter(product -> {
+                            String productName = (String) product.get("name");
+                            if (productName == null)
+                                return false;
+                            return productName.toLowerCase().contains(searchLower);
+                        })
+                        .collect(toList());
             }
         } else {
             allAccessories = productService.getAccessories();
@@ -66,8 +82,10 @@ public class AccessoryListServlet extends HttpServlet {
         // Tính toán phân trang đơn giản
         int totalItems = allAccessories.size();
         int totalPages = (int) Math.ceil((double) totalItems / pageSize);
-        if (totalPages < 1) totalPages = 1;
-        if (page > totalPages) page = totalPages;
+        if (totalPages < 1)
+            totalPages = 1;
+        if (page > totalPages)
+            page = totalPages;
 
         // Lấy danh sách cho trang hiện tại
         int startIndex = (page - 1) * pageSize;
@@ -83,6 +101,7 @@ public class AccessoryListServlet extends HttpServlet {
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalItems", totalItems);
         request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", search);
         request.getRequestDispatcher("/listproduct_accessory.jsp").forward(request, response);
     }
 
@@ -119,10 +138,10 @@ public class AccessoryListServlet extends HttpServlet {
     }
 
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> types,
-                               Integer brandId, String condition, List<String> models, String sortBy) {
+            Integer brandId, String condition, List<String> models, String sortBy) {
         return priceMin != null || priceMax != null || (types != null && !types.isEmpty()) ||
-               brandId != null || (condition != null && !condition.trim().isEmpty()) ||
-               (models != null && !models.isEmpty()) ||
-               (sortBy != null && !sortBy.trim().isEmpty());
+                brandId != null || (condition != null && !condition.trim().isEmpty()) ||
+                (models != null && !models.isEmpty()) ||
+                (sortBy != null && !sortBy.trim().isEmpty());
     }
 }
