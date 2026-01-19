@@ -52,7 +52,7 @@ public class ProductServiceImpl implements ProductService {
                            String[] colorIds, String[] customColors, String[] colorPrices) throws Exception {
 
         getJdbi().useTransaction(handle -> {
-            // 1. Lưu sản phẩm chính (Dùng hàm của bạn đã có warranty_period và release_date)
+            // 1. Lưu sản phẩm chính
             int productId = productDao.insertProduct(handle, product);
 
             // 2. Xử lý Thông số kỹ thuật
@@ -122,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
 
 
 
-    // Giữ nguyên hàm helper của bạn
+
     private int parseInt(String s) {
         if (s == null || s.trim().isEmpty()) return 0;
         return Integer.parseInt(s.trim());

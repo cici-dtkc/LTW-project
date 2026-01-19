@@ -14,8 +14,6 @@ import vn.edu.hcmuaf.fit.webdynamic.util.FileUploadUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @WebServlet("/admin/product/add")
 @MultipartConfig(
@@ -23,7 +21,7 @@ import java.util.List;
         maxFileSize = 10 * 1024 * 1024,
         maxRequestSize = 50 * 1024 * 1024
 )
-public class ProductAddController extends HttpServlet {
+public class ProductAddEServlet extends HttpServlet {
     private ProductService productService ;
     @Override
     public void init()   {

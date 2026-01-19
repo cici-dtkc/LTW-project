@@ -10,6 +10,7 @@ import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet("/placeOrder")
@@ -32,21 +33,32 @@ public class CheckoutServlet extends HttpServlet {
             String paymentMethod = request.getParameter("payment");
             String voucherCode = request.getParameter("appliedVoucher"); // Lấy từ input hidden
 
-            Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cart");
+            String[] selectedIds = request.getParameterValues("selectedItems");
+            Map<Integer, Integer> fullCart = (Map<Integer, Integer>) session.getAttribute("cart");
 
-            if (cart == null || cart.isEmpty()) {
-                response.sendRedirect("cart?action=view");
+            if (selectedIds == null || fullCart == null) {
+                response.sendRedirect("cart?action=view&error=no_items");
                 return;
             }
-
+            // giỏ hàng tạm thời chỉ gồm các mục đã chọn
+            Map<Integer, Integer> orderCart = new HashMap<>();
+            for (String idStr : selectedIds) {
+                int vcId = Integer.parseInt(idStr);
+                if (fullCart.containsKey(vcId)) {
+                    orderCart.put(vcId, fullCart.get(vcId));
+                }
+            }
             // Gọi xử lý đặt hàng
-            int orderId = orderService.processOrder(user.getId(), addressId, paymentMethod, voucherCode, cart);
+            int orderId = orderService.processOrder(user.getId(), addressId, paymentMethod, voucherCode, orderCart);
 
             if (orderId > 0) {
                 // Xóa giỏ hàng sau khi đặt thành công
-                session.removeAttribute("cart");
-                session.setAttribute("cartItemCount", 0);
-
+                for (String idStr : selectedIds) {
+                    fullCart.remove(Integer.parseInt(idStr));
+                }
+                session.setAttribute("cart", fullCart);
+             int   newCount = fullCart.values().stream().mapToInt(Integer::intValue).sum();
+                session.setAttribute("cartItemCount", newCount);
                 // Chuyển hướng đến trang thành công
                 response.sendRedirect(request.getContextPath() + "/user/order-detail?id=" + orderId);
             } else {
