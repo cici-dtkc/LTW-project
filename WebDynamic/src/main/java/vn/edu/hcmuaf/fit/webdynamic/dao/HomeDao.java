@@ -9,4 +9,6 @@ public interface HomeDao {
     List<Map<String, Object>> getFeaturedAccessories();
 
     List<Map<String, Object>> getActiveVouchers();
+
+    List<Map<String, Object>> getBannerProducts();
 }
