@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -52,6 +53,7 @@
             </thead>
             <tbody>
             <c:forEach var="item" items="${cartItems}">
+                <input type="hidden" name="selectedItems" value="${item.vc_id}" form="orderForm">
                 <tr class="product-item">
                     <td class="product-info">
                         <img src="${pageContext.request.contextPath}/assert/img/product/${item.main_img}" alt="${item.product_name}"/>
@@ -101,7 +103,7 @@
         </div>
     </section>
 
-    <form action="placeOrder" method="POST">
+    <form action="placeOrder" method="POST" id="orderForm">
         <section class="payment">
             <h3 class="title">Phương thức thanh toán</h3>
             <label><input type="radio" name="payment" value="cod" checked> Thanh toán khi nhận hàng (COD)</label><br>
@@ -110,21 +112,19 @@
 
         <section class="summary">
             <h3 class="title">🧾 Tóm tắt đơn hàng</h3>
-            <p>Tạm tính: <strong id="subtotal-val" data-value="${subtotal}"><fmt:formatNumber value="${subtotal}" />₫</strong></p>
-            <p>Phí vận chuyển: <strong id="shipping-val" data-value="${shippingFee}"><fmt:formatNumber value="${shippingFee}" />₫</strong></p>
+            <p>Tạm tính: <strong id="subtotal-val" data-value="${subtotal}"><fmt:formatNumber value="${subtotal}" pattern="#,###"/>₫</strong></p>
+            <p>Phí vận chuyển: <strong id="shipping-val" data-value="${shippingFee}"><fmt:formatNumber value="${shippingFee}" pattern="#,###" />₫</strong></p>
 
             <p>Giảm giá: <strong style="color: red;">-<span id="discount-display">0</span>₫</strong></p>
 
-            <p class="total">Tổng cộng: <strong id="final-total-display"><fmt:formatNumber value="${subtotal + shippingFee}" />₫</strong></p>
-
+            <p class="total">Tổng cộng: <strong id="final-total-display"><fmt:formatNumber value="${subtotal + shippingFee}" pattern="#,###"/>₫</strong></p>
             <input type="hidden" name="appliedVoucher" id="appliedVoucherInput" value="">
             <input type="hidden" name="addressId" value="${defaultAddress.id}">
-
             <button type="submit" class="round-black-btn">Đặt hàng</button>
         </section>
     </form>
 </main>
-
+<script src="${pageContext.request.contextPath}/js/cart.js"></script>
 <script src="${pageContext.request.contextPath}/js/checkout.js"></script>
 </body>
 </html>

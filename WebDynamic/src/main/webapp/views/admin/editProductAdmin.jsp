@@ -12,10 +12,8 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/editProduct.css">
 </head>
 <body>
-
+<jsp:include page="/views/includes/toast.jsp"/>
 <c:set var="isPhone" value="${product.category_id == 1}" />
-
-
 <div class="container">
 
     <div class="header-section">

@@ -220,13 +220,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             console.log("  Form validation passed, submitting...");
-            if (action === "addVoucher") {
-                alert("🎉 Thêm khuyến mãi thành công!");
-            }
-            else {
-                alert("🎉 Sửa khuyến mãi thành công!");
-            }
-
             return true;
 
 

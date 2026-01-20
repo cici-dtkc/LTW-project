@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/sidebarAdmin.css">
 </head>
 <body>
+<%@ include file="/views/includes/toast.jsp" %>
 <div class="app">
     <%@ include file="/views/includes/sideBarAdmin.jsp" %>
 
@@ -243,10 +244,6 @@
         </div>
     </div>
 </div>
-
-<!-- TOAST -->
-<div id="toast"></div>
-
 <!-- JS -->
 <script src="${pageContext.request.contextPath}/js/sidebarAdmin.js"></script>
 <script src="${pageContext.request.contextPath}/js/voucherAdmin.js"></script>

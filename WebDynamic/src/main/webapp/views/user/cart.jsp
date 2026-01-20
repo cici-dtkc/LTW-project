@@ -15,7 +15,6 @@
 <body>
 
 <jsp:include page="/views/includes/header.jsp" />
-
 <main class="cart-wrap">
     <div class="container">
         <h2 class="cart-title">Giỏ Hàng Của Bạn</h2>
@@ -37,7 +36,7 @@
                     <c:when test="${not empty cartItems}">
                         <c:forEach var="item" items="${cartItems}">
                             <tr>
-                                <td><input type="checkbox" class="select-item" data-price="${item.subTotal}"></td>
+                                <td><input type="checkbox" class="select-item" data-id="${item.vc_id}" data-price="${item.subTotal}"></td>
 
                                     <td class="product-info">
                                         <img src="${pageContext.request.contextPath}/assert/img/product/${item.main_img}" alt="${item.product_name}">

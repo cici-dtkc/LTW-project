@@ -1,3 +1,5 @@
+let variantCounter = 0;
+
 function showPhone() {
     document.getElementById("phoneForm").style.display = "block";
     document.getElementById("partForm").style.display = "none";
@@ -20,48 +22,100 @@ function addTech(targetId, data = null) {
 
     container.appendChild(tpl);
 }
-function addVariant(targetId, data = null) {
-    let tplId = (targetId === 'phoneVariant') ? "phoneVariantTpl" : "partVariantTpl";
-    const templateElement = document.getElementById(tplId);
+// function addVariant(targetId, data = null) {
+//     let tplId = (targetId === 'phoneVariant') ? "phoneVariantTpl" : "partVariantTpl";
+//     const templateElement = document.getElementById(tplId);
+//
+//     if (templateElement) {
+//         let tpl = templateElement.content.cloneNode(true);
+//         let variantDiv = tpl.querySelector('.variant');
+//
+//         if (data) {
+//             variantDiv.querySelector('input[name="variantName[]"]').value = data.variant_name;
+//             variantDiv.querySelector('input[name="basePrice[]"]').value = data.base_price;
+//         }
+//
+//         document.getElementById(targetId).appendChild(variantDiv);
+//
+//         // Nếu có dữ liệu màu sắc đi kèm (cho điện thoại)
+//         if (data && data.colors) {
+//             data.colors.forEach(c => {
+//                 addColorManual(variantDiv, c);
+//             });
+//         }
+//     }
+// }
 
-    if (templateElement) {
-        let tpl = templateElement.content.cloneNode(true);
-        let variantDiv = tpl.querySelector('.variant');
+// function addColor(btn) {
+//     // 1. Tìm container chứa các màu của Variant hiện tại
+//     let colorBox = btn.parentElement.querySelector(".colors");
+//
+//     // 2. Tìm xem Variant này đang đứng thứ mấy trong form (index)
+//     // Tìm tất cả các div có class 'variant' trong form hiện tại
+//     const form = btn.closest('form');
+//     const allVariants = Array.from(form.querySelectorAll('.variant'));
+//     const currentVariantDiv = btn.closest('.variant');
+//     const vIndex = allVariants.indexOf(currentVariantDiv);
+//
+//     // 3. Clone template
+//     let tpl = document.getElementById("colorTpl").content.cloneNode(true);
+//
+//     // 4. Gán index vào trường ẩn
+//     tpl.querySelector(".variant-index-input").value = vIndex;
+//
+//     colorBox.appendChild(tpl);
+// }
+function addColor(btn) {
+    const variantDiv = btn.closest('.variant');
+    const colorsBox = variantDiv.querySelector('.colors');
 
-        if (data) {
-            variantDiv.querySelector('input[name="variantName[]"]').value = data.variant_name;
-            variantDiv.querySelector('input[name="basePrice[]"]').value = data.base_price;
-        }
+    const variantIndex = variantDiv.dataset.variantIndex;
+    const colorIndex = colorsBox.children.length;
 
-        document.getElementById(targetId).appendChild(variantDiv);
+    const tpl = document.getElementById('colorTpl');
+    const clone = tpl.content.cloneNode(true);
+    const colorDiv = clone.querySelector('.color');
 
-        // Nếu có dữ liệu màu sắc đi kèm (cho điện thoại)
-        if (data && data.colors) {
-            data.colors.forEach(c => {
-                addColorManual(variantDiv, c);
-            });
-        }
-    }
+    // gắn variant index
+    colorDiv.querySelector('.variant-index-input').value = variantIndex;
+
+    // gắn name cho file input (NHIỀU ẢNH)
+    const fileInput = colorDiv.querySelector('.color-image-input');
+    fileInput.name = `colorImages_${variantIndex}_${colorIndex}`;
+
+    colorsBox.appendChild(clone);
 }
 
-function addColor(btn) {
-    // 1. Tìm container chứa các màu của Variant hiện tại
-    let colorBox = btn.parentElement.querySelector(".colors");
 
-    // 2. Tìm xem Variant này đang đứng thứ mấy trong form (index)
-    // Tìm tất cả các div có class 'variant' trong form hiện tại
-    const form = btn.closest('form');
-    const allVariants = Array.from(form.querySelectorAll('.variant'));
-    const currentVariantDiv = btn.closest('.variant');
-    const vIndex = allVariants.indexOf(currentVariantDiv);
+function addVariant(targetId, data = null) {
+    let tplId = (targetId === 'phoneVariant')
+        ? "phoneVariantTpl"
+        : "partVariantTpl";
 
-    // 3. Clone template
-    let tpl = document.getElementById("colorTpl").content.cloneNode(true);
+    const templateElement = document.getElementById(tplId);
+    if (!templateElement) return;
 
-    // 4. Gán index vào trường ẩn
-    tpl.querySelector(".variant-index-input").value = vIndex;
+    let tpl = templateElement.content.cloneNode(true);
+    let variantDiv = tpl.querySelector('.variant');
 
-    colorBox.appendChild(tpl);
+    //   GÁN VARIANT INDEX CỐ ĐỊNH
+    const currentVariantIndex = variantCounter;
+    variantDiv.dataset.variantIndex = currentVariantIndex;
+    variantCounter++;
+
+    if (data) {
+        variantDiv.querySelector('input[name="variantName[]"]').value = data.variant_name;
+        variantDiv.querySelector('input[name="basePrice[]"]').value = data.base_price;
+    }
+
+    document.getElementById(targetId).appendChild(variantDiv);
+
+    // đổ màu khi edit
+    if (data && data.colors) {
+        data.colors.forEach((c, idx) => {
+            addColorManual(variantDiv, c, idx);
+        });
+    }
 }
 
 
