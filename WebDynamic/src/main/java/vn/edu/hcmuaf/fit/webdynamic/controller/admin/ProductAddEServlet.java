@@ -3,10 +3,7 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.*;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductService;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductServiceImpl;
@@ -31,6 +28,9 @@ public class ProductAddEServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getRequestDispatcher(
+                "/views/admin/addProductAdmin.jsp"
+        ).forward(request, response);
     }
 
 
@@ -112,22 +112,21 @@ public class ProductAddEServlet extends HttpServlet {
                     skus, colorVariantIndexes, colorIds, customColors, colorPrices , colorImagesMap);
 
 
+            HttpSession session = request.getSession();
+            session.setAttribute("toastMessage", "Thêm sản phẩm thành công!");
+            session.setAttribute("toastType", "success");
             response.sendRedirect(request.getContextPath() + "/admin/products?status=success");
 
         } catch (Exception e) {
             e.printStackTrace();
-            error(request, response, "Lỗi: " + e.getMessage());
+            HttpSession session = request.getSession();
+            session.setAttribute("toastMessage", "Thêm sản phẩm thất bại");
+            session.setAttribute("toastType", "error");
+
+            response.sendRedirect(
+                    request.getContextPath() + "/admin/product/add"
+            );
         }
     }
-    private void error(HttpServletRequest req,
-                       HttpServletResponse resp,
-                       String msg)
-            throws ServletException, IOException {
-
-        req.setAttribute("error", msg);
-        req.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
-                .forward(req, resp);
-    }
-
 
 }

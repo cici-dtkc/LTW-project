@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/addProductAdmin.css">
 </head>
 <body>
-
+<jsp:include page="/views/includes/toast.jsp"/>
 <div class="add-product">
     <div class="container">
 

@@ -51,6 +51,16 @@ public class ProductServiceImpl implements ProductService {
                            String[] skus, String[] colorVariantIndexes,
                            String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception {
 
+        if (variantNames == null || variantNames.length == 0) {
+            throw new Exception("Sản phẩm phải có ít nhất 1 phiên bản");
+        }
+
+        for (String v : variantNames) {
+            if (v == null || v.trim().isEmpty()) {
+                throw new Exception("Tên phiên bản không được để trống");
+            }
+        }
+
         getJdbi().useTransaction(handle -> {
             // 1. Lưu sản phẩm chính
             int productId = productDao.insertProduct(handle, product);
@@ -70,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
             // 3. XỬ LÝ VARIANTS & COLORS
             if (variantNames != null) {
                 for (int i = 0; i < variantNames.length; i++) {
+
                     ProductVariant v = new ProductVariant();
                     v.setName(variantNames[i]);
                     v.setBasePrice(parseDbl(basePrices != null ? basePrices[i] : "0"));
