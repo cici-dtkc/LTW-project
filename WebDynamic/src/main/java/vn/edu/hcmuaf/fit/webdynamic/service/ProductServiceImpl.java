@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
                            String[] variantNames, String[] basePrices,
                            String[] quantities, String[] variantQuantities,
                            String[] skus, String[] colorVariantIndexes,
-                           String[] colorIds, String[] customColors, String[] colorPrices) throws Exception {
+                           String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception {
 
         getJdbi().useTransaction(handle -> {
             // 1. Lưu sản phẩm chính
@@ -102,7 +102,27 @@ public class ProductServiceImpl implements ProductService {
                                     if (skus != null && j < skus.length) {
                                         vc.setSku(skus[j]);
                                     }
-                                    productDao.insertVariantColor(handle, variantId, vc);
+                                    int variantColorId = productDao.insertVariantColor(handle, variantId, vc);
+                                    String key = i + "_" + j;
+
+                                    if (colorImagesMap != null && colorImagesMap.containsKey(key)) {
+
+                                        boolean isFirst = true;
+
+                                        for (Image img : colorImagesMap.get(key)) {
+
+                                            img.setMain(isFirst);
+                                            isFirst = false;
+
+                                            System.out.println(
+                                                    "Insert image vcId=" + variantColorId +
+                                                            " key=" + key +
+                                                            " path=" + img.getImgPath()
+                                            );
+
+                                            productDao.insertVariantColorImage(handle, variantColorId, img);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -117,6 +137,7 @@ public class ProductServiceImpl implements ProductService {
                     }
                 }
             }
+
         });
     }
 

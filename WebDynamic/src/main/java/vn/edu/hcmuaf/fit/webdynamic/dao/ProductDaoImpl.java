@@ -166,17 +166,19 @@ public class ProductDaoImpl implements ProductDao {
 
 
     //  IMAGE
-    private void insertVariantColorImage(Handle h, int variantColorId, Image img) {
+    @Override
+    public void insertVariantColorImage(Handle h, int variantColorId, Image img) {
 
         String sql = """
             INSERT INTO Images
-            (variant_color_id, img_path, created_at)
-            VALUES (:vcId, :path, :createdAt)
+            (variant_color_id, img_path,is_main, created_at)
+            VALUES (:vcId, :path, :isMain, :createdAt)
         """;
 
         h.createUpdate(sql)
                 .bind("vcId", variantColorId)
                 .bind("path", img.getImgPath())
+                .bind("isMain", img.isMain() ? 1 : 0) // Chuyển boolean thành int (1 hoặc 0)
                 .bind("createdAt", LocalDateTime.now())
                 .execute();
     }

@@ -23,6 +23,6 @@ public class FileUploadUtil {
 
         part.write(dir.getAbsolutePath() + File.separator + newName);
 
-        return UPLOAD_DIR + "/" + newName;
+        return  newName;
     }
 }

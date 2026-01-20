@@ -26,6 +26,9 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+
+
+
         String keyword = req.getParameter("keyword");
 
         Integer status = parseInteger(req.getParameter("status"));

@@ -14,6 +14,7 @@ import vn.edu.hcmuaf.fit.webdynamic.util.FileUploadUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.*;
 
 @WebServlet("/admin/product/add")
 @MultipartConfig(
@@ -78,10 +79,38 @@ public class ProductAddEServlet extends HttpServlet {
             String[] customColors = request.getParameterValues("customColor[]");
             String[] colorPrices = request.getParameterValues("colorPrice[]");
 
+            Map<String, List<Image>> colorImagesMap = new HashMap<>();
+
+
+            for (Part part : request.getParts()) {
+                if (part.getName().startsWith("colorImages_") && part.getSize() > 0) {
+
+                    String[] partsName = part.getName().split("_");
+
+                    int variantIndex = Integer.parseInt(partsName[1]);
+                    int colorIndex   = Integer.parseInt(partsName[2]);
+
+                    String fileName = FileUploadUtil.saveImage(
+                            part,
+                            getServletContext().getRealPath("/")
+                    );
+
+                    String key = variantIndex + "_" + colorIndex;
+
+                    colorImagesMap
+                            .computeIfAbsent(key, k -> new ArrayList<>())
+                            .add(new Image(fileName));
+                }
+            }
+
+            System.out.println("colorVariantIndexes = " + Arrays.toString(colorVariantIndexes));
+            System.out.println("colorImagesMap keys = " + colorImagesMap.keySet());
+
             // 4. Gọi Service
             productService.addProduct(product, techNames, techValues, techPriorities,
                     variantNames, basePrices, quantities, variantQuantities,
-                    skus, colorVariantIndexes, colorIds, customColors, colorPrices);
+                    skus, colorVariantIndexes, colorIds, customColors, colorPrices , colorImagesMap);
+
 
             response.sendRedirect(request.getContextPath() + "/admin/products?status=success");
 
