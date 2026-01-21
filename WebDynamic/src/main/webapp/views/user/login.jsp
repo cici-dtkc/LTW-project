@@ -61,7 +61,9 @@
                 <div class="form-group social">
                     <label>Đăng nhập bằng:</label>
                     <div class="social-icons">
-                        <a href="#" id="social-facebook"><i class="fa fa-facebook"></i></a>
+                        <a href="${pageContext.request.contextPath}/login-facebook" id="social-facebook">
+                            <i class="fa fa-facebook"></i>
+                        </a>
                         <a href="#" id="social-google"><i class="fa fa-google-plus"></i></a>
                     </div>
                 </div>

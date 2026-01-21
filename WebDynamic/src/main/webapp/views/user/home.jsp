@@ -49,7 +49,7 @@
             <c:forEach var="product" items="${featuredProducts}" varStatus="status">
                 <c:if test="${status.index < 4}">
                     <div class="product-card">
-                        <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
+                        <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}">
                             <div class="product-img">
                                 <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
                                 <c:if test="${product.discount_percentage > 0}">
@@ -127,7 +127,7 @@
         <div id="product-list-accessories" class="product-list">
             <c:forEach var="accessory" items="${featuredAccessories}">
                 <div class="product-card">
-                    <a href="${pageContext.request.contextPath}/productDetail?id=${product.id}">
+                    <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}">
                         <div class="product-img">
                             <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
                             <c:if test="${product.discount_percentage > 0}">

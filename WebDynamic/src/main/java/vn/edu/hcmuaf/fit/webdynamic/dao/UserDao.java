@@ -280,4 +280,11 @@ public class UserDao {
                 .orElse(null));
     }
 
+    public User loginByProvider(String provider, String providerId) {
+        User u = new User();
+        return u;
+    }
+
+    public void insertSocialUser(User u) {
+    }
 }
