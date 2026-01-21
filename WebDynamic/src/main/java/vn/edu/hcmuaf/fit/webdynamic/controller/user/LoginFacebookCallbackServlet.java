@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 
 @WebServlet("/login-facebook-callback")
 public class LoginFacebookCallbackServlet extends HttpServlet {
@@ -58,7 +59,7 @@ public class LoginFacebookCallbackServlet extends HttpServlet {
 
             String fbId = info.get("id").getAsString();
             String name = info.has("name") ? info.get("name").getAsString() : "Facebook User";
-            String email = info.has("email") ? info.get("email").getAsString() : null;
+            String fakeEmail = "fb_" + fbId + "@facebook.local";
 
             String avatar = null;
             if (info.has("picture")) {
@@ -67,10 +68,23 @@ public class LoginFacebookCallbackServlet extends HttpServlet {
                         .get("url").getAsString();
             }
 
+            // Hàm bỏ dấu + chuẩn hóa
+            String baseUsername = removeDiacritics(name)
+                    .toLowerCase()
+                    .replaceAll("[^a-z0-9]", ""); // bỏ ký tự lạ & khoảng trắng
+
+            // tránh rỗng
+            if (baseUsername.isEmpty()) {
+                baseUsername = "fbuser";
+            }
+
+            // gắn thêm 4 số cuối của fbId để tránh trùng
+            String username = baseUsername + fbId.substring(fbId.length() - 4);
+
             // 3. Tạo User từ Facebook
             User u = new User();
-            u.setUsername("fb_" + fbId);
-            u.setEmail(email != null ? email : "fb_" + fbId + "@facebook.com");
+            u.setUsername(username);
+            u.setEmail(fakeEmail);
             u.setFirstName(name);
             u.setAvatar(avatar);
             u.setRole(1);        // Mặc định USER
@@ -190,5 +204,10 @@ public class LoginFacebookCallbackServlet extends HttpServlet {
         }
         reader.close();
         return sb.toString();
+    }
+
+    private String removeDiacritics(String input) {
+        String temp = Normalizer.normalize(input, Normalizer.Form.NFD);
+        return temp.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
     }
 }
