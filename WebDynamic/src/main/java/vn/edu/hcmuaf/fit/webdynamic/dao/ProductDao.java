@@ -25,6 +25,8 @@ public interface ProductDao {
     int insertVariant(Handle h, int productId, ProductVariant v);
     // insert variant color and return its ID
     int insertVariantColor(Handle h, int variantId, VariantColor c);
+    // insert variant color image
+    void insertVariantColorImage(Handle h, int variantColorId, Image img);
     // insert tech spec
     void insertTechSpec(Handle h, int productId, TechSpecs t);
     // tìm kiếm sản phẩm theo danh sách variant IDs

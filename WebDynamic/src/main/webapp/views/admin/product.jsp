@@ -18,6 +18,8 @@
 </head>
 
 <body>
+<%@ include file="/views/includes/toast.jsp" %>
+
 <div class="app">
 
     <%@ include file="/views/includes/sideBarAdmin.jsp" %>
@@ -26,13 +28,9 @@
 
         <!-- TOP BAR -->
         <div class="topbar">
-            <div>
-                <h2>Sản phẩm</h2>
                 <div class="muted">Quản lý sản phẩm</div>
-            </div>
-            <div class="muted">Xin chào, Admin</div>
         </div>
-
+        <div class="page-content">
         <!-- TOOLBAR -->
         <div class="toolbar-wrapper">
 
@@ -164,7 +162,7 @@
             </div>
         </div>
 
-
+        </div>
     </div>
 </div>
 

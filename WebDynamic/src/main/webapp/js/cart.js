@@ -34,6 +34,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    if (checkoutBtn) {
+        checkoutBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // Thêm dòng này để ngăn các sự kiện lồng nhau
+
+            const selectedCheckboxes = document.querySelectorAll(".select-item:checked");
+
+            if (selectedCheckboxes.length === 0) {
+                alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán!");
+                return;
+            }
+
+            // Lấy ID: Phải chắc chắn trong JSP có data-id="${item.vc_id}"
+            const selectedIds = Array.from(selectedCheckboxes).map(cb => cb.getAttribute("data-id"));
+
+            console.log("Selected IDs:", selectedIds); // Để debug kiểm tra
+
+            // Chuyển hướng
+            window.location.href = "cart?action=checkout&selectedIds=" + selectedIds.join(",");
+        });
+    }
+
     // 4. Sự kiện cho checkbox "Chọn tất cả"
     if (selectAll) {
         selectAll.addEventListener("change", function () {

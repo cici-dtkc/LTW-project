@@ -116,16 +116,40 @@ public class CartServlet extends HttpServlet {
     private void prepareCheckoutPage(HttpServletRequest request, HttpServletResponse response, Map<Integer, Integer> cart, HttpSession session) throws ServletException, IOException {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            response.sendRedirect("login.jsp"); // Hoặc trang login của bạn
+            response.sendRedirect("/login");
+            return;
+        }
+        // Kiểm tra giỏ hàng tổng
+        if (cart == null || cart.isEmpty()) {
+            response.sendRedirect("cart?action=view&error=empty_cart");
+            return;
+        }
+        //  Lấy danh sách ID được chọn từ URL
+        String selectedIdsParam = request.getParameter("selectedIds");
+        if (selectedIdsParam == null || selectedIdsParam.isEmpty()) {
+            response.sendRedirect("cart?action=view&error=no_items");
             return;
         }
 
-        if (cart.isEmpty()) {
-            response.sendRedirect("cart?action=view");
+        // 3. Lọc sản phẩm an toàn
+        Map<Integer, Integer> checkoutCart = new LinkedHashMap<>();
+        String[] ids = selectedIdsParam.split(",");
+        for (String idStr : ids) {
+            try {
+                int id = Integer.parseInt(idStr.trim());
+                if (cart.containsKey(id)) {
+                    checkoutCart.put(id, cart.get(id));
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Lỗi định dạng ID: " + idStr);
+            }
+        }
+        if (checkoutCart.isEmpty()) {
+            response.sendRedirect("cart?action=view&error=invalid_selection");
             return;
         }
-
-        List<Map<String, Object>> displayList = getCartDetails(cart);
+try{
+    List<Map<String, Object>> displayList = getCartDetails(checkoutCart);
         double subtotal = displayList.stream().mapToDouble(i -> (double) i.get("subTotal")).sum();
 
         // 1. Load địa chỉ mặc định từ OrderService
@@ -133,9 +157,6 @@ public class CartServlet extends HttpServlet {
 
         // 2. Load danh sách Voucher từ VoucherAdminDao thông qua OrderService
         List<VoucherAdmin> availableVouchers = orderService.getActiveVouchers();
-        System.out.println("DEBUG: User ID hiện tại = " + user.getId());
-        System.out.println("DEBUG: Số lượng Voucher lấy được = " + (availableVouchers != null ? availableVouchers.size() : "NULL"));
-
         request.setAttribute("availableVouchers", availableVouchers);
         // 3. Set Attributes cho JSP
         request.setAttribute("cartItems", displayList);
@@ -147,7 +168,11 @@ public class CartServlet extends HttpServlet {
 
         request.getRequestDispatcher("/views/user/checkout.jsp").forward(request, response);
     }
-
+catch (Exception e) {
+        System.out.println("LỖI TẠI PREPARE CHECKOUT: " + e.getMessage());
+        e.printStackTrace();
+        response.sendRedirect("cart?action=view&error=system_error");
+    }}
     // --- HÀM HỖ TRỢ (HELPER METHODS) ---
 
     private List<Map<String, Object>> getCartDetails(Map<Integer, Integer> cart) {
@@ -159,6 +184,7 @@ public class CartServlet extends HttpServlet {
                 double price = ((BigDecimal) item.get("unit_price")).doubleValue();
                 item.put("quantity", qty);
                 item.put("subTotal", price * qty);
+                item.put("vc_id", entry.getKey());
                 list.add(item);
             }
         }

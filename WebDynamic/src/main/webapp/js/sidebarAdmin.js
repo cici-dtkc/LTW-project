@@ -51,36 +51,32 @@ function toggleHeader() {
 // Active sidebar theo href
 function activeSidebar() {
     const navLinks = document.querySelectorAll(".nav-link");
+    const currentPath = window.location.pathname;
 
-    let currentPath = window.location.pathname;
-    let currentFile = currentPath.split("/").pop().split("?")[0];
-    // Nếu không có file hoặc chỉ là "#"
-    if (!currentFile || currentFile === "#" || !currentFile.includes(".html")) {
-        currentFile = "dashboardAdmin.html"; // Mặc định Dashboard
-    }
     let foundActive = false;
 
     navLinks.forEach(link => {
         const href = link.getAttribute("href");
         if (!href) return;
 
-        const linkFile = href.split("/").pop(); // Lấy tên file trong href
-
         // Xóa active cũ
         link.classList.remove("active");
 
-        if (linkFile === currentFile) {
+        // Nếu path hiện tại chứa href
+        if (currentPath.startsWith(href)) {
             link.classList.add("active");
             foundActive = true;
         }
     });
 
-    // Không tìm thấy file trùng → active Dashboard
+    // Fallback Dashboard
     if (!foundActive) {
-        const dashboardLink = document.querySelector('.nav-link[data-target="dashboard"]');
+        const dashboardLink = document.querySelector(
+            '.nav-link[data-target="dashboard"]'
+        );
         if (dashboardLink) dashboardLink.classList.add("active");
     }
-};
+}
 
 
 

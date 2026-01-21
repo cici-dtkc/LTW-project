@@ -27,12 +27,10 @@ public class OrderDao {
      */
     public List<Order> getOrdersByUserId(int userId) {
         String sql = "SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC";
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql)
-                        .bind(0, userId)
-                        .mapToBean(Order.class)
-                        .list()
-        );
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind(0, userId)
+                .mapToBean(Order.class)
+                .list());
     }
 
     /**
@@ -40,13 +38,11 @@ public class OrderDao {
      */
     public List<Order> getOrdersByUserIdAndStatus(int userId, int status) {
         String sql = "SELECT * FROM orders WHERE user_id = ? AND status = ? ORDER BY created_at DESC";
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql)
-                        .bind(0, userId)
-                        .bind(1, status)
-                        .mapToBean(Order.class)
-                        .list()
-        );
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind(0, userId)
+                .bind(1, status)
+                .mapToBean(Order.class)
+                .list());
     }
 
     /**
@@ -54,12 +50,10 @@ public class OrderDao {
      */
     public Optional<Order> getOrderById(int orderId) {
         String sql = "SELECT * FROM orders WHERE id = ?";
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql)
-                        .bind(0, orderId)
-                        .mapToBean(Order.class)
-                        .findFirst()
-        );
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .bind(0, orderId)
+                .mapToBean(Order.class)
+                .findFirst());
     }
 
     /**
@@ -70,20 +64,18 @@ public class OrderDao {
                 "total_amount, discount_amount, user_id, address_id) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        return jdbi.withHandle(handle ->
-                handle.createUpdate(sql)
-                        .bind(0, order.getStatus())
-                        .bind(1, order.getVoucherId())
-                        .bind(2, order.getPaymentTypeId())
-                        .bind(3, order.getFeeShipping())
-                        .bind(4, order.getTotalAmount())
-                        .bind(5, order.getDiscountAmount())
-                        .bind(6, order.getUserId())
-                        .bind(7, order.getAddressId())
-                        .executeAndReturnGeneratedKeys("id")
-                        .mapTo(Integer.class)
-                        .one()
-        );
+        return jdbi.withHandle(handle -> handle.createUpdate(sql)
+                .bind(0, order.getStatus())
+                .bind(1, order.getVoucherId())
+                .bind(2, order.getPaymentTypeId())
+                .bind(3, order.getFeeShipping())
+                .bind(4, order.getTotalAmount())
+                .bind(5, order.getDiscountAmount())
+                .bind(6, order.getUserId())
+                .bind(7, order.getAddressId())
+                .executeAndReturnGeneratedKeys("id")
+                .mapTo(Integer.class)
+                .one());
     }
 
     /**
@@ -91,25 +83,21 @@ public class OrderDao {
      */
     public boolean updateOrderStatus(int orderId, int status) {
         String sql = "UPDATE orders SET status = ? WHERE id = ?";
-        return jdbi.withHandle(handle ->
-                handle.createUpdate(sql)
-                        .bind(0, status)
-                        .bind(1, orderId)
-                        .execute()
-        ) > 0;
+        return jdbi.withHandle(handle -> handle.createUpdate(sql)
+                .bind(0, status)
+                .bind(1, orderId)
+                .execute()) > 0;
     }
 
     /**
      * Hủy đơn hàng
      */
     public boolean cancelOrder(int orderId, int userId) {
-        String sql = "UPDATE orders SET status = 5 WHERE id = ? AND user_id = ? AND status = 1";
-        return jdbi.withHandle(handle ->
-                handle.createUpdate(sql)
-                        .bind(0, orderId)
-                        .bind(1, userId)
-                        .execute()
-        ) > 0;
+        String sql = "UPDATE orders SET status = 4 WHERE id = ? AND user_id = ? AND status = 1";
+        return jdbi.withHandle(handle -> handle.createUpdate(sql)
+                .bind(0, orderId)
+                .bind(1, userId)
+                .execute()) > 0;
     }
 
     /// Lấy tất cả order
@@ -119,26 +107,24 @@ public class OrderDao {
                 "JOIN addresses a ON o.address_id = a.id " +
                 "ORDER BY o.created_at DESC";
 
-        return jdbi.withHandle(handle ->
-                handle.createQuery(sql)
-                        .map((rs, ctx) -> {
-                            Map<String, Object> map = new HashMap<>();
-                            Order order = new Order();
-                            order.setId(rs.getInt("id"));
-                            order.setStatus(rs.getInt("status"));
-                            order.setPaymentTypeId(rs.getInt("payment_type_id"));
-                            order.setTotalAmount(rs.getDouble("total_amount"));
-                            order.setUserId(rs.getInt("user_id"));
-                            order.setAddressId(rs.getInt("address_id"));
-                            order.setCreatedAt(rs.getTimestamp("created_at"));
-                            order.setUpdatedAt(rs.getTimestamp("updated_at"));
+        return jdbi.withHandle(handle -> handle.createQuery(sql)
+                .map((rs, ctx) -> {
+                    Map<String, Object> map = new HashMap<>();
+                    Order order = new Order();
+                    order.setId(rs.getInt("id"));
+                    order.setStatus(rs.getInt("status"));
+                    order.setPaymentTypeId(rs.getInt("payment_type_id"));
+                    order.setTotalAmount(rs.getDouble("total_amount"));
+                    order.setUserId(rs.getInt("user_id"));
+                    order.setAddressId(rs.getInt("address_id"));
+                    order.setCreatedAt(rs.getTimestamp("created_at"));
+                    order.setUpdatedAt(rs.getTimestamp("updated_at"));
 
-                            map.put("order", order);
-                            map.put("customerName", rs.getString("customer_name"));
-                            map.put("customerPhone", rs.getString("customer_phone"));
-                            return map;
-                        }).list()
-        );
+                    map.put("order", order);
+                    map.put("customerName", rs.getString("customer_name"));
+                    map.put("customerPhone", rs.getString("customer_phone"));
+                    return map;
+                }).list());
     }
 
     // Tìm kiếm theo mã đơn hàng và tên khách
@@ -147,8 +133,7 @@ public class OrderDao {
                 "SELECT o.*, a.name AS customer_name, a.phone_number AS customer_phone " +
                         "FROM orders o " +
                         "JOIN addresses a ON o.address_id = a.id " +
-                        "WHERE 1=1 "
-        );
+                        "WHERE 1=1 ");
 
         if (keyword != null && !keyword.isEmpty()) {
             sql.append("AND (o.id LIKE :kw OR a.name LIKE :kw) ");
@@ -195,59 +180,57 @@ public class OrderDao {
                 WHERE id = :id
                 """;
 
-        return jdbi.withHandle(handle ->
-                handle.createUpdate(sql)
-                        .bind("status", status)
-                        .bind("id", orderId)
-                        .execute()
-        ) > 0;
+        return jdbi.withHandle(handle -> handle.createUpdate(sql)
+                .bind("status", status)
+                .bind("id", orderId)
+                .execute()) > 0;
     }
 
-// Lấy địa chỉ mặc định của user
+    // Lấy địa chỉ mặc định của user
     public List<Address> getDefaultAddressByUserId(int userId) {
-        return jdbi.withHandle(handle ->
-                handle.createQuery("SELECT * FROM addresses WHERE user_id = :userId AND status = 1")
+        return jdbi.withHandle(
+                handle -> handle.createQuery("SELECT * FROM addresses WHERE user_id = :userId AND status = 1")
                         .bind("userId", userId)
                         .mapToBean(Address.class)
                         .list() // Trả về danh sách, nếu không có sẽ là list rỗng
         );
     }
+
     // Lấy thông tin sản phẩm trong giỏ hàng
     public Map<String, Object> getProductForCart(int variantColorId) {
         String sql = """
-        SELECT 
-            vc.id AS vc_id, 
-            p.name AS product_name, 
-            v.name AS variant_name, 
-            col.name AS color_name,
-            vc.price AS unit_price, 
-            p.img AS main_img,
-            p.discount_percentage
-        FROM variant_colors vc
-        JOIN product_variants v ON vc.variant_id = v.id
-        JOIN products p ON v.product_id = p.id
-        JOIN colors col ON vc.color_id = col.id
-        WHERE vc.id = :vcId AND vc.status = 1
-    """;
+                    SELECT
+                        vc.id AS vc_id,
+                        p.name AS product_name,
+                        v.name AS variant_name,
+                        col.name AS color_name,
+                        vc.price AS unit_price,
+                        p.img AS main_img,
+                        p.discount_percentage
+                    FROM variant_colors vc
+                    JOIN product_variants v ON vc.variant_id = v.id
+                    JOIN products p ON v.product_id = p.id
+                    JOIN colors col ON vc.color_id = col.id
+                    WHERE vc.id = :vcId AND vc.status = 1
+                """;
 
-        return jdbi.withHandle(h ->
-                h.createQuery(sql)
-                        .bind("vcId", variantColorId)
-                        .mapToMap()
-                        .findFirst()
-                        .orElse(null)
-        );
+        return jdbi.withHandle(h -> h.createQuery(sql)
+                .bind("vcId", variantColorId)
+                .mapToMap()
+                .findFirst()
+                .orElse(null));
     }
+
     // Chèn đơn hàng cùng chi tiết đơn hàng trong transaction
     public int insertOrderWithDetails(Order order, Map<Integer, Integer> cart) {
         return jdbi.withHandle(handle -> handle.inTransaction(h -> {
             // 1. Chèn dữ liệu vào bảng orders
             String sqlOrder = """
-            INSERT INTO orders (user_id, address_id, payment_type_id, voucher_id,
-                               status, fee_shipping, discount_amount, total_amount, created_at)
-            VALUES (:userId, :addressId, :paymentTypeId, :voucherId,
-                   :status, :feeShipping, :discountAmount, :totalAmount, NOW())
-        """;
+                        INSERT INTO orders (user_id, address_id, payment_type_id, voucher_id,
+                                           status, fee_shipping, discount_amount, total_amount, created_at)
+                        VALUES (:userId, :addressId, :paymentTypeId, :voucherId,
+                               :status, :feeShipping, :discountAmount, :totalAmount, NOW())
+                    """;
 
             int orderId = h.createUpdate(sqlOrder)
                     .bindBean(order)
@@ -257,15 +240,16 @@ public class OrderDao {
 
             // 2. Chèn chi tiết đơn hàng (order_details)
             String sqlDetail = """
-            INSERT INTO order_details (order_id, variant_id, quantity, price, subtotal)
-            VALUES (:orderId, :vcId, :quantity, :price, :subtotal)
-        """;
+                        INSERT INTO order_details (order_id, variant_id, quantity, price, total_money)
+                        VALUES (:orderId, :vcId, :quantity, :price, :total_money)
+                    """;
 
             for (Map.Entry<Integer, Integer> entry : cart.entrySet()) {
                 int vcId = entry.getKey();
                 int qty = entry.getValue();
 
-                // Lấy giá hiện tại từ DB để lưu vào hóa đơn (tránh việc sau này sản phẩm đổi giá)
+                // Lấy giá hiện tại từ DB để lưu vào hóa đơn (tránh việc sau này sản phẩm đổi
+                // giá)
                 Map<String, Object> product = getProductForCart(vcId);
                 double price = ((BigDecimal) product.get("unit_price")).doubleValue();
 
@@ -274,7 +258,7 @@ public class OrderDao {
                         .bind("vcId", vcId)
                         .bind("quantity", qty)
                         .bind("price", price)
-                        .bind("subtotal", price * qty)
+                        .bind("total_money", price * qty)
                         .execute();
 
                 // 3. Cập nhật giảm số lượng tồn kho (Inventory)

@@ -3,11 +3,8 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.*;
 
-import jakarta.servlet.http.Part;
 import vn.edu.hcmuaf.fit.webdynamic.model.Category;
 import vn.edu.hcmuaf.fit.webdynamic.model.Product;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductService;
@@ -84,10 +81,14 @@ public class ProductEditServlet  extends HttpServlet {
             //   Gọi Service cập nhật
             productService.updateProduct(p, techNames, techValues, techPriorities,
                     vNames, bPrices, vIds, cIds, skus, qtys, cPrices);
+            HttpSession session = req.getSession();
+            session.setAttribute("toastMessage", "Đã chỉnh sửa");
+            session.setAttribute("toastType", "success");
 
             resp.sendRedirect(req.getContextPath() + "/admin/products?status=success");
         } catch (Exception e) {
             e.printStackTrace();
+
             resp.sendRedirect(req.getContextPath() + "/admin/products?status=error");
         }
     }

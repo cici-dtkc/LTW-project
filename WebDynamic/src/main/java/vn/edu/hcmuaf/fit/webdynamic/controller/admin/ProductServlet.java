@@ -26,6 +26,7 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+
         String keyword = req.getParameter("keyword");
 
         Integer status = parseInteger(req.getParameter("status"));
@@ -82,11 +83,27 @@ public class ProductServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String action = req.getParameter("action");
-
         if ("toggle".equals(action)) {
-            int id = Integer.parseInt(req.getParameter("id"));
-            boolean result = productService.toggleStatus(id);
-            System.out.println("toggle result = " + result);
+
+            HttpSession session = req.getSession();
+
+            try {
+                int id = Integer.parseInt(req.getParameter("id"));
+                boolean result = productService.toggleStatus(id);
+
+                if (result) {
+                    session.setAttribute("toastMessage", "Cập nhật trạng thái sản phẩm thành công");
+                    session.setAttribute("toastType", "success");
+                } else {
+                    session.setAttribute("toastMessage", "Không thể cập nhật trạng thái sản phẩm");
+                    session.setAttribute("toastType", "error");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                session.setAttribute("toastMessage", "Có lỗi xảy ra khi cập nhật trạng thái");
+                session.setAttribute("toastType", "error");
+            }
 
             resp.sendRedirect(req.getContextPath() + "/admin/products");
         }

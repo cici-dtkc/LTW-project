@@ -139,7 +139,8 @@ public class VoucherAdminDaoImpl implements VoucherAdminDao {
         SELECT *
         FROM vouchers
         WHERE status = 1
-          AND end_date >= CURRENT_DATE
+          AND start_date <= NOW()
+          AND end_date >= NOW()
         ORDER BY end_date ASC
     """;
 

@@ -9,7 +9,8 @@ public class Image {
     private LocalDateTime createdAt;
 
     // ===== Constructors =====
-    public Image() {
+    public Image(String imgPath) {
+        this.imgPath = imgPath;
     }
 
     public int getId() {
