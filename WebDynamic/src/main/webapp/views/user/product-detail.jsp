@@ -44,20 +44,35 @@
             <div class="product-detail">
                 <div class="product-gallery">
                     <div class="main">
-                        <c:if test="${not empty images}">
-                            <img class="img-feature"
-                                 src="${pageContext.request.contextPath}/${images[0].imgPath}"
-                                 alt="${product.name}">
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${not empty images}">
+                                <img class="img-feature"
+                                     src="${pageContext.request.contextPath}/${images[0].imgPath}"
+                                     alt="${product.name}">
+                            </c:when>
+                            <c:otherwise>
+                                <img class="img-feature"
+                                     src="${pageContext.request.contextPath}/${product.mainImage}"
+                                     alt="${product.name}">
+                            </c:otherwise>
+                        </c:choose>
                         <div class="control prev"><i class="fas fa-angle-left"></i></div>
                         <div class="control next"><i class="fas fa-angle-right"></i></div>
                     </div>
 
                     <div class="list-image">
-                        <c:forEach items="${images}" var="img">
-                            <img src="${pageContext.request.contextPath}/${img.imgPath}"
-                                 alt="${product.name}">
-                        </c:forEach>
+                        <c:choose>
+                            <c:when test="${not empty images}">
+                                <c:forEach items="${images}" var="img">
+                                    <div><img src="${pageContext.request.contextPath}/${img.imgPath}"
+                                              alt="${product.name}"></div>
+                                </c:forEach>
+                            </c:when>
+                            <c:otherwise>
+                                <div><img src="${pageContext.request.contextPath}/${product.mainImage}"
+                                          alt="${product.name}"></div>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
             </div>
@@ -83,33 +98,52 @@
                     <h2 class="price-label">Giá sản phẩm</h2>
                     <div class="price-box">
                         <div class="price-content">
-                <span class="current-price">
-                <fmt:formatNumber value="${defaultVariantColor.price}" type="currency"/>
-                </span>
-
-                            <span class="old-price">9.990.000₫</span>
-                            <span class="discount">-15%</span>
+                            <c:choose>
+                                <c:when test="${not empty defaultVariantColor}">
+                                    <c:set var="oldPrice" value="${defaultVariantColor.price}"/>
+                                    <c:set var="newPrice" value="${oldPrice * (100 - product.discountPercentage) / 100}"/>
+                                    <span class="current-price">
+                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                    </span>
+                                    <span class="old-price">
+                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                    </span>
+                                    <c:if test="${product.discountPercentage > 0}">
+                                        <span class="discount">-${product.discountPercentage}%</span>
+                                    </c:if>
+                                </c:when>
+                                <c:when test="${not empty variants and not empty variants[0]}">
+                                    <c:set var="oldPrice" value="${variants[0].basePrice}"/>
+                                    <c:set var="newPrice" value="${oldPrice * (100 - product.discountPercentage) / 100}"/>
+                                    <span class="current-price">
+                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                    </span>
+                                    <span class="old-price">
+                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                    </span>
+                                    <c:if test="${product.discountPercentage > 0}">
+                                        <span class="discount">-${product.discountPercentage}%</span>
+                                    </c:if>
+                                </c:when>
+                            </c:choose>
                         </div>
                     </div>
                     <h2>Chọn phiên bản</h2>
                     <div class="version-select">
-                        <div class="version-select">
-                            <c:forEach items="${variants}" var="v" varStatus="st">
-                                <button class="version ${st.first ? 'active' : ''}">
-                                        ${v.name}
-                                </button>
-                            </c:forEach>
-                        </div>
-
+                        <c:forEach items="${variants}" var="v" varStatus="st">
+                            <button class="version ${st.first ? 'active' : ''}" data-variant-id="${v.id}">
+                                    ${v.name}
+                            </button>
+                        </c:forEach>
                     </div>
 
                     <h2>Chọn màu sắc</h2>
                     <div class="color-options">
                         <c:forEach items="${colors}" var="c" varStatus="st">
-                            <div class="color-item ${st.first ? 'active' : ''}">
+                            <div class="color-item ${st.first ? 'active' : ''}" data-color-id="${c.color.id}" data-color-name="${c.color.name}">
         <span class="color-list"
-              style="background:${c.colorCode}"></span>
-                                <span>${c.name}</span>
+              style="background:${c.color.colorCode}"></span>
+                                <span>${c.color.name}</span>
                             </div>
                         </c:forEach>
                     </div>
@@ -232,7 +266,7 @@
         <div class="review-summary">
             <div class="review-score">
                 <span class="score">${totalFeedbacks}</span><span class="outof">/5</span>
-<%--                <p>109,2k khách hàng hài lòng</p>--%>
+                <%--                <p>109,2k khách hàng hài lòng</p>--%>
                 <c:if test="${totalFeedbacks > 0}">
                     <p class="review-count">${totalFeedbacks} đánh giá</p>
                 </c:if>
@@ -504,6 +538,26 @@
     </footer>
 </section>
 </body>
+<script>
+    // Dữ liệu giá theo variant và color từ backend
+    window.variantColorPrices = {};
+    <c:forEach items="${variantColors}" var="vc">
+    const key = "${vc.variantId}_${vc.colorId}";
+    window.variantColorPrices[key] = {
+        price: ${vc.price},
+        quantity: ${vc.quantity}
+    };
+    </c:forEach>
+
+    // Dữ liệu base_price của variants
+    window.variantBasePrices = {};
+    <c:forEach items="${variants}" var="v">
+    window.variantBasePrices[${v.id}] = ${v.basePrice};
+    </c:forEach>
+
+    // Discount percentage từ product
+    window.productDiscount = ${product.discountPercentage};
+</script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/productDetail.js"></script>
 <script src="${pageContext.request.contextPath}/js/cartCount.js"></script>

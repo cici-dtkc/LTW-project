@@ -8,12 +8,12 @@
 %>
 <html>
 <head>
-    <title>Title</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
+ <title>Title</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/base.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/accountSidebar.css">
+ <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/info-user.css">
 </head>
 <body data-context-path="${pageContext.request.contextPath}">
 <!-- SIDEBAR -->

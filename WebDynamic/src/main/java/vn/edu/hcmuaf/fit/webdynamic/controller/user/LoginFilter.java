@@ -37,9 +37,20 @@ public class LoginFilter implements Filter {
         }
 
         // ✔ Đã login → kiểm tra role
-        User user = (User) session.getAttribute("user"); // Giả sử bạn có class User
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            // Nếu user null, xử lý như chưa login
+            String queryString = request.getQueryString();
+            String relativePath = requestURI;
+            if (requestURI.startsWith(contextPath)) {
+                relativePath = requestURI.substring(contextPath.length());
+            }
+            String fullUrl = relativePath + (queryString != null ? "?" + queryString : "");
+            request.getSession(true).setAttribute("redirectUrl", fullUrl);
+            request.getRequestDispatcher("/login").forward(request, response);
+            return;
+        }
         int role = user.getRole(); // 0 = admin, 1 = user
-
         // Kiểm tra phân quyền
         if (requestURI.startsWith(contextPath + "/admin") && role != 0) {
             // User thường không vào admin được

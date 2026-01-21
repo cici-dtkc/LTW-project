@@ -45,17 +45,28 @@ public class ProductDetailServlet extends HttpServlet {
         // Tech specs
         List<TechSpecs> techSpecs = productDao.getTechSpecsByProduct(productId);
 
-        //  Default VariantColor
+        //  Default VariantColor (variant_color đầu tiên)
         VariantColor defaultVC = productDao.getDefaultVariantColor(productId);
 
-        // Colors + Images
+        // Colors + Images - Lấy từ variant đầu tiên
         List<VariantColor> colors = null;
         List<Image> images = null;
+        int firstVariantId = -1;
 
+        // Lấy variant đầu tiên để hiển thị colors mặc định
+        if (!variants.isEmpty()) {
+            firstVariantId = variants.get(0).getId();
+            colors = variantDao.getColorsByVariant(firstVariantId);
+        }
+
+        // Lấy images từ defaultVC (variant_color đầu tiên)
         if (defaultVC != null) {
-            colors = variantDao.getColorsByVariant(defaultVC.getId());
             images = variantDao.getImagesByVariantColor(defaultVC.getId());
         }
+
+        // Lấy tất cả variant_colors để JavaScript có thể truy cập giá
+        List<Map<String, Object>> variantColors = ((ProductDaoImpl) productDao).getAllVariantColorsForProduct(productId);
+
 
         // 7️⃣ Feedback
         List<Feedback> feedbacks = feedbackDao.getFeedbacksByProductId(productId);

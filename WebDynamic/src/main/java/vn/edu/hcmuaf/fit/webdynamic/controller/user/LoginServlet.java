@@ -1,3 +1,4 @@
+
 package vn.edu.hcmuaf.fit.webdynamic.controller.user;
 
 import jakarta.servlet.http.HttpServlet;
@@ -20,6 +21,25 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Lưu URL hiện tại vào session để quay về sau khi đăng nhập
+        String referer = request.getHeader("Referer");
+        String redirectParam = request.getParameter("redirect");
+        HttpSession session = request.getSession();
+
+        // Ưu tiên parameter, nếu không có thì dùng referer
+        String currentUrl = (redirectParam != null && !redirectParam.isEmpty())
+                ? redirectParam
+                : (referer != null ? referer : null);
+
+        // Chỉ lưu nếu URL hợp lệ (không phải trang login, logout)
+        if (currentUrl != null && !currentUrl.contains("/login") && !currentUrl.contains("/logout")) {
+            String contextPath = request.getContextPath();
+            String relativeUrl = extractRelativePath(currentUrl, contextPath);
+            if (relativeUrl != null && !relativeUrl.isEmpty() && !relativeUrl.equals("/login")) {
+                session.setAttribute("loginRedirectUrl", relativeUrl);
+            }
+        }
+
         request.getRequestDispatcher("/views/user/login.jsp").forward(request, response);
     }
 
@@ -44,19 +64,124 @@ public class LoginServlet extends HttpServlet {
         session.setAttribute("role", user.getRole());
 
         int role = user.getRole();
+        String contextPath = request.getContextPath();
+        String redirectUrl = null;
 
-        // Trả về trang yêu cầu login trước đó
-        String redirectUrl = (String) session.getAttribute("redirectUrl");
-        if (redirectUrl != null) {
+        // Ưu tiên 1: Trang yêu cầu login trước đó (từ LoginFilter)
+        String savedRedirectUrl = (String) session.getAttribute("redirectUrl");
+        if (savedRedirectUrl != null) {
             session.removeAttribute("redirectUrl");
-            response.sendRedirect(request.getContextPath() + redirectUrl);
-            return;
+
+            // Kiểm tra quyền truy cập cho redirectUrl từ LoginFilter
+            String pathWithoutQuery = savedRedirectUrl.split("\\?")[0];
+            boolean isValid = true;
+
+            // Admin không được vào trang user
+            if (role == 0 && (pathWithoutQuery.startsWith("/cart")
+                    || pathWithoutQuery.startsWith("/checkout")
+                    || pathWithoutQuery.startsWith("/profile")
+                    || pathWithoutQuery.startsWith("/user/"))) {
+                isValid = false;
+            }
+
+            // User không được vào trang admin
+            if (role == 1 && pathWithoutQuery.startsWith("/admin/")) {
+                isValid = false;
+            }
+
+            if (isValid) {
+                redirectUrl = savedRedirectUrl;
+            }
         }
 
-        if (role == 0) { // admin
-            response.sendRedirect(request.getContextPath() + "/admin/dashboard");
-        } else { // user
-            response.sendRedirect(request.getContextPath() + "/home");
+        // Ưu tiên 2: Trang đang xem trước khi vào login (từ doGet)
+        if (redirectUrl == null) {
+            String loginRedirectUrl = (String) session.getAttribute("loginRedirectUrl");
+            if (loginRedirectUrl != null) {
+                session.removeAttribute("loginRedirectUrl");
+
+                // Kiểm tra xem trang đó có hợp lệ với role không
+                String pathWithoutQuery = loginRedirectUrl.split("\\?")[0];
+
+                // Kiểm tra quyền truy cập
+                boolean isValid = true;
+
+                // Admin không được vào trang user
+                if (role == 0 && (pathWithoutQuery.startsWith("/cart")
+                        || pathWithoutQuery.startsWith("/checkout")
+                        || pathWithoutQuery.startsWith("/profile")
+                        || pathWithoutQuery.startsWith("/user/"))) {
+                    isValid = false;
+                }
+
+                // User không được vào trang admin
+                if (role == 1 && pathWithoutQuery.startsWith("/admin/")) {
+                    isValid = false;
+                }
+
+                // Không được redirect về login hoặc logout
+                if (pathWithoutQuery.equals("/login") || pathWithoutQuery.equals("/logout")) {
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    redirectUrl = loginRedirectUrl;
+                }
+            }
+        }
+
+        // Nếu không có URL hợp lệ, dùng mặc định
+        if (redirectUrl == null) {
+            if (role == 0) { // admin
+                redirectUrl = "/admin/orders";
+            } else { // user
+                redirectUrl = "/home";
+            }
+        }
+
+        response.sendRedirect(contextPath + redirectUrl);
+    }
+
+    /**
+     * Trích xuất relative path từ URL (có thể là URL đầy đủ hoặc relative path)
+     */
+    private String extractRelativePath(String url, String contextPath) {
+        if (url == null || url.isEmpty()) {
+            return null;
+        }
+
+        try {
+            // Nếu là URL đầy đủ (http:// hoặc https://)
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+                java.net.URL urlObj = new java.net.URL(url);
+                String path = urlObj.getPath();
+
+                // Loại bỏ context path nếu có
+                if (path.startsWith(contextPath)) {
+                    return path.substring(contextPath.length());
+                }
+                return path;
+            }
+
+            // Nếu đã chứa context path, loại bỏ nó
+            if (url.startsWith(contextPath)) {
+                return url.substring(contextPath.length());
+            }
+
+            // Nếu đã là relative path, trả về nguyên
+            if (url.startsWith("/")) {
+                return url;
+            }
+
+            // Trường hợp khác, thêm / ở đầu
+            return "/" + url;
+        } catch (Exception e) {
+            // Nếu có lỗi parse URL, thử cách đơn giản hơn
+            if (url.contains(contextPath)) {
+                int index = url.indexOf(contextPath);
+                return url.substring(index + contextPath.length());
+            }
+            return url.startsWith("/") ? url : "/" + url;
         }
     }
 }

@@ -1147,7 +1147,7 @@ public class ProductDaoImpl implements ProductDao {
         String sql = """
             SELECT id, name, base_price, status, created_at, updated_at
             FROM product_variants
-            WHERE product_id = ? AND status = 'active'
+            WHERE product_id = ? AND status = 1
             ORDER BY base_price
         """;
 
@@ -1195,7 +1195,76 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public VariantColor getDefaultVariantColor(int productId) {
-        return null;
+        String sql = """
+            SELECT vc.*,
+                   c.id AS c_id, c.name AS c_name, c.color_code
+            FROM variant_colors vc
+            JOIN product_variants v ON vc.variant_id = v.id
+            JOIN colors c ON vc.color_id = c.id
+            WHERE v.product_id = ? 
+              AND v.status = 1
+              AND vc.status = 1
+            ORDER BY v.id ASC, vc.id ASC
+            LIMIT 1
+        """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind(0, productId)
+                        .map((rs, ctx) -> {
+                            VariantColor vc = new VariantColor();
+                            vc.setId(rs.getInt("id"));
+                            vc.setPrice(rs.getDouble("price"));
+                            vc.setQuantity(rs.getInt("quantity"));
+                            vc.setSku(rs.getString("sku"));
+                            vc.setStatus(rs.getInt("status"));
+
+                            Color color = new Color();
+                            color.setId(rs.getInt("c_id"));
+                            color.setName(rs.getString("c_name"));
+                            color.setColorCode(rs.getString("color_code"));
+                            vc.setColor(color);
+
+                            return vc;
+                        })
+                        .findOne()
+                        .orElse(null)
+        );
+    }
+
+    // Lấy tất cả variant_colors với variantId và colorId để JSP hiển thị giá
+    public List<Map<String, Object>> getAllVariantColorsForProduct(int productId) {
+        String sql = """
+            SELECT 
+                vc.id AS vc_id,
+                vc.variant_id,
+                vc.color_id,
+                vc.price,
+                vc.quantity,
+                v.id AS variant_id_from_v,
+                v.base_price
+            FROM variant_colors vc
+            JOIN product_variants v ON vc.variant_id = v.id
+            WHERE v.product_id = :pid
+              AND v.status = 1
+              AND vc.status = 1
+            ORDER BY v.id, vc.id
+        """;
+
+        return jdbi.withHandle(h ->
+                h.createQuery(sql)
+                        .bind("pid", productId)
+                        .map((rs, ctx) -> {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("variantId", rs.getInt("variant_id"));
+                            map.put("colorId", rs.getInt("color_id"));
+                            map.put("price", rs.getDouble("price"));
+                            map.put("quantity", rs.getInt("quantity"));
+                            map.put("basePrice", rs.getDouble("base_price"));
+                            return map;
+                        })
+                        .list()
+        );
     }
 
 

@@ -31,13 +31,15 @@ public class OrderUserServlet extends HttpServlet {
 
         // Kiểm tra user đã login chưa
         HttpSession session = request.getSession(false);
-        User users = (User) session.getAttribute("user");
 
-        if (users == null) {
-            response.sendRedirect(request.getContextPath() + "/login.jsp");
+        if (session == null || session.getAttribute("user") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
+
+        User users = (User) session.getAttribute("user");
         int userId = users.getId();
+
         // Lấy action từ request (nếu có)
         String action = request.getParameter("action");
 

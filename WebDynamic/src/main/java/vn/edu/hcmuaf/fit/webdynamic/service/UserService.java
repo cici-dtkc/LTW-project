@@ -77,4 +77,20 @@ public class UserService {
         }
         return user;
     }
+
+    public User loginByProvider(String provider, String providerId) {
+        return userDao.loginByProvider(provider, providerId);
+    }
+
+    // Kiểm tra đã tồn tại user chưa
+    // Chưa thì thêm user mới
+    public User loginOrRegisterSocial(User u) {
+        User existed = userDao.loginByProvider(u.getProvider(), u.getProviderId());
+        if (existed != null) {
+            return existed;
+        }
+
+        userDao.insertSocialUser(u);
+        return userDao.loginByProvider(u.getProvider(), u.getProviderId());
+    }
 }
