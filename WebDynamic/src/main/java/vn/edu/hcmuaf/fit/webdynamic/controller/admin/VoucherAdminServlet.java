@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webdynamic.dao.VoucherAdminDaoImpl;
 import vn.edu.hcmuaf.fit.webdynamic.model.VoucherAdmin;
 import vn.edu.hcmuaf.fit.webdynamic.service.VoucherAdminService;
@@ -67,20 +68,20 @@ public class VoucherAdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         String action = req.getParameter("action");
-
-        if (action == null || action.isBlank()) {
-            req.setAttribute("error", "Action không được xác định");
-            doGet(req, resp);
-            return;
-        }
+        HttpSession session = req.getSession();
 
         try {
+            if (action == null || action.isBlank()) {
+                throw new ValidationException("Action không được xác định");
+            }
             switch (action) {
 
                 case "addVoucher" -> {
                     VoucherAdmin v = buildVoucher(req);
                     v.setStatus(1);
                     service.createVoucher(v);
+                    session.setAttribute("toastMessage", "Thêm voucher thành công");
+                    session.setAttribute("toastType", "success");
                 }
                 case "update" -> {
                     int id = parseInt(req, "id");
@@ -92,28 +93,30 @@ public class VoucherAdminServlet extends HttpServlet {
                     v.setId(old.getId());
                     v.setStatus(old.getStatus());
                     service.updateVoucher(v);
+                    session.setAttribute("toastMessage", "Cập nhật voucher thành công");
+                    session.setAttribute("toastType", "success");
                 }
 
                 case "toggle" -> {
                     service.toggleStatus(parseInt(req, "id"));
+                    session.setAttribute("toastMessage", "Cập nhật trạng thái voucher thành công");
+                    session.setAttribute("toastType", "success");
                 }
 
                 case "delete" -> {
                     service.deleteVoucher(parseInt(req, "id"));
+                    session.setAttribute("toastMessage", "Xóa voucher thành công");
+                    session.setAttribute("toastType", "success");
                 }
 
-                default -> {
-                    throw new ValidationException("Action không hợp lệ: " + action);
-                }
+                default -> throw new ValidationException("Action không hợp lệ: " + action);
+
             }
-
-            resp.sendRedirect(req.getContextPath() + "/admin/vouchers");
-
         } catch (ValidationException e) {
-            req.setAttribute("error", e.getMessage());
-            doGet(req, resp);
+            session.setAttribute("toastMessage", e.getMessage());
+            session.setAttribute("toastType", "error");
         }
-
+        resp.sendRedirect(req.getContextPath() + "/admin/vouchers");
     }
 
     private VoucherAdmin buildVoucher(HttpServletRequest req) {

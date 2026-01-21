@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.webdynamic.service;
 
 import vn.edu.hcmuaf.fit.webdynamic.model.Brand;
+import vn.edu.hcmuaf.fit.webdynamic.model.Image;
 import vn.edu.hcmuaf.fit.webdynamic.model.Product;
 import vn.edu.hcmuaf.fit.webdynamic.model.VariantColor;
 
@@ -47,7 +48,7 @@ public interface ProductService {
                     String[] variantNames, String[] basePrices,
                     String[] quantities, String[] variantQuantities,
                     String[] skus, String[] colorVariantIndexes,
-                    String[] colorIds, String[] customColors, String[] colorPrices) throws Exception;
+                    String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception;
 //edit
     void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
                        String[] variantNames, String[] basePrices, String[] quantities,

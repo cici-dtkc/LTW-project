@@ -11,23 +11,34 @@
 }
 
 /* ===== TOPBAR ===== */
-.topbar {
+.topbar  {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: calc(100% - 250px);
+    height: 5rem;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 40;
+    padding: 0 1.5rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background: #f3f3f3;
-    padding: 20px 32px;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
-
+.container .topbar.transparent {
+    background-color: transparent; /* Khi cuộn xuống */
+    box-shadow: none;
+}
 .topbar h2 {
     margin: 0;
     font-size: 22px;
 }
 
 .muted {
-    color: #777;
-    font-size: 13px;
+    color: #333333;
+    font-size: 22px;
+    font-weight: 500;
 }
 
 /* ===== TOOLBAR ===== */

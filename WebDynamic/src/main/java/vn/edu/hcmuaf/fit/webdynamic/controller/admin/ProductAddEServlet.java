@@ -3,10 +3,7 @@ package vn.edu.hcmuaf.fit.webdynamic.controller.admin;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
+import jakarta.servlet.http.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.*;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductService;
 import vn.edu.hcmuaf.fit.webdynamic.service.ProductServiceImpl;
@@ -14,8 +11,7 @@ import vn.edu.hcmuaf.fit.webdynamic.util.FileUploadUtil;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @WebServlet("/admin/product/add")
 @MultipartConfig(
@@ -23,7 +19,7 @@ import java.util.List;
         maxFileSize = 10 * 1024 * 1024,
         maxRequestSize = 50 * 1024 * 1024
 )
-public class ProductAddController extends HttpServlet {
+public class ProductAddEServlet extends HttpServlet {
     private ProductService productService ;
     @Override
     public void init()   {
@@ -32,6 +28,9 @@ public class ProductAddController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getRequestDispatcher(
+                "/views/admin/addProductAdmin.jsp"
+        ).forward(request, response);
     }
 
 
@@ -80,27 +79,54 @@ public class ProductAddController extends HttpServlet {
             String[] customColors = request.getParameterValues("customColor[]");
             String[] colorPrices = request.getParameterValues("colorPrice[]");
 
+            Map<String, List<Image>> colorImagesMap = new HashMap<>();
+
+
+            for (Part part : request.getParts()) {
+                if (part.getName().startsWith("colorImages_") && part.getSize() > 0) {
+
+                    String[] partsName = part.getName().split("_");
+
+                    int variantIndex = Integer.parseInt(partsName[1]);
+                    int colorIndex   = Integer.parseInt(partsName[2]);
+
+                    String fileName = FileUploadUtil.saveImage(
+                            part,
+                            getServletContext().getRealPath("/")
+                    );
+
+                    String key = variantIndex + "_" + colorIndex;
+
+                    colorImagesMap
+                            .computeIfAbsent(key, k -> new ArrayList<>())
+                            .add(new Image(fileName));
+                }
+            }
+
+            System.out.println("colorVariantIndexes = " + Arrays.toString(colorVariantIndexes));
+            System.out.println("colorImagesMap keys = " + colorImagesMap.keySet());
+
             // 4. Gọi Service
             productService.addProduct(product, techNames, techValues, techPriorities,
                     variantNames, basePrices, quantities, variantQuantities,
-                    skus, colorVariantIndexes, colorIds, customColors, colorPrices);
+                    skus, colorVariantIndexes, colorIds, customColors, colorPrices , colorImagesMap);
 
+
+            HttpSession session = request.getSession();
+            session.setAttribute("toastMessage", "Thêm sản phẩm thành công!");
+            session.setAttribute("toastType", "success");
             response.sendRedirect(request.getContextPath() + "/admin/products?status=success");
 
         } catch (Exception e) {
             e.printStackTrace();
-            error(request, response, "Lỗi: " + e.getMessage());
+            HttpSession session = request.getSession();
+            session.setAttribute("toastMessage", "Thêm sản phẩm thất bại");
+            session.setAttribute("toastType", "error");
+
+            response.sendRedirect(
+                    request.getContextPath() + "/admin/product/add"
+            );
         }
     }
-    private void error(HttpServletRequest req,
-                       HttpServletResponse resp,
-                       String msg)
-            throws ServletException, IOException {
-
-        req.setAttribute("error", msg);
-        req.getRequestDispatcher("/views/admin/addProductAdmin.jsp")
-                .forward(req, resp);
-    }
-
 
 }

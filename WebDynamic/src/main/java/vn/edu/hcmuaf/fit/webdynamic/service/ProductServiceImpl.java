@@ -49,10 +49,20 @@ public class ProductServiceImpl implements ProductService {
                            String[] variantNames, String[] basePrices,
                            String[] quantities, String[] variantQuantities,
                            String[] skus, String[] colorVariantIndexes,
-                           String[] colorIds, String[] customColors, String[] colorPrices) throws Exception {
+                           String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception {
+
+        if (variantNames == null || variantNames.length == 0) {
+            throw new Exception("Sản phẩm phải có ít nhất 1 phiên bản");
+        }
+
+        for (String v : variantNames) {
+            if (v == null || v.trim().isEmpty()) {
+                throw new Exception("Tên phiên bản không được để trống");
+            }
+        }
 
         getJdbi().useTransaction(handle -> {
-            // 1. Lưu sản phẩm chính (Dùng hàm của bạn đã có warranty_period và release_date)
+            // 1. Lưu sản phẩm chính
             int productId = productDao.insertProduct(handle, product);
 
             // 2. Xử lý Thông số kỹ thuật
@@ -70,6 +80,7 @@ public class ProductServiceImpl implements ProductService {
             // 3. XỬ LÝ VARIANTS & COLORS
             if (variantNames != null) {
                 for (int i = 0; i < variantNames.length; i++) {
+
                     ProductVariant v = new ProductVariant();
                     v.setName(variantNames[i]);
                     v.setBasePrice(parseDbl(basePrices != null ? basePrices[i] : "0"));
@@ -102,7 +113,27 @@ public class ProductServiceImpl implements ProductService {
                                     if (skus != null && j < skus.length) {
                                         vc.setSku(skus[j]);
                                     }
-                                    productDao.insertVariantColor(handle, variantId, vc);
+                                    int variantColorId = productDao.insertVariantColor(handle, variantId, vc);
+                                    String key = i + "_" + j;
+
+                                    if (colorImagesMap != null && colorImagesMap.containsKey(key)) {
+
+                                        boolean isFirst = true;
+
+                                        for (Image img : colorImagesMap.get(key)) {
+
+                                            img.setMain(isFirst);
+                                            isFirst = false;
+
+                                            System.out.println(
+                                                    "Insert image vcId=" + variantColorId +
+                                                            " key=" + key +
+                                                            " path=" + img.getImgPath()
+                                            );
+
+                                            productDao.insertVariantColorImage(handle, variantColorId, img);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -117,12 +148,13 @@ public class ProductServiceImpl implements ProductService {
                     }
                 }
             }
+
         });
     }
 
 
 
-    // Giữ nguyên hàm helper của bạn
+
     private int parseInt(String s) {
         if (s == null || s.trim().isEmpty()) return 0;
         return Integer.parseInt(s.trim());

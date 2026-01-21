@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/addProductAdmin.css">
 </head>
 <body>
-
+<jsp:include page="/views/includes/toast.jsp"/>
 <div class="add-product">
     <div class="container">
 
@@ -175,7 +175,7 @@
         <input name="colorPrice[]" placeholder="Giá màu" value="" required>
         <input name="quantity[]" placeholder="Số lượng" value="" required>
         <input name="sku[]" placeholder="SKU">
-        <input type="file" name="colorImage[]">
+        <input type="file" multiple class="color-image-input" accept="image/*">
         <button type="button" onclick="removeBlock(this)">✖</button>
     </div>
 </template>
