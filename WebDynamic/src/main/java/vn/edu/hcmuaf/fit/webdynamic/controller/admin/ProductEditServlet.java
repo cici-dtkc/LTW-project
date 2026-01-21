@@ -12,6 +12,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.ProductServiceImpl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 
 @WebServlet("/admin/products/edit")
@@ -53,43 +54,108 @@ public class ProductEditServlet  extends HttpServlet {
         try {
             int productId = Integer.parseInt(req.getParameter("productId"));
             int categoryId = Integer.parseInt(req.getParameter("categoryId"));
-            String name = req.getParameter("productName");
-            String description = req.getParameter("description");
-
-            String imagePath = req.getParameter("currentImage");
 
             Product p = new Product();
             p.setId(productId);
-            p.setName(name);
-            p.setDescription(description);
-            p.setMainImage(imagePath);
+            p.setName(req.getParameter("productName"));
+            p.setDescription(req.getParameter("description"));
+            p.setMainImage(req.getParameter("currentImage"));
             p.setCategory(new Category(categoryId));
+
+            System.out.println("===== SERVLET DEBUG =====");
+            System.out.println("productId = " + productId);
+            System.out.println("categoryId = " + categoryId);
+            System.out.println("productName = " + p.getName());
+            System.out.println("description = " + p.getDescription());
+            System.out.println("image = " + p.getMainImage());
 
             String[] techNames = req.getParameterValues("techNames[]");
             String[] techValues = req.getParameterValues("techValues[]");
             String[] techPriorities = req.getParameterValues("techPriorities[]");
+            System.out.println("techNames = " + Arrays.toString(techNames));
+            System.out.println("techValues = " + Arrays.toString(techValues));
+            System.out.println("techPriorities = " + Arrays.toString(techPriorities));
+            // ================= PHONE =================
+            if (categoryId == 1) {
+                String vName      = req.getParameter("variantName");
+                String basePrice  = req.getParameter("basePrice");
+                String variantId  = req.getParameter("variantId");
+                String colorId    = req.getParameter("colorId");
+                String quantity   = req.getParameter("quantity");
+                String sku        = req.getParameter("sku");
+                String colorPrice = req.getParameter("colorPrice");
 
-            //   Lấy dữ liệu Variant/Color (Dùng toán tử điều kiện để gom dữ liệu)
-            String[] vNames = req.getParameterValues("variantName");
-            String[] bPrices = (categoryId == 1) ? req.getParameterValues("basePrice") : req.getParameterValues("basePrices[]");
-            String[] vIds = (categoryId == 1) ? req.getParameterValues("variantId") : req.getParameterValues("variantIds[]");
-            String[] cIds = (categoryId == 1) ? req.getParameterValues("colorId") : req.getParameterValues("colorIds[]");
-            String[] qtys = (categoryId == 1) ? req.getParameterValues("quantity") : req.getParameterValues("variantQuantities[]");
-            String[] skus = req.getParameterValues("sku");
-            String[] cPrices = (categoryId == 1) ? req.getParameterValues("colorPrice") : req.getParameterValues("colorPrices[]");
+                System.out.println("=== PHONE DEBUG ===");
+                System.out.println("variantName = " + vName);
+                System.out.println("basePrice = " + basePrice);
+                System.out.println("variantId = " + variantId);
+                System.out.println("colorId = " + colorId);
+                System.out.println("quantity = " + quantity);
+                System.out.println("sku = [" + sku + "]");
+                System.out.println("colorPrice = " + colorPrice);
 
-            //   Gọi Service cập nhật
-            productService.updateProduct(p, techNames, techValues, techPriorities,
-                    vNames, bPrices, vIds, cIds, skus, qtys, cPrices);
+
+                productService.updateProduct(
+                        p,
+                        techNames, techValues, techPriorities,
+                        new String[]{vName},
+                        new String[]{basePrice},
+                        new String[]{variantId},
+                        new String[]{colorId},
+                        new String[]{sku},
+                        new String[]{quantity},
+                        new String[]{colorPrice}
+                );
+            }
+            // ================= ACCESSORY =================
+            else {
+                String[] vNames   = req.getParameterValues("variantNames[]");
+                String[] vIds     = req.getParameterValues("variantIds[]");
+                String[] cIds     = req.getParameterValues("colorIds[]");
+                String[] qtys     = req.getParameterValues("variantQuantities[]");
+                String[] cPrices  = req.getParameterValues("colorPrices[]");
+
+                System.out.println("=== ACCESSORY DEBUG ===");
+                System.out.println("variantNames = " + Arrays.toString(vNames));
+                System.out.println("variantIds = " + Arrays.toString(vIds));
+                System.out.println("colorIds = " + Arrays.toString(cIds));
+                System.out.println("quantities = " + Arrays.toString(qtys));
+                System.out.println("colorPrices = " + Arrays.toString(cPrices));
+
+
+                for (int i = 0; i < vIds.length; i++) {
+                    System.out.println(
+                            "ACCESSORY[" + i + "] vId=" + vIds[i] +
+                                    ", vcId=" + cIds[i] +
+                                    ", qty=" + qtys[i] +
+                                    ", price=" + cPrices[i]
+                    );
+                }
+
+
+                productService.updateProduct(
+                        p,
+                        techNames, techValues, techPriorities,
+                        vNames,
+                        cPrices,     // base price = color price
+                        vIds,
+                        cIds,
+                        null,
+                        qtys,
+                        cPrices
+                );
+            }
+
             HttpSession session = req.getSession();
             session.setAttribute("toastMessage", "Đã chỉnh sửa");
             session.setAttribute("toastType", "success");
 
             resp.sendRedirect(req.getContextPath() + "/admin/products?status=success");
+
         } catch (Exception e) {
             e.printStackTrace();
-
             resp.sendRedirect(req.getContextPath() + "/admin/products?status=error");
         }
     }
+
 }

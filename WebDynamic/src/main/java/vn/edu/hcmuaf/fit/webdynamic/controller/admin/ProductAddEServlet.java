@@ -120,7 +120,7 @@ public class ProductAddEServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             HttpSession session = request.getSession();
-            session.setAttribute("toastMessage", "Thêm sản phẩm thất bại");
+            session.setAttribute("toastMessage", e.getMessage());
             session.setAttribute("toastType", "error");
 
             response.sendRedirect(

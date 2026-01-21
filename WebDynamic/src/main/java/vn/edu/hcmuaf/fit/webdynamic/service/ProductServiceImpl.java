@@ -51,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
                            String[] skus, String[] colorVariantIndexes,
                            String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception {
 
+        // bắt lỗi dữ liệu đầu vào
         if (variantNames == null || variantNames.length == 0) {
             throw new Exception("Sản phẩm phải có ít nhất 1 phiên bản");
         }
@@ -111,7 +112,12 @@ public class ProductServiceImpl implements ProductService {
                                     vc.setQuantity(parseInt(quantities != null ? quantities[j] : "0"));
                                     vc.setCreatedAt(LocalDateTime.now());
                                     if (skus != null && j < skus.length) {
-                                        vc.setSku(skus[j]);
+                                        String sku = skus[j];
+                                        if (sku == null || sku.trim().isEmpty()) {
+                                            vc.setSku(null);  // cho phép SKU null nếu trống
+                                        } else {
+                                            vc.setSku(sku.trim());
+                                        }
                                     }
                                     int variantColorId = productDao.insertVariantColor(handle, variantId, vc);
                                     String key = i + "_" + j;
@@ -245,7 +251,9 @@ public class ProductServiceImpl implements ProductService {
                         int quantity = Integer.parseInt(qtys[i]);
 
                         productDao.updateVariant(handle, vId, "Default", price);
-                        productDao.updateVariantColor(handle, vcId, quantity, "", price);
+                        String sku = (skus != null && skus.length > i) ? skus[i] : null;
+                        productDao.updateVariantColor(handle, vcId, quantity, sku, price);
+
                     }
                 }
             }

@@ -1,14 +1,5 @@
 
-// Thực hiện tao tác logout -> thoát ra trang đăng nhập
-document.addEventListener("click", function(e) {
-    const logoutLink = e.target.closest('a[data-target="logout"]');
-    if (!logoutLink) return;
 
-    e.preventDefault();
-    if (confirm("Bạn có chắc chắn muốn đăng xuất?")) {
-        window.location.href = "../login.html";
-    }
-});
 
 toggleSidebar();
 activeSidebar();
