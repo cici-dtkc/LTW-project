@@ -24,19 +24,24 @@ public class LoginServlet extends HttpServlet {
         // Lưu URL hiện tại vào session để quay về sau khi đăng nhập
         String referer = request.getHeader("Referer");
         String redirectParam = request.getParameter("redirect");
+        String message = request.getParameter("message");
         HttpSession session = request.getSession();
 
-        // Ưu tiên parameter, nếu không có thì dùng referer
-        String currentUrl = (redirectParam != null && !redirectParam.isEmpty())
-                ? redirectParam
-                : (referer != null ? referer : null);
+        // Nếu có message=register_success, không lưu redirect URL (sẽ về home)
+        if (!"register_success".equals(message)) {
+            // Ưu tiên parameter, nếu không có thì dùng referer
+            String currentUrl = (redirectParam != null && !redirectParam.isEmpty())
+                    ? redirectParam
+                    : (referer != null ? referer : null);
 
-        // Chỉ lưu nếu URL hợp lệ (không phải trang login, logout)
-        if (currentUrl != null && !currentUrl.contains("/login") && !currentUrl.contains("/logout")) {
-            String contextPath = request.getContextPath();
-            String relativeUrl = extractRelativePath(currentUrl, contextPath);
-            if (relativeUrl != null && !relativeUrl.isEmpty() && !relativeUrl.equals("/login")) {
-                session.setAttribute("loginRedirectUrl", relativeUrl);
+            // Chỉ lưu nếu URL hợp lệ (không phải trang login, logout, register)
+            if (currentUrl != null && !currentUrl.contains("/login") 
+                    && !currentUrl.contains("/logout") && !currentUrl.contains("/register")) {
+                String contextPath = request.getContextPath();
+                String relativeUrl = extractRelativePath(currentUrl, contextPath);
+                if (relativeUrl != null && !relativeUrl.isEmpty() && !relativeUrl.equals("/login")) {
+                    session.setAttribute("loginRedirectUrl", relativeUrl);
+                }
             }
         }
 
@@ -94,6 +99,11 @@ public class LoginServlet extends HttpServlet {
         // Mặc định cho user
         if (redirectUrl == null) {
             redirectUrl = "/home";
+        }
+
+        // Đảm bảo redirectUrl không chứa contextPath
+        if (redirectUrl.startsWith(request.getContextPath())) {
+            redirectUrl = redirectUrl.substring(request.getContextPath().length());
         }
 
         response.sendRedirect(contextPath + redirectUrl);

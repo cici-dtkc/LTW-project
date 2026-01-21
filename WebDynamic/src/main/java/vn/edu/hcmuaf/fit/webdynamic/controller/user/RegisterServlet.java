@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 
 import java.io.IOException;
@@ -44,6 +45,13 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
+        // Kiểm tra username không có ký tự đặc biệt
+        if (!isValidUsername(username)) {
+            request.setAttribute("error", "Username chỉ được chứa chữ cái, số và dấu gạch dưới!");
+            request.getRequestDispatcher("/views/user/register.jsp").forward(request, response);
+            return;
+        }
+
         // Kiểm tra confirm password
         if (!password.equals(confirm)) {
             request.setAttribute("error", "Mật khẩu xác nhận không khớp!");
@@ -63,7 +71,19 @@ public class RegisterServlet extends HttpServlet {
         boolean success = userService.register(newUser);
 
         if (success) {
-            response.sendRedirect("login?message=register_success");
+            // Tự động đăng nhập sau khi đăng ký thành công
+            User registeredUser = userService.getUserProfileByUsername(username).orElse(null);
+            
+            if (registeredUser != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", registeredUser);
+                session.setAttribute("role", registeredUser.getRole());
+                session.setAttribute("toastMessage", "Đăng ký thành công.");
+                session.setAttribute("toastType", "success");
+                response.sendRedirect(request.getContextPath() + "/home");
+            } else {
+                response.sendRedirect("login?message=register_success");
+            }
         } else {
             request.setAttribute("error", "Lỗi hệ thống, vui lòng thử lại!");
             request.getRequestDispatcher("/views/user/register.jsp").forward(request, response);
@@ -74,6 +94,13 @@ public class RegisterServlet extends HttpServlet {
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         return email.matches(emailRegex);
+    }
+
+    // Hàm kiểm tra username hợp lệ (chỉ chữ cái, số và dấu gạch dưới)
+    private boolean isValidUsername(String username) {
+        // Chỉ cho phép chữ cái (a-z, A-Z), số (0-9) và dấu gạch dưới (_)
+        String usernameRegex = "^[a-zA-Z0-9_]+$";
+        return username.matches(usernameRegex);
     }
 
     // Hàm kiểm tra mật khẩu mạnh

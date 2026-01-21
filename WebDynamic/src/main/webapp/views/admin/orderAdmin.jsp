@@ -85,7 +85,16 @@
                         <option value="4" ${item.order.status == 4 ? 'selected' : ''}>Hoàn thành</option>
                     </select>
                 </td>
-                <td>COD</td>
+                <td>
+                    <c:choose>
+                        <c:when test="${item.order.paymentTypeId == 1}">
+                            COD
+                        </c:when>
+                        <c:otherwise>
+                            CK
+                        </c:otherwise>
+                    </c:choose>
+                </td>
                 <td>
                     <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>đ
                 </td>

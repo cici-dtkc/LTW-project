@@ -232,6 +232,7 @@
 </div>
 
 <jsp:include page="/views/includes/footer.jsp"/>
+<jsp:include page="/views/includes/toast.jsp"/>
 <script src="${pageContext.request.contextPath}/js/home.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/listProduct.js"></script>

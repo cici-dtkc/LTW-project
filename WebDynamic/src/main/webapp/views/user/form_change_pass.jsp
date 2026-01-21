@@ -19,6 +19,16 @@
   <p>Tạo mật khẩu mới. Đảm bảo mật khẩu khác với mật khẩu trước đó để bảo mật.</p>
   <form id="reset-form" action="change-password" method="post">
     <div class="input-group">
+      <label>Mật khẩu cũ</label>
+      <div class="password-wrapper">
+        <input type="password" name="password" id="old-pass" placeholder="Nhập mật khẩu cũ">
+        <span class="toggle">
+                <i class="fa-regular fa-eye"></i>
+                <i class="fa-regular fa-eye-slash"></i>
+            </span>
+      </div>
+    </div>
+    <div class="input-group">
       <label>Mật khẩu mới</label>
       <div class="password-wrapper">
         <input type="password" name="new_password" id="new-pass" placeholder="Nhập mật khẩu mới">
@@ -43,14 +53,31 @@
     <button class="btn" id="update-btn" type="submit">Cập nhật mật khẩu</button>
 
     <c:if test="${not empty error}">
-      <p style="color:red">${error}</p>
+      <script>
+        <%
+          String error = (String) request.getAttribute("error");
+          if (error != null) {
+            session.setAttribute("toastMessage", error);
+            session.setAttribute("toastType", "error");
+          }
+        %>
+      </script>
     </c:if>
 
     <c:if test="${not empty message}">
-      <p style="color:green">${message}</p>
+      <script>
+        <%
+          String message = (String) request.getAttribute("message");
+          if (message != null) {
+            session.setAttribute("toastMessage", message);
+            session.setAttribute("toastType", "success");
+          }
+        %>
+      </script>
     </c:if>
   </form>
 </div>
 </body>
+<jsp:include page="/views/includes/toast.jsp"/>
 <script src="${pageContext.request.contextPath}/js/formChangepass.js"></script>
 </html>

@@ -150,6 +150,7 @@
 <script>
     window.contextPath = '${pageContext.request.contextPath}';
 </script>
+<jsp:include page="/views/includes/toast.jsp"/>
 <script src="${pageContext.request.contextPath}/js/notification.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/info-user.js"></script>
