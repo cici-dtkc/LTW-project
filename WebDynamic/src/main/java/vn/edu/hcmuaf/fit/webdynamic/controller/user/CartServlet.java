@@ -58,14 +58,14 @@ public class CartServlet extends HttpServlet {
     private void addToCart(HttpServletRequest request, HttpServletResponse response, Map<Integer, Integer> cart, HttpSession session) throws IOException {
         User user = (User) session.getAttribute("user");
 
-//        // NẾU CHƯA ĐĂNG NHẬP
-//        if (user == null) {
-//            response.reset(); // Xóa bỏ mọi thứ định gửi đi
-//            response.setStatus(401); // Gửi mã 401 để JS biết là chưa login
-//            response.setContentType("text/plain");
-//            response.getWriter().print("LOGIN_REQUIRED");
-//            return;
-//        }
+        // NẾU CHƯA ĐĂNG NHẬP
+        if (user == null) {
+            response.reset(); // Xóa bỏ mọi thứ định gửi đi
+            response.setStatus(401); // Gửi mã 401 để JS biết là chưa login
+            response.setContentType("text/plain");
+            response.getWriter().print("LOGIN_REQUIRED");
+            return;
+        }
 
         // NẾU ĐÃ ĐĂNG NHẬP THÌ MỚI CHẠY TIẾP
         try {

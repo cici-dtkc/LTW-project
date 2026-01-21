@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <c:set var="isAjax" value="${param.ajax == 'true'}"/>
@@ -84,7 +86,9 @@
                     </select>
                 </td>
                 <td>COD</td>
-                <td>₫${item.order.totalAmount}</td>
+                <td>
+                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>đ
+                </td>
             </tr>
         </c:forEach>
     </c:when>
