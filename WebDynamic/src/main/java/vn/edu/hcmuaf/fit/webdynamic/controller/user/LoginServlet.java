@@ -65,33 +65,21 @@ public class LoginServlet extends HttpServlet {
 
         int role = user.getRole();
         String contextPath = request.getContextPath();
+
+        // ===== ADMIN: luôn vào dashboard =====
+        if (role == 0) {
+            response.sendRedirect(contextPath + "/admin/dashboard");
+            return;
+        }
+
+        // ===== USER: xử lý redirect như cũ =====
         String redirectUrl = null;
 
         // Ưu tiên 1: Trang yêu cầu login trước đó (từ LoginFilter)
         String savedRedirectUrl = (String) session.getAttribute("redirectUrl");
         if (savedRedirectUrl != null) {
             session.removeAttribute("redirectUrl");
-
-            // Kiểm tra quyền truy cập cho redirectUrl từ LoginFilter
-            String pathWithoutQuery = savedRedirectUrl.split("\\?")[0];
-            boolean isValid = true;
-
-            // Admin không được vào trang user
-            if (role == 0 && (pathWithoutQuery.startsWith("/cart")
-                    || pathWithoutQuery.startsWith("/checkout")
-                    || pathWithoutQuery.startsWith("/profile")
-                    || pathWithoutQuery.startsWith("/user/"))) {
-                isValid = false;
-            }
-
-            // User không được vào trang admin
-            if (role == 1 && pathWithoutQuery.startsWith("/admin/")) {
-                isValid = false;
-            }
-
-            if (isValid) {
-                redirectUrl = savedRedirectUrl;
-            }
+            redirectUrl = savedRedirectUrl;
         }
 
         // Ưu tiên 2: Trang đang xem trước khi vào login (từ doGet)
@@ -99,48 +87,18 @@ public class LoginServlet extends HttpServlet {
             String loginRedirectUrl = (String) session.getAttribute("loginRedirectUrl");
             if (loginRedirectUrl != null) {
                 session.removeAttribute("loginRedirectUrl");
-
-                // Kiểm tra xem trang đó có hợp lệ với role không
-                String pathWithoutQuery = loginRedirectUrl.split("\\?")[0];
-
-                // Kiểm tra quyền truy cập
-                boolean isValid = true;
-
-                // Admin không được vào trang user
-                if (role == 0 && (pathWithoutQuery.startsWith("/cart")
-                        || pathWithoutQuery.startsWith("/checkout")
-                        || pathWithoutQuery.startsWith("/profile")
-                        || pathWithoutQuery.startsWith("/user/"))) {
-                    isValid = false;
-                }
-
-                // User không được vào trang admin
-                if (role == 1 && pathWithoutQuery.startsWith("/admin/")) {
-                    isValid = false;
-                }
-
-                // Không được redirect về login hoặc logout
-                if (pathWithoutQuery.equals("/login") || pathWithoutQuery.equals("/logout")) {
-                    isValid = false;
-                }
-
-                if (isValid) {
-                    redirectUrl = loginRedirectUrl;
-                }
+                redirectUrl = loginRedirectUrl;
             }
         }
 
-        // Nếu không có URL hợp lệ, dùng mặc định
+        // Mặc định cho user
         if (redirectUrl == null) {
-            if (role == 0) { // admin
-                redirectUrl = "/admin/orders";
-            } else { // user
-                redirectUrl = "/home";
-            }
+            redirectUrl = "/home";
         }
 
         response.sendRedirect(contextPath + redirectUrl);
     }
+
 
     /**
      * Trích xuất relative path từ URL (có thể là URL đầy đủ hoặc relative path)

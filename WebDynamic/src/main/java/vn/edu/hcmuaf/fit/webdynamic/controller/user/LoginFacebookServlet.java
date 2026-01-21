@@ -11,13 +11,13 @@ import java.net.URLEncoder;
 @WebServlet("/login-facebook")
 public class LoginFacebookServlet extends HttpServlet {
 
-    private static final String CLIENT_ID = "YOUR_FACEBOOK_APP_ID";
-    private static final String CLIENT_SECRET = "YOUR_FACEBOOK_APP_SECRET";
-    private static final String REDIRECT_URI = "http://localhost:8080/yourApp/login-facebook-callback";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
+        String CLIENT_ID = getServletContext().getInitParameter("facebook.clientId");
+        String CLIENT_SECRET = getServletContext().getInitParameter("facebook.clientSecret");
+        String REDIRECT_URI = getServletContext().getInitParameter("facebook.redirectUri");
 
         String url = "https://www.facebook.com/v18.0/dialog/oauth"
                 + "?client_id=" + CLIENT_ID
