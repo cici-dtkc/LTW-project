@@ -280,11 +280,40 @@ public class UserDao {
                 .orElse(null));
     }
 
+    // Đăng nhap bằng bên thứ 3
     public User loginByProvider(String provider, String providerId) {
-        User u = new User();
-        return u;
+        String sql = """
+            SELECT id, username, first_name, last_name, avatar, email,
+                   role, status, provider, provider_id, created_at, updated_at
+            FROM users
+            WHERE provider = :p AND provider_id = :pid AND status = 1
+            LIMIT 1
+        """;
+
+        return DBConnect.getJdbi().withHandle(handle -> handle.createQuery(sql)
+                .bind("p", provider)
+                .bind("pid", providerId)
+                .mapToBean(User.class)
+                .findOne()
+                .orElse(null));
     }
 
+    // Thêm người dùng đăng nhập bằng bên thứ 3
     public void insertSocialUser(User u) {
+        String sql = """
+            INSERT INTO users (username, email, first_name, avatar, role, status, provider, provider_id)
+            VALUES (:un, :em, :fn, :av, :role, :status, :pr, :pid)
+        """;
+
+        DBConnect.getJdbi().withHandle(h -> h.createUpdate(sql)
+                .bind("un", u.getUsername())
+                .bind("em", u.getEmail())
+                .bind("fn", u.getFirstName())
+                .bind("av", u.getAvatar())
+                .bind("role", u.getRole())
+                .bind("status", u.getStatus())
+                .bind("pr", u.getProvider())
+                .bind("pid", u.getProviderId())
+                .execute());
     }
 }
