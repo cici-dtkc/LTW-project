@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<fmt:setLocale value="vi_VN"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,28 +74,67 @@
                                 </c:if>
                             </div>
                             <div class="capacity">
-                                    <%-- Khởi tạo chuỗi rỗng để chứa các tên đã in --%>
                                 <c:set var="printed" value="" />
 
                                 <c:forEach var="variant" items="${product.variants}">
-                                    <%-- Trim khoảng trắng để so sánh chính xác tuyệt đối --%>
                                     <c:set var="vName" value="${fn:trim(variant.variant_name)}" />
 
-                                    <%-- Kiểm tra xem tên dung lượng đã tồn tại trong chuỗi 'printed' chưa --%>
                                     <c:if test="${!fn:contains(printed, vName)}">
+                                        <%-- Tạo JSON chứa mapping colorId -> variant_color_id --%>
+                                        <c:set var="colorMapping" value="{" />
+                                        <c:forEach var="color" items="${variant.colors}" varStatus="colorStatus">
+                                            <c:set var="colorMapping" value='${colorMapping}"${color.color.id}":${color.id}' />
+                                            <c:if test="${!colorStatus.last}">
+                                                <c:set var="colorMapping" value="${colorMapping}," />
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:set var="colorMapping" value="${colorMapping}}" />
 
                                         <button class="${empty printed ? 'active' : ''}"
                                                 data-price="${variant.variant_color_price * (1 - product.discount_percentage / 100)}"
                                                 data-old-price="${variant.variant_color_price}"
-                                                data-id="${variant.variant_color_id}"
-                                                data-product-id="${product.id}">
+                                                data-variant-id="${variant.variant_id}"
+                                                data-product-id="${product.id}"
+                                                data-color-mapping='${colorMapping}'>
                                                 ${variant.variant_name}
                                         </button>
 
-                                        <%-- Lưu vào chuỗi ghi nhớ, dùng dấu phẩy để phân tách các tên --%>
                                         <c:set var="printed" value="${printed},${vName}" />
-
                                     </c:if>
+                                </c:forEach>
+                            </div>
+
+                            <c:if test="${not empty product.variants[0].colors}">
+                                <div class="colors-selection">
+                                    <span class="colors-label">Màu:</span>
+                                    <div class="colors">
+                                        <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
+                                            <button class="color ${colorStatus.first ? 'active' : ''}"
+                                                    data-color="${color.color.name}"
+                                                    data-color-id="${color.color.id}"
+                                                    data-color-code="${color.color.colorCode}"
+                                                    data-variant-color-id="${color.id}"
+                                                    title="${color.color.name}">
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </c:if>
+
+                            <!-- Dữ liệu ẩn: Lưu tất cả colors cho mỗi variant -->
+                            <div class="variant-colors-data" style="display: none;">
+                                <c:forEach var="variant" items="${product.variants}">
+                                    <div data-variant-id="${variant.variant_id}">
+                                        <c:forEach var="color" items="${variant.colors}">
+                                            <span class="color-item"
+                                                  data-color="${color.color.name}"
+                                                  data-color-id="${color.color.id}"
+                                                  data-color-code="${color.color.colorCode}"
+                                                  data-variant-color-id="${color.id}"
+                                                  data-color-price-new="${color.price * (1 - product.discount_percentage / 100)}"
+                                                  data-color-price-old="${color.price}"></span>
+                                        </c:forEach>
+                                    </div>
                                 </c:forEach>
                             </div>
                             <div class="rating-cart">
@@ -139,7 +179,7 @@
                         <h2>${accessory.name}</h2>
                         <div class="price-wrap">
                             <span class="price-new" id="price-new-${accessory.id}">
-        <fmt:formatNumber value="${accessory.variants[0].variant_color_price * (1 - accessory.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
+        <fmt:formatNumber value="${accessory.variants[0].variant_color_price * (1 - accessory.discount_percentage / 100)}" type="number" groupingUsed="true"/>
     </span>
                             <c:if test="${accessory.discount_percentage > 0}">
         <span class="price-old" id="price-old-${accessory.id}">
@@ -220,10 +260,7 @@
             <a href="${pageContext.request.contextPath}/listproduct?brandId=3" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoVivo.png" alt="Vivo">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct?brandId=
-
-
-            4" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId= 4" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoSamsung.png" alt="Samsung">
             </a>
         </div>
@@ -232,6 +269,7 @@
 </div>
 
 <jsp:include page="/views/includes/footer.jsp"/>
+
 <script src="${pageContext.request.contextPath}/js/home.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/listProduct.js"></script>
@@ -239,4 +277,5 @@
 
 
 </body>
+
 </html>

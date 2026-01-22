@@ -17,9 +17,9 @@ public class HomeDaoImpl implements HomeDao {
                     p.total_sold, p.warranty_period, p.status, p.img AS main_image,
                     c.name AS category_name,
                     b.name AS brand_name,
-                    pv.name AS variant_name, pv.base_price,
-                    vc.price AS variant_color_price, vc.quantity, vc.sku,vc.id AS variant_color_id,
-                    col.name AS color_name
+                    pv.id AS variant_id, pv.name AS variant_name, pv.base_price,
+                    vc.price AS variant_color_price, vc.quantity, vc.sku, vc.id AS variant_color_id,
+                    col.id AS color_id, col.name AS color_name, col.color_code
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 LEFT JOIN brands b ON p.brand_id = b.id
@@ -42,9 +42,9 @@ public class HomeDaoImpl implements HomeDao {
                     p.total_sold, p.warranty_period, p.status, p.img AS main_image,
                     c.name AS category_name,
                     b.name AS brand_name,
-                    pv.name AS variant_name, pv.base_price,
-                    vc.price AS variant_color_price, vc.quantity, vc.sku,
-                    col.name AS color_name
+                    pv.id AS variant_id, pv.name AS variant_name, pv.base_price,
+                    vc.price AS variant_color_price, vc.quantity, vc.sku, vc.id AS variant_color_id,
+                    col.id AS color_id, col.name AS color_name, col.color_code
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 LEFT JOIN brands b ON p.brand_id = b.id
@@ -82,9 +82,9 @@ public class HomeDaoImpl implements HomeDao {
                     p.total_sold, p.warranty_period, p.status, p.img AS main_image,
                     c.name AS category_name,
                     b.name AS brand_name,
-                    pv.name AS variant_name, pv.base_price,
+                    pv.id AS variant_id, pv.name AS variant_name, pv.base_price,
                     vc.price AS variant_color_price, vc.quantity, vc.sku, vc.id AS variant_color_id,
-                    col.name AS color_name
+                    col.id AS color_id, col.name AS color_name, col.color_code
                 FROM products p
                 LEFT JOIN categories c ON p.category_id = c.id
                 LEFT JOIN brands b ON p.brand_id = b.id
