@@ -103,10 +103,10 @@
                                     <c:set var="oldPrice" value="${defaultVariantColor.price}"/>
                                     <c:set var="newPrice" value="${oldPrice * (100 - product.discountPercentage) / 100}"/>
                                     <span class="current-price">
-                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
                                     </span>
                                     <span class="old-price">
-                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
                                     </span>
                                     <c:if test="${product.discountPercentage > 0}">
                                         <span class="discount">-${product.discountPercentage}%</span>
@@ -116,10 +116,10 @@
                                     <c:set var="oldPrice" value="${variants[0].basePrice}"/>
                                     <c:set var="newPrice" value="${oldPrice * (100 - product.discountPercentage) / 100}"/>
                                     <span class="current-price">
-                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
                                     </span>
                                     <span class="old-price">
-                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />đ
+                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
                                     </span>
                                     <c:if test="${product.discountPercentage > 0}">
                                         <span class="discount">-${product.discountPercentage}%</span>
@@ -388,11 +388,11 @@
                         <h2>${product.name}</h2>
                         <div class="price-wrap">
             <span class="price-new">
-              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"  />đ
+              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"  />₫
             </span>
                             <c:if test="${product.priceOld > product.priceNew}">
               <span class="price-old">
-                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"  />đ
+                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"  />₫
               </span>
                             </c:if>
                         </div>

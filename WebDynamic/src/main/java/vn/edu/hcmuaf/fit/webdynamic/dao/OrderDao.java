@@ -251,7 +251,23 @@ public class OrderDao {
                 // Lấy giá hiện tại từ DB để lưu vào hóa đơn (tránh việc sau này sản phẩm đổi
                 // giá)
                 Map<String, Object> product = getProductForCart(vcId);
-                double price = ((BigDecimal) product.get("unit_price")).doubleValue();
+                double unitPrice = ((BigDecimal) product.get("unit_price")).doubleValue();
+
+                // Tính giá sau discount (nếu có)
+                Object discountObj = product.get("discount_percentage");
+                double discountPercent = 0;
+                if (discountObj != null) {
+                    if (discountObj instanceof BigDecimal) {
+                        discountPercent = ((BigDecimal) discountObj).doubleValue();
+                    } else if (discountObj instanceof Integer) {
+                        discountPercent = ((Integer) discountObj).doubleValue();
+                    } else if (discountObj instanceof Double) {
+                        discountPercent = (Double) discountObj;
+                    }
+                }
+
+                // Giá mới = giá gốc * (1 - discount%)
+                double price = unitPrice * (100 - discountPercent) / 100;
 
                 h.createUpdate(sqlDetail)
                         .bind("orderId", orderId)

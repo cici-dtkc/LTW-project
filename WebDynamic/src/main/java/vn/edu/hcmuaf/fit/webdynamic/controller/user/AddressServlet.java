@@ -7,6 +7,7 @@ import vn.edu.hcmuaf.fit.webdynamic.model.Address;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.AddressService;
 import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
+import vn.edu.hcmuaf.fit.webdynamic.utils.SidebarUtil;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,6 +40,11 @@ public class AddressServlet extends HttpServlet {
         int userId = user.getId();
 
         req.setAttribute("addresses", service.getAll(userId));
+
+        // Set sidebar data
+        req.setAttribute("activeMenu", "address");
+        SidebarUtil.setSidebarData(req);
+
         req.getRequestDispatcher("/views/user/addresses.jsp").forward(req, resp);
     }
 

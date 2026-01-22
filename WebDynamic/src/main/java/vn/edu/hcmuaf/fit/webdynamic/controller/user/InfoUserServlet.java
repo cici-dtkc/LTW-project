@@ -5,15 +5,12 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
+import vn.edu.hcmuaf.fit.webdynamic.utils.SidebarUtil;
 
 import java.io.*;
 
 @WebServlet(name = "UserProfileServlet", urlPatterns = { "/user/profile" })
-@MultipartConfig(
-        fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 5 * 1024 * 1024,
-        maxRequestSize = 10 * 1024 * 1024
-)
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 10 * 1024 * 1024)
 public class InfoUserServlet extends HttpServlet {
 
     private UserService userService;
@@ -41,6 +38,10 @@ public class InfoUserServlet extends HttpServlet {
         session.setAttribute("user", freshUser);
         req.setAttribute("user", freshUser);
 
+        // Set sidebar data
+        req.setAttribute("activeMenu", "profile");
+        SidebarUtil.setSidebarData(req);
+
         req.getRequestDispatcher("/views/user/info-user.jsp").forward(req, resp);
     }
 
@@ -60,7 +61,8 @@ public class InfoUserServlet extends HttpServlet {
 
         User user = (User) session.getAttribute("user");
         String action = req.getParameter("action");
-        if (action == null) action = "";
+        if (action == null)
+            action = "";
 
         switch (action) {
             case "update":
@@ -75,9 +77,10 @@ public class InfoUserServlet extends HttpServlet {
                 resp.getWriter().write("{\"success\": false, \"message\": \"Hành động không hợp lệ\"}");
         }
     }
-    //       UPDATE THÔNG TIN
+
+    // UPDATE THÔNG TIN
     private void updateInfo(HttpServletRequest req, HttpServletResponse resp,
-                            HttpSession session, User user)
+            HttpSession session, User user)
             throws IOException {
 
         PrintWriter out = resp.getWriter();
@@ -108,9 +111,10 @@ public class InfoUserServlet extends HttpServlet {
             out.write("{\"success\": false, \"message\": \"Cập nhật thất bại\"}");
         }
     }
-    //       UPLOAD AVATAR
+
+    // UPLOAD AVATAR
     private void uploadAvatar(HttpServletRequest req, HttpServletResponse resp,
-                              HttpSession session, User user)
+            HttpSession session, User user)
             throws IOException, ServletException {
 
         PrintWriter out = resp.getWriter();
@@ -129,7 +133,8 @@ public class InfoUserServlet extends HttpServlet {
         String uploadDir = req.getServletContext().getRealPath("/uploads/avatars");
 
         File dir = new File(uploadDir);
-        if (!dir.exists()) dir.mkdirs();
+        if (!dir.exists())
+            dir.mkdirs();
 
         String absolutePath = uploadDir + File.separator + fileName;
 
@@ -148,11 +153,14 @@ public class InfoUserServlet extends HttpServlet {
             out.write("{\"success\": false, \"message\": \"Lưu avatar thất bại\"}");
         }
     }
-    //        UTILITIES
+
+    // UTILITIES
     private String getExtension(String name) {
-        if (name == null || !name.contains(".")) return ".png";
+        if (name == null || !name.contains("."))
+            return ".png";
         String ext = name.substring(name.lastIndexOf(".")).toLowerCase();
-        if (!ext.matches("\\.(png|jpg|jpeg|gif)")) return ".png";
+        if (!ext.matches("\\.(png|jpg|jpeg|gif)"))
+            return ".png";
         return ext;
     }
 
