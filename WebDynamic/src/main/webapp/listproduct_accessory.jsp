@@ -149,15 +149,44 @@
                         <c:if test="${hasValidVariant}">
                             <div class="capacity">
                                 <c:set var="firstActive" value="true"/>
-                                <c:forEach var="variant" items="${product.variants}">
+                                <c:forEach var="variant" items="${product.variants}" varStatus="status">
                                     <c:if test="${not empty variant.name}">
                                         <button class="${firstActive ? 'active' : ''}"
+                                                data-id="${variant.id}"
                                                 data-price="${variant.priceNew}"
-                                                data-old-price="${variant.priceOld}">
+                                                data-old-price="${variant.priceOld}"
+                                                data-product-id="${product.id}">
                                                 ${variant.name}
                                         </button>
                                         <c:set var="firstActive" value="false"/>
                                     </c:if>
+                                </c:forEach>
+                            </div>
+                            <c:if test="${not empty product.variants}">
+                                <div class="colors-selection">
+                                    <span class="colors-label">Màu:</span>
+                                    <div class="colors">
+                                        <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
+                                            <button class="color ${colorStatus.first ? 'active' : ''}"
+                                                    data-color="${color.name}"
+                                                    data-color-id="${color.id}"
+                                                    data-color-code="${color.code}"
+                                                    data-variant-color-id="${color.id}"
+                                                    data-color-price-new="${color.priceNew}"
+                                                    data-color-price-old="${color.priceOld}"
+                                                    title="${color.name}">
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <div class="variant-colors-data" style="display:none;">
+                                <c:forEach var="variant" items="${product.variants}" varStatus="variantStatus">
+                                    <div class="variant-color-group" data-variant-id="${variant.id}">
+                                        <c:forEach var="color" items="${variant.colors}">
+                                            <span class="color-item" data-color="${color.name}" data-color-id="${color.id}" data-color-code="${color.code}" data-variant-color-id="${color.id}" data-color-price-old="${color.priceOld}" data-color-price-new="${color.priceNew}"></span>
+                                        </c:forEach>
+                                    </div>
                                 </c:forEach>
                             </div>
                         </c:if>

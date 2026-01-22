@@ -536,6 +536,8 @@ public class ProductDaoImpl implements ProductDao {
                     color.put("name", colorName);
                     color.put("code", row.get("color_code"));
                     color.put("price", row.get("variant_price"));
+                    color.put("priceOld", row.get("variant_price"));
+                    color.put("priceNew", row.get("variant_price_new"));
                     color.put("quantity", row.get("quantity"));
                     color.put("sku", row.get("sku"));
                     colors.add(color);
@@ -804,15 +806,19 @@ public class ProductDaoImpl implements ProductDao {
                         v.name AS variant_name,
                         vc.price AS variant_price,
                         (vc.price * (100 - p.discount_percentage) / 100) AS variant_price_new,
+                        vc.id AS variant_color_id,
+                        col.name AS color_name,
+                        col.color_code,
                         COALESCE(AVG(f.rating), 0) AS rating,
                         p.total_sold AS soldCount
                     FROM products p
                     LEFT JOIN product_variants v ON p.id = v.product_id
                     LEFT JOIN variant_colors vc ON v.id = vc.variant_id
+                    LEFT JOIN colors col ON vc.color_id = col.id
                     LEFT JOIN feedbacks f ON p.id = f.product_id AND f.status = 1
                     WHERE p.status = 1 AND p.category_id != 1
                     GROUP BY p.id, p.name, p.img, p.discount_percentage, p.total_sold,
-                             v.id, v.name, vc.price
+                             v.id, v.name, vc.price, vc.id, col.name, col.color_code
                     ORDER BY p.id DESC, v.name ASC
                 """;
 
@@ -828,12 +834,15 @@ public class ProductDaoImpl implements ProductDao {
                         map.put("variant_name", rs.getString("variant_name"));
                         map.put("variant_price", rs.getDouble("variant_price"));
                         map.put("variant_price_new", rs.getDouble("variant_price_new"));
+                        map.put("variant_color_id", rs.getInt("variant_color_id"));
+                        map.put("color_name", rs.getString("color_name"));
+                        map.put("color_code", rs.getString("color_code"));
                         map.put("rating", Math.round(rs.getDouble("rating")));
                         map.put("soldCount", rs.getInt("soldCount"));
                         return map;
                     }).list();
 
-            // Group by product
+            // Group by product -> variant -> colors
             Map<Integer, Map<String, Object>> productMap = new LinkedHashMap<>();
 
             for (Map<String, Object> row : rawResults) {
@@ -851,17 +860,50 @@ public class ProductDaoImpl implements ProductDao {
                     productMap.put(productId, product);
                 }
 
-                // Add variant info
+                // Add variant info with colors
                 Map<String, Object> variant = new HashMap<>();
                 variant.put("id", row.get("variant_id"));
                 variant.put("name", row.get("variant_name"));
                 variant.put("priceOld", row.get("variant_price"));
                 variant.put("priceNew", row.get("variant_price_new"));
+                variant.put("colors", new ArrayList<Map<String, Object>>());
 
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> variants = (List<Map<String, Object>>) productMap.get(productId)
                         .get("variants");
-                variants.add(variant);
+
+                String variantName = (String) row.get("variant_name");
+                boolean variantExists = variants.stream()
+                        .anyMatch(v -> variantName != null && variantName.equals(v.get("name")));
+
+                if (!variantExists) {
+                    variants.add(variant);
+                }
+
+                // Add color to variant
+                Map<String, Object> currentVariant = variants.stream()
+                        .filter(v -> variantName != null && variantName.equals(v.get("name")))
+                        .findFirst()
+                        .orElse(null);
+
+                if (currentVariant != null) {
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> variantColors = (List<Map<String, Object>>) currentVariant.get("colors");
+
+                    String colorName = (String) row.get("color_name");
+                    boolean colorExists = variantColors.stream()
+                            .anyMatch(c -> colorName != null && colorName.equals(c.get("name")));
+
+                    if (!colorExists && colorName != null) {
+                        Map<String, Object> color = new HashMap<>();
+                        color.put("id", row.get("variant_color_id"));
+                        color.put("name", colorName);
+                        color.put("code", row.get("color_code"));
+                        color.put("priceOld", row.get("variant_price"));
+                        color.put("priceNew", row.get("variant_price_new"));
+                        variantColors.add(color);
+                    }
+                }
             }
 
             // Set default price (first variant)
@@ -900,7 +942,9 @@ public class ProductDaoImpl implements ProductDao {
                         v.name AS variant_name,
                         vc.price AS variant_price,
                         (vc.price * (100 - p.discount_percentage) / 100) AS variant_price_new,
+                        vc.id AS variant_color_id,
                         col.name AS color_name,
+                        col.color_code,
                         COALESCE(AVG(f.rating), 0) AS rating,
                         p.total_sold AS soldCount
                     FROM products p
@@ -932,7 +976,7 @@ public class ProductDaoImpl implements ProductDao {
         sql.append("""
                     GROUP BY p.id, p.name, p.img, p.discount_percentage, p.total_sold,
                              p.brand_id, p.release_date, p.created_at,
-                             v.id, v.name, vc.price, col.name
+                             v.id, v.name, vc.price, vc.id, col.name, col.color_code
                 """);
 
         // Sắp xếp
@@ -984,12 +1028,15 @@ public class ProductDaoImpl implements ProductDao {
                 map.put("variant_name", rs.getString("variant_name"));
                 map.put("variant_price", rs.getDouble("variant_price"));
                 map.put("variant_price_new", rs.getDouble("variant_price_new"));
+                map.put("variant_color_id", rs.getInt("variant_color_id"));
+                map.put("color_name", rs.getString("color_name"));
+                map.put("color_code", rs.getString("color_code"));
                 map.put("rating", Math.round(rs.getDouble("rating")));
                 map.put("soldCount", rs.getInt("soldCount"));
                 return map;
             }).list();
 
-            // Group by product
+            // Group by product -> variant -> colors
             Map<Integer, Map<String, Object>> productMap = new LinkedHashMap<>();
 
             for (Map<String, Object> row : rawResults) {
@@ -1007,17 +1054,50 @@ public class ProductDaoImpl implements ProductDao {
                     productMap.put(productId, product);
                 }
 
-                // Add variant info
+                // Add variant info with colors
                 Map<String, Object> variant = new HashMap<>();
                 variant.put("id", row.get("variant_id"));
                 variant.put("name", row.get("variant_name"));
                 variant.put("priceOld", row.get("variant_price"));
                 variant.put("priceNew", row.get("variant_price_new"));
+                variant.put("colors", new ArrayList<Map<String, Object>>());
 
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> variants = (List<Map<String, Object>>) productMap.get(productId)
                         .get("variants");
-                variants.add(variant);
+
+                String variantName = (String) row.get("variant_name");
+                boolean variantExists = variants.stream()
+                        .anyMatch(v -> variantName != null && variantName.equals(v.get("name")));
+
+                if (!variantExists) {
+                    variants.add(variant);
+                }
+
+                // Add color to variant
+                Map<String, Object> currentVariant = variants.stream()
+                        .filter(v -> variantName != null && variantName.equals(v.get("name")))
+                        .findFirst()
+                        .orElse(null);
+
+                if (currentVariant != null) {
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> variantColors = (List<Map<String, Object>>) currentVariant.get("colors");
+
+                    String colorName = (String) row.get("color_name");
+                    boolean colorExists = variantColors.stream()
+                            .anyMatch(c -> colorName != null && colorName.equals(c.get("name")));
+
+                    if (!colorExists && colorName != null) {
+                        Map<String, Object> color = new HashMap<>();
+                        color.put("id", row.get("variant_color_id"));
+                        color.put("name", colorName);
+                        color.put("code", row.get("color_code"));
+                        color.put("priceOld", row.get("variant_price"));
+                        color.put("priceNew", row.get("variant_price_new"));
+                        variantColors.add(color);
+                    }
+                }
             }
 
             // Set default price (first variant)

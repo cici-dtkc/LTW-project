@@ -507,10 +507,16 @@ function initCapacitySelection(card) {
                         const firstColorPriceNew = colorItems[0].getAttribute('data-color-price-new');
                         const firstColorPriceOld = colorItems[0].getAttribute('data-color-price-old');
                         card.setAttribute('data-selected-color-id', firstColorId);
+                        // Cập nhật giá: nếu màu có giá riêng thì dùng giá đó, nếu không thì dùng giá variant
                         if (firstColorPriceNew) {
                             updatePrice(card, firstColorPriceNew, firstColorPriceOld);
+                        } else {
+                            updatePrice(card, newPrice, oldPrice);
                         }
                     }
+                    
+                    // Gọi lại initColorSelection để gắn event listeners cho các button màu mới
+                    initColorSelection(card);
                 }
             }
 
@@ -546,7 +552,7 @@ function initColorSelection(card) {
             // Lưu màu được chọn vào card để dùng khi thêm giỏ hàng
             card.setAttribute('data-selected-color-id', colorId);
             
-            // Cập nhật giá nếu màu có giá khác
+            // Cập nhật giá: nếu màu có giá riêng thì dùng, nếu không thì dùng giá hiện tại
             if (colorPriceNew) {
                 updatePrice(card, colorPriceNew, colorPriceOld);
             }

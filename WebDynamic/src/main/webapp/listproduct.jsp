@@ -176,8 +176,8 @@
                                                         data-color-id="${color.id}"
                                                         data-color-code="${color.code}"
                                                         data-variant-color-id="${color.id}"
-                                                        data-color-price-new="${color.price * (1 - product.discount / 100)}"
-                                                        data-color-price-old="${color.price}"
+                                                        data-color-price-new="${color.priceNew}"
+                                                        data-color-price-old="${color.priceOld}"
                                                         title="${color.name}">
                                                 </button>
                                             </c:forEach>
@@ -188,7 +188,7 @@
                                     <c:forEach var="variant" items="${product.variants}" varStatus="variantStatus">
                                         <div class="variant-color-group" data-variant-id="${variant.id}">
                                             <c:forEach var="color" items="${variant.colors}">
-                                                <span class="color-item" data-color="${color.name}" data-color-id="${color.id}" data-color-code="${color.code}" data-variant-color-id="${color.id}" data-color-price-old="${color.price}" data-color-price-new="${color.price * (1 - product.discount / 100)}"></span>
+                                                <span class="color-item" data-color="${color.name}" data-color-id="${color.id}" data-color-code="${color.code}" data-variant-color-id="${color.id}" data-color-price-old="${color.priceOld}" data-color-price-new="${color.priceNew}"></span>
                                             </c:forEach>
                                         </div>
                                     </c:forEach>

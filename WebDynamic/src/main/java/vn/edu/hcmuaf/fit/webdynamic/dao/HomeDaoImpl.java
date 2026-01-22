@@ -51,9 +51,9 @@ public class HomeDaoImpl implements HomeDao {
                 LEFT JOIN product_variants pv ON p.id = pv.product_id
                 LEFT JOIN variant_colors vc ON pv.id = vc.variant_id
                 LEFT JOIN colors col ON vc.color_id = col.id
-                WHERE p.category_id != 1
-                ORDER BY p.id DESC
-                LIMIT 50
+                WHERE p.category_id != 1 AND p.status = 1
+                ORDER BY p.release_date DESC
+                LIMIT 4
                 """;
 
         return jdbi.withHandle(h -> h.createQuery(sql).mapToMap().list());

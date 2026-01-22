@@ -165,49 +165,115 @@
     <section class="product-related" id="product-accessory">
         <h2 class="title-desc"> Linh kiện mới ra mắt</h2>
         <div id="product-list-accessories" class="product-list">
-            <c:forEach var="accessory" items="${featuredAccessories}">
-                <div class="product-card">
-                    <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}">
-                        <div class="product-img">
-                            <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
-                            <c:if test="${product.discount_percentage > 0}">
-                                <span class="discount-badge">-${product.discount_percentage}%</span>
-                            </c:if>
-                        </div>
-                    </a>
-                    <div class="product-info">
-                        <h2>${accessory.name}</h2>
-                        <div class="price-wrap">
-                            <span class="price-new" id="price-new-${accessory.id}">
-        <fmt:formatNumber value="${accessory.variants[0].variant_color_price * (1 - accessory.discount_percentage / 100)}" type="number" groupingUsed="true"/>
+            <c:forEach var="accessory" items="${featuredAccessories}" varStatus="status">
+                <c:if test="${status.index < 4}">
+                    <div class="product-card">
+                        <a href="${pageContext.request.contextPath}/product-detail?id=${accessory.id}">
+                            <div class="product-img">
+                                <img src="${pageContext.request.contextPath}/assert/img/product/${accessory.main_image}" alt="${accessory.name}">
+                                <c:if test="${accessory.discount_percentage > 0}">
+                                    <span class="discount-badge">-${accessory.discount_percentage}%</span>
+                                </c:if>
+                            </div>
+                        </a>
+                        <div class="product-info">
+                            <h2>${accessory.name}</h2>
+                            <div class="price-wrap">
+                                <span class="price-new" id="price-new-${accessory.id}">
+        <fmt:formatNumber value="${accessory.variants[0].variant_color_price * (1 - accessory.discount_percentage / 100)}" type="number" groupingUsed="true"/>₫
     </span>
-                            <c:if test="${accessory.discount_percentage > 0}">
+                                <c:if test="${accessory.discount_percentage > 0}">
         <span class="price-old" id="price-old-${accessory.id}">
             <fmt:formatNumber value="${accessory.variants[0].variant_color_price}" type="number" groupingUsed="true"/>₫
         </span>
+                                </c:if>
+                            </div>
+                            <div class="capacity">
+                                <c:set var="printed" value="" />
+
+                                <c:forEach var="variant" items="${accessory.variants}">
+                                    <c:set var="vName" value="${fn:trim(variant.variant_name)}" />
+
+                                    <c:if test="${!fn:contains(printed, vName)}">
+                                        <%-- Tạo JSON chứa mapping colorId -> variant_color_id --%>
+                                        <c:set var="colorMapping" value="{" />
+                                        <c:forEach var="color" items="${variant.colors}" varStatus="colorStatus">
+                                            <c:set var="colorMapping" value='${colorMapping}"${color.color.id}":${color.id}' />
+                                            <c:if test="${!colorStatus.last}">
+                                                <c:set var="colorMapping" value="${colorMapping}," />
+                                            </c:if>
+                                        </c:forEach>
+                                        <c:set var="colorMapping" value="${colorMapping}}" />
+
+                                        <button class="${empty printed ? 'active' : ''}"
+                                                data-price="${variant.variant_color_price * (1 - accessory.discount_percentage / 100)}"
+                                                data-old-price="${variant.variant_color_price}"
+                                                data-variant-id="${variant.variant_id}"
+                                                data-product-id="${accessory.id}"
+                                                data-color-mapping='${colorMapping}'>
+                                                ${variant.variant_name}
+                                        </button>
+
+                                        <c:set var="printed" value="${printed},${vName}" />
+                                    </c:if>
+                                </c:forEach>
+                            </div>
+
+                            <c:if test="${not empty accessory.variants[0].colors}">
+                                <div class="colors-selection">
+                                    <span class="colors-label">Màu:</span>
+                                    <div class="colors">
+                                        <c:forEach var="color" items="${accessory.variants[0].colors}" varStatus="colorStatus">
+                                            <button class="color ${colorStatus.first ? 'active' : ''}"
+                                                    data-color="${color.color.name}"
+                                                    data-color-id="${color.color.id}"
+                                                    data-color-code="${color.color.colorCode}"
+                                                    data-variant-color-id="${color.id}"
+                                                    title="${color.color.name}">
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
                             </c:if>
-                        </div>
-                        <div class="rating-cart">
-                            <div class="rating">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-regular fa-star"></i>
+
+                            <!-- Dữ liệu ẩn: Lưu tất cả colors cho mỗi variant -->
+                            <div class="variant-colors-data" style="display: none;">
+                                <c:forEach var="variant" items="${accessory.variants}">
+                                    <div data-variant-id="${variant.variant_id}">
+                                        <c:forEach var="color" items="${variant.colors}">
+                                            <span class="color-item"
+                                                  data-color="${color.color.name}"
+                                                  data-color-id="${color.color.id}"
+                                                  data-color-code="${color.color.colorCode}"
+                                                  data-variant-color-id="${color.id}"
+                                                  data-color-price-new="${color.price * (1 - accessory.discount_percentage / 100)}"
+                                                  data-color-price-old="${color.price}"></span>
+                                        </c:forEach>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <div class="rating-cart">
+                                <div class="rating">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="bottom-info">
+                                <span class="sold-count">Đã bán ${accessory.total_sold}</span>
+                                <button class="cart-btn add-to-cart">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="bottom-info">
-                            <span class="sold-count">Đã bán ${accessory.total_sold}</span>
-                            <button class="cart-btn add-to-cart">
-                                <i class="fa-solid fa-cart-plus"></i>
-                            </button>
-                        </div>
                     </div>
-                </div>
+                </c:if>
             </c:forEach>
         </div>
         <div class="view-all-btn">
-            <a href="${pageContext.request.contextPath}/listproduct"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
+            <a href="${pageContext.request.contextPath}/listproduct_accessory"><i class="fa-solid fa-chevron-right"></i> Xem tất cả</a>
         </div>
     </section>
     <!--End section-->
