@@ -87,7 +87,7 @@
                 </td>
                 <td>COD</td>
                 <td>
-                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>đ
+                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>₫
                 </td>
             </tr>
         </c:forEach>
