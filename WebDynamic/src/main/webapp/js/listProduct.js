@@ -68,11 +68,11 @@ function initFilterSystem() {
             document.querySelectorAll('.brand').forEach(b => b.classList.remove('active'));
             brand.classList.add('active');
             
-            // Áp dụng lọc thương hiệu ngay lập tức
-            const brandId = brand.getAttribute('data-brand-id') || getBrandIdFromImage(brand);
-            if (brandId) {
+            // Áp dụng lọc thương hiệu ngay lập tức - lấy tên brand từ alt text
+            const brandName = brand.querySelector('img')?.alt || '';
+            if (brandName) {
                 const url = new URL(window.location.href);
-                url.searchParams.set('brandId', brandId);
+                url.searchParams.set('brandName', brandName);
                 window.location.href = url.toString();
             }
         });
@@ -80,11 +80,11 @@ function initFilterSystem() {
     
     // Khôi phục trạng thái brand từ URL
     const urlParams = new URLSearchParams(window.location.search);
-    const currentBrandId = urlParams.get('brandId');
-    if (currentBrandId) {
+    const currentBrandName = urlParams.get('brandName');
+    if (currentBrandName) {
         document.querySelectorAll('.brand').forEach(brand => {
-            const brandId = brand.getAttribute('data-brand-id') || getBrandIdFromImage(brand);
-            if (brandId && brandId.toString() === currentBrandId) {
+            const brandName = brand.querySelector('img')?.alt || '';
+            if (brandName === currentBrandName) {
                 brand.classList.add('active');
             }
         });
@@ -152,7 +152,7 @@ function applyFilters() {
     url.searchParams.delete('color');
     url.searchParams.delete('year');
     url.searchParams.delete('type');
-    url.searchParams.delete('brandId');
+    url.searchParams.delete('brandName');
     url.searchParams.delete('condition');
     url.searchParams.delete('model');
 
@@ -176,7 +176,7 @@ function applyFilters() {
         type.forEach(t => url.searchParams.append('type', t));
     }
     if (brand) {
-        url.searchParams.set('brandId', brand);
+        url.searchParams.set('brandName', brand);
     }
     if (condition && condition.length > 0) {
         url.searchParams.set('condition', condition[0]);
@@ -277,19 +277,9 @@ function getSelectedOptions(filterId) {
 function getSelectedBrand() {
     const activeBrand = document.querySelector('.brand.active');
     if (!activeBrand) return null;
-    // Lấy brand ID từ data attribute hoặc từ alt text
-    const brandId = activeBrand.getAttribute('data-brand-id');
-    if (brandId) return brandId;
-    
-    // Map brand name to ID (có thể cần cập nhật dựa trên database)
+    // Lấy brand name từ alt text của image
     const brandName = activeBrand.querySelector('img')?.alt || '';
-    const brandMap = {
-        'Samsung': 1,
-        'iPhone': 2,
-        'Oppo': 3,
-        'Vivo': 4
-    };
-    return brandMap[brandName] || null;
+    return brandName || null;
 }
 
 // ===== HỆ THỐNG SẮP XẾP =====

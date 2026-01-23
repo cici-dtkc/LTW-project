@@ -31,7 +31,7 @@ public class AccessoryListServlet extends HttpServlet {
         Double priceMin = getDoubleParameter(request, "priceMin");
         Double priceMax = getDoubleParameter(request, "priceMax");
         List<String> types = getListParameter(request, "type");
-        Integer brandId = getIntegerParameter(request, "brandId");
+        String brandName = request.getParameter("brandName");
         String condition = request.getParameter("condition");
         List<String> models = getListParameter(request, "model");
         String sortBy = request.getParameter("sort");
@@ -45,10 +45,10 @@ public class AccessoryListServlet extends HttpServlet {
 
         // Lấy danh sách linh kiện với bộ lọc (tất cả category_id != 1)
         List<Map<String, Object>> allAccessories;
-        if (hasFilters(priceMin, priceMax, types, brandId, condition, models, sortBy)
+        if (hasFilters(priceMin, priceMax, types, brandName, condition, models, sortBy)
                 || (search != null && !search.trim().isEmpty())) {
             allAccessories = productService.getAccessoriesWithFilters(
-                    priceMin, priceMax, brandId, types, condition, sortBy);
+                    priceMin, priceMax, brandName, types, condition, sortBy);
 
             // Lọc theo model sau khi lấy dữ liệu (nếu có)
             if (models != null && !models.isEmpty()) {
@@ -138,9 +138,9 @@ public class AccessoryListServlet extends HttpServlet {
     }
 
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> types,
-            Integer brandId, String condition, List<String> models, String sortBy) {
+            String brandName, String condition, List<String> models, String sortBy) {
         return priceMin != null || priceMax != null || (types != null && !types.isEmpty()) ||
-                brandId != null || (condition != null && !condition.trim().isEmpty()) ||
+                (brandName != null && !brandName.trim().isEmpty()) || (condition != null && !condition.trim().isEmpty()) ||
                 (models != null && !models.isEmpty()) ||
                 (sortBy != null && !sortBy.trim().isEmpty());
     }

@@ -251,6 +251,9 @@ public class OrderDao {
                 // Lấy giá hiện tại từ DB để lưu vào hóa đơn (tránh việc sau này sản phẩm đổi
                 // giá)
                 Map<String, Object> product = getProductForCart(vcId);
+                if (product == null) {
+                    throw new RuntimeException("Sản phẩm với ID " + vcId + " không tồn tại hoặc đã bị xóa");
+                }
                 double unitPrice = ((BigDecimal) product.get("unit_price")).doubleValue();
 
                 // Tính giá sau discount (nếu có)

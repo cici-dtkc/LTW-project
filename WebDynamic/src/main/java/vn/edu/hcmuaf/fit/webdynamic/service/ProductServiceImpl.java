@@ -261,13 +261,13 @@ public class ProductServiceImpl implements ProductService {
             List<String> memory,
             List<String> colors,
             Integer year,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
             String sortBy
     ) {
         return ((ProductDaoImpl) productDao).getProductsByCategoryWithFilters(
-                categoryId, priceMin, priceMax, memory, colors, year, brandId, types, condition, sortBy
+                categoryId, priceMin, priceMax, memory, colors, year, brandName, types, condition, sortBy
         );
     }
 
@@ -280,13 +280,13 @@ public class ProductServiceImpl implements ProductService {
     public List<Map<String, Object>> getAccessoriesWithFilters(
             Double priceMin,
             Double priceMax,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
             String sortBy
     ) {
         return ((ProductDaoImpl) productDao).getAccessoriesWithFilters(
-                priceMin, priceMax, brandId, types, condition, sortBy
+                priceMin, priceMax, brandName, types, condition, sortBy
         );
     }
 

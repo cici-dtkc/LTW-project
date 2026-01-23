@@ -26,7 +26,7 @@ public interface ProductService {
             List<String> memory,
             List<String> colors,
             Integer year,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
             String sortBy
@@ -37,7 +37,7 @@ public interface ProductService {
     List<Map<String, Object>> getAccessoriesWithFilters(
             Double priceMin,
             Double priceMax,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
             String sortBy
