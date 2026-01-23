@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 1. Hàm định dạng tiền tệ chuẩn VN
     function formatVND(amount) {
-        return new Intl.NumberFormat('vi-VN').format(amount) + "đ";
+        return new Intl.NumberFormat('vi-VN').format(amount) + "₫";
     }
 
     // 2. Hàm tính tổng tiền dựa trên các checkbox được tích

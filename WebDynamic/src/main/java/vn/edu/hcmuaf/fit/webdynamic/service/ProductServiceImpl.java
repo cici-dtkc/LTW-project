@@ -310,9 +310,9 @@ public class ProductServiceImpl implements ProductService {
                 double unitPrice = Double.parseDouble(detail.get("unit_price").toString());
                 int discount = Integer.parseInt(detail.get("discount_percentage").toString());
 
-                // Tính giá bán thực tế
+                // Tính giá bán thực tế (đã áp dụng giảm giá)
                 double finalPrice = unitPrice * (100 - discount) / 100;
-                detail.put("price_final", finalPrice);
+                detail.put("price_final", new BigDecimal(finalPrice));
             }
             return detail;
         }

@@ -429,6 +429,8 @@ function initProductCards() {
 
 function initCapacitySelection(card) {
     const capacityButtons = card.querySelectorAll('.capacity button');
+    const colorsContainer = card.querySelector('.colors');
+    const variantColorsData = card.querySelector('.variant-colors-data');
 
     capacityButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -450,6 +452,74 @@ function initCapacitySelection(card) {
                 updatePrice(card, newPrice, oldPrice);
             }
 
+            // Cập nhật màu sắc khi chọn phiên bản
+            if (variantColorsData && colorsContainer) {
+                const variantId = btn.getAttribute('data-id');
+                const colorGroup = variantColorsData.querySelector(`[data-variant-id="${variantId}"]`);
+                
+                if (colorGroup) {
+                    // Xóa tất cả màu cũ
+                    colorsContainer.innerHTML = '';
+                    
+                    // Thêm màu của phiên bản hiện tại
+                    const colorItems = colorGroup.querySelectorAll('.color-item');
+                    colorItems.forEach((item, index) => {
+                        const colorBtn = document.createElement('button');
+                        colorBtn.className = `color ${index === 0 ? 'active' : ''}`;
+                        colorBtn.setAttribute('data-color', item.getAttribute('data-color'));
+                        colorBtn.setAttribute('data-color-id', item.getAttribute('data-color-id'));
+                        colorBtn.setAttribute('data-color-code', item.getAttribute('data-color-code'));
+                        colorBtn.setAttribute('data-variant-color-id', item.getAttribute('data-variant-color-id'));
+                        colorBtn.setAttribute('data-color-price-new', item.getAttribute('data-color-price-new'));
+                        colorBtn.setAttribute('data-color-price-old', item.getAttribute('data-color-price-old'));
+                        colorBtn.setAttribute('title', item.getAttribute('data-color'));
+                        colorBtn.style.backgroundColor = item.getAttribute('data-color-code');
+                        
+                        colorBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            colorsContainer.querySelectorAll('.color').forEach(c => c.classList.remove('active'));
+                            colorBtn.classList.add('active');
+                            const colorName = colorBtn.getAttribute('data-color');
+                            const colorId = colorBtn.getAttribute('data-color-id');
+                            const variantColorId = colorBtn.getAttribute('data-variant-color-id');
+                            const colorPriceNew = colorBtn.getAttribute('data-color-price-new');
+                            const colorPriceOld = colorBtn.getAttribute('data-color-price-old');
+                            console.log('Màu đã chọn:', colorName, 'Color ID:', colorId, 'Variant Color ID:', variantColorId, 'Giá mới:', colorPriceNew);
+                            card.setAttribute('data-selected-color-id', colorId);
+                            card.setAttribute('data-variant-color-id', variantColorId);
+                            
+                            // Cập nhật giá nếu màu có giá khác
+                            if (colorPriceNew) {
+                                updatePrice(card, colorPriceNew, colorPriceOld);
+                            }
+                        });
+                        
+                        colorsContainer.appendChild(colorBtn);
+                    });
+                    
+                    // Set selected color id và giá cho card dựa trên màu đầu tiên
+                    if (colorItems.length > 0) {
+                        const firstColorId = colorItems[0].getAttribute('data-color-id');
+                        const firstVcId = colorItems[0].getAttribute('data-variant-color-id');
+                        card.setAttribute('data-selected-color-id', firstColorId);
+                        card.setAttribute('data-variant-color-id', firstVcId);
+                        const firstColorPriceNew = colorItems[0].getAttribute('data-color-price-new');
+                        const firstColorPriceOld = colorItems[0].getAttribute('data-color-price-old');
+                        card.setAttribute('data-selected-color-id', firstColorId);
+                        // Cập nhật giá: nếu màu có giá riêng thì dùng giá đó, nếu không thì dùng giá variant
+                        if (firstColorPriceNew) {
+                            updatePrice(card, firstColorPriceNew, firstColorPriceOld);
+                        } else {
+                            updatePrice(card, newPrice, oldPrice);
+                        }
+                    }
+                    
+                    // Gọi lại initColorSelection để gắn event listeners cho các button màu mới
+                    initColorSelection(card);
+                }
+            }
+
             console.log('Dung lượng đã chọn:', btn.textContent.trim());
         });
     });
@@ -459,6 +529,12 @@ function initColorSelection(card) {
     const colors = card.querySelectorAll('.colors .color');
 
     colors.forEach(color => {
+        // Set background color từ data-color-code
+        const colorCode = color.getAttribute('data-color-code');
+        if (colorCode) {
+            color.style.backgroundColor = colorCode;
+        }
+
         color.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -466,9 +542,32 @@ function initColorSelection(card) {
             colors.forEach(c => c.classList.remove('active'));
             color.classList.add('active');
 
-            console.log('Màu đã chọn:', color.getAttribute('data-color'));
+            const colorName = color.getAttribute('data-color');
+            const colorId = color.getAttribute('data-color-id');
+            const colorPriceNew = color.getAttribute('data-color-price-new');
+            const colorPriceOld = color.getAttribute('data-color-price-old');
+            
+            console.log('Màu đã chọn:', colorName, 'ID:', colorId, 'Giá mới:', colorPriceNew);
+            
+            // Lưu màu được chọn vào card để dùng khi thêm giỏ hàng
+            card.setAttribute('data-selected-color-id', colorId);
+            
+            // Cập nhật giá: nếu màu có giá riêng thì dùng, nếu không thì dùng giá hiện tại
+            if (colorPriceNew) {
+                updatePrice(card, colorPriceNew, colorPriceOld);
+            }
         });
     });
+    
+    // Khởi tạo giá cho màu đầu tiên
+    const firstActiveColor = card.querySelector('.colors .color.active');
+    if (firstActiveColor) {
+        const firstColorPriceNew = firstActiveColor.getAttribute('data-color-price-new');
+        const firstColorPriceOld = firstActiveColor.getAttribute('data-color-price-old');
+        if (firstColorPriceNew) {
+            updatePrice(card, firstColorPriceNew, firstColorPriceOld);
+        }
+    }
 }
 
 function updatePrice(card, newPrice, oldPrice) {
@@ -508,8 +607,39 @@ function initCartSystem() {
                 return;
             }
 
-            // LẤY vcId TRƯỚC KHI KIỂM TRA
-            const vcId = activeVariant.getAttribute('data-id');
+            // Kiểm tra xem có màu hay không
+            const hasColors = productCard.querySelector('.colors .color');
+            if (hasColors) {
+                const activeColor = productCard.querySelector('.colors .color.active');
+                if (!activeColor) {
+                    alert("Vui lòng chọn màu sản phẩm!");
+                    return;
+                }
+            }
+
+            // LẤY vcId TỪNG CÁCH: đầu tiên từ variant_color_id, nếu không có thì từ data-id
+            let vcId = null;
+            
+            // Cách 1: Lấy từ màu được chọn (nếu có màu)
+            if (hasColors) {
+                const activeColor = productCard.querySelector('.colors .color.active');
+                vcId = activeColor.getAttribute('data-variant-color-id');
+            }
+            
+            // Cách 2: Nếu không có màu hoặc không lấy được, lấy từ variant_color_id nếu có
+            if (!vcId) {
+                const variantId = activeVariant.getAttribute('data-id');
+                const variantColorsData = productCard.querySelector('.variant-colors-data');
+                if (variantColorsData) {
+                    const colorGroup = variantColorsData.querySelector(`[data-variant-id="${variantId}"]`);
+                    if (colorGroup) {
+                        const firstColorItem = colorGroup.querySelector('.color-item');
+                        if (firstColorItem) {
+                            vcId = firstColorItem.getAttribute('data-variant-color-id');
+                        }
+                    }
+                }
+            }
 
             if (!vcId || vcId === "undefined") {
                 console.error("ID biến thể không hợp lệ");
@@ -682,7 +812,7 @@ function formatPrice(price) {
     return num.toLocaleString('de-DE', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
-    }) + 'đ';
+    });
 }
 
 function getBrandIdFromImage(brandElement) {

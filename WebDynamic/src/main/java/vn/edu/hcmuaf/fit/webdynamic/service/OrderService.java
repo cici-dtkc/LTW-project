@@ -206,10 +206,26 @@ public class OrderService {
             if (product != null) {
                 // Jdbi có thể trả về BigDecimal cho kiểu dữ liệu DECIMAL/DOUBLE trong MySQL
                 Object priceObj = product.get("unit_price");
-                double price = (priceObj instanceof BigDecimal) ? ((BigDecimal) priceObj).doubleValue()
+                double unitPrice = (priceObj instanceof BigDecimal) ? ((BigDecimal) priceObj).doubleValue()
                         : (double) priceObj;
 
-                subtotal += price * entry.getValue();
+                // Áp dụng discount từ sản phẩm
+                Object discountObj = product.get("discount_percentage");
+                double discountPercent = 0;
+                if (discountObj != null) {
+                    if (discountObj instanceof BigDecimal) {
+                        discountPercent = ((BigDecimal) discountObj).doubleValue();
+                    } else if (discountObj instanceof Integer) {
+                        discountPercent = ((Integer) discountObj).doubleValue();
+                    } else if (discountObj instanceof Double) {
+                        discountPercent = (Double) discountObj;
+                    }
+                }
+
+                // Tính giá sau discount
+                double finalPrice = unitPrice * (100 - discountPercent) / 100;
+
+                subtotal += finalPrice * entry.getValue();
             }
         }
 

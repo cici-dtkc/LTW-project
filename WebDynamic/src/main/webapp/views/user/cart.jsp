@@ -55,7 +55,7 @@
                                     </div>
                                 </td>
                                 <td class="price">
-                                    <fmt:formatNumber value="${item.subTotal}" pattern="#,###" />đ </td>
+                                    <fmt:formatNumber value="${item.subTotal}" pattern="#,###" />₫ </td>
                                 <td>
                                         <%-- Gửi vc_id (ID biến thể màu) để xóa đúng sản phẩm --%>
                                     <button class="delete" onclick="removeItem(${item.vc_id})">Xóa</button>

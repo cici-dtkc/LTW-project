@@ -8,6 +8,9 @@ public class Image {
     private boolean main;
     private LocalDateTime createdAt;
 
+    public Image() {
+    }
+
     // ===== Constructors =====
     public Image(String imgPath) {
         this.imgPath = imgPath;

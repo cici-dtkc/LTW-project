@@ -181,7 +181,8 @@ catch (Exception e) {
             Map<String, Object> item = productService.getProductForCart(entry.getKey());
             if (item != null) {
                 int qty = entry.getValue();
-                double price = ((BigDecimal) item.get("unit_price")).doubleValue();
+                // Lấy giá bán thực tế (đã tính giảm giá)
+                double price = ((BigDecimal) item.get("price_final")).doubleValue();
                 item.put("quantity", qty);
                 item.put("subTotal", price * qty);
                 item.put("vc_id", entry.getKey());
