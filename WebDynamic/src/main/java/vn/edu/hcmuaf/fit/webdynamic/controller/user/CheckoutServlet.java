@@ -33,16 +33,10 @@ public class CheckoutServlet extends HttpServlet {
             String paymentMethod = request.getParameter("payment");
             String voucherCode = request.getParameter("appliedVoucher");
 
-            // Log để debug
-            System.out.println("=== CHECKOUT DEBUG ===");
-            System.out.println("User ID: " + user.getId());
-            System.out.println("Address ID: " + addressIdStr);
-            System.out.println("Payment: " + paymentMethod);
-            System.out.println("Voucher: " + voucherCode);
-
             // Kiểm tra addressId
             if (addressIdStr == null || addressIdStr.trim().isEmpty()) {
-                System.out.println("ERROR: addressId is null or empty");
+                session.setAttribute("toastMessage", "Vui lòng chọn địa chỉ giao hàng");
+                session.setAttribute("toastType", "error");
                 response.sendRedirect("cart?action=checkout&error=no_address");
                 return;
             }
@@ -51,14 +45,16 @@ public class CheckoutServlet extends HttpServlet {
             try {
                 addressId = Integer.parseInt(addressIdStr);
             } catch (NumberFormatException e) {
-                System.out.println("ERROR: Invalid addressId format: " + addressIdStr);
+                session.setAttribute("toastMessage", "Vui lòng chọn phương thức thanh toán");
+                session.setAttribute("toastType", "error");
                 response.sendRedirect("cart?action=checkout&error=invalid_address");
                 return;
             }
 
             // Kiểm tra payment method
             if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
-                System.out.println("ERROR: Payment method is null or empty");
+                session.setAttribute("toastMessage", "Giỏ hàng của bạn đang trống");
+                session.setAttribute("toastType", "error");
                 response.sendRedirect("cart?action=checkout&error=no_payment");
                 return;
             }
@@ -139,7 +135,8 @@ public class CheckoutServlet extends HttpServlet {
                     session.setAttribute("cartItemCount", totalQuantity);
                 }
 
-                System.out.println("Order placed successfully, redirecting to order detail");
+                session.setAttribute("toastMessage", "Đặt hàng thành công 🎉");
+                session.setAttribute("toastType", "success");
                 // Chuyển hướng đến trang chi tiết đơn hàng
                 response.sendRedirect(request.getContextPath() + "/user/order-detail?orderId=" + orderId);
             } else {
@@ -152,8 +149,14 @@ public class CheckoutServlet extends HttpServlet {
             e.printStackTrace();
             response.sendRedirect("cart?action=checkout&error=invalid_number");
         } catch (Exception e) {
-            System.out.println("ERROR Exception: " + e.getMessage());
+
             e.printStackTrace();
+            HttpSession session1 = request.getSession();
+            session1.setAttribute(
+                    "toastMessage",
+                    e.getMessage() != null ? e.getMessage() : "Có lỗi hệ thống xảy ra"
+            );
+            session1.setAttribute("toastType", "error");
             response.sendRedirect("cart?action=checkout&error=system_error");
         }
     }

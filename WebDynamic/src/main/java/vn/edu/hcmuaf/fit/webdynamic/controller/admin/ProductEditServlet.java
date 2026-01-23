@@ -61,6 +61,16 @@ public class ProductEditServlet  extends HttpServlet {
             p.setDescription(req.getParameter("description"));
             p.setMainImage(req.getParameter("currentImage"));
             p.setCategory(new Category(categoryId));
+            
+            String discountStr = req.getParameter("discountPercentage");
+            int discount = 0;
+            if (discountStr != null && !discountStr.isEmpty()) {
+                discount = Integer.parseInt(discountStr);
+            }
+            p.setDiscountPercentage(discount);
+
+            System.out.println("discount = " + discount);
+
 
             System.out.println("===== SERVLET DEBUG =====");
             System.out.println("productId = " + productId);

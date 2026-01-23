@@ -40,6 +40,13 @@
             <input type="file" name="productImage" accept="image/*" required>
 
             <input name="productName" placeholder="Tên sản phẩm" required>
+            <input
+                    type="number"
+                    name="discountPercentage"
+                    placeholder="Giảm giá (%)"
+                    min="0"
+                    max="100"
+                    value="0">
 
             <div class="brand-row">
                 <select name="brandId" onchange="toggleBrand(this)" required>
@@ -86,6 +93,14 @@
             <input type="file" name="productImage" accept="image/*" required>
 
             <input name="productName" placeholder="Tên linh kiện" required>
+            <input
+                    type="number"
+                    name="discountPercentage"
+                    placeholder="Giảm giá (%)"
+                    min="0"
+                    max="100"
+                    value="0">
+
             <div class="brand-row">
                 <select name="brandId" onchange="toggleBrand(this)" required>
                     <option value="">-- Chọn hãng --</option>
