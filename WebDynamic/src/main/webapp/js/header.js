@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initUserDropdown();
     initMegaMenu();
     initLoginRedirect();
+    setActiveMenuItem();
 });
 
 // ===== SEARCH =====
@@ -172,6 +173,31 @@ function initMegaMenu() {
             accessoryItem.classList.remove("open");
         }
     });
+}
+
+// ===== SET ACTIVE MENU ITEM =====
+function setActiveMenuItem() {
+    const currentPath = window.location.pathname;
+    const navHome = document.getElementById("nav-home");
+    const navPhone = document.getElementById("nav-phone");
+    const navAccessory = document.getElementById("nav-accessory");
+    const navAccessoryItem = document.getElementById("nav-accessory-item");
+
+    // Remove active class from all
+    if (navHome) navHome.classList.remove("active");
+    if (navPhone) navPhone.classList.remove("active");
+    if (navAccessory) navAccessory.classList.remove("active");
+    if (navAccessoryItem) navAccessoryItem.classList.remove("active");
+
+    // Add active class based on current path
+    if (currentPath.includes("listproduct_accessory")) {
+        if (navAccessory) navAccessory.classList.add("active");
+        if (navAccessoryItem) navAccessoryItem.classList.add("active");
+    } else if (currentPath.includes("listproduct")) {
+        if (navPhone) navPhone.classList.add("active");
+    } else if (currentPath.includes("home") || currentPath.endsWith("/")) {
+        if (navHome) navHome.classList.add("active");
+    }
 }
 
 // ===== UTILITY: Get Context Path =====

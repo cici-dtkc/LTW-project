@@ -108,11 +108,11 @@ function initFilterSystem() {
     });
     
     // Khôi phục trạng thái category từ URL
-    const currentTypes = urlParams.getAll('type');
-    if (currentTypes && currentTypes.length > 0) {
+    const currentCategoryNames = urlParams.getAll('categoryName');
+    if (currentCategoryNames && currentCategoryNames.length > 0) {
         document.querySelectorAll('.category').forEach(category => {
-            const categoryType = category.getAttribute('data-type');
-            if (currentTypes.includes(categoryType)) {
+            const categoryName = category.getAttribute('data-category-name');
+            if (currentCategoryNames.includes(categoryName)) {
                 category.classList.add('active');
             }
         });
@@ -199,8 +199,8 @@ function applyFilters() {
 function applyCategoryFilters() {
     // Thu thập các category đang active
     const activeCategories = Array.from(document.querySelectorAll('.category.active'))
-        .map(cat => cat.getAttribute('data-type'))
-        .filter(type => type !== null);
+        .map(cat => cat.getAttribute('data-category-name'))
+        .filter(name => name !== null);
 
     // Thu thập các filter khác
     const priceRange = getPriceRange();
@@ -214,8 +214,8 @@ function applyCategoryFilters() {
     // Xóa các tham số cũ
     url.searchParams.delete('priceMin');
     url.searchParams.delete('priceMax');
-    url.searchParams.delete('type');
-    url.searchParams.delete('brandId');
+    url.searchParams.delete('categoryName');
+    url.searchParams.delete('brandName');
     url.searchParams.delete('model');
 
     // Thêm các tham số mới
@@ -226,22 +226,15 @@ function applyCategoryFilters() {
         url.searchParams.set('priceMax', priceRange.max);
     }
     if (activeCategories.length > 0) {
-        activeCategories.forEach(t => url.searchParams.append('type', t));
+        activeCategories.forEach(name => url.searchParams.append('categoryName', name));
     }
     if (brand) {
-        url.searchParams.set('brandId', brand);
+        url.searchParams.set('brandName', brand);
     } else if (brandFromDropdown && brandFromDropdown.length > 0) {
         // Nếu không có brand từ brand-list, lấy từ dropdown
-        const brandMap = {
-            'Samsung': 1,
-            'iPhone': 2,
-            'Oppo': 3,
-            'Vivo': 4,
-            'Generic': 5
-        };
-        const brandId = brandMap[brandFromDropdown[0]];
-        if (brandId) {
-            url.searchParams.set('brandId', brandId);
+        const brandName = brandFromDropdown[0];
+        if (brandName) {
+            url.searchParams.set('brandName', brandName);
         }
     }
     if (model && model.length > 0) {

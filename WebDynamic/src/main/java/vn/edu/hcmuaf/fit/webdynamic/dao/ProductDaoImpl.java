@@ -94,9 +94,9 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public int insertBrand(Handle h, Brand b) {
         String sql = """
-        INSERT INTO brands(name)
-        VALUES (:name)
-    """;
+                    INSERT INTO brands(name)
+                    VALUES (:name)
+                """;
 
         return h.createUpdate(sql)
                 .bind("name", b.getName())
@@ -104,13 +104,14 @@ public class ProductDaoImpl implements ProductDao {
                 .mapTo(Integer.class)
                 .one();
     }
+
     @Override
     public Brand findBrandByName(Handle h, String name) {
         String sql = """
-        SELECT id, name
-        FROM brands
-        WHERE LOWER(name) = LOWER(:name)
-    """;
+                    SELECT id, name
+                    FROM brands
+                    WHERE LOWER(name) = LOWER(:name)
+                """;
 
         return h.createQuery(sql)
                 .bind("name", name.trim())
@@ -280,7 +281,6 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     // edit
-
 
     public Map<String, Object> findProductByVariantColorId(int vcId) {
 
@@ -956,7 +956,8 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<Map<String, Object>> getAccessoriesWithFilters(Double priceMin, Double priceMax, Integer brandId, List<String> types, String condition, String sortBy) {
+    public List<Map<String, Object>> getAccessoriesWithFilters(Double priceMin, Double priceMax, Integer brandId,
+            List<String> types, String condition, String sortBy) {
         return List.of();
     }
 
@@ -973,6 +974,7 @@ public class ProductDaoImpl implements ProductDao {
                         p.id,
                         p.name,
                         p.img AS image,
+                        p.category_id,
                         p.discount_percentage AS discount,
                         p.brand_id,
                         p.release_date,

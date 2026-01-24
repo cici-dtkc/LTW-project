@@ -30,16 +30,15 @@
             </div>
 
             <div class="category-list">
-                <div class="category" data-type="Màn hình cảm ứng">Màn hình cảm ứng</div>
-                <div class="category" data-type="Pin">Pin</div>
-                <div class="category" data-type="Cáp sạc/ Cổng sạc">Cáp sạc/ Cổng sạc</div>
-                <div class="category" data-type="Camera">Camera</div>
-                <div class="category" data-type="Loa/ Mic">Loa/ Mic</div>
-                <div class="category" data-type="Vỏ và khung sườn">Vỏ và khung sườn</div>
-                <div class="category" data-type="Giá đỡ điện thoại">Giá đỡ điện thoại</div>
-                <div class="category" data-type="Quạt tản nhiệt / Cooling fan">Quạt tản nhiệt / Cooling fan</div>
-                <div class="category" data-type="Ốp lưng / Vỏ lưng">Ốp lưng / Vỏ lưng</div>
-                <div class="category" data-type="Kính cường lực / Mặt kính">Kính cường lực / Mặt kính</div>
+                <div class="category" data-category-name="Màn hình cảm ứng">Màn hình cảm ứng</div>
+                <div class="category" data-category-name="Pin">Pin</div>
+                <div class="category" data-category-name="Camera">Camera</div>
+                <div class="category" data-category-name="Loa/ Mic">Loa/ Mic</div>
+                <div class="category" data-category-name="Cáp sạc/ Cổng sạc">Cáp sạc/ Cổng sạc</div>
+                <div class="category" data-category-name="Giá đỡ điện thoại">Giá đỡ điện thoại</div>
+                <div class="category" data-category-name="Quạt tản nhiệt / Cooling fan">Quạt tản nhiệt / Cooling fan</div>
+                <div class="category" data-category-name="Ốp lưng / Vỏ lưng">Ốp lưng / Vỏ lưng</div>
+                <div class="category" data-category-name="Kính cường lực / Mặt kính">Kính cường lực / Mặt kính</div>
             </div>
         </div>
 
@@ -119,7 +118,7 @@
     <div id="product-list" class="product-list accessory">
         <c:forEach var="product" items="${accessories}">
             <div class="product-card">
-                <a href="productDetailAccessory.jsp?id=${product.id}">
+                <a href="product-detail?id=${product.id}">
                     <div class="product-img">
                         <img src="${pageContext.request.contextPath}/assert/img/acessory/${product.image}" alt="${product.name}">
                         <c:if test="${product.discount > 0}">
@@ -164,7 +163,7 @@
                             </div>
                             <c:if test="${not empty product.variants}">
                                 <div class="colors-selection">
-                                    <span class="colors-label">Màu:</span>
+                                    <span class="colors-label"></span>
                                     <div class="colors">
                                         <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
                                             <button class="color ${colorStatus.first ? 'active' : ''}"

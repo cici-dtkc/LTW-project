@@ -31,13 +31,14 @@
                 </div>
 
                 <div class="brand-list">
-                    <div class="brand" data-brand-id="1"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
-                    <div class="brand" data-brand-id="2"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
-                    <div class="brand" data-brand-id="3"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
-                    <div class="brand" data-brand-id="4"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
-                    <div class="brand" data-brand-id="5"><img src="assert/img/logoRealme.png" alt="Realme"></div>
-                    <div class="brand" data-brand-id="6"><img src="assert/img/logoSony.png" alt="Sony"></div>
-                    <div class="brand" data-brand-id="7"><img src="assert/img/logoHonor.png" alt="Honor"></div>
+                    <div class="brand"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
+                    <div class="brand"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
+                    <div class="brand"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
+                    <div class="brand"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
+                    <div class="brand"><img src="assert/img/logoRealme.png" alt="Realme"></div>
+                    <div class="brand"><img src="assert/img/logoXiaomi.jpg" alt="Xiaomi"></div>
+                    <div class="brand"><img src="assert/img/logoSony.png" alt="Sony"></div>
+                    <div class="brand"><img src="assert/img/logoHonor.png" alt="Honor"></div>
                 </div>
             </div>
 
@@ -168,7 +169,7 @@
                                 </div>
                                 <c:if test="${not empty product.variants}">
                                     <div class="colors-selection">
-                                        <span class="colors-label">Màu:</span>
+                                        <span class="colors-label"></span>
                                         <div class="colors">
                                             <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
                                                 <button class="color ${colorStatus.first ? 'active' : ''}"
