@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!-- Sidebar Admin -->
+
 <aside class="sidebar" id="sidebar">
     <div class="brand">
         <button
@@ -55,7 +56,7 @@
         </ul>
         <ul class="nav-list second-nav">
             <li class="nav-item">
-                <a class="nav-link" data-target="logout" href="#">
+                <a class="nav-link" data-target="logout" href="${pageContext.request.contextPath}/logout">
                 <span class="icon">
                 <i class="fa-solid fa-right-from-bracket"></i></span>
                     <span class="nav-label">Đăng xuất</span>

@@ -1,20 +1,20 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
 public class Brand {
-    private int id;
+    private Integer id;
     private String name;        // Samsung, iPhone, Oppo
     private String logo;
 
     public Brand() {
     }
-    public Brand(int id) {
+    public Brand(Integer id) {
         this.id = id;
     }
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
