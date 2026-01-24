@@ -92,16 +92,46 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public int insertBrand(Handle h, Brand b) {
+        String sql = """
+        INSERT INTO brands(name)
+        VALUES (:name)
+    """;
+
+        return h.createUpdate(sql)
+                .bind("name", b.getName())
+                .executeAndReturnGeneratedKeys("id")
+                .mapTo(Integer.class)
+                .one();
+    }
+    @Override
+    public Brand findBrandByName(Handle h, String name) {
+        String sql = """
+        SELECT id, name
+        FROM brands
+        WHERE LOWER(name) = LOWER(:name)
+    """;
+
+        return h.createQuery(sql)
+                .bind("name", name.trim())
+                .mapToBean(Brand.class)
+                .findOne()
+                .orElse(null);
+    }
+
+    @Override
     public int insertProduct(Handle h, Product p) {
         String sql = """
-                    INSERT INTO products(name, img, category_id, description,warranty_period, release_date, created_at)
-                    VALUES (:name, :img, :categoryId, :description, :warranty, :releaseDate,:createdAt)
+                    INSERT INTO products(brand_id,name, img, category_id,discount_percentage, description,warranty_period, release_date, created_at)
+                    VALUES (:brandId,:name, :img, :categoryId,:discount, :description, :warranty, :releaseDate,:createdAt)
                 """;
 
         return h.createUpdate(sql)
+                .bind("brandId", p.getBrand().getId())
                 .bind("name", p.getName())
                 .bind("img", p.getMainImage())
                 .bind("categoryId", p.getCategory().getId())
+                .bind("discount", p.getDiscountPercentage())
                 .bind("description", p.getDescription())
                 .bind("warranty", 12) // Thiết lập bảo hành cứng 12 tháng (1 năm)
                 .bind("releaseDate", LocalDateTime.now()) // Thiết lập ngày ra mắt là lúc thêm sản phẩm
@@ -250,6 +280,8 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     // edit
+
+
     public Map<String, Object> findProductByVariantColorId(int vcId) {
 
         String sql = """
@@ -258,7 +290,8 @@ public class ProductDaoImpl implements ProductDao {
                         p.name         AS product_name,
                         p.img          AS product_img,
                         p.category_id  AS category_id,
-                        p.description  AS description
+                        p.description  AS description,
+                        p.discount_percentage
                     FROM variant_colors vc
                     JOIN product_variants v ON vc.variant_id = v.id
                     JOIN products p ON v.product_id = p.id
@@ -1130,10 +1163,11 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void updateProductBasic(Handle h, Product p) {
-        String sql = "UPDATE products SET name = :name, img = :img, description = :description WHERE id = :id";
+        String sql = "UPDATE products SET name = :name, img = :img,discount_percentage = :discount, description = :description WHERE id = :id";
         h.createUpdate(sql)
                 .bind("name", p.getName())
                 .bind("img", p.getMainImage())
+                .bind("discount", p.getDiscountPercentage())
                 .bind("description", p.getDescription())
                 .bind("id", p.getId())
                 .execute();

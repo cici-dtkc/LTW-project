@@ -119,6 +119,15 @@
                     <label>Giá theo màu</label>
                     <input name="colorPrice" type="number" value="${product.color_price}">
                 </div>
+                    <div class="form-group">
+                        <label>Giảm giá (%)</label>
+                        <input type="number"
+                               name="discountPercentage"
+                               min="0"
+                               max="100"
+                               value="${product.discount_percentage}">
+                    </div>
+
                 </div>
 
                 <hr class="dashed">
@@ -217,10 +226,19 @@
                             <label>Giá bán (VNĐ)</label>
                             <input type="number" name="colorPrices[]" value="${v.base_price}">
                         </div>
+                        <div class="form-group">
+                            <label>Giảm giá (%)</label>
+                            <input type="number"
+                                   name="discountPercentage"
+                                   min="0"
+                                   max="100"
+                                   value="${accessory.discount_percentage}">
+                        </div>
+
                     </div>
 
                     <c:forEach items="${v.colors}" var="c">
-                        <input type="hidden" name="colorIds[]" value="${c.color_id}">
+                        <input type="hidden" name="colorIds[]" value="${c.vc_id}">
                         <div class="color-edit-row">
                             <div class="input-unit">
                                 <span>Tồn kho</span>

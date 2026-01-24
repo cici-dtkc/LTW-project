@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
 </head>
 <body>
+<%@ include file="/views/includes/toast.jsp" %>
 <jsp:include page="/views/includes/header.jsp" />
 <main>
     <section class="address">

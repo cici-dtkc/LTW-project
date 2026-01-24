@@ -51,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
                            String[] skus, String[] colorVariantIndexes,
                            String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception {
 
+        // bắt lỗi dữ liệu đầu vào
         if (variantNames == null || variantNames.length == 0) {
             throw new Exception("Sản phẩm phải có ít nhất 1 phiên bản");
         }
@@ -62,6 +63,25 @@ public class ProductServiceImpl implements ProductService {
         }
 
         getJdbi().useTransaction(handle -> {
+
+            Brand brand = product.getBrand();
+
+            if (brand != null && brand.getId() == null) {
+
+                String brandName = brand.getName().trim();
+
+                // 1. kiểm tra trùng
+                Brand existed = productDao.findBrandByName(handle, brandName);
+
+                if (existed != null) {
+                    brand.setId(existed.getId());
+                    System.out.println("USE EXIST BRAND: " + brandName);
+                } else {
+                    int brandId = productDao.insertBrand(handle, brand);
+                    brand.setId(brandId);
+                    System.out.println("INSERT NEW BRAND: " + brandName);
+                }
+            }
             // 1. Lưu sản phẩm chính
             int productId = productDao.insertProduct(handle, product);
 
@@ -111,7 +131,12 @@ public class ProductServiceImpl implements ProductService {
                                     vc.setQuantity(parseInt(quantities != null ? quantities[j] : "0"));
                                     vc.setCreatedAt(LocalDateTime.now());
                                     if (skus != null && j < skus.length) {
-                                        vc.setSku(skus[j]);
+                                        String sku = skus[j];
+                                        if (sku == null || sku.trim().isEmpty()) {
+                                            vc.setSku(null);  // cho phép SKU null nếu trống
+                                        } else {
+                                            vc.setSku(sku.trim());
+                                        }
                                     }
                                     int variantColorId = productDao.insertVariantColor(handle, variantId, vc);
                                     String key = i + "_" + j;
@@ -139,12 +164,15 @@ public class ProductServiceImpl implements ProductService {
                         }
                     } else {
                         // --- TRƯỜNG HỢP LINH KIỆN ---
+                        double basePrice = parseDbl(basePrices != null ? basePrices[i] : "0");
                         VariantColor vc = new VariantColor();
                         vc.setColor(new Color(1)); // Màu mặc định
-                        vc.setPrice(0.0);
+                        vc.setPrice(basePrice);
                         vc.setQuantity(parseInt(variantQuantities != null ? variantQuantities[i] : "0"));
                         vc.setCreatedAt(LocalDateTime.now());
                         productDao.insertVariantColor(handle, variantId, vc);
+
+
                     }
                 }
             }
@@ -241,11 +269,18 @@ public class ProductServiceImpl implements ProductService {
                     for (int i = 0; i < vIds.length; i++) {
                         int vId = Integer.parseInt(vIds[i]);
                         int vcId = Integer.parseInt(cIds[i]);
-                        double price = Double.parseDouble(cPrices[i]);
+                        double price = Double.parseDouble(bPrices[i]);
                         int quantity = Integer.parseInt(qtys[i]);
 
                         productDao.updateVariant(handle, vId, "Default", price);
-                        productDao.updateVariantColor(handle, vcId, quantity, "", price);
+                        String sku = (skus != null && skus.length > i) ? skus[i] : null;
+                        productDao.updateVariantColor(handle, vcId, quantity, sku, price);
+                        System.out.println("CATEGORY = " + categoryId);
+                        System.out.println("vIds=" + Arrays.toString(vIds));
+                        System.out.println("bPrices=" + Arrays.toString(bPrices));
+                        System.out.println("qtys=" + Arrays.toString(qtys));
+
+
                     }
                 }
             }

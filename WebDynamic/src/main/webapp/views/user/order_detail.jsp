@@ -39,6 +39,7 @@
 </head>
 
 <body>
+<%@ include file="/views/includes/toast.jsp" %>
 <jsp:include page="/views/includes/header.jsp"/>
 
 <main class="order-detail-container">

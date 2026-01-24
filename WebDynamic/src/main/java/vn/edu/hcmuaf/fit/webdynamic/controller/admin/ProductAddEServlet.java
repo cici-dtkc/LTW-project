@@ -41,6 +41,11 @@ public class ProductAddEServlet extends HttpServlet {
             String name = request.getParameter("productName");
             String description = request.getParameter("description");
             int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            String discountStr = request.getParameter("discountPercentage");
+            int discount = 0;
+            if (discountStr != null && !discountStr.isBlank()) {
+                discount = Integer.parseInt(discountStr);
+            }
 
             String brandParam = request.getParameter("brandId");
             Brand brand;
@@ -58,6 +63,7 @@ public class ProductAddEServlet extends HttpServlet {
             product.setBrand(brand);
             product.setStatus(1);
             product.setCreatedAt(LocalDateTime.now());
+            product.setDiscountPercentage(discount);
 
             Part mainImagePart = request.getPart("productImage");
             if (mainImagePart != null && mainImagePart.getSize() > 0) {
@@ -120,7 +126,7 @@ public class ProductAddEServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
             HttpSession session = request.getSession();
-            session.setAttribute("toastMessage", "Thêm sản phẩm thất bại");
+            session.setAttribute("toastMessage", e.getMessage());
             session.setAttribute("toastType", "error");
 
             response.sendRedirect(

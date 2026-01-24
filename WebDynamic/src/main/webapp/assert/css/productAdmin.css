@@ -34,6 +34,9 @@
     margin: 0;
     font-size: 22px;
 }
+.page-content {
+    padding-top: 5rem; /* BẰNG chiều cao topbar */
+}
 
 .muted {
     color: #333333;
