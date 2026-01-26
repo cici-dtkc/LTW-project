@@ -11,6 +11,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.LinkedHashMap;
 
 @WebServlet("/placeOrder")
 public class CheckoutServlet extends HttpServlet {
@@ -32,16 +33,10 @@ public class CheckoutServlet extends HttpServlet {
             String paymentMethod = request.getParameter("payment");
             String voucherCode = request.getParameter("appliedVoucher");
 
-            // Log để debug
-            System.out.println("=== CHECKOUT DEBUG ===");
-            System.out.println("User ID: " + user.getId());
-            System.out.println("Address ID: " + addressIdStr);
-            System.out.println("Payment: " + paymentMethod);
-            System.out.println("Voucher: " + voucherCode);
-
             // Kiểm tra addressId
             if (addressIdStr == null || addressIdStr.trim().isEmpty()) {
-                System.out.println("ERROR: addressId is null or empty");
+                session.setAttribute("toastMessage", "Vui lòng chọn địa chỉ giao hàng");
+                session.setAttribute("toastType", "error");
                 response.sendRedirect("cart?action=checkout&error=no_address");
                 return;
             }
@@ -50,14 +45,16 @@ public class CheckoutServlet extends HttpServlet {
             try {
                 addressId = Integer.parseInt(addressIdStr);
             } catch (NumberFormatException e) {
-                System.out.println("ERROR: Invalid addressId format: " + addressIdStr);
+                session.setAttribute("toastMessage", "Vui lòng chọn phương thức thanh toán");
+                session.setAttribute("toastType", "error");
                 response.sendRedirect("cart?action=checkout&error=invalid_address");
                 return;
             }
 
             // Kiểm tra payment method
             if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
-                System.out.println("ERROR: Payment method is null or empty");
+                session.setAttribute("toastMessage", "Giỏ hàng của bạn đang trống");
+                session.setAttribute("toastType", "error");
                 response.sendRedirect("cart?action=checkout&error=no_payment");
                 return;
             }
@@ -67,7 +64,7 @@ public class CheckoutServlet extends HttpServlet {
                 voucherCode = null;
             }
 
-            // Lấy giỏ hàng
+            // Lấy giỏ hàng từ session
             @SuppressWarnings("unchecked")
             Map<Integer, Integer> cart = (Map<Integer, Integer>) session.getAttribute("cart");
 
@@ -77,7 +74,31 @@ public class CheckoutServlet extends HttpServlet {
                 return;
             }
 
-            System.out.println("Cart size: " + cart.size());
+            // Lấy danh sách selectedItems từ form (những sản phẩm được thanh toán)
+            String[] selectedItems = request.getParameterValues("selectedItems");
+            Map<Integer, Integer> checkoutCart = new LinkedHashMap<>();
+
+            if (selectedItems != null && selectedItems.length > 0) {
+                // Lọc chỉ sản phẩm được chọn
+                for (String selectedId : selectedItems) {
+                    try {
+                        int id = Integer.parseInt(selectedId.trim());
+                        if (cart.containsKey(id)) {
+                            checkoutCart.put(id, cart.get(id));
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Lỗi định dạng selectedItems: " + selectedId);
+                    }
+                }
+            }
+
+            // Nếu không có selectedItems hoặc lọc không ra được gì, lấy toàn bộ cart
+            if (checkoutCart.isEmpty()) {
+                System.out.println("No selectedItems found, using entire cart");
+                checkoutCart = cart;
+            }
+
+            System.out.println("Cart size: " + checkoutCart.size());
             int paymentStatus;
             if ("bank".equalsIgnoreCase(paymentMethod)) {
                 paymentStatus = 3; // Đã thanh toán
@@ -86,17 +107,36 @@ public class CheckoutServlet extends HttpServlet {
                 paymentStatus = 1; // Chưa thanh toán (COD)
                 System.out.println("Payment status: Chưa thanh toán (1)");
             }
-            // Gọi xử lý đặt hàng
-            int orderId = orderService.processOrder(user.getId(), addressId, paymentMethod, voucherCode, cart, paymentStatus);
+            // Gọi xử lý đặt hàng với chỉ những sản phẩm được thanh toán
+            int orderId = orderService.processOrder(user.getId(), addressId, paymentMethod, voucherCode, checkoutCart,
+                    paymentStatus);
 
             System.out.println("Order created with ID: " + orderId);
 
             if (orderId > 0) {
-                // Xóa giỏ hàng sau khi đặt thành công
-                session.removeAttribute("cart");
-                session.setAttribute("cartItemCount", 0);
+                // Xóa sản phẩm thanh toán khỏi giỏ hàng sau khi đặt thành công
+                if (selectedItems != null && selectedItems.length > 0) {
+                    for (String selectedId : selectedItems) {
+                        try {
+                            int id = Integer.parseInt(selectedId.trim());
+                            cart.remove(id);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Lỗi định dạng khi xóa: " + selectedId);
+                        }
+                    }
+                }
+                // Cập nhật lại cart nếu còn sản phẩm, nếu không thì xóa
+                if (cart.isEmpty()) {
+                    session.removeAttribute("cart");
+                    session.setAttribute("cartItemCount", 0);
+                } else {
+                    session.setAttribute("cart", cart);
+                    int totalQuantity = cart.values().stream().mapToInt(Integer::intValue).sum();
+                    session.setAttribute("cartItemCount", totalQuantity);
+                }
 
-                System.out.println("Order placed successfully, redirecting to order detail");
+                session.setAttribute("toastMessage", "Đặt hàng thành công 🎉");
+                session.setAttribute("toastType", "success");
                 // Chuyển hướng đến trang chi tiết đơn hàng
                 response.sendRedirect(request.getContextPath() + "/user/order-detail?orderId=" + orderId);
             } else {
@@ -109,8 +149,14 @@ public class CheckoutServlet extends HttpServlet {
             e.printStackTrace();
             response.sendRedirect("cart?action=checkout&error=invalid_number");
         } catch (Exception e) {
-            System.out.println("ERROR Exception: " + e.getMessage());
+
             e.printStackTrace();
+            HttpSession session1 = request.getSession();
+            session1.setAttribute(
+                    "toastMessage",
+                    e.getMessage() != null ? e.getMessage() : "Có lỗi hệ thống xảy ra"
+            );
+            session1.setAttribute("toastType", "error");
             response.sendRedirect("cart?action=checkout&error=system_error");
         }
     }

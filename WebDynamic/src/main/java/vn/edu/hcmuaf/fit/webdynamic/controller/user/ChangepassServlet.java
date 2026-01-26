@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
+import vn.edu.hcmuaf.fit.webdynamic.utils.SidebarUtil;
 
 import java.io.IOException;
 
@@ -20,6 +21,11 @@ public class ChangepassServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        // Set sidebar data
+        req.setAttribute("activeMenu", "password");
+        SidebarUtil.setSidebarData(req);
+
+        req.getRequestDispatcher("form_change_pass.jsp")
         HttpSession session = req.getSession();
         User currentUser = (User) session.getAttribute("user");
 
@@ -71,6 +77,11 @@ public class ChangepassServlet extends HttpServlet {
         }
 
         req.getRequestDispatcher("/views/user/form_change_pass.jsp").forward(req, resp);
+        // Set sidebar data
+        req.setAttribute("activeMenu", "password");
+        SidebarUtil.setSidebarData(req);
+
+        req.getRequestDispatcher("form_change_pass.jsp").forward(req, resp);
     }
 
 }

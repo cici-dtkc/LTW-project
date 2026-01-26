@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assert/css/header.css">
 </head>
 <body>
+<%@ include file="/views/includes/toast.jsp" %>
 <jsp:include page="/views/includes/header.jsp" />
 <main>
     <section class="address">
@@ -63,7 +64,7 @@
                         </div>
                     </td>
                     <td class="price">
-                        <fmt:formatNumber value="${item.unit_price}" pattern="#,###"/>₫
+                        <fmt:formatNumber value="${item.price_final}" pattern="#,###"/>₫
                     </td>
                     <td class="quantity">${item.quantity}</td>
                     <td class="total">
@@ -87,9 +88,9 @@
                             </div>
                             <div class="voucher-right">
                                 <div>
-                                    <h3>Giảm <fmt:formatNumber value="${v.discountAmount}"/>đ</h3>
-                                    <p>Đơn từ: <fmt:formatNumber value="${v.minOrderValue}"/>đ</p>
-                                    <p>Tối đa: <fmt:formatNumber value="${v.maxReduce}"/>đ</p>
+                                    <h3>Giảm <fmt:formatNumber value="${v.discountAmount}"/>₫</h3>
+                                    <p>Đơn từ: <fmt:formatNumber value="${v.minOrderValue}"/>₫</p>
+                                    <p>Tối đa: <fmt:formatNumber value="${v.maxReduce}"/>₫</p>
                                 </div>
                                 <button type="button"
                                         onclick="applyVoucher('${v.voucherCode}', ${v.discountAmount}, ${v.minOrderValue}, ${v.maxReduce}, '${v.type}')">

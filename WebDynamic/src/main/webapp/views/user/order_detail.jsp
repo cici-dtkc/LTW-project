@@ -39,6 +39,7 @@
 </head>
 
 <body>
+<%@ include file="/views/includes/toast.jsp" %>
 <jsp:include page="/views/includes/header.jsp"/>
 
 <main class="order-detail-container">
@@ -118,9 +119,9 @@
 
             <div class="actions" role="group" aria-label="Hành động đơn hàng">
                 <% if (order.getStatus() == 1) { %>
-                <button id="btn-request-cancel" class="btn-ghost" onclick="cancelOrder(<%= order.getId() %>)">Yêu cầu hủy</button>
+                <button id="btn-request-cancel" class="btn-ghost" data-order-id="<%= order.getId() %>" onclick="cancelOrder(this.getAttribute('data-order-id'))">Yêu cầu hủy</button>
                 <% } else if (order.getStatus() == 3 || order.getStatus() == 4) { %>
-                <button class="btn-ghost" onclick="repurchaseOrder(<%= order.getId() %>)">Mua lại</button>
+                <button class="btn-ghost" data-order-id="<%= order.getId() %>" onclick="repurchaseOrder(this.getAttribute('data-order-id'))">Mua lại</button>
                 <% } %>
             </div>
 

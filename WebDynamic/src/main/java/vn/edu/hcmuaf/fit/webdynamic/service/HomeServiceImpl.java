@@ -33,10 +33,15 @@ public class HomeServiceImpl implements HomeService {
 
     private List<Map<String, Object>> groupByProduct(List<Map<String, Object>> rawList) {
         Map<Integer, Map<String, Object>> productMap = new LinkedHashMap<>();
+        Map<String, Map<String, Object>> variantMap = new LinkedHashMap<>(); // Lưu variants theo product+variant_name
+
         for (Map<String, Object> row : rawList) {
             Integer productId = (Integer) row.get("id");
+            String variantName = String.valueOf(row.get("variant_name")).trim();
+            String variantKey = productId + "_" + variantName; // Key duy nhất cho mỗi variant
+
+            // Tạo product nếu chưa tồn tại
             if (!productMap.containsKey(productId)) {
-                // Create product map
                 Map<String, Object> product = new HashMap<>();
                 product.put("id", row.get("id"));
                 product.put("name", row.get("name"));
@@ -51,17 +56,44 @@ public class HomeServiceImpl implements HomeService {
                 product.put("variants", new ArrayList<Map<String, Object>>());
                 productMap.put(productId, product);
             }
-            // Add variant
-            Map<String, Object> variant = new HashMap<>();
-            variant.put("variant_name", String.valueOf(row.get("variant_name")).trim());
-            variant.put("base_price", row.get("base_price"));
-            variant.put("variant_color_price", row.get("variant_color_price"));
-            variant.put("variant_color_id", row.get("variant_color_id")); // THÊM DÒNG NÀY
-            variant.put("quantity", row.get("quantity"));
-            variant.put("sku", row.get("sku"));
-            variant.put("color_name", row.get("color_name"));
-            ((List<Map<String, Object>>) productMap.get(productId).get("variants")).add(variant);
+
+            // Tạo variant nếu chưa tồn tại
+            if (!variantMap.containsKey(variantKey)) {
+                Map<String, Object> variant = new HashMap<>();
+                variant.put("variant_id", row.get("variant_id"));
+                variant.put("variant_name", variantName);
+                variant.put("base_price", row.get("base_price"));
+                variant.put("variant_color_price", row.get("variant_color_price")); // Thêm giá variant_color
+                variant.put("colors", new ArrayList<Map<String, Object>>());
+                variantMap.put(variantKey, variant);
+                ((List<Map<String, Object>>) productMap.get(productId).get("variants")).add(variant);
+            }
+
+            // Thêm color vào variant (tránh duplicate colors)
+            Map<String, Object> variant = variantMap.get(variantKey);
+            List<Map<String, Object>> colors = (List<Map<String, Object>>) variant.get("colors");
+
+            // Kiểm tra color có tồn tại chưa (dựa trên color_name)
+            String colorName = (String) row.get("color_name");
+            boolean colorExists = colors.stream()
+                    .anyMatch(c -> colorName != null && colorName.equals(c.get("name")));
+
+            if (!colorExists && colorName != null) {
+                Map<String, Object> colorObj = new HashMap<>();
+                Map<String, Object> colorData = new HashMap<>();
+                colorData.put("id", row.get("color_id"));
+                colorData.put("name", colorName);
+                colorData.put("colorCode", row.get("color_code"));
+
+                colorObj.put("id", row.get("variant_color_id"));
+                colorObj.put("color", colorData);
+                colorObj.put("price", row.get("variant_color_price"));
+                colorObj.put("quantity", row.get("quantity"));
+                colorObj.put("sku", row.get("sku"));
+                colors.add(colorObj);
+            }
         }
+
         return new ArrayList<>(productMap.values());
     }
 }

@@ -42,7 +42,7 @@ body {
 }
 
 .filter-btn i {
-    color: #0071e3;
+    color: var(--color-button);
     font-size: 14px;
 }
 
@@ -72,13 +72,13 @@ body {
 }
 
 .brand.active {
-    border: 1px solid #007bff;
+    border: 1px solid var(--color-button);
     transition: 0.2s;
 }
 
 .option-group button.active {
-    color:#007bff;
-    border: 1px solid #007bff;
+    color:var(--color-button);
+    border: 1px solid var(--box-shadow );
     font-weight: bold;
 }
 
@@ -115,16 +115,16 @@ body {
 }
 
 .filter-item:hover {
-    background: #007bff;
+    background: var(--color-button);
     color: #fff;
-    border-color: #007bff;
+    border-color: var(--box-shadow);
     transform: translateY(-2px);
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
 .filter-item.active {
-    border: 1px solid #007bff;
-    background: #007bff;
+    border: 1px solid var(--color-button);
+    background: var(--color-button);
     color: #fff;
     transition: 0.2s;
 }
@@ -167,11 +167,11 @@ body {
 }
 
 .option-group button:hover {
-    border-color: #2563eb;
+    border-color: var(--color-button);
 
 }
 .option-group button .active {
-    border-color: #2563eb;
+    border-color: var(--color-button);
     background: var(--color-button);
     color: white;
 }
@@ -244,7 +244,7 @@ body {
 }
 
 .sort-section li.active {
-    color: #0071e3;
+    color: var(--color-button);
     font-weight: 150;
 }
 
@@ -417,6 +417,49 @@ body {
     border-color: #000;
 }
 
+/* PHẦN CHỌN MÀU */
+.colors-selection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    margin: 10px 0;
+}
+
+.colors-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #333;
+    white-space: nowrap;
+}
+
+.colors {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.colors .color {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.colors .color:hover {
+    transform: scale(1.1);
+    border-color: #999;
+}
+
+.colors .color.active {
+    border-color: #333;
+    border-width: 3px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
 /* DUNG LƯỢNG (Giữ nguyên) */
 .capacity {
     display: flex;
@@ -436,13 +479,13 @@ body {
 }
 
 .capacity button.active {
-    border-color: #2563eb;
+    border-color: var(--color-button);
     background: var(--color-button);
     color: white;
 }
 
 .capacity button:hover {
-    border-color: #2563eb;
+    border-color: var(--color-button);
 }
 
 /* --- PHẦN RATING (Giữ nguyên) --- */
@@ -529,15 +572,15 @@ body {
 
 /* Hiệu ứng hover */
 .category:hover {
-    background: #007bff;
+    background: var(--color-button);
     color: #fff;
-    border-color: #007bff;
+    border-color: var(--box-shadow);
     transform: translateY(-2px);
     box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .category.active {
-    border: 1px solid #007bff;
-    background: #007bff;
+    border: 1px solid var(--color-button);
+    background: var(--color-button);
     color: #fff;
     transition: 0.2s;
 }

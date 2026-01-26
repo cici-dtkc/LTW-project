@@ -34,7 +34,7 @@ public class ProductListServlet extends HttpServlet {
         List<String> memory = getListParameter(request, "memory");
         List<String> colors = getListParameter(request, "color");
         Integer year = getIntegerParameter(request, "year");
-        Integer brandId = getIntegerParameter(request, "brandId");
+        String brandName = request.getParameter("brandName");
         String sortBy = request.getParameter("sort");
         String search = request.getParameter("search");
 
@@ -46,10 +46,10 @@ public class ProductListServlet extends HttpServlet {
 
         // Lấy danh sách sản phẩm với bộ lọc
         List<Map<String, Object>> allProducts;
-        if (hasFilters(priceMin, priceMax, memory, colors, year, brandId, sortBy)
+        if (hasFilters(priceMin, priceMax, memory, colors, year, brandName, sortBy)
                 || (search != null && !search.trim().isEmpty())) {
             allProducts = productService.getProductsByCategoryWithFilters(
-                    categoryId, priceMin, priceMax, memory, colors, year, brandId, null, null, sortBy);
+                    categoryId, priceMin, priceMax, memory, colors, year, brandName, null, null, sortBy);
 
             // Lọc theo search nếu có
             if (search != null && !search.trim().isEmpty()) {
@@ -126,9 +126,9 @@ public class ProductListServlet extends HttpServlet {
     }
 
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> memory,
-            List<String> colors, Integer year, Integer brandId, String sortBy) {
+            List<String> colors, Integer year, String brandName, String sortBy) {
         return priceMin != null || priceMax != null || (memory != null && !memory.isEmpty()) ||
-                (colors != null && !colors.isEmpty()) || year != null || brandId != null ||
+                (colors != null && !colors.isEmpty()) || year != null || (brandName != null && !brandName.trim().isEmpty()) ||
                 (sortBy != null && !sortBy.trim().isEmpty());
     }
 }

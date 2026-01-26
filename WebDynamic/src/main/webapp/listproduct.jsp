@@ -31,13 +31,14 @@
                 </div>
 
                 <div class="brand-list">
-                    <div class="brand" data-brand-id="1"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
-                    <div class="brand" data-brand-id="2"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
-                    <div class="brand" data-brand-id="3"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
-                    <div class="brand" data-brand-id="4"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
-                    <div class="brand" data-brand-id="5"><img src="assert/img/logoRealme.png" alt="Realme"></div>
-                    <div class="brand" data-brand-id="6"><img src="assert/img/logoSony.png" alt="Sony"></div>
-                    <div class="brand" data-brand-id="7"><img src="assert/img/logoHonor.png" alt="Honor"></div>
+                    <div class="brand"><img src="assert/img/logoIphone.png" alt="iPhone"></div>
+                    <div class="brand"><img src="assert/img/logoSamsung.png" alt="Samsung"></div>
+                    <div class="brand"><img src="assert/img/logoOppo.png" alt="Oppo"></div>
+                    <div class="brand"><img src="assert/img/logoVivo.png" alt="Vivo"></div>
+                    <div class="brand"><img src="assert/img/logoRealme.png" alt="Realme"></div>
+                    <div class="brand"><img src="assert/img/logoXiaomi.jpg" alt="Xiaomi"></div>
+                    <div class="brand"><img src="assert/img/logoSony.png" alt="Sony"></div>
+                    <div class="brand"><img src="assert/img/logoHonor.png" alt="Honor"></div>
                 </div>
             </div>
 
@@ -138,9 +139,9 @@
                     <div class="product-info">
                         <h2>${product.name}</h2>
                         <div class="price-wrap">
-                            <span class="price-new" id="price-new-${product.id}"> <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###" />đ </span>
+                            <span class="price-new" id="price-new-${product.id}"> <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###" />₫ </span>
                             <c:if test="${product.priceOld > product.priceNew}">
-            <span class="price-old" id="price-old-${product.id}"> <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###" />đ
+            <span class="price-old" id="price-old-${product.id}"> <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###" />₫
             </span>
                             </c:if>
                         </div>
@@ -164,6 +165,33 @@
                                             </button>
                                             <c:set var="firstActive" value="false"/>
                                         </c:if>
+                                    </c:forEach>
+                                </div>
+                                <c:if test="${not empty product.variants}">
+                                    <div class="colors-selection">
+                                        <span class="colors-label"></span>
+                                        <div class="colors">
+                                            <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
+                                                <button class="color ${colorStatus.first ? 'active' : ''}"
+                                                        data-color="${color.name}"
+                                                        data-color-id="${color.id}"
+                                                        data-color-code="${color.code}"
+                                                        data-variant-color-id="${color.id}"
+                                                        data-color-price-new="${color.priceNew}"
+                                                        data-color-price-old="${color.priceOld}"
+                                                        title="${color.name}">
+                                                </button>
+                                            </c:forEach>
+                                        </div>
+                                    </div>
+                                </c:if>
+                                <div class="variant-colors-data" style="display:none;">
+                                    <c:forEach var="variant" items="${product.variants}" varStatus="variantStatus">
+                                        <div class="variant-color-group" data-variant-id="${variant.id}">
+                                            <c:forEach var="color" items="${variant.colors}">
+                                                <span class="color-item" data-color="${color.name}" data-color-id="${color.id}" data-color-code="${color.code}" data-variant-color-id="${color.id}" data-color-price-old="${color.priceOld}" data-color-price-new="${color.priceNew}"></span>
+                                            </c:forEach>
+                                        </div>
                                     </c:forEach>
                                 </div>
 
@@ -270,7 +298,7 @@
                 <c:forEach var="i" begin="${startPage}" end="${endPage}">
                     <c:choose>
                         <c:when test="${i == currentPage}">
-                            <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid #007bff; border-radius: 5px; background: #007bff; color: #fff; font-weight: bold;">${i}</span>
+                            <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid var(--color-button); border-radius: 5px; background: var(--color-button); color: #fff; font-weight: bold;">${i}</span>
                         </c:when>
                         <c:otherwise>
                             <a href="?page=${i}${queryString}"

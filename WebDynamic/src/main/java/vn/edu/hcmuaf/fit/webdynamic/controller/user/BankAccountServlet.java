@@ -6,11 +6,12 @@ import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.BankAccount;
 import vn.edu.hcmuaf.fit.webdynamic.service.BankAccountService;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
+import vn.edu.hcmuaf.fit.webdynamic.utils.SidebarUtil;
 
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(name = "BankAccountServlet", urlPatterns = {"/user/payment"})
+@WebServlet(name = "BankAccountServlet", urlPatterns = { "/user/payment" })
 public class BankAccountServlet extends HttpServlet {
 
     private BankAccountService bankService;
@@ -38,6 +39,11 @@ public class BankAccountServlet extends HttpServlet {
             BankAccount ba = account.get();
             req.setAttribute("bankAccount", ba);
         }
+
+        // Set sidebar data
+        req.setAttribute("activeMenu", "bank");
+        SidebarUtil.setSidebarData(req);
+
         req.getRequestDispatcher("/views/user/bankAccount.jsp").forward(req, resp);
     }
 
@@ -53,7 +59,6 @@ public class BankAccountServlet extends HttpServlet {
         String bankName = req.getParameter("bank_name");
         String accountNumber = req.getParameter("account_number");
         String accountName = req.getParameter("account_name");
-
 
         Optional<BankAccount> existing = bankService.getByUserId(user.getId());
         boolean success;

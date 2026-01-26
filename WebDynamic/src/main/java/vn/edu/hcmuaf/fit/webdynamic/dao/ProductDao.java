@@ -20,6 +20,11 @@ public interface ProductDao {
     // Toggle product status
     boolean toggleStatus(int productId);
     /*  ADD PRODUCT  */
+    // find brand by name
+    Brand findBrandByName(Handle h, String name);
+    // insert brand and return its ID
+    int insertBrand(Handle h, Brand b);
+    // insert product
     int insertProduct(Handle h, Product p);
     // insert variant and return its ID
     int insertVariant(Handle h, int productId, ProductVariant v);
@@ -59,11 +64,10 @@ public interface ProductDao {
             List<String> memory,
             List<String> colors,
             Integer year,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
-            String sortBy
-    );
+            String sortBy);
 
     List<Map<String, Object>> getAccessories();
 
@@ -75,6 +79,14 @@ public interface ProductDao {
             String condition,
             String sortBy
     );
+
+    List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            String brandName,
+            List<String> types,
+            String condition,
+            String sortBy);
 
     List<Map<String, Object>> getProductsForList();
 // ===== UPDATE PRODUCT =====

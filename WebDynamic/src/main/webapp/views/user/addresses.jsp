@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%
+    // Dữ liệu được set bởi AddressServlet
     User user = (User) request.getAttribute("user");
-    request.setAttribute("activeMenu", "address");
 %>
 
 <html>

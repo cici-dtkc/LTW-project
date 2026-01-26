@@ -53,12 +53,6 @@ function applyVoucher(code, discountAmount, minOrder, maxReduce, type) {
         const subtotal = parseFloat(subtotalEl.getAttribute('data-value'));
         const shipping = parseFloat(shippingEl.getAttribute('data-value'));
 
-        // 2. Kiểm tra điều kiện đơn hàng tối thiểu
-        if (subtotal < minOrder) {
-            alert("Đơn hàng tối thiểu " + minOrder.toLocaleString("vi-VN") + "₫ mới có thể sử dụng mã này!");
-            return;
-        }
-
         // 3. Tính toán số tiền giảm
         let discount = 0;
         if (type === 'percentage' || type === '1') {
@@ -97,8 +91,6 @@ function applyVoucher(code, discountAmount, minOrder, maxReduce, type) {
             btn.closest('.voucher').classList.add('active');
         }
 
-        alert("Đã áp dụng mã: " + code);
-
     } catch (error) {
         console.error("Lỗi khi áp dụng voucher:", error);
     }
@@ -115,16 +107,8 @@ document.addEventListener("DOMContentLoaded", function () {
             // Kiểm tra Address ID trước khi gửi
             const addressInput = document.querySelector("input[name='addressId']");
             const addressId = addressInput ? addressInput.value : "";
-
-            if (!addressId || addressId === "" || addressId === "0") {
-                alert("Vui lòng chọn địa chỉ nhận hàng!");
-                return;
-            }
-
-            if (confirm("Xác nhận thanh toán và đặt hàng?")) {
-                // Chỉ gọi lệnh submit duy nhất này
                 orderForm.submit();
-            }
+
         });
     }
 });

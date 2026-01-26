@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.*;
 import vn.edu.hcmuaf.fit.webdynamic.model.*;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderDetailService;
 import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
+import vn.edu.hcmuaf.fit.webdynamic.utils.SidebarUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -78,6 +79,10 @@ public class OrderDetailServlet extends HttpServlet {
             request.setAttribute("paymentType", paymentType);
             request.setAttribute("orderService", orderService);
             request.setAttribute("orderDetailService", orderDetailService);
+
+            // Set sidebar data
+            request.setAttribute("activeMenu", "order");
+            SidebarUtil.setSidebarData(request);
 
             // Forward đến JSP
             request.getRequestDispatcher("/views/user/order_detail.jsp").forward(request, response);

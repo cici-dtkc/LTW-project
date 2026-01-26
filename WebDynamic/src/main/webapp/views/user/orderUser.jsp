@@ -99,7 +99,7 @@
                             <div class="order-detail">
                                 <h3><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></h3>
                                 <p>Số lượng: <%= detail.getQuantity() %></p>
-                                <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>đ</span></p>
+                                <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>₫</span></p>
                             </div>
                         </div>
                     </a>
@@ -117,7 +117,7 @@
                         <div class="order-detail">
                             <h3><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></h3>
                             <p>Số lượng: <%= detail.getQuantity() %></p>
-                            <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>đ</span></p>
+                            <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>₫</span></p>
                         </div>
                     </div>
                 </a>
@@ -125,7 +125,7 @@
 
                 <div class="order-footer">
                     <p class="total">Tổng cộng:
-                        <span class="total-price"><%= currencyFormat.format(order.getTotalAmount()) %>đ</span>
+                        <span class="total-price"><%= currencyFormat.format(order.getTotalAmount()) %>₫</span>
                     </p>
                     <div class="order-status">
             <span class="status <%= statusClass %>">

@@ -35,17 +35,17 @@
                                 <h3>
                                     Giảm ${voucher.discountAmount}%
                                     <span style="font-size:14px; font-weight:400;">
-                        (Tối đa <fmt:formatNumber value="${voucher.maxReduce}" type="number"/> đ)
+                        (Tối đa <fmt:formatNumber value="${voucher.maxReduce}" type="number"/> ₫)
                     </span>
                                 </h3>
                             </c:when>
 
                             <c:otherwise>
-                                <h3>Giảm <fmt:formatNumber value="${voucher.discountAmount}" type="number"/> đ</h3>
+                                <h3>Giảm <fmt:formatNumber value="${voucher.discountAmount}" type="number"/> ₫</h3>
                             </c:otherwise>
                         </c:choose>
 
-                        <p>Đơn tối thiểu <fmt:formatNumber value="${voucher.minOrderValue}" type="number"/> đ</p>
+                        <p>Đơn tối thiểu <fmt:formatNumber value="${voucher.minOrderValue}" type="number"/> ₫</p>
                     </div>
                 </div>
 

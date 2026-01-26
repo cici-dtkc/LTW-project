@@ -82,7 +82,7 @@
                         <option value="1" ${item.order.status == 1 ? 'selected' : ''}>Đang lên đơn</option>
                         <option value="2" ${item.order.status == 2 ? 'selected' : ''}>Đang giao</option>
                         <option value="3" ${item.order.status == 3 ? 'selected' : ''}>Đã giao</option>
-                        <option value="4" ${item.order.status == 4 ? 'selected' : ''}>Hoàn thành</option>
+                        <option value="4" ${item.order.status == 4 ? 'selected' : ''}>Đã hủy</option>
                     </select>
                 </td>
                 <td>
@@ -96,7 +96,7 @@
                     </c:choose>
                 </td>
                 <td>
-                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>đ
+                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>₫
                 </td>
             </tr>
         </c:forEach>

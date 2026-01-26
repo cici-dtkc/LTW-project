@@ -30,8 +30,8 @@ public class AccessoryListServlet extends HttpServlet {
         // Lấy các tham số lọc
         Double priceMin = getDoubleParameter(request, "priceMin");
         Double priceMax = getDoubleParameter(request, "priceMax");
-        List<String> types = getListParameter(request, "type");
-        Integer brandId = getIntegerParameter(request, "brandId");
+        List<String> categoryNames = getListParameter(request, "categoryName");
+        String brandName = request.getParameter("brandName");
         String condition = request.getParameter("condition");
         List<String> models = getListParameter(request, "model");
         String sortBy = request.getParameter("sort");
@@ -45,10 +45,23 @@ public class AccessoryListServlet extends HttpServlet {
 
         // Lấy danh sách linh kiện với bộ lọc (tất cả category_id != 1)
         List<Map<String, Object>> allAccessories;
-        if (hasFilters(priceMin, priceMax, types, brandId, condition, models, sortBy)
+        if (hasFilters(priceMin, priceMax, categoryNames, brandName, condition, models, sortBy)
                 || (search != null && !search.trim().isEmpty())) {
             allAccessories = productService.getAccessoriesWithFilters(
-                    priceMin, priceMax, brandId, types, condition, sortBy);
+                    priceMin, priceMax, brandName, null, condition, sortBy);
+
+            // Lọc theo tên category sau khi lấy dữ liệu
+            if (categoryNames != null && !categoryNames.isEmpty()) {
+                allAccessories = allAccessories.stream()
+                        .filter(product -> {
+                            String productName = (String) product.get("name");
+                            if (productName == null)
+                                return false;
+                            return categoryNames.stream()
+                                    .anyMatch(catName -> productName.toLowerCase().contains(catName.toLowerCase()));
+                        })
+                        .collect(toList());
+            }
 
             // Lọc theo model sau khi lấy dữ liệu (nếu có)
             if (models != null && !models.isEmpty()) {
@@ -137,10 +150,11 @@ public class AccessoryListServlet extends HttpServlet {
         return null;
     }
 
-    private boolean hasFilters(Double priceMin, Double priceMax, List<String> types,
-            Integer brandId, String condition, List<String> models, String sortBy) {
-        return priceMin != null || priceMax != null || (types != null && !types.isEmpty()) ||
-                brandId != null || (condition != null && !condition.trim().isEmpty()) ||
+    private boolean hasFilters(Double priceMin, Double priceMax, List<String> categoryNames,
+            String brandName, String condition, List<String> models, String sortBy) {
+        return priceMin != null || priceMax != null || (categoryNames != null && !categoryNames.isEmpty()) ||
+                (brandName != null && !brandName.trim().isEmpty()) || (condition != null && !condition.trim().isEmpty())
+                ||
                 (models != null && !models.isEmpty()) ||
                 (sortBy != null && !sortBy.trim().isEmpty());
     }

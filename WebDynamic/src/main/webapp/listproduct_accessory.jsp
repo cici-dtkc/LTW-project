@@ -30,16 +30,15 @@
             </div>
 
             <div class="category-list">
-                <div class="category" data-type="Màn hình cảm ứng">Màn hình cảm ứng</div>
-                <div class="category" data-type="Pin">Pin</div>
-                <div class="category" data-type="Cáp sạc/ Cổng sạc">Cáp sạc/ Cổng sạc</div>
-                <div class="category" data-type="Camera">Camera</div>
-                <div class="category" data-type="Loa/ Mic">Loa/ Mic</div>
-                <div class="category" data-type="Vỏ và khung sườn">Vỏ và khung sườn</div>
-                <div class="category" data-type="Giá đỡ điện thoại">Giá đỡ điện thoại</div>
-                <div class="category" data-type="Quạt tản nhiệt / Cooling fan">Quạt tản nhiệt / Cooling fan</div>
-                <div class="category" data-type="Ốp lưng / Vỏ lưng">Ốp lưng / Vỏ lưng</div>
-                <div class="category" data-type="Kính cường lực / Mặt kính">Kính cường lực / Mặt kính</div>
+                <div class="category" data-category-name="Màn hình cảm ứng">Màn hình cảm ứng</div>
+                <div class="category" data-category-name="Pin">Pin</div>
+                <div class="category" data-category-name="Camera">Camera</div>
+                <div class="category" data-category-name="Loa/ Mic">Loa/ Mic</div>
+                <div class="category" data-category-name="Cáp sạc/ Cổng sạc">Cáp sạc/ Cổng sạc</div>
+                <div class="category" data-category-name="Giá đỡ điện thoại">Giá đỡ điện thoại</div>
+                <div class="category" data-category-name="Quạt tản nhiệt / Cooling fan">Quạt tản nhiệt / Cooling fan</div>
+                <div class="category" data-category-name="Ốp lưng / Vỏ lưng">Ốp lưng / Vỏ lưng</div>
+                <div class="category" data-category-name="Kính cường lực / Mặt kính">Kính cường lực / Mặt kính</div>
             </div>
         </div>
 
@@ -119,7 +118,7 @@
     <div id="product-list" class="product-list accessory">
         <c:forEach var="product" items="${accessories}">
             <div class="product-card">
-                <a href="productDetailAccessory.jsp?id=${product.id}">
+                <a href="product-detail?id=${product.id}">
                     <div class="product-img">
                         <img src="${pageContext.request.contextPath}/assert/img/acessory/${product.image}" alt="${product.name}">
                         <c:if test="${product.discount > 0}">
@@ -149,15 +148,44 @@
                         <c:if test="${hasValidVariant}">
                             <div class="capacity">
                                 <c:set var="firstActive" value="true"/>
-                                <c:forEach var="variant" items="${product.variants}">
+                                <c:forEach var="variant" items="${product.variants}" varStatus="status">
                                     <c:if test="${not empty variant.name}">
                                         <button class="${firstActive ? 'active' : ''}"
+                                                data-id="${variant.id}"
                                                 data-price="${variant.priceNew}"
-                                                data-old-price="${variant.priceOld}">
+                                                data-old-price="${variant.priceOld}"
+                                                data-product-id="${product.id}">
                                                 ${variant.name}
                                         </button>
                                         <c:set var="firstActive" value="false"/>
                                     </c:if>
+                                </c:forEach>
+                            </div>
+                            <c:if test="${not empty product.variants}">
+                                <div class="colors-selection">
+                                    <span class="colors-label"></span>
+                                    <div class="colors">
+                                        <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
+                                            <button class="color ${colorStatus.first ? 'active' : ''}"
+                                                    data-color="${color.name}"
+                                                    data-color-id="${color.id}"
+                                                    data-color-code="${color.code}"
+                                                    data-variant-color-id="${color.id}"
+                                                    data-color-price-new="${color.priceNew}"
+                                                    data-color-price-old="${color.priceOld}"
+                                                    title="${color.name}">
+                                            </button>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                            </c:if>
+                            <div class="variant-colors-data" style="display:none;">
+                                <c:forEach var="variant" items="${product.variants}" varStatus="variantStatus">
+                                    <div class="variant-color-group" data-variant-id="${variant.id}">
+                                        <c:forEach var="color" items="${variant.colors}">
+                                            <span class="color-item" data-color="${color.name}" data-color-id="${color.id}" data-color-code="${color.code}" data-variant-color-id="${color.id}" data-color-price-old="${color.priceOld}" data-color-price-new="${color.priceNew}"></span>
+                                        </c:forEach>
+                                    </div>
                                 </c:forEach>
                             </div>
                         </c:if>
@@ -263,7 +291,7 @@
             <c:forEach var="i" begin="${startPage}" end="${endPage}">
                 <c:choose>
                     <c:when test="${i == currentPage}">
-                        <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid #007bff; border-radius: 5px; background: #007bff; color: #fff; font-weight: bold;">${i}</span>
+                        <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid var(--color-button); border-radius: 5px; background: var(--color-button); color: #fff; font-weight: bold;">${i}</span>
                     </c:when>
                     <c:otherwise>
                         <a href="?page=${i}${queryString}" 
