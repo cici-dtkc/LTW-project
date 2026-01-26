@@ -177,6 +177,11 @@ public class LoginFacebookCallbackServlet extends HttpServlet {
                 redirectUrl = "/home"; // vì role luôn là 1 rồi
             }
 
+            // Đảm bảo redirectUrl không chứa contextPath
+            if (redirectUrl.startsWith(request.getContextPath())) {
+                redirectUrl = redirectUrl.substring(request.getContextPath().length());
+            }
+
             response.sendRedirect(contextPath + redirectUrl);
 
 

@@ -127,11 +127,11 @@
         <div id="product-list-accessories" class="product-list">
             <c:forEach var="accessory" items="${featuredAccessories}">
                 <div class="product-card">
-                    <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}">
+                    <a href="${pageContext.request.contextPath}/product-detail?id=${accessory.id}">
                         <div class="product-img">
-                            <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
-                            <c:if test="${product.discount_percentage > 0}">
-                                <span class="discount-badge">-${product.discount_percentage}%</span>
+                            <img src="${pageContext.request.contextPath}/assert/img/product/${accessory.main_image}" alt="${accessory.name}">
+                            <c:if test="${accessory.discount_percentage > 0}">
+                                <span class="discount-badge">-${accessory.discount_percentage}%</span>
                             </c:if>
                         </div>
                     </a>
@@ -220,10 +220,7 @@
             <a href="${pageContext.request.contextPath}/listproduct?brandId=3" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoVivo.png" alt="Vivo">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct?brandId=
-
-
-            4" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandId= 4" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoSamsung.png" alt="Samsung">
             </a>
         </div>
@@ -232,7 +229,7 @@
 </div>
 
 <jsp:include page="/views/includes/footer.jsp"/>
-<jsp:include page="/views/includes/toast.jsp"/>
+<%--<jsp:include page="/views/includes/toast.jsp"/>--%>
 <script src="${pageContext.request.contextPath}/js/home.js"></script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/listProduct.js"></script>

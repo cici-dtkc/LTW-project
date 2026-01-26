@@ -60,7 +60,7 @@ public class LoginFilter implements Filter {
 
         if ((requestURI.startsWith(contextPath + "/cart")
                 || requestURI.startsWith(contextPath + "/user")
-                || requestURI.startsWith(contextPath + "/checkout")) && role != 1) {
+                || requestURI.startsWith(contextPath + "/checkout")) && role == 0) {
             // Admin không vào trang user
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Bạn không có quyền truy cập trang này!");
             return;
