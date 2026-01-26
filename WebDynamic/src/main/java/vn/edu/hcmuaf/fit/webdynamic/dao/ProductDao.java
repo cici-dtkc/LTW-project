@@ -64,11 +64,10 @@ public interface ProductDao {
             List<String> memory,
             List<String> colors,
             Integer year,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
-            String sortBy
-    );
+            String sortBy);
 
     List<Map<String, Object>> getAccessories();
 
@@ -80,6 +79,14 @@ public interface ProductDao {
             String condition,
             String sortBy
     );
+
+    List<Map<String, Object>> getAccessoriesWithFilters(
+            Double priceMin,
+            Double priceMax,
+            String brandName,
+            List<String> types,
+            String condition,
+            String sortBy);
 
     List<Map<String, Object>> getProductsForList();
 // ===== UPDATE PRODUCT =====

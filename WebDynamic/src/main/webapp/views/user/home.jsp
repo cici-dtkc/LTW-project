@@ -106,7 +106,7 @@
 
                             <c:if test="${not empty product.variants[0].colors}">
                                 <div class="colors-selection">
-                                    <span class="colors-label">Màu:</span>
+                                    <span class="colors-label"></span>
                                     <div class="colors">
                                         <c:forEach var="color" items="${product.variants[0].colors}" varStatus="colorStatus">
                                             <button class="color ${colorStatus.first ? 'active' : ''}"
@@ -221,7 +221,7 @@
 
                             <c:if test="${not empty accessory.variants[0].colors}">
                                 <div class="colors-selection">
-                                    <span class="colors-label">Màu:</span>
+                                    <span class="colors-label"></span>
                                     <div class="colors">
                                         <c:forEach var="color" items="${accessory.variants[0].colors}" varStatus="colorStatus">
                                             <button class="color ${colorStatus.first ? 'active' : ''}"
@@ -317,16 +317,16 @@
     <!--    Section logo-->
     <section class="brand-section">
         <div class="brand-list">
-            <a href="${pageContext.request.contextPath}/listproduct?brandId=1" class="brand-item">
-                <img src="${pageContext.request.contextPath}/assert/img/logoIphone.png" alt="Apple">
+            <a href="${pageContext.request.contextPath}/listproduct?brandName=iPhone" class="brand-item">
+                <img src="${pageContext.request.contextPath}/assert/img/logoIphone.png" alt="iPhone">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct?brandId=2" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandName=Oppo" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoOppo.png" alt="Oppo">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct?brandId=3" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandName=Vivo" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoVivo.png" alt="Vivo">
             </a>
-            <a href="${pageContext.request.contextPath}/listproduct?brandId= 4" class="brand-item">
+            <a href="${pageContext.request.contextPath}/listproduct?brandName=Samsung" class="brand-item">
                 <img src="${pageContext.request.contextPath}/assert/img/logoSamsung.png" alt="Samsung">
             </a>
         </div>

@@ -42,7 +42,7 @@ body {
 }
 
 .filter-btn i {
-    color: #0071e3;
+    color: var(--color-button);
     font-size: 14px;
 }
 

@@ -23,51 +23,51 @@
                                 <div class="mega-col">
                                     <h4>Linh kiện di động</h4>
                                     <c:url var="manHinhUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Màn hình cảm ứng"/>
+                                        <c:param name="categoryName" value="Màn hình cảm ứng"/>
                                     </c:url>
                                     <a href="${manHinhUrl}">Màn hình cảm ứng</a>
                                     
                                     <c:url var="pinUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Pin"/>
+                                        <c:param name="categoryName" value="Pin"/>
                                     </c:url>
                                     <a href="${pinUrl}">Pin</a>
                                     
                                     <c:url var="cameraUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Camera"/>
+                                        <c:param name="categoryName" value="Camera"/>
                                     </c:url>
                                     <a href="${cameraUrl}">Camera</a>
                                 </div>
                                 <div class="mega-col">
                                     <h4>&nbsp;</h4>
                                     <c:url var="loaMicUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Loa/ Mic"/>
+                                        <c:param name="categoryName" value="Loa/ Mic"/>
                                     </c:url>
                                     <a href="${loaMicUrl}">Loa/mic</a>
                                     
                                     <c:url var="capSacUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Cáp sạc/ Cổng sạc"/>
+                                        <c:param name="categoryName" value="Cáp sạc/ Cổng sạc"/>
                                     </c:url>
                                     <a href="${capSacUrl}">Cáp sạc / Cổng sạc</a>
                                     
                                     <c:url var="giaDoUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Giá đỡ điện thoại"/>
+                                        <c:param name="categoryName" value="Giá đỡ điện thoại"/>
                                     </c:url>
                                     <a href="${giaDoUrl}">Giá đỡ điện thoại</a>
                                 </div>
                                 <div class="mega-col">
                                     <h4>&nbsp;</h4>
                                     <c:url var="quatTanUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Quạt tản nhiệt / Cooling fan"/>
+                                        <c:param name="categoryName" value="Quạt tản nhiệt / Cooling fan"/>
                                     </c:url>
                                     <a href="${quatTanUrl}">Quạt tản nhiệt / Cooling fan</a>
                                     
                                     <c:url var="opLungUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Ốp lưng / Vỏ lưng"/>
+                                        <c:param name="categoryName" value="Ốp lưng / Vỏ lưng"/>
                                     </c:url>
                                     <a href="${opLungUrl}">Ốp lưng / Vỏ lưng</a>
                                     
                                     <c:url var="kinhCuongUrl" value="/listproduct_accessory">
-                                        <c:param name="type" value="Kính cường lực / Mặt kính"/>
+                                        <c:param name="categoryName" value="Kính cường lực / Mặt kính"/>
                                     </c:url>
                                     <a href="${kinhCuongUrl}">Kính cường lực / Mặt kính</a>
                                 </div>

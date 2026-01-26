@@ -94,9 +94,9 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public int insertBrand(Handle h, Brand b) {
         String sql = """
-        INSERT INTO brands(name)
-        VALUES (:name)
-    """;
+                    INSERT INTO brands(name)
+                    VALUES (:name)
+                """;
 
         return h.createUpdate(sql)
                 .bind("name", b.getName())
@@ -104,13 +104,14 @@ public class ProductDaoImpl implements ProductDao {
                 .mapTo(Integer.class)
                 .one();
     }
+
     @Override
     public Brand findBrandByName(Handle h, String name) {
         String sql = """
-        SELECT id, name
-        FROM brands
-        WHERE LOWER(name) = LOWER(:name)
-    """;
+                    SELECT id, name
+                    FROM brands
+                    WHERE LOWER(name) = LOWER(:name)
+                """;
 
         return h.createQuery(sql)
                 .bind("name", name.trim())
@@ -280,7 +281,6 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     // edit
-
 
     public Map<String, Object> findProductByVariantColorId(int vcId) {
 
@@ -600,7 +600,7 @@ public class ProductDaoImpl implements ProductDao {
             List<String> memory,
             List<String> colors,
             Integer year,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
             String sortBy) {
@@ -623,6 +623,7 @@ public class ProductDaoImpl implements ProductDao {
                         COALESCE(AVG(f.rating), 0) AS rating,
                         p.total_sold AS soldCount
                     FROM products p
+                    LEFT JOIN brands b ON p.brand_id = b.id
                     LEFT JOIN product_variants v ON p.id = v.product_id
                     LEFT JOIN variant_colors vc ON v.id = vc.variant_id
                     LEFT JOIN colors col ON vc.color_id = col.id
@@ -674,9 +675,9 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         // Lọc theo thương hiệu
-        if (brandId != null) {
-            sql.append(" AND p.brand_id = ?");
-            params.add(brandId);
+        if (brandName != null && !brandName.trim().isEmpty()) {
+            sql.append(" AND b.name = ?");
+            params.add(brandName);
         }
 
         // Lọc theo loại linh kiện (types) - có thể cần thêm bảng hoặc trường
@@ -955,10 +956,16 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    public List<Map<String, Object>> getAccessoriesWithFilters(Double priceMin, Double priceMax, Integer brandId,
+            List<String> types, String condition, String sortBy) {
+        return List.of();
+    }
+
+    @Override
     public List<Map<String, Object>> getAccessoriesWithFilters(
             Double priceMin,
             Double priceMax,
-            Integer brandId,
+            String brandName,
             List<String> types,
             String condition,
             String sortBy) {
@@ -967,6 +974,7 @@ public class ProductDaoImpl implements ProductDao {
                         p.id,
                         p.name,
                         p.img AS image,
+                        p.category_id,
                         p.discount_percentage AS discount,
                         p.brand_id,
                         p.release_date,
@@ -981,6 +989,7 @@ public class ProductDaoImpl implements ProductDao {
                         COALESCE(AVG(f.rating), 0) AS rating,
                         p.total_sold AS soldCount
                     FROM products p
+                    LEFT JOIN brands b ON p.brand_id = b.id
                     LEFT JOIN product_variants v ON p.id = v.product_id
                     LEFT JOIN variant_colors vc ON v.id = vc.variant_id
                     LEFT JOIN colors col ON vc.color_id = col.id
@@ -1001,9 +1010,9 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         // Lọc theo thương hiệu
-        if (brandId != null) {
-            sql.append(" AND p.brand_id = ?");
-            params.add(brandId);
+        if (brandName != null && !brandName.trim().isEmpty()) {
+            sql.append(" AND b.name = ?");
+            params.add(brandName);
         }
 
         sql.append("""

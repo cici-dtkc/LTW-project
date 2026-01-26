@@ -131,6 +131,15 @@ body:has(#header) {
     width: 80%;
 }
 
+/* Active menu item style */
+#nav-home.active::after,
+#nav-phone.active::after,
+#nav-accessory.active::after,
+#nav-contact.active::after {
+    width: 80%;
+    background-color: white;
+}
+
 /* ====================== */
 /*  MEGA MENU PHỤ KIỆN   */
 /* ====================== */

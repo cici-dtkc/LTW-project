@@ -89,8 +89,8 @@
 
 #filter-bar .btn-reset:hover {
     background: #f3f4f6;
-    border-color: #3b82f6;
-    color: #3b82f6;
+    border-color: var(--color-button);
+    color: var(--color-button);
 }
 
 #filter-bar .btn-reset i {
@@ -145,13 +145,13 @@
 
 .footer-user .page-link:hover:not(.active):not(.dots) {
     background: #f3f4f6;
-    border-color: #3b82f6;
-    color: #3b82f6;
+    border-color: var(--color-button);
+    color: var(--color-button);
 }
 
 .footer-user .page-link.active {
-    background: #3b82f6;
-    border-color: #3b82f6;
+    background: var(--color-button);
+    border-color: var(--color-button);
     color: white;
     cursor: default;
 }
