@@ -80,7 +80,7 @@
 
                     <!-- Actions Row -->
                     <div class="actions-row">
-                        <a href="${pageContext.request.contextPath}/admin/products/add">
+                        <a href="${pageContext.request.contextPath}/admin/product/add">
                             <button id="dashAddProduct" class="btn btn-outline-accent">
                                 <i class="fa-solid fa-plus"></i> Thêm sản phẩm
                             </button>

@@ -291,7 +291,7 @@
             <c:forEach var="i" begin="${startPage}" end="${endPage}">
                 <c:choose>
                     <c:when test="${i == currentPage}">
-                        <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid #007bff; border-radius: 5px; background: #007bff; color: #fff; font-weight: bold;">${i}</span>
+                        <span class="pagination-btn active" style="padding: 8px 16px; border: 1px solid var(--color-button); border-radius: 5px; background: var(--color-button); color: #fff; font-weight: bold;">${i}</span>
                     </c:when>
                     <c:otherwise>
                         <a href="?page=${i}${queryString}" 
