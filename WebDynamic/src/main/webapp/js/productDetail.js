@@ -115,22 +115,108 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Lưu thông tin lựa chọn vào sessionStorage hoặc gửi AJAX
-        const selectedInfo = {
-            variantId: selectedVariantId,
-            variantName: selectedVariantName,
-            colorId: selectedColorId,
-            colorName: selectedColorName
-        };
+        // Lấy vcId từ dữ liệu window
+        const key = `${selectedVariantId}_${selectedColorId}`;
+        const vcId = window.variantColorIds ? window.variantColorIds[key] : null;
 
-        // In ra console để test (có thể thay bằng AJAX gửi lên server)
-        console.log("Sản phẩm được chọn:", selectedInfo);
-        alert(`Đã thêm vào giỏ hàng:\n${selectedVariantName} - ${selectedColorName}`);
+        if (!vcId) {
+            alert("Lỗi: Không tìm thấy mã sản phẩm. Vui lòng thử lại.");
+            console.error("Không tìm thấy vcId cho:", key);
+            return;
+        }
+
+        const header = document.getElementById('header');
+        const contextPath = header ? header.getAttribute('data-context-path') : '';
+
+        // Gửi request thêm vào giỏ hàng
+        fetch(`${contextPath}/cart?action=add&vcId=${vcId}`)
+            .then(response => {
+                if (response.status === 401 || response.redirected) {
+                    alert("Vui lòng đăng nhập để tiếp tục!");
+                    window.location.href = contextPath + "/login";
+                    throw new Error("REDIRECT_TO_LOGIN");
+                }
+                return response.text();
+            })
+            .then(totalCount => {
+                if (totalCount.includes("<!DOCTYPE html>")) {
+                    console.error("Vẫn bị trả về HTML thay vì số lượng!");
+                    window.location.href = contextPath + "/login";
+                    return;
+                }
+
+                const cartBadge = document.getElementById('cart-badge');
+                if (cartBadge && !isNaN(totalCount.trim())) {
+                    cartBadge.textContent = totalCount.trim();
+                }
+
+                // Hiển thị thông báo thành công
+                renderSuccessState(btnCart);
+                alert(`Đã thêm vào giỏ hàng:\n${selectedVariantName} - ${selectedColorName}`);
+            })
+            .catch(err => {
+                if (err.message !== "REDIRECT_TO_LOGIN") console.error(err);
+            });
     });
 
     // Khởi tạo
     initializeDefaults();
 });
+
+// Xử lý nút "Mua ngay"
+document.addEventListener("DOMContentLoaded", function () {
+    const btnBuy = document.querySelector(".btn-buy");
+
+    if (btnBuy) {
+        btnBuy.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            // Lấy thông tin đã chọn
+            const activeVersion = document.querySelector(".version-select .version.active");
+            const activeColor = document.querySelector(".color-item.active");
+
+            if (!activeVersion || !activeColor) {
+                alert("Vui lòng chọn phiên bản và màu sắc");
+                return;
+            }
+
+            const selectedVariantId = activeVersion.getAttribute("data-variant-id");
+            const selectedColorId = activeColor.getAttribute("data-color-id");
+
+            // Lấy vcId
+            const key = `${selectedVariantId}_${selectedColorId}`;
+            const vcId = window.variantColorIds ? window.variantColorIds[key] : null;
+
+            if (!vcId) {
+                alert("Lỗi: Không tìm thấy mã sản phẩm. Vui lòng thử lại.");
+                console.error("Không tìm thấy vcId cho:", key);
+                return;
+            }
+
+            const header = document.getElementById('header');
+            const contextPath = header ? header.getAttribute('data-context-path') : '';
+
+            // Chuyển sang trang thanh toán với vcId và quantity=1
+            window.location.href = `${contextPath}/checkout?vcId=${vcId}&quantity=1&buyNow=true`;
+        });
+    }
+});
+
+// Hàm hiển thị trạng thái thành công cho nút
+function renderSuccessState(btn) {
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+    btn.style.backgroundColor = '#4caf50';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+
+    setTimeout(() => {
+        btn.innerHTML = originalHTML;
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
+        btn.disabled = false;
+    }, 1200);
+}
 function updateGalleryEvents() {
     const listImgs = document.querySelectorAll('.list-image img');
     let currentIndexq = 0;

@@ -25,7 +25,7 @@ public class ChangepassServlet extends HttpServlet {
         req.setAttribute("activeMenu", "password");
         SidebarUtil.setSidebarData(req);
 
-        req.getRequestDispatcher("form_change_pass.jsp")
+        req.getRequestDispatcher("form_change_pass.jsp");
         HttpSession session = req.getSession();
         User currentUser = (User) session.getAttribute("user");
 

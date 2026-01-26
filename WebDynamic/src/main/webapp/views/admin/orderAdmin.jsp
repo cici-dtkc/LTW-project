@@ -96,7 +96,7 @@
                     </c:choose>
                 </td>
                 <td>
-                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" groupingUsed="true"/>₫
+                    <fmt:formatNumber value="${item.order.totalAmount}" type="number" pattern="#,###" groupingUsed="true"/>₫
                 </td>
             </tr>
         </c:forEach>

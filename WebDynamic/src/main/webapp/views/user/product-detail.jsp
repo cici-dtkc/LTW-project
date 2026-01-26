@@ -237,9 +237,7 @@
                 </div>
                 <!--  Nút hành động -->
                 <div class="action-buttons">
-                    <a href="checkout.html">
-                        <button class="btn-buy">Mua ngay</button>
-                    </a>
+                    <button class="btn-buy">Mua ngay</button>
                     <button class="btn-cart"><i class="fa-solid fa-cart-plus" style="margin-right: 5px;"></i>Thêm vào
                         giỏ hàng
                     </button>
@@ -554,7 +552,11 @@
     <c:forEach items="${variants}" var="v">
     window.variantBasePrices[${v.id}] = ${v.basePrice};
     </c:forEach>
-
+    // Dữ liệu variantColorIds (vcId) để thêm vào giỏ hàng
+    window.variantColorIds = {};
+    <c:forEach items="${variantColors}" var="vc">
+    window.variantColorIds["${vc.variantId}_${vc.colorId}"] = ${vc.id};
+    </c:forEach>
     // Discount percentage từ product
     window.productDiscount = ${product.discountPercentage};
 </script>
