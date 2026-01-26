@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -162,53 +163,38 @@
                         <h3 class="promo-title">ƯU ĐÃI KHUYẾN MÃI</h3>
                         <div class="promo-slider">
                             <div class="promo-list">
-                                <div class="promo-item">
-                                    <i class="fa-solid fa-percent"></i>
-                                    <div class="promo-content">
-                                        <p class="discount">MIỄN PHÍ VẬN CHUYỂN</p>
-                                        <a href="voucherDetail.html">Xem chi tiết <i
-                                                class="fa-solid fa-angle-right"></i></a>
-                                    </div>
-                                    <div class="promo-status remain">Còn 20 suất</div>
-                                </div>
-
-                                <div class="promo-item">
-                                    <i class="fa-solid fa-percent"></i>
-                                    <div class="promo-content">
-                                        <p class="discount">GIẢM 300.000₫</p>
-                                        <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                                    </div>
-                                    <div class="promo-status soldout">Hết suất</div>
-                                </div>
-
-                                <div class="promo-item">
-                                    <i class="fa-solid fa-percent"></i>
-                                    <div class="promo-content">
-                                        <p class="discount">TẶNG QUÀ PHỤ KIỆN</p>
-                                        <a href="voucherDetail.html">Xem chi tiết <i
-                                                class="fa-solid fa-angle-right"></i></a>
-                                    </div>
-                                    <div class="promo-status remain">Còn 45 suất</div>
-                                </div>
-
-                                <div class="promo-item">
-                                    <i class="fa-solid fa-percent"></i>
-                                    <div class="promo-content">
-                                        <p class="discount">GIẢM 5% QUA MOMO</p>
-                                        <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
-                                    </div>
-                                    <div class="promo-status soldout">Hết suất</div>
-                                </div>
-
-                                <div class="promo-item">
-                                    <i class="fa-solid fa-percent"></i>
-                                    <div class="promo-content">
-                                        <p class="discount">TRẢ GÓP 0% LÃI SUẤT</p>
-                                        <a href="voucherDetail.html">Xem chi tiết <i
-                                                class="fa-solid fa-angle-right"></i></a>
-                                    </div>
-                                    <div class="promo-status remain">Còn 10 suất</div>
-                                </div>
+                                <c:choose>
+                                    <c:when test="${not empty promotions}">
+                                        <c:forEach items="${promotions}" var="promo" begin="0" end="4">
+                                            <div class="promo-item">
+                                                <i class="fa-solid fa-percent"></i>
+                                                <div class="promo-content">
+                                                    <p class="discount">${promo.description}</p>
+                                                    <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                                </div>
+                                                <c:set var="quantityRemain" value="${promo.quantityLimit - promo.quantityUsed}"/>
+                                                <c:choose>
+                                                    <c:when test="${quantityRemain > 0}">
+                                                        <div class="promo-status remain">Còn ${quantityRemain} suất</div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="promo-status soldout">Hết suất</div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="promo-item">
+                                            <i class="fa-solid fa-percent"></i>
+                                            <div class="promo-content">
+                                                <p class="discount">Chưa có khuyến mãi</p>
+                                                <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
+                                            </div>
+                                            <div class="promo-status remain">Sắp có</div>
+                                        </div>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
 
                             <div class="promo-control prev"><i class="fa-solid fa-chevron-left"></i></div>
@@ -230,9 +216,16 @@
 
                     <!--  Giao đến -->
                     <div class="shipping-destination">
-                <span><i class="fa fa-map-marker-alt"></i> Giao đến:
-        <strong>Hà Nội - Quận Cầu Giấy</strong></span>
-                        <button class="btn-change">Thay đổi</button>
+                        <c:choose>
+                            <c:when test="${not empty userAddress}">
+                                <span><i class="fa fa-map-marker-alt"></i> Giao đến:
+                                    <strong>${userAddress.address}</strong></span>
+                            </c:when>
+                            <c:otherwise>
+                                <span><i class="fa fa-map-marker-alt"></i> Giao đến:
+                                    <strong>Vui lòng <a href="${pageContext.request.contextPath}/login">đăng nhập</a> để xem địa chỉ</strong></span>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
                 <!--  Nút hành động -->
@@ -250,11 +243,23 @@
     <div class="product-highlights">
         <h3>Đặc điểm nổi bật</h3>
         <ul>
-            <li>Màn hình Super Retina XDR 6.1 inch hiển thị sắc nét, rực rỡ.</li>
-            <li>Chip A16 Bionic mạnh mẽ, tiết kiệm năng lượng.</li>
-            <li>Camera kép 48MP chụp ảnh siêu chi tiết, hỗ trợ quay 4K.</li>
-            <li>Thiết kế sang trọng với khung viền nhôm, mặt kính bền bỉ.</li>
-            <li>Hỗ trợ sạc nhanh và kết nối USB Type-C tiện lợi.</li>
+            <c:choose>
+                <c:when test="${not empty product.description}">
+                    <c:set var="highlights" value="${fn:split(product.description, '&#10;')}"/>
+                    <c:forEach items="${highlights}" var="highlight">
+                        <c:if test="${not empty highlight}">
+                            <li>${highlight}</li>
+                        </c:if>
+                    </c:forEach>
+                </c:when>
+                <c:otherwise>
+                    <li>Sản phẩm chất lượng cao</li>
+                    <li>Thiết kế hiện đại</li>
+                    <li>Hiệu năng mạnh mẽ</li>
+                    <li>Bảo hành chính hãng</li>
+                    <li>Hỗ trợ khách hàng 24/7</li>
+                </c:otherwise>
+            </c:choose>
         </ul>
     </div>
     <!--  Đánh giá sản phẩm -->
@@ -264,48 +269,31 @@
         <div class="review-summary">
             <div class="review-score">
                 <span class="score">${totalFeedbacks}</span><span class="outof">/5</span>
-                <%--                <p>109,2k khách hàng hài lòng</p>--%>
                 <c:if test="${totalFeedbacks > 0}">
                     <p class="review-count">${totalFeedbacks} đánh giá</p>
                 </c:if>
             </div>
 
             <div class="review-bars">
-                <div>
-                    <span>5</span>
-                    <div class="bar">
-                        <div class="fill" style="width: 99.9%"></div>
+                <c:forEach begin="5" end="1" var="star">
+                    <c:set var="countStar" value="0"/>
+                    <c:forEach items="${feedbacks}" var="fb">
+                        <c:if test="${fb.rating == star}">
+                            <c:set var="countStar" value="${countStar + 1}"/>
+                        </c:if>
+                    </c:forEach>
+                    <c:set var="percentage" value="0"/>
+                    <c:if test="${totalFeedbacks > 0}">
+                        <c:set var="percentage" value="${countStar * 100 / totalFeedbacks}"/>
+                    </c:if>
+                    <div>
+                        <span>${star}</span>
+                        <div class="bar">
+                            <div class="fill" style="width: ${percentage}%"></div>
+                        </div>
+                        <span><fmt:formatNumber value="${percentage}" pattern="0.#"/>%</span>
                     </div>
-                    <span>99.9%</span>
-                </div>
-                <div>
-                    <span>4</span>
-                    <div class="bar">
-                        <div class="fill" style="width: 0%"></div>
-                    </div>
-                    <span>0%</span>
-                </div>
-                <div>
-                    <span>3</span>
-                    <div class="bar">
-                        <div class="fill" style="width: 0%"></div>
-                    </div>
-                    <span>0%</span>
-                </div>
-                <div>
-                    <span>2</span>
-                    <div class="bar">
-                        <div class="fill" style="width: 0%"></div>
-                    </div>
-                    <span>0%</span>
-                </div>
-                <div>
-                    <span>1</span>
-                    <div class="bar">
-                        <div class="fill" style="width: 0%"></div>
-                    </div>
-                    <span>0%</span>
-                </div>
+                </c:forEach>
             </div>
         </div>
 

@@ -19,6 +19,8 @@ public class ProductDetailServlet extends HttpServlet {
     private VariantDao variantDao;
     private FeedbackDao feedbackDao;
     private ProductService productService;
+    private VoucherAdminDaoImpl voucherDao;
+    private AddressDao addressDao;
 
     @Override
     public void init() {
@@ -26,6 +28,8 @@ public class ProductDetailServlet extends HttpServlet {
         variantDao = new VariantDao();
         feedbackDao = new FeedbackDao();
         productService = new ProductServiceImpl();
+        voucherDao = new VoucherAdminDaoImpl();
+        addressDao = new AddressDao();
     }
 
     @Override
@@ -67,6 +71,25 @@ public class ProductDetailServlet extends HttpServlet {
         // Lấy tất cả variant_colors để JavaScript có thể truy cập giá
         List<Map<String, Object>> variantColors = ((ProductDaoImpl) productDao).getAllVariantColorsForProduct(productId);
 
+        // Lấy promotions/vouchers hiện đang hoạt động
+        List<VoucherAdmin> promotions = voucherDao.getActiveVouchers();
+
+        // Lấy user address (nếu đã login)
+        Address userAddress = null;
+        User user = (User) request.getSession().getAttribute("user");
+        if (user != null) {
+            List<Address> addresses = addressDao.findAllByUserId(user.getId());
+            // Lấy address có status = 1 (mặc định), nếu không có thì lấy cái đầu tiên
+            for (Address addr : addresses) {
+                if (addr.getStatus() == 1) {
+                    userAddress = addr;
+                    break;
+                }
+            }
+            if (userAddress == null && !addresses.isEmpty()) {
+                userAddress = addresses.get(0);
+            }
+        }
 
         // 7️⃣ Feedback
         List<Feedback> feedbacks = feedbackDao.getFeedbacksByProductId(productId);
@@ -76,7 +99,6 @@ public class ProductDetailServlet extends HttpServlet {
                 productService.getRelatedProducts(product.getBrand().getId(), productId, 4);
 
         request.setAttribute("relatedProducts", relatedProducts);
-//        request.getRequestDispatcher("/productDetail.jsp").forward(request, response);
         // 8️⃣ Set attribute
         request.setAttribute("product", product);
         request.setAttribute("variants", variants);
@@ -84,6 +106,9 @@ public class ProductDetailServlet extends HttpServlet {
         request.setAttribute("images", images);
         request.setAttribute("techSpecs", techSpecs);
         request.setAttribute("defaultVariantColor", defaultVC);
+        request.setAttribute("variantColors", variantColors);
+        request.setAttribute("promotions", promotions);
+        request.setAttribute("userAddress", userAddress);
 
         request.setAttribute("feedbacks", feedbacks);
         request.setAttribute("totalFeedbacks", totalFeedbacks);
