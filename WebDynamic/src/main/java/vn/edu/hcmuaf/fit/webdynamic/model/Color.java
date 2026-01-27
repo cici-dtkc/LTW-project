@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Color {
+public class Color implements Serializable {
     private int id;
     private String name;
     private String colorCode;

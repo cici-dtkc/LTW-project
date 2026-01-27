@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class TechSpecs {
+public class TechSpecs implements Serializable{
     private int id;
     private int productId;
     private String name;

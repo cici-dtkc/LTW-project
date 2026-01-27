@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
-public class PaymentTypes {
+import java.io.Serializable;
+
+public class PaymentTypes implements Serializable{
     private int id;
     private String name;
 

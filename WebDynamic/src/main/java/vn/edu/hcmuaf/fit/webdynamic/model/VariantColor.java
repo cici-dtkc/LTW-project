@@ -1,9 +1,10 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class VariantColor {
+public class VariantColor implements Serializable{
     private int id;
     private Color color;        // Đen, Trắng, Xanh
     private double price;

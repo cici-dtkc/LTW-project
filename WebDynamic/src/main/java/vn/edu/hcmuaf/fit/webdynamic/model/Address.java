@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class Address {
+public class Address implements Serializable {
     private int id;
     private int userId;
     private String phoneNumber;
