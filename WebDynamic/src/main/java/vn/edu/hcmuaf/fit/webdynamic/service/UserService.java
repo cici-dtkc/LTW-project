@@ -54,7 +54,9 @@ public class UserService {
         return userDao.checkExistEmailForOtherUsers(id, email);
     }
 
-    public String updatePassword(int userId, String newPass) {
+    public String updatePassword(int userId,String oldPass, String newPass) {
+        boolean checkPassword = userDao.checkPassword (userId, oldPass);
+        if (!checkPassword) return "Sai mật khẩu";
         String hashed = BCrypt.hashpw(newPass, BCrypt.gensalt());
         boolean ok = userDao.updatePassword(userId, hashed);
         return ok ? "Đổi mật khẩu thành công" : "Đổi mật khẩu thất bại";

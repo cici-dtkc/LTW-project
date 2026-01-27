@@ -1,5 +1,6 @@
 package vn.edu.hcmuaf.fit.webdynamic.dao;
 
+import org.mindrot.jbcrypt.BCrypt;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import vn.edu.hcmuaf.fit.webdynamic.config.DBConnect;
 
@@ -264,14 +265,31 @@ public class UserDao {
     }
 
     public User findByInput(String input) {
-        String sql = """
+        // Kiểm tra xem input có phải là email hay không
+        boolean isEmail = input != null && input.contains("@");
+        
+        String sql;
+        if (isEmail) {
+            // Nếu là email, chỉ tìm theo email
+            sql = """
                     SELECT id, username, first_name, last_name, avatar, email,
                            role, status, provider, provider_id, password,
                            created_at, updated_at
                     FROM users
-                    WHERE (email = :input OR username = :input)
+                    WHERE email = :input
                     LIMIT 1
                 """;
+        } else {
+            // Nếu không phải email, chỉ tìm theo username
+            sql = """
+                    SELECT id, username, first_name, last_name, avatar, email,
+                           role, status, provider, provider_id, password,
+                           created_at, updated_at
+                    FROM users
+                    WHERE username = :input
+                    LIMIT 1
+                """;
+        }
 
         return DBConnect.getJdbi().withHandle(handle -> handle.createQuery(sql)
                 .bind("input", input)
@@ -316,4 +334,21 @@ public class UserDao {
                 .bind("pid", u.getProviderId())
                 .execute());
     }
+
+    public boolean checkPassword(int userId, String oldPass) {
+        String sql = "SELECT password FROM users WHERE id = ?";
+
+        String hashed = DBConnect.getJdbi().withHandle(handle ->
+                handle.createQuery(sql)
+                        .bind(0, userId)
+                        .mapTo(String.class)
+                        .findFirst()
+                        .orElse(null)
+        );
+
+        if (hashed == null) return false;
+
+        return BCrypt.checkpw(oldPass, hashed);
+    }
+
 }

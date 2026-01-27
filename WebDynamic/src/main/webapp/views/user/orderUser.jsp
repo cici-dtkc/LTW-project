@@ -152,6 +152,7 @@
 
 <!-- Toast Container -->
 <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>
+<jsp:include page="/views/includes/toast.jsp"/>
 <script src="${pageContext.request.contextPath}/js/notification.js"></script>
 <script src="${pageContext.request.contextPath}/js/order.js"></script>
 
