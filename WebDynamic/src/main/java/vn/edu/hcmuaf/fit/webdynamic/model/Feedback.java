@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Feedback {
+public class Feedback implements Serializable {
 
     private int id;
     private int productId;

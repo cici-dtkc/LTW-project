@@ -1,30 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.*" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.service.OrderService" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.service.OrderDetailService" %>
-<%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.util.Locale" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%
-    // Lấy dữ liệu từ servlet
-    Order order = (Order) request.getAttribute("order");
-    List<OrderDetail> orderDetails = (List<OrderDetail>) request.getAttribute("orderDetails");
-    Address address = (Address) request.getAttribute("address");
-    PaymentTypes paymentType = (PaymentTypes) request.getAttribute("paymentType");
-    OrderService orderService = (OrderService) request.getAttribute("orderService");
-    OrderDetailService orderDetailService = (OrderDetailService) request.getAttribute("orderDetailService");
-
-    // Format tiền tệ và ngày
-    NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-    // Tính toán
-    double subtotal = 0;
-    for (OrderDetail detail : orderDetails) {
-        subtotal += detail.getTotalMoney();
-    }
+    // Lấy dữ liệu đã format từ servlet
+    Map<String, Object> orderData = (Map<String, Object>) request.getAttribute("orderData");
+    List<Map<String, Object>> items = (List<Map<String, Object>>) request.getAttribute("items");
+    Map<String, String> address = (Map<String, String>) request.getAttribute("address");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,53 +28,36 @@
     <section class="card" aria-labelledby="order-heading">
         <header class="order-header">
             <div>
-                <div id="order-heading" class="order-id">Đơn hàng #OD<%= String.format("%06d", order.getId()) %></div>
-                <div class="meta">Ngày đặt: <strong id="order-date"><%= dateFormat.format(order.getCreatedAt()) %></strong> • Người nhận: <span
-                        id="order-name"><%= address != null ? address.getName() : "N/A" %></span></div>
+                <div id="order-heading" class="order-id">Đơn hàng #OD<%= String.format("%06d", (Integer)orderData.get("id")) %></div>
+                <div class="meta">Ngày đặt: <strong id="order-date"><%= orderData.get("formattedDate") %></strong> • Người nhận: <span
+                        id="order-name"><%= address.get("name") %></span></div>
             </div>
             <div style="text-align:right">
                 <div id="paid-badge" class="status-pill" aria-live="polite">
-                    <%
-                        String paymentStatusText;
-                        String paymentStatusClass;
-
-                        // Kiểm tra phương thức thanh toán
-                        // Nếu là chuyển khoản ngân hàng (ID = 2) thì đã thanh toán
-                        // Nếu là thanh toán khi nhận hàng (ID = 1) thì chưa thanh toán
-                        if (paymentType != null && paymentType.getId() == 2) {
-                            paymentStatusText = "Đã thanh toán";
-                            paymentStatusClass = "status-paid";
-                        } else {
-                            paymentStatusText = "Chưa thanh toán";
-                            paymentStatusClass = "status-unpaid";
-                        }
-                    %>
-                    <span id="paid-text" class="<%= paymentStatusClass %>"><%= paymentStatusText %></span>
+                    <span id="paid-text" class="<%= orderData.get("paymentStatusClass") %>"><%= orderData.get("paymentStatusText") %></span>
                 </div>
                 <div class="muted" style="font-size:12px;margin-top:6px" id="order-status-small">
-                    Trạng thái đơn hàng: <strong id="order-status"><%= OrderService.getStatusName(order.getStatus()) %></strong>
+                    Trạng thái đơn hàng: <strong id="order-status"><%= orderData.get("statusName") %></strong>
                 </div>
             </div>
         </header>
 
         <div class="items" id="order-items" aria-live="polite">
-            <% for (OrderDetail detail : orderDetails) {
-                Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
-            %>
+            <% for (Map<String, Object> item : items) { %>
             <article class="item">
                 <div class="thumb" aria-hidden="true">
-                    <img src="${pageContext.request.contextPath}/<%= productInfo.get("imagePath") != null ? productInfo.get("imagePath") : "assert/img/product/default.jpg" %>"
-                         alt="<%= productInfo.get("productName") %>"
+                    <img src="${pageContext.request.contextPath}/<%= item.get("imagePath") %>"
+                         alt="<%= item.get("productName") %>"
                          style="width:82px;height:82px;border-radius:8px;object-fit:cover"/>
                 </div>
                 <div class="item-info">
-                    <div class="name"><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></div>
-                    <div class="variant">Màu: <%= productInfo.get("colorName") %> • Bảo hành: 12 tháng</div>
-                    <div class="small" style="margin-top:8px">Mã SP: <span class="muted">TWX<%= String.format("%04d", detail.getVariantId()) %>-<%= productInfo.get("colorCode") %></span></div>
+                    <div class="name"><%= item.get("productName") %> <%= item.get("variantName") %></div>
+                    <div class="variant">Màu: <%= item.get("colorName") %> • Bảo hành: 12 tháng</div>
+                    <div class="small" style="margin-top:8px">Mã SP: <span class="muted">TWX<%= String.format("%04d", (Integer)item.get("variantId")) %>-<%= item.get("colorCode") %></span></div>
                 </div>
                 <div class="price-qty">
-                    <div class="price" id="item<%= detail.getId() %>-price"><%= currencyFormat.format(detail.getPrice()) %>₫</div>
-                    <div class="qty">x<%= detail.getQuantity() %></div>
+                    <div class="price" id="item<%= item.get("id") %>-price"><%= item.get("formattedPrice") %>₫</div>
+                    <div class="qty">x<%= item.get("quantity") %></div>
                 </div>
             </article>
             <% } %>
@@ -102,26 +66,29 @@
         <div class="totals" role="region" aria-label="Tổng tiền">
             <div class="row">
                 <div class="small">Tạm tính</div>
-                <div id="subtotal"><%= currencyFormat.format(subtotal) %>₫</div>
+                <div id="subtotal"><%= orderData.get("formattedSubtotal") %>₫</div>
             </div>
             <div class="row">
                 <div class="small">Phí vận chuyển</div>
-                <div id="ship-fee"><%= currencyFormat.format(order.getFeeShipping()) %>₫</div>
+                <div id="ship-fee"><%= orderData.get("formattedFeeShipping") %>₫</div>
             </div>
             <div class="row">
                 <div class="small">Giảm giá</div>
-                <div id="discount"><%= currencyFormat.format(order.getDiscountAmount()) %>₫</div>
+                <div id="discount"><%= orderData.get("formattedDiscountAmount") %>₫</div>
             </div>
             <div class="row total-amount">
                 <div>Tổng cộng</div>
-                <div id="total"><%= currencyFormat.format(order.getTotalAmount()) %>₫</div>
+                <div id="total"><%= orderData.get("formattedTotalAmount") %>₫</div>
             </div>
 
             <div class="actions" role="group" aria-label="Hành động đơn hàng">
-                <% if (order.getStatus() == 1) { %>
-                <button id="btn-request-cancel" class="btn-ghost" data-order-id="<%= order.getId() %>" onclick="cancelOrder(this.getAttribute('data-order-id'))">Yêu cầu hủy</button>
-                <% } else if (order.getStatus() == 3 || order.getStatus() == 4) { %>
-                <button class="btn-ghost" data-order-id="<%= order.getId() %>" onclick="repurchaseOrder(this.getAttribute('data-order-id'))">Mua lại</button>
+                <% int status = (Integer) orderData.get("status");
+                   int orderId = (Integer) orderData.get("id");
+                %>
+                <% if (status == 1) { %>
+                <button id="btn-request-cancel" class="btn-ghost" data-order-id="<%= orderId %>" onclick="cancelOrder(this.getAttribute('data-order-id'))">Yêu cầu hủy</button>
+                <% } else if (status == 3 || status == 4) { %>
+                <button class="btn-ghost" data-order-id="<%= orderId %>" onclick="repurchaseOrder(this.getAttribute('data-order-id'))">Mua lại</button>
                 <% } %>
             </div>
 
@@ -136,7 +103,7 @@
             <div class="small">Phương thức thanh toán</div>
             <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
                 <div>
-                    <div id="payment-method"><%= paymentType != null ? paymentType.getName() : "N/A" %></div>
+                    <div id="payment-method"><%= orderData.get("paymentMethodName") %></div>
                 </div>
             </div>
         </div>
@@ -144,10 +111,10 @@
         <div class="card section" aria-labelledby="address-heading">
             <h4 id="address-heading" style="margin:0 0 8px 0">Giao tới</h4>
             <div class="address">
-                <div id="rec-name"><strong><%= address != null ? address.getAddress(): "N/A" %></strong> • <span class="muted"
-                                                                         id="rec-phone"><%= address != null ? address.getPhoneNumber() : "N/A" %></span></div>
-                <div id="ship-address" class="muted"><%= address != null ? address.getAddress() : "N/A" %></div>
-                <div id="ship-phone" class="muted"><%= address != null ? address.getPhoneNumber() : "N/A" %></div>
+                <div id="rec-name"><strong><%= address.get("address") %></strong> • <span class="muted"
+                                                                         id="rec-phone"><%= address.get("phoneNumber") %></span></div>
+                <div id="ship-address" class="muted"><%= address.get("address") %></div>
+                <div id="ship-phone" class="muted"><%= address.get("phoneNumber") %></div>
             </div>
         </div>
     </aside>

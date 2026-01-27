@@ -2,9 +2,10 @@ package vn.edu.hcmuaf.fit.webdynamic.model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BankAccount {
+public class BankAccount implements Serializable {
     private int id;
     @ColumnName("user_id")
     private int userId;

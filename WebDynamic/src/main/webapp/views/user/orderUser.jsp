@@ -1,21 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.Order" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.model.OrderDetail" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.service.OrderService" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="vn.edu.hcmuaf.fit.webdynamic.service.OrderDetailService" %>
-<%@ page import="java.text.NumberFormat" %>
-<%@ page import="java.util.Locale" %>
 <%
-    // Lấy dữ liệu từ servlet
-    List<Order> orders = (List<Order>) request.getAttribute("orders");
-    OrderService orderService = (OrderService) request.getAttribute("orderService");
-    OrderDetailService orderDetailService = (OrderDetailService) request.getAttribute("orderDetailService");
+    // Lấy dữ liệu đã format từ servlet
+    List<Map<String, Object>> ordersData = (List<Map<String, Object>>) request.getAttribute("ordersData");
     String currentStatus = (String) request.getAttribute("currentStatus");
-
-    // Format tiền tệ
-    NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
 %>
 <!DOCTYPE html>
 <html lang="vi">
@@ -68,7 +57,7 @@
         <!-- Danh sách đơn -->
         <div class="orders-list">
             <%
-                if (orders == null || orders.isEmpty()) {
+                if (ordersData == null || ordersData.isEmpty()) {
             %>
             <div style="text-align: center; padding: 50px; color: #666;">
                 <i class="fa-solid fa-box-open" style="font-size: 60px; color: #ddd;"></i>
@@ -76,48 +65,49 @@
             </div>
             <%
             } else {
-                for (Order order : orders) {
-                    List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsWithProduct(order.getId());
-                    String statusClass = OrderService.getStatusClass(order.getStatus());
-                    String statusName = OrderService.getStatusName(order.getStatus());
-                    String statusIcon = OrderService.getStatusIcon(order.getStatus());
+                for (Map<String, Object> orderMap : ordersData) {
+                    @SuppressWarnings("unchecked")
+                    List<Map<String, Object>> items = (List<Map<String, Object>>) orderMap.get("items");
+                    String statusClass = (String) orderMap.get("statusClass");
+                    String statusName = (String) orderMap.get("statusName");
+                    String statusIcon = (String) orderMap.get("statusIcon");
+                    int orderId = (Integer) orderMap.get("id");
+                    int status = (Integer) orderMap.get("status");
+                    String formattedTotal = (String) orderMap.get("formattedTotal");
             %>
 
             <!-- Đơn hàng -->
-            <div class="order-card" data-status="<%= statusClass %>" data-order-id="<%= order.getId() %>">
+            <div class="order-card" data-status="<%= statusClass %>" data-order-id="<%= orderId %>">
                 <%
-                    if (orderDetails.size() > 1) {
+                    if (items.size() > 1) {
                 %>
                 <div class="order-items">
-                    <% for (OrderDetail detail : orderDetails) { 
-                        Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
-                    %>
-                    <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= order.getId() %>">
+                    <% for (Map<String, Object> item : items) { %>
+                    <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= orderId %>">
                         <div class="order-info">
-                            <img src="<%= request.getContextPath() %>/<%= productInfo.get("imagePath") != null ? productInfo.get("imagePath") : "assert/img/product/default.jpg" %>"
-                                 alt="<%= productInfo.get("productName") %>">
+                            <img src="<%= request.getContextPath() %>/<%= item.get("imagePath") %>"
+                                 alt="<%= item.get("productName") %>">
                             <div class="order-detail">
-                                <h3><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></h3>
-                                <p>Số lượng: <%= detail.getQuantity() %></p>
-                                <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>₫</span></p>
+                                <h3><%= item.get("productName") %> <%= item.get("variantName") %></h3>
+                                <p>Số lượng: <%= item.get("quantity") %></p>
+                                <p>Giá: <span class="price"><%= item.get("formattedPrice") %>₫</span></p>
                             </div>
                         </div>
                     </a>
                     <% } %>
                 </div>
                 <%
-                } else if (!orderDetails.isEmpty()) {
-                    OrderDetail detail = orderDetails.get(0);
-                    Map<String, String> productInfo = orderDetailService.getProductInfoByVariantId(detail.getVariantId());
+                } else if (!items.isEmpty()) {
+                    Map<String, Object> item = items.get(0);
                 %>
-                <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= order.getId() %>">
+                <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= orderId %>">
                     <div class="order-info">
-                        <img src="<%= request.getContextPath() %>/<%= productInfo.get("imagePath") != null ? productInfo.get("imagePath") : "assert/img/product/default.jpg" %>"
-                             alt="<%= productInfo.get("productName") %>">
+                        <img src="<%= request.getContextPath() %>/<%= item.get("imagePath") %>"
+                             alt="<%= item.get("productName") %>">
                         <div class="order-detail">
-                            <h3><%= productInfo.get("productName") %> <%= productInfo.get("variantName") %></h3>
-                            <p>Số lượng: <%= detail.getQuantity() %></p>
-                            <p>Giá: <span class="price"><%= currencyFormat.format(detail.getPrice()) %>₫</span></p>
+                            <h3><%= item.get("productName") %> <%= item.get("variantName") %></h3>
+                            <p>Số lượng: <%= item.get("quantity") %></p>
+                            <p>Giá: <span class="price"><%= item.get("formattedPrice") %>₫</span></p>
                         </div>
                     </div>
                 </a>
@@ -125,17 +115,17 @@
 
                 <div class="order-footer">
                     <p class="total">Tổng cộng:
-                        <span class="total-price"><%= currencyFormat.format(order.getTotalAmount()) %>₫</span>
+                        <span class="total-price"><%= formattedTotal %>₫</span>
                     </p>
                     <div class="order-status">
             <span class="status <%= statusClass %>">
               <i class="<%= statusIcon %>"></i> <%= statusName %>
             </span>
                         <div class="actions">
-                            <% if (order.getStatus() == 1) { %>
-                            <button class="btn repurchase" onclick="cancelOrder(<%= order.getId() %>)">Hủy</button>
-                            <% } else if (order.getStatus() == 3 || order.getStatus() == 4) { %>
-                            <button class="btn repurchase" onclick="repurchaseOrder(<%= order.getId() %>)">Mua lại</button>
+                            <% if (status == 1) { %>
+                            <button class="btn repurchase" onclick="cancelOrder(<%= orderId %>)">Hủy</button>
+                            <% } else if (status == 3 || status == 4) { %>
+                            <button class="btn repurchase" onclick="repurchaseOrder(<%= orderId %>)">Mua lại</button>
                             <% } %>
                         </div>
                     </div>

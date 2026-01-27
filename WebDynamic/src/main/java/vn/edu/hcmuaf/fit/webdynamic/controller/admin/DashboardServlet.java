@@ -13,9 +13,16 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Quản lý trang Dashboard admin
+ * - Hiển thị thống kê doanh thu, đơn hàng, khách truy cập
+ * - Biểu đồ doanh thu theo thời gian, danh mục, sản phẩm
+ * - Danh sách user mới nhất
+ */
 @WebServlet("/admin/dashboard")
 public class DashboardServlet extends HttpServlet {
 
+    // Service xử lý dữ liệu dashboard
     private DashboardService dashboardService;
 
     @Override
@@ -23,11 +30,14 @@ public class DashboardServlet extends HttpServlet {
         dashboardService = new DashboardServiceImpl();
     }
 
+    /**
+     * Xử lý GET: Lấy dữ liệu dashboard theo khoảng thời gian
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        // Lấy tham số days, mặc định 30
+        // Lấy số ngày từ request (mặc định 30 ngày)
         int days = 30;
         String daysParam = req.getParameter("days");
         if (daysParam != null) {

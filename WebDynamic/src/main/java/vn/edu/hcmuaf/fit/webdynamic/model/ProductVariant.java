@@ -1,9 +1,10 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class ProductVariant {
+public class ProductVariant implements Serializable{
     private int id;
     private String name;        // 64GB, 128GB, 256GB
     private double basePrice;

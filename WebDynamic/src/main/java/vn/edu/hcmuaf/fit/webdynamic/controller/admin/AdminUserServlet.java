@@ -13,9 +13,16 @@ import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Quản lý danh sách người dùng trong trang admin
+ * - Hiển thị danh sách user có phân trang
+ * - Hỗ trợ lọc theo tên, role, status
+ * - Cập nhật role và status của user
+ */
 @WebServlet(name = "AdminUserServlet", urlPatterns = { "/admin/users" })
 public class AdminUserServlet extends HttpServlet {
 
+    // Service xử lý logic người dùng
     private UserService userService;
 
     @Override
@@ -23,6 +30,9 @@ public class AdminUserServlet extends HttpServlet {
         userService = new UserService();
     }
 
+    /**
+     * Xử lý GET: Lấy danh sách user với filter và phân trang
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -111,6 +121,9 @@ public class AdminUserServlet extends HttpServlet {
         rd.forward(req, resp);
     }
 
+    /**
+     * Xử lý POST: Cập nhật role và status của user
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -125,7 +138,7 @@ public class AdminUserServlet extends HttpServlet {
         resp.getWriter().write("{\"success\": " + ok + "}");
     }
 
-    // Helper method để escape JSON string
+    // Escape ký tự đặc biệt để tránh lỗi khi trả về JSON
     private String escapeJson(String str) {
         if (str == null)
             return "";

@@ -18,7 +18,7 @@ public class VariantDao {
     public VariantDao() {
     }
 
-    // 5️⃣ Lấy danh sách màu theo Variant (nút chọn màu)
+    // 5️ Lấy danh sách màu theo Variant (nút chọn màu)
     public List<VariantColor> getColorsByVariant(int variantId) {
         String sql = """
             SELECT vc.*,
@@ -53,7 +53,7 @@ public class VariantDao {
         );
     }
 
-    // 6️⃣ Lấy chi tiết VariantColor (giá, tồn kho, SKU)
+    // 6 Lấy chi tiết VariantColor (giá, tồn kho, SKU)
     public VariantColor getVariantColorDetail(int variantId, int colorId) {
         String sql = """
             SELECT vc.*,
@@ -91,7 +91,7 @@ public class VariantDao {
         );
     }
 
-    // 7️⃣ Lấy gallery ảnh theo VariantColor
+    // 7️ Lấy gallery ảnh theo VariantColor
     public List<Image> getImagesByVariantColor(int variantColorId) {
         String sql = """
             SELECT *

@@ -10,57 +10,95 @@ import java.util.Map;
 
 public interface ProductService {
 
-    List<Map<String, Object>> getForAdmin(String keyword, Integer status, Integer categoryId, int page, int limit);
-    int countForAdmin(String keyword, Integer status, Integer categoryId);
-      boolean toggleStatus(int productId) ;
-     Map<String, Object> getProductForEditByVariantColorId(int vcId);
+        List<Map<String, Object>> getForAdmin(String keyword, Integer status, Integer categoryId, int page, int limit);
 
-    List<Map<String, Object>> getProductsForList();
+        int countForAdmin(String keyword, Integer status, Integer categoryId);
 
-    List<Map<String, Object>> getProductsByCategory(int categoryId);
+        boolean toggleStatus(int productId);
 
-    List<Map<String, Object>> getProductsByCategoryWithFilters(
-            int categoryId,
-            Double priceMin,
-            Double priceMax,
-            List<String> memory,
-            List<String> colors,
-            Integer year,
-            String brandName,
-            List<String> types,
-            String condition,
-            String sortBy
-    );
+        Map<String, Object> getProductForEditByVariantColorId(int vcId);
 
-    List<Map<String, Object>> getAccessories();
+        List<Map<String, Object>> getProductsForList();
 
-    List<Map<String, Object>> getAccessoriesWithFilters(
-            Double priceMin,
-            Double priceMax,
-            String brandName,
-            List<String> types,
-            String condition,
-            String sortBy
-    );
-    //add
-    void addProduct(Product product,
-                    String[] techNames, String[] techValues, String[] techPriorities,
-                    String[] variantNames, String[] basePrices,
-                    String[] quantities, String[] variantQuantities,
-                    String[] skus, String[] colorVariantIndexes,
-                    String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception;
-//edit
-    void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
-                       String[] variantNames, String[] basePrices, String[] quantities,
-                       String[] variantIds, String[] colorIds, String[] skus,
-                       String[] variantQuantities) throws Exception;
+        List<Map<String, Object>> getProductsByCategory(int categoryId);
 
-    // Cart
-      Map<String, Object> getProductForCart(int variantColorId);
+        List<Map<String, Object>> getProductsByCategoryWithFilters(
+                        int categoryId,
+                        Double priceMin,
+                        Double priceMax,
+                        List<String> memory,
+                        List<String> colors,
+                        Integer year,
+                        String brandName,
+                        List<String> types,
+                        String condition,
+                        String sortBy);
 
-    // Lấy 4 sản phẩm liên quan
-    List<Map<String, Object>> getRelatedProducts(
-            int brandId,
-            int excludeProductId,
-            int limit
-    );}
+        /**
+         * Lấy products với pagination (TỐI ƯU HÓA - load 1 page)
+         */
+        List<Map<String, Object>> getProductsByCategoryPaginated(
+                        int categoryId,
+                        Double priceMin,
+                        Double priceMax,
+                        List<String> memory,
+                        List<String> colors,
+                        Integer year,
+                        String brandName,
+                        String sortBy,
+                        int page,
+                        int pageSize,
+                        String search);
+
+        /**
+         * Đếm tổng số products thỏa filter
+         */
+        int countProductsByCategory(
+                        int categoryId,
+                        Double priceMin,
+                        Double priceMax,
+                        List<String> memory,
+                        List<String> colors,
+                        Integer year,
+                        String brandName,
+                        String search);
+
+        List<Map<String, Object>> getAccessories();
+
+        List<Map<String, Object>> getAccessoriesWithFilters(
+                        Double priceMin,
+                        Double priceMax,
+                        String brandName,
+                        List<String> types,
+                        String condition,
+                        String sortBy);
+
+        /**
+         * Lấy danh sách tất cả categories có category_id khác 1 (dành cho linh kiện)
+         */
+        List<Map<String, Object>> getAccessoryCategories();
+
+        // add
+        void addProduct(Product product,
+                        String[] techNames, String[] techValues, String[] techPriorities,
+                        String[] variantNames, String[] basePrices,
+                        String[] quantities, String[] variantQuantities,
+                        String[] skus, String[] colorVariantIndexes,
+                        String[] colorIds, String[] customColors, String[] colorPrices,
+                        Map<String, List<Image>> colorImagesMap) throws Exception;
+
+        // edit
+        void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
+                        String[] variantNames, String[] basePrices, String[] quantities,
+                        String[] variantIds, String[] colorIds, String[] skus,
+                        String[] variantQuantities) throws Exception;
+
+        // Cart
+        Map<String, Object> getProductForCart(int variantColorId);
+
+        // Lấy 4 sản phẩm liên quan
+        List<Map<String, Object>> getRelatedProducts(
+                        int brandId,
+                        int excludeProductId,
+                        int limit);
+}
