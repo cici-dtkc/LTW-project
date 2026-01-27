@@ -6,13 +6,19 @@ import vn.edu.hcmuaf.fit.webdynamic.model.BankAccount;
 
 import java.util.Optional;
 
+/**
+ * DAO xử lý tài khoản ngân hàng của người dùng
+ * - CRUD operations cho bảng bank_accounts
+ * - Lưu trữ thông tin tài khoản ngân hàng
+ */
 public class BankAccountDao {
-    private final Jdbi jdbi;
+    private final Jdbi jdbi; // Kết nối database
 
     public BankAccountDao() {
         this.jdbi = DBConnect.getJdbi();
     }
 
+    // Tìm tài khoản ngân hàng theo user ID
     public Optional<BankAccount> findByUserId(int userId) {
         return jdbi.withHandle(handle ->
                 handle.createQuery("SELECT * FROM bank_accounts WHERE user_id = :userId LIMIT 1")
@@ -22,6 +28,7 @@ public class BankAccountDao {
         );
     }
 
+    // Thêm tài khoản ngân hàng mới
     public boolean insert(BankAccount b) {
         int rows = jdbi.withHandle(handle ->
                 handle.createUpdate("""
@@ -37,6 +44,7 @@ public class BankAccountDao {
         return rows > 0;
     }
 
+    // Cập nhật thông tin tài khoản ngân hàng
     public boolean update(BankAccount b) {
         return jdbi.withHandle(handle -> {
 

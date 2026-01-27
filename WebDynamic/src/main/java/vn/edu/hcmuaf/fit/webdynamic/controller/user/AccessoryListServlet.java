@@ -17,15 +17,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Hiển thị danh sách linh kiện với các bộ lọc
+ * - Lọc theo giá, thương hiệu, điều kiện, tìm kiếm
+ * - Phân trang: 12 sản phẩm/trang
+ * - Hỗ trợ sắp xếp
+ */
 @WebServlet("/listproduct_accessory")
 public class AccessoryListServlet extends HttpServlet {
     private final ProductService productService = new ProductServiceImpl();
-    private static final int DEFAULT_PAGE_SIZE = 12;
+    private static final int DEFAULT_PAGE_SIZE = 12; // Số sản phẩm mỗi trang
 
+    /**
+     * Xử lý GET: Lấy danh sách linh kiện với filter
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Category ID 1 = Điện thoại, tất cả ID khác = Linh kiện
+        // Hiển thị linh kiện (Category ID != 1)
 
         // Lấy các tham số lọc
         Double priceMin = getDoubleParameter(request, "priceMin");
@@ -50,15 +59,14 @@ public class AccessoryListServlet extends HttpServlet {
             allAccessories = productService.getAccessoriesWithFilters(
                     priceMin, priceMax, brandName, null, condition, sortBy);
 
-            // Lọc theo tên category sau khi lấy dữ liệu
+            // Lọc theo tên category
             if (categoryNames != null && !categoryNames.isEmpty()) {
                 allAccessories = allAccessories.stream()
                         .filter(product -> {
-                            String productName = (String) product.get("name");
-                            if (productName == null)
+                            String productCategoryName = (String) product.get("categoryName");
+                            if (productCategoryName == null)
                                 return false;
-                            return categoryNames.stream()
-                                    .anyMatch(catName -> productName.toLowerCase().contains(catName.toLowerCase()));
+                            return categoryNames.contains(productCategoryName);
                         })
                         .collect(toList());
             }
@@ -108,8 +116,12 @@ public class AccessoryListServlet extends HttpServlet {
             accessories = allAccessories.subList(startIndex, endIndex);
         }
 
+        // Lấy danh sách categories (linh kiện) từ database
+        List<Map<String, Object>> accessoryCategories = productService.getAccessoryCategories();
+
         // Truyền dữ liệu vào JSP
         request.setAttribute("accessories", accessories);
+        request.setAttribute("accessoryCategories", accessoryCategories);
         request.setAttribute("currentPage", page);
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalItems", totalItems);
@@ -118,6 +130,7 @@ public class AccessoryListServlet extends HttpServlet {
         request.getRequestDispatcher("/listproduct_accessory.jsp").forward(request, response);
     }
 
+    // Lấy tham số kiểu Double từ request
     private Double getDoubleParameter(HttpServletRequest request, String paramName) {
         String value = request.getParameter(paramName);
         if (value != null && !value.trim().isEmpty()) {
@@ -130,6 +143,7 @@ public class AccessoryListServlet extends HttpServlet {
         return null;
     }
 
+    // Lấy tham số kiểu Integer từ request
     private Integer getIntegerParameter(HttpServletRequest request, String paramName) {
         String value = request.getParameter(paramName);
         if (value != null && !value.trim().isEmpty()) {
@@ -142,6 +156,7 @@ public class AccessoryListServlet extends HttpServlet {
         return null;
     }
 
+    // Lấy danh sách tham số từ request
     private List<String> getListParameter(HttpServletRequest request, String paramName) {
         String[] values = request.getParameterValues(paramName);
         if (values != null && values.length > 0) {
@@ -150,6 +165,7 @@ public class AccessoryListServlet extends HttpServlet {
         return null;
     }
 
+    // Kiểm tra xem có bộ lọc nào được sử dụng không
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> categoryNames,
             String brandName, String condition, List<String> models, String sortBy) {
         return priceMin != null || priceMax != null || (categoryNames != null && !categoryNames.isEmpty()) ||

@@ -1,10 +1,11 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-public class Product {
+public class Product implements Serializable {
     private int id;
     private String name;
     private String description;

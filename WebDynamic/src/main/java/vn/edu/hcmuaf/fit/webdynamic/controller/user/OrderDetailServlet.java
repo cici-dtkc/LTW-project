@@ -9,9 +9,14 @@ import vn.edu.hcmuaf.fit.webdynamic.service.OrderService;
 import vn.edu.hcmuaf.fit.webdynamic.utils.SidebarUtil;
 
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @WebServlet(name = "OrderDetailServlet", urlPatterns = { "/user/order-detail" })
 public class OrderDetailServlet extends HttpServlet {
@@ -72,13 +77,82 @@ public class OrderDetailServlet extends HttpServlet {
             // Lấy thông tin phương thức thanh toán
             PaymentTypes paymentType = orderService.getPaymentType(order.getPaymentTypeId());
 
+            // Format dữ liệu cho JSP
+            NumberFormat currencyFormat = NumberFormat.getInstance(new Locale("vi", "VN"));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            // Tính subtotal và format tất cả items
+            double subtotal = 0;
+            List<Map<String, Object>> itemsList = new ArrayList<>();
+            if (orderDetails != null && !orderDetails.isEmpty()) {
+                for (OrderDetail detail : orderDetails) {
+                    subtotal += detail.getTotalMoney();
+                    Map<String, String> productInfo = orderDetailService
+                            .getProductInfoByVariantId(detail.getVariantId());
+
+                    Map<String, Object> itemMap = new HashMap<>();
+                    itemMap.put("id", detail.getId());
+                    itemMap.put("quantity", detail.getQuantity());
+                    itemMap.put("price", detail.getPrice());
+                    itemMap.put("formattedPrice", currencyFormat.format(detail.getPrice()));
+                    itemMap.put("productName", productInfo != null ? productInfo.get("productName") : "N/A");
+                    itemMap.put("variantName", productInfo != null ? productInfo.get("variantName") : "");
+                    itemMap.put("colorName", productInfo != null ? productInfo.get("colorName") : "");
+                    itemMap.put("colorCode", productInfo != null ? productInfo.get("colorCode") : "");
+                    itemMap.put("variantId", detail.getVariantId());
+                    itemMap.put("imagePath",
+                            productInfo != null && productInfo.get("imagePath") != null ? productInfo.get("imagePath")
+                                    : "assert/img/product/default.jpg");
+                    itemsList.add(itemMap);
+                }
+            }
+
+            // Đóng gói thông tin đơn hàng
+            Map<String, Object> orderData = new HashMap<>();
+            orderData.put("id", order.getId());
+            orderData.put("status", order.getStatus());
+            orderData.put("createdAt", order.getCreatedAt());
+            orderData.put("formattedDate", dateFormat.format(order.getCreatedAt()));
+            orderData.put("feeShipping", order.getFeeShipping());
+            orderData.put("formattedFeeShipping", currencyFormat.format(order.getFeeShipping()));
+            orderData.put("discountAmount", order.getDiscountAmount());
+            orderData.put("formattedDiscountAmount", currencyFormat.format(order.getDiscountAmount()));
+            orderData.put("totalAmount", order.getTotalAmount());
+            orderData.put("formattedTotalAmount", currencyFormat.format(order.getTotalAmount()));
+            orderData.put("subtotal", subtotal);
+            orderData.put("formattedSubtotal", currencyFormat.format(subtotal));
+            orderData.put("statusName", OrderService.getStatusName(order.getStatus()));
+
+            // Thông tin thanh toán
+            String paymentStatusText;
+            String paymentStatusClass;
+            if (paymentType != null && paymentType.getId() == 2) {
+                paymentStatusText = "Đã thanh toán";
+                paymentStatusClass = "status-paid";
+            } else {
+                paymentStatusText = "Chưa thanh toán";
+                paymentStatusClass = "status-unpaid";
+            }
+            orderData.put("paymentStatusText", paymentStatusText);
+            orderData.put("paymentStatusClass", paymentStatusClass);
+            orderData.put("paymentMethodName", paymentType != null ? paymentType.getName() : "N/A");
+
+            // Thông tin địa chỉ
+            Map<String, String> addressData = new HashMap<>();
+            if (address != null) {
+                addressData.put("name", address.getName());
+                addressData.put("address", address.getAddress());
+                addressData.put("phoneNumber", address.getPhoneNumber());
+            } else {
+                addressData.put("name", "N/A");
+                addressData.put("address", "N/A");
+                addressData.put("phoneNumber", "N/A");
+            }
+
             // Đưa dữ liệu vào request
-            request.setAttribute("order", order);
-            request.setAttribute("orderDetails", orderDetails);
-            request.setAttribute("address", address);
-            request.setAttribute("paymentType", paymentType);
-            request.setAttribute("orderService", orderService);
-            request.setAttribute("orderDetailService", orderDetailService);
+            request.setAttribute("orderData", orderData);
+            request.setAttribute("items", itemsList);
+            request.setAttribute("address", addressData);
 
             // Set sidebar data
             request.setAttribute("activeMenu", "order");

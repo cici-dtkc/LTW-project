@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class OrderDetail {
+public class OrderDetail implements Serializable {
     private int id;
     private int variantId;
     private int orderId;

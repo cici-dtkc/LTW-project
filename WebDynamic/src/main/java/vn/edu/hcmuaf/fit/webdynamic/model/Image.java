@@ -1,8 +1,9 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Image {
+public class Image implements Serializable{
     private int id;
     private String imgPath;
     private boolean main;

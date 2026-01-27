@@ -32,7 +32,16 @@
             <c:forEach var="product" items="${bannerProducts}" varStatus="status">
                 <div class="slide ${status.first ? 'active' : ''}" id="slide-${status.index + 1}">
                     <a href="${pageContext.request.contextPath}/product-detail?id=${product.id}">
-                        <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}" alt="${product.name}">
+                        <c:choose>
+                            <c:when test="${product.categoryId == 1}">
+                                <img src="${pageContext.request.contextPath}/assert/img/product/${product.main_image}"
+                                     alt="${product.name}">
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assert/img/accesory/${product.main_image}"
+                                     alt="${product.name}">
+                            </c:otherwise>
+                        </c:choose>
                     </a>
                 </div>
             </c:forEach>
@@ -170,7 +179,7 @@
                     <div class="product-card">
                         <a href="${pageContext.request.contextPath}/product-detail?id=${accessory.id}">
                             <div class="product-img">
-                                <img src="${pageContext.request.contextPath}/assert/img/product/${accessory.main_image}" alt="${accessory.name}">
+                                <img src="${pageContext.request.contextPath}/assert/img/accesory/${accessory.main_image}" alt="${accessory.name}">
                                 <c:if test="${accessory.discount_percentage > 0}">
                                     <span class="discount-badge">-${accessory.discount_percentage}%</span>
                                 </c:if>

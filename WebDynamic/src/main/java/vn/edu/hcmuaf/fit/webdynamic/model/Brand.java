@@ -1,6 +1,8 @@
 package vn.edu.hcmuaf.fit.webdynamic.model;
 
-public class Brand {
+import java.io.Serializable;
+
+public class Brand implements Serializable {
     private Integer id;
     private String name;        // Samsung, iPhone, Oppo
     private String logo;

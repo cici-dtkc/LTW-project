@@ -30,15 +30,9 @@
             </div>
 
             <div class="category-list">
-                <div class="category" data-category-name="Màn hình cảm ứng">Màn hình cảm ứng</div>
-                <div class="category" data-category-name="Pin">Pin</div>
-                <div class="category" data-category-name="Camera">Camera</div>
-                <div class="category" data-category-name="Loa/ Mic">Loa/ Mic</div>
-                <div class="category" data-category-name="Cáp sạc/ Cổng sạc">Cáp sạc/ Cổng sạc</div>
-                <div class="category" data-category-name="Giá đỡ điện thoại">Giá đỡ điện thoại</div>
-                <div class="category" data-category-name="Quạt tản nhiệt / Cooling fan">Quạt tản nhiệt / Cooling fan</div>
-                <div class="category" data-category-name="Ốp lưng / Vỏ lưng">Ốp lưng / Vỏ lưng</div>
-                <div class="category" data-category-name="Kính cường lực / Mặt kính">Kính cường lực / Mặt kính</div>
+                <c:forEach var="category" items="${accessoryCategories}">
+                    <div class="category" data-category-name="${category.name}">${category.name}</div>
+                </c:forEach>
             </div>
         </div>
 
@@ -120,7 +114,7 @@
             <div class="product-card">
                 <a href="product-detail?id=${product.id}">
                     <div class="product-img">
-                        <img src="${pageContext.request.contextPath}/assert/img/acessory/${product.image}" alt="${product.name}">
+                        <img src="${pageContext.request.contextPath}/assert/img/accesory/${product.image}" alt="${product.name}">
                         <c:if test="${product.discount > 0}">
                             <span class="discount-badge">-${product.discount}%</span>
                         </c:if>
@@ -246,6 +240,11 @@
         </c:if>
         <c:if test="${not empty param.brandId}">
             <c:param name="brandId" value="${param.brandId}"/>
+        </c:if>
+        <c:if test="${not empty paramValues.categoryName}">
+            <c:forEach var="catName" items="${paramValues.categoryName}">
+                <c:param name="categoryName" value="${catName}"/>
+            </c:forEach>
         </c:if>
         <c:if test="${not empty paramValues.type}">
             <c:forEach var="typ" items="${paramValues.type}">

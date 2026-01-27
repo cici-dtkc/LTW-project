@@ -7,12 +7,18 @@ import vn.edu.hcmuaf.fit.webdynamic.model.Address;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * DAO xử lý địa chỉ của người dùng
+ * - CRUD operations cho bảng addresses
+ * - Hỗ trợ set địa chỉ mặc định
+ */
 public class AddressDao {
-    private final Jdbi jdbi;
+    private final Jdbi jdbi; // Kết nối database
 
     public AddressDao() {
         this.jdbi = DBConnect.getJdbi();
     }
+    // Lấy tất cả địa chỉ của user
     public List<Address> findAllByUserId(int userId) {
         return jdbi.withHandle(h ->
                 h.createQuery("""
@@ -32,6 +38,7 @@ public class AddressDao {
         );
     }
 
+    // Tìm địa chỉ theo ID
     public Optional<Address> findById(int id) {
         return jdbi.withHandle(h ->
                 h.createQuery("""
@@ -50,6 +57,7 @@ public class AddressDao {
         );
     }
 
+    // Thêm địa chỉ mới, nếu status=1 thì set địa chỉ khác status=0
     public int insert(Address a) {
         return jdbi.inTransaction(h -> {
             if (a.getStatus() == 1) {
@@ -70,6 +78,7 @@ public class AddressDao {
         });
     }
 
+    // Cập nhật địa chỉ, nếu status=1 thì set địa chỉ khác status=0
     public boolean update(Address a) {
         return jdbi.inTransaction(h -> {
             if (a.getStatus() == 1) {
@@ -90,6 +99,7 @@ public class AddressDao {
         });
     }
 
+    // Xóa địa chỉ
     public boolean delete(int id) {
         return jdbi.withHandle(h ->
                 h.createUpdate("DELETE FROM addresses WHERE id=:id")
@@ -97,6 +107,7 @@ public class AddressDao {
         );
     }
 
+    // Set địa chỉ làm mặc định (status=1), set các địa chỉ khác status=0
     public boolean setDefault(int id, int userId) {
         return jdbi.inTransaction(h -> {
             h.createUpdate("UPDATE addresses SET status = 0 WHERE user_id=:uid")
