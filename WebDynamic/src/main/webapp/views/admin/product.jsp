@@ -83,8 +83,16 @@
             <c:forEach items="${products}" var="row">
                 <tr>
                     <td>
-                        <img src="${pageContext.request.contextPath}/assert/img/product/${row.p_img}" alt="ảnh lỗi">
-
+                        <c:choose>
+                            <c:when test="${categoryId == 1}">
+                                <img src="${pageContext.request.contextPath}/assert/img/product/${row.p_img}"
+                                >
+                            </c:when>
+                            <c:otherwise>
+                                <img src="${pageContext.request.contextPath}/assert/img/accesory/${row.p_img}"
+                                >
+                            </c:otherwise>
+                        </c:choose>
                     </td>
 
                     <td class="text-left">${row.p_name}</td>

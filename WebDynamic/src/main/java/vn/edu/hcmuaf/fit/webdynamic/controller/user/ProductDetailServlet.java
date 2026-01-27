@@ -66,7 +66,10 @@ public class ProductDetailServlet extends HttpServlet {
 
         // Lấy tất cả variant_colors để JavaScript có thể truy cập giá
         List<Map<String, Object>> variantColors = ((ProductDaoImpl) productDao).getAllVariantColorsForProduct(productId);
-
+        System.out.println("🔍 DEBUG - variantColors size: " + (variantColors != null ? variantColors.size() : "null"));
+        if (variantColors != null && !variantColors.isEmpty()) {
+            System.out.println("🔍 DEBUG - First variantColor: " + variantColors.get(0));
+        }
 
         // 7️⃣ Feedback
         List<Feedback> feedbacks = feedbackDao.getFeedbacksByProductId(productId);
@@ -84,7 +87,7 @@ public class ProductDetailServlet extends HttpServlet {
         request.setAttribute("images", images);
         request.setAttribute("techSpecs", techSpecs);
         request.setAttribute("defaultVariantColor", defaultVC);
-
+        request.setAttribute("variantColors", variantColors);
         request.setAttribute("feedbacks", feedbacks);
         request.setAttribute("totalFeedbacks", totalFeedbacks);
 

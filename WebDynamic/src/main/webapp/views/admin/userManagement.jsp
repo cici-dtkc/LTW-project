@@ -130,8 +130,8 @@
                                 </span>
 
                                 <select class="role-select" style="display:none;">
-                                    <option value="0" ${u.role == 0 ? "selected" : ""}>User</option>
-                                    <option value="1" ${u.role == 1 ? "selected" : ""}>Admin</option>
+                                    <option value="0" ${u.role == 0 ? "selected" : ""}>Admin</option>
+                                    <option value="1" ${u.role == 1 ? "selected" : ""}>User</option
                                 </select>
                             </td>
 

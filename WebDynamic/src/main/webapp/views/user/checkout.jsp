@@ -36,7 +36,7 @@
                 <input type="hidden" name="addressId" value="${defaultAddress.id}">
             </c:when>
             <c:otherwise>
-                <p>Chưa có địa chỉ. <a href="add-address">Thêm địa chỉ mới</a></p>
+                <p>Chưa có địa chỉ. <a href="${pageContext.request.contextPath}/user/addresses">Thêm địa chỉ mới</a></p>
             </c:otherwise>
         </c:choose>
     </section>

@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Map" %>
@@ -83,7 +86,7 @@
 
             <div class="actions" role="group" aria-label="Hành động đơn hàng">
                 <% int status = (Integer) orderData.get("status");
-                   int orderId = (Integer) orderData.get("id");
+                    int orderId = (Integer) orderData.get("id");
                 %>
                 <% if (status == 1) { %>
                 <button id="btn-request-cancel" class="btn-ghost" data-order-id="<%= orderId %>" onclick="cancelOrder(this.getAttribute('data-order-id'))">Yêu cầu hủy</button>
@@ -112,7 +115,7 @@
             <h4 id="address-heading" style="margin:0 0 8px 0">Giao tới</h4>
             <div class="address">
                 <div id="rec-name"><strong><%= address.get("address") %></strong> • <span class="muted"
-                                                                         id="rec-phone"><%= address.get("phoneNumber") %></span></div>
+                                                                                          id="rec-phone"><%= address.get("phoneNumber") %></span></div>
                 <div id="ship-address" class="muted"><%= address.get("address") %></div>
                 <div id="ship-phone" class="muted"><%= address.get("phoneNumber") %></div>
             </div>
@@ -125,85 +128,85 @@
 <script src="${pageContext.request.contextPath}/js/notification.js"></script>
 
 <script>
-function cancelOrder(orderId) {
-    showConfirmDialog('Bạn có chắc chắn muốn hủy đơn hàng này?', 'Xác nhận hủy đơn', {
-        iconType: 'warning',
-        confirmText: 'Hủy',
-        cancelText: 'Không',
-        confirmButtonClass: 'btn-confirm-delete'
-    }).then(confirmed => {
-        if (!confirmed) return;
-        
-        fetch('${pageContext.request.contextPath}/user/order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'action=cancel&orderId=' + orderId
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                setTimeout(() => {
-                    showToast('Hủy đơn hàng thành công!', 'success', 3000);
-                    setTimeout(() => location.reload(), 1500);
-                }, 300);
-            } else {
-                setTimeout(() => {
-                    showToast('Lỗi: ' + data.message, 'error', 3000);
-                }, 300);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            setTimeout(() => {
-                showToast('Có lỗi xảy ra khi hủy đơn hàng', 'error', 3000);
-            }, 300);
-        });
-    });
-}
+    function cancelOrder(orderId) {
+        showConfirmDialog('Bạn có chắc chắn muốn hủy đơn hàng này?', 'Xác nhận hủy đơn', {
+            iconType: 'warning',
+            confirmText: 'Hủy',
+            cancelText: 'Không',
+            confirmButtonClass: 'btn-confirm-delete'
+        }).then(confirmed => {
+            if (!confirmed) return;
 
-function repurchaseOrder(orderId) {
-    showConfirmDialog('Bạn có muốn mua lại đơn hàng này?', 'Xác nhận mua lại', {
-        iconType: 'info',
-        confirmText: 'Mua lại',
-        cancelText: 'Không',
-        confirmButtonClass: 'btn-confirm'
-    }).then(confirmed => {
-        if (!confirmed) return;
-        
-        fetch('${pageContext.request.contextPath}/user/order', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: 'action=repurchase&orderId=' + orderId
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                setTimeout(() => {
-                    showToast('Sản phẩm đã được thêm vào giỏ hàng!', 'success', 3000);
-                    if (data.redirectUrl) {
-                        setTimeout(() => location.href = data.redirectUrl, 1500);
+            fetch('${pageContext.request.contextPath}/user/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=cancel&orderId=' + orderId
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        setTimeout(() => {
+                            showToast('Hủy đơn hàng thành công!', 'success', 3000);
+                            setTimeout(() => location.reload(), 1500);
+                        }, 300);
                     } else {
-                        setTimeout(() => location.href = '${pageContext.request.contextPath}/user/cart', 1500);
+                        setTimeout(() => {
+                            showToast('Lỗi: ' + data.message, 'error', 3000);
+                        }, 300);
                     }
-                }, 300);
-            } else {
-                setTimeout(() => {
-                    showToast('Lỗi: ' + data.message, 'error', 3000);
-                }, 300);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            setTimeout(() => {
-                showToast('Có lỗi xảy ra khi mua lại đơn hàng', 'error', 3000);
-            }, 300);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    setTimeout(() => {
+                        showToast('Có lỗi xảy ra khi hủy đơn hàng', 'error', 3000);
+                    }, 300);
+                });
         });
-    });
-}
+    }
+
+    function repurchaseOrder(orderId) {
+        showConfirmDialog('Bạn có muốn mua lại đơn hàng này?', 'Xác nhận mua lại', {
+            iconType: 'info',
+            confirmText: 'Mua lại',
+            cancelText: 'Không',
+            confirmButtonClass: 'btn-confirm'
+        }).then(confirmed => {
+            if (!confirmed) return;
+
+            fetch('${pageContext.request.contextPath}/user/order', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'action=repurchase&orderId=' + orderId
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        setTimeout(() => {
+                            showToast('Sản phẩm đã được thêm vào giỏ hàng!', 'success', 3000);
+                            if (data.redirectUrl) {
+                                setTimeout(() => location.href = data.redirectUrl, 1500);
+                            } else {
+                                setTimeout(() => location.href = '${pageContext.request.contextPath}/user/cart', 1500);
+                            }
+                        }, 300);
+                    } else {
+                        setTimeout(() => {
+                            showToast('Lỗi: ' + data.message, 'error', 3000);
+                        }, 300);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    setTimeout(() => {
+                        showToast('Có lỗi xảy ra khi mua lại đơn hàng', 'error', 3000);
+                    }, 300);
+                });
+        });
+    }
 </script>
 
 </body>
