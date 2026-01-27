@@ -1846,6 +1846,9 @@ public class ProductDaoImpl implements ProductDao {
                     color.put("id", row.get("variant_color_id"));
                     color.put("name", row.get("color_name"));
                     color.put("code", row.get("color_code"));
+                    // Thêm giá cho màu từ database
+                    color.put("priceNew", row.get("variant_price_new"));
+                    color.put("priceOld", row.get("variant_price"));
 
                     @SuppressWarnings("unchecked")
                     List<Map<String, Object>> colors_list = (List<Map<String, Object>>) variantMap.get(variantKey)
