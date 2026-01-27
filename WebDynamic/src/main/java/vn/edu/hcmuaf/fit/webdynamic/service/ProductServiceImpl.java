@@ -24,10 +24,10 @@ public class ProductServiceImpl implements ProductService {
         int offset = (page - 1) * limit;
 
         List<Integer> vcIds = productDao.findVariantIdsForAdmin(
-                keyword, status, categoryId, offset, limit
-        );
+                keyword, status, categoryId, offset, limit);
 
-        if (vcIds.isEmpty()) return List.of();
+        if (vcIds.isEmpty())
+            return List.of();
 
         return productDao.findForAdminByVariantIds(vcIds);
 
@@ -45,11 +45,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void addProduct(Product product,
-                           String[] techNames, String[] techValues, String[] techPriorities,
-                           String[] variantNames, String[] basePrices,
-                           String[] quantities, String[] variantQuantities,
-                           String[] skus, String[] colorVariantIndexes,
-                           String[] colorIds, String[] customColors, String[] colorPrices , Map<String, List<Image>> colorImagesMap) throws Exception {
+            String[] techNames, String[] techValues, String[] techPriorities,
+            String[] variantNames, String[] basePrices,
+            String[] quantities, String[] variantQuantities,
+            String[] skus, String[] colorVariantIndexes,
+            String[] colorIds, String[] customColors, String[] colorPrices, Map<String, List<Image>> colorImagesMap)
+            throws Exception {
 
         // bắt lỗi dữ liệu đầu vào
         if (variantNames == null || variantNames.length == 0) {
@@ -88,7 +89,8 @@ public class ProductServiceImpl implements ProductService {
             // 2. Xử lý Thông số kỹ thuật
             if (techNames != null) {
                 for (int i = 0; i < techNames.length; i++) {
-                    if (techNames[i] == null || techNames[i].isBlank()) continue;
+                    if (techNames[i] == null || techNames[i].isBlank())
+                        continue;
                     TechSpecs t = new TechSpecs();
                     t.setName(techNames[i]);
                     t.setValue(techValues[i]);
@@ -133,7 +135,7 @@ public class ProductServiceImpl implements ProductService {
                                     if (skus != null && j < skus.length) {
                                         String sku = skus[j];
                                         if (sku == null || sku.trim().isEmpty()) {
-                                            vc.setSku(null);  // cho phép SKU null nếu trống
+                                            vc.setSku(null); // cho phép SKU null nếu trống
                                         } else {
                                             vc.setSku(sku.trim());
                                         }
@@ -153,8 +155,7 @@ public class ProductServiceImpl implements ProductService {
                                             System.out.println(
                                                     "Insert image vcId=" + variantColorId +
                                                             " key=" + key +
-                                                            " path=" + img.getImgPath()
-                                            );
+                                                            " path=" + img.getImgPath());
 
                                             productDao.insertVariantColorImage(handle, variantColorId, img);
                                         }
@@ -172,7 +173,6 @@ public class ProductServiceImpl implements ProductService {
                         vc.setCreatedAt(LocalDateTime.now());
                         productDao.insertVariantColor(handle, variantId, vc);
 
-
                     }
                 }
             }
@@ -180,16 +180,15 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
-
-
-
     private int parseInt(String s) {
-        if (s == null || s.trim().isEmpty()) return 0;
+        if (s == null || s.trim().isEmpty())
+            return 0;
         return Integer.parseInt(s.trim());
     }
 
     private double parseDbl(String s) {
-        if (s == null || s.trim().isEmpty()) return 0.0;
+        if (s == null || s.trim().isEmpty())
+            return 0.0;
         return Double.parseDouble(s.trim());
     }
 
@@ -200,9 +199,10 @@ public class ProductServiceImpl implements ProductService {
         int productId = (int) product.get("product_id");
 
         // 2. Lấy chi tiết phiên bản và màu sắc đang edit
-        Map<String, Object> detail = (  productDao).findVariantColorDetailForEdit(vcId);
+        Map<String, Object> detail = (productDao).findVariantColorDetailForEdit(vcId);
 
-        // Đưa toàn bộ chi tiết ra ngoài Map cha để JSP gọi trực tiếp ${product.variant_name}
+        // Đưa toàn bộ chi tiết ra ngoài Map cha để JSP gọi trực tiếp
+        // ${product.variant_name}
         product.putAll(detail);
 
         // 3. Lấy danh sách thông số kỹ thuật
@@ -218,9 +218,6 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-
-
-
     @Override
     public List<Map<String, Object>> getProductsForList() {
         return ((ProductDaoImpl) productDao).getProductsForListDisplay();
@@ -231,11 +228,10 @@ public class ProductServiceImpl implements ProductService {
         return ((ProductDaoImpl) productDao).getProductsByCategory(categoryId);
     }
 
-
     @Override
     public void updateProduct(Product product, String[] techNames, String[] techValues, String[] techPriorities,
-                              String[] vNames, String[] bPrices, String[] vIds, String[] cIds,
-                              String[] skus, String[] qtys, String[] cPrices) throws Exception {
+            String[] vNames, String[] bPrices, String[] vIds, String[] cIds,
+            String[] skus, String[] qtys, String[] cPrices) throws Exception {
 
         getJdbi().useTransaction(handle -> {
             productDao.updateProductBasic(handle, product);
@@ -244,7 +240,8 @@ public class ProductServiceImpl implements ProductService {
             if (techNames != null) {
                 for (int i = 0; i < techNames.length; i++) {
                     // Kiểm tra nếu tên thông số trống thì bỏ qua không lưu
-                    if (techNames[i] == null || techNames[i].isBlank()) continue;
+                    if (techNames[i] == null || techNames[i].isBlank())
+                        continue;
                     TechSpecs t = new TechSpecs();
                     t.setName(techNames[i]);
                     t.setValue(techValues[i]);
@@ -280,13 +277,11 @@ public class ProductServiceImpl implements ProductService {
                         System.out.println("bPrices=" + Arrays.toString(bPrices));
                         System.out.println("qtys=" + Arrays.toString(qtys));
 
-
                     }
                 }
             }
         });
     }
-
 
     @Override
     public List<Map<String, Object>> getProductsByCategoryWithFilters(
@@ -299,11 +294,9 @@ public class ProductServiceImpl implements ProductService {
             String brandName,
             List<String> types,
             String condition,
-            String sortBy
-    ) {
+            String sortBy) {
         return ((ProductDaoImpl) productDao).getProductsByCategoryWithFilters(
-                categoryId, priceMin, priceMax, memory, colors, year, brandName, types, condition, sortBy
-        );
+                categoryId, priceMin, priceMax, memory, colors, year, brandName, types, condition, sortBy);
     }
 
     @Override
@@ -318,42 +311,35 @@ public class ProductServiceImpl implements ProductService {
             String brandName,
             List<String> types,
             String condition,
-            String sortBy
-    ) {
+            String sortBy) {
         return ((ProductDaoImpl) productDao).getAccessoriesWithFilters(
-                priceMin, priceMax, brandName, types, condition, sortBy
-        );
+                priceMin, priceMax, brandName, types, condition, sortBy);
     }
-
-
 
     // cart
 
     @Override
-        public Map<String, Object> getProductForCart(int variantColorId) {
-            Map<String, Object> detail = productDao.getCartItemDetail(variantColorId);
-            if (detail != null) {
-                // Lấy giá gốc và % giảm giá từ DB
-                double unitPrice = Double.parseDouble(detail.get("unit_price").toString());
-                int discount = Integer.parseInt(detail.get("discount_percentage").toString());
+    public Map<String, Object> getProductForCart(int variantColorId) {
+        Map<String, Object> detail = productDao.getCartItemDetail(variantColorId);
+        if (detail != null) {
+            // Lấy giá gốc và % giảm giá từ DB
+            double unitPrice = Double.parseDouble(detail.get("unit_price").toString());
+            int discount = Integer.parseInt(detail.get("discount_percentage").toString());
 
-                // Tính giá bán thực tế (đã áp dụng giảm giá)
-                double finalPrice = unitPrice * (100 - discount) / 100;
-                detail.put("price_final", new BigDecimal(finalPrice));
-            }
-            return detail;
+            // Tính giá bán thực tế (đã áp dụng giảm giá)
+            double finalPrice = unitPrice * (100 - discount) / 100;
+            detail.put("price_final", new BigDecimal(finalPrice));
         }
+        return detail;
+    }
 
     @Override
     public List<Map<String, Object>> getRelatedProducts(
             int brandId,
-            int excludeProductId, int limit
-    ) {
-
+            int excludeProductId, int limit) {
 
         // 1. Ưu tiên cùng brand
-        List<Map<String, Object>> products =
-                productDao.findRelatedBySameBrand(brandId, excludeProductId, limit);
+        List<Map<String, Object>> products = productDao.findRelatedBySameBrand(brandId, excludeProductId, limit);
 
         // 2. Nếu chưa đủ → lấy bù
         if (products.size() < limit) {
@@ -363,12 +349,10 @@ public class ProductServiceImpl implements ProductService {
                     .map(p -> (Integer) p.get("id"))
                     .toList();
 
-            List<Map<String, Object>> fallback =
-                    productDao.findFallbackRelatedProducts(
-                            excludeProductId,
-                            existedIds,
-                            remain
-                    );
+            List<Map<String, Object>> fallback = productDao.findFallbackRelatedProducts(
+                    excludeProductId,
+                    existedIds,
+                    remain);
 
             products.addAll(fallback);
         }
@@ -376,8 +360,47 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
+    @Override
+    public List<Map<String, Object>> getProductsByCategoryPaginated(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            String brandName,
+            String sortBy,
+            int page,
+            int pageSize,
+            String search) {
+
+        // Gọi DAO method (đã có LIMIT + OFFSET)
+        return productDao.getProductsByCategoryPaginated(
+                categoryId, priceMin, priceMax,
+                memory, colors, year, brandName,
+                sortBy, page, pageSize, search);
+    }
+
+    @Override
+    public int countProductsByCategory(
+            int categoryId,
+            Double priceMin,
+            Double priceMax,
+            List<String> memory,
+            List<String> colors,
+            Integer year,
+            String brandName,
+            String search) {
+
+        // Gọi DAO method
+        return productDao.countProductsByCategory(
+                categoryId, priceMin, priceMax,
+                memory, colors, year, brandName, search);
+    }
+
+    @Override
+    public List<Map<String, Object>> getAccessoryCategories() {
+        return productDao.getAccessoryCategories();
+    }
+
 }
-
-
-
-

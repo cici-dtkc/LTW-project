@@ -44,44 +44,60 @@ public class ProductListServlet extends HttpServlet {
         if (page < 1)
             page = 1;
 
-        // Lấy danh sách sản phẩm với bộ lọc
-        List<Map<String, Object>> allProducts;
-        if (hasFilters(priceMin, priceMax, memory, colors, year, brandName, sortBy)
-                || (search != null && !search.trim().isEmpty())) {
-            allProducts = productService.getProductsByCategoryWithFilters(
-                    categoryId, priceMin, priceMax, memory, colors, year, brandName, null, null, sortBy);
+        // 🔧 TỐI ƯU HÓA: Lấy dữ liệu với pagination ở tầng database
+        List<Map<String, Object>> products;
+        int totalItems;
 
-            // Lọc theo search nếu có
-            if (search != null && !search.trim().isEmpty()) {
-                String searchLower = search.toLowerCase();
-                allProducts = allProducts.stream()
-                        .filter(product -> {
-                            String productName = (String) product.get("name");
-                            if (productName == null)
-                                return false;
-                            return productName.toLowerCase().contains(searchLower);
-                        })
-                        .collect(toList());
-            }
+        // Kiểm tra có filter hay search không
+        boolean hasFilter = hasFilters(priceMin, priceMax, memory, colors, year, brandName, sortBy)
+                || (search != null && !search.trim().isEmpty());
+
+        if (hasFilter) {
+            // Có filter: Sử dụng getProductsByCategoryPaginated để load chỉ 1 page
+            products = productService.getProductsByCategoryPaginated(
+                    categoryId,
+                    priceMin, priceMax,
+                    memory, colors,
+                    year, brandName,
+                    sortBy,
+                    page,
+                    pageSize,
+                    search); // Thêm search parameter
+
+            // Đếm tổng số products thỏa filter
+            totalItems = productService.countProductsByCategory(
+                    categoryId,
+                    priceMin, priceMax,
+                    memory, colors,
+                    year, brandName,
+                    search); // Thêm search parameter
         } else {
-            allProducts = productService.getProductsByCategory(categoryId);
+            // Không filter: Load category mặc định, vẫn dùng pagination
+            products = productService.getProductsByCategoryPaginated(
+                    categoryId,
+                    null, null,
+                    null, null,
+                    null, null,
+                    null,
+                    page,
+                    pageSize,
+                    null);
+
+            // Đếm tổng số products
+            totalItems = productService.countProductsByCategory(
+                    categoryId,
+                    null, null,
+                    null, null,
+                    null, null,
+                    null);
         }
 
-        // Tính toán phân trang đơn giản
-        int totalItems = allProducts.size();
+        // Tính toán phân trang
         int totalPages = (int) Math.ceil((double) totalItems / pageSize);
         if (totalPages < 1)
             totalPages = 1;
         if (page > totalPages)
             page = totalPages;
-
-        // Lấy danh sách cho trang hiện tại
-        int startIndex = (page - 1) * pageSize;
-        int endIndex = Math.min(startIndex + pageSize, totalItems);
-        List<Map<String, Object>> products = new ArrayList<>();
-        if (startIndex < totalItems) {
-            products = allProducts.subList(startIndex, endIndex);
-        }
 
         // Truyền dữ liệu vào JSP
         request.setAttribute("products", products);
@@ -128,7 +144,8 @@ public class ProductListServlet extends HttpServlet {
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> memory,
             List<String> colors, Integer year, String brandName, String sortBy) {
         return priceMin != null || priceMax != null || (memory != null && !memory.isEmpty()) ||
-                (colors != null && !colors.isEmpty()) || year != null || (brandName != null && !brandName.trim().isEmpty()) ||
+                (colors != null && !colors.isEmpty()) || year != null
+                || (brandName != null && !brandName.trim().isEmpty()) ||
                 (sortBy != null && !sortBy.trim().isEmpty());
     }
 }

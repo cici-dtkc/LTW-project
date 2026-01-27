@@ -50,15 +50,14 @@ public class AccessoryListServlet extends HttpServlet {
             allAccessories = productService.getAccessoriesWithFilters(
                     priceMin, priceMax, brandName, null, condition, sortBy);
 
-            // Lọc theo tên category sau khi lấy dữ liệu
+            // Lọc theo tên category
             if (categoryNames != null && !categoryNames.isEmpty()) {
                 allAccessories = allAccessories.stream()
                         .filter(product -> {
-                            String productName = (String) product.get("name");
-                            if (productName == null)
+                            String productCategoryName = (String) product.get("categoryName");
+                            if (productCategoryName == null)
                                 return false;
-                            return categoryNames.stream()
-                                    .anyMatch(catName -> productName.toLowerCase().contains(catName.toLowerCase()));
+                            return categoryNames.contains(productCategoryName);
                         })
                         .collect(toList());
             }
@@ -108,8 +107,12 @@ public class AccessoryListServlet extends HttpServlet {
             accessories = allAccessories.subList(startIndex, endIndex);
         }
 
+        // Lấy danh sách categories (linh kiện) từ database
+        List<Map<String, Object>> accessoryCategories = productService.getAccessoryCategories();
+
         // Truyền dữ liệu vào JSP
         request.setAttribute("accessories", accessories);
+        request.setAttribute("accessoryCategories", accessoryCategories);
         request.setAttribute("currentPage", page);
         request.setAttribute("pageSize", pageSize);
         request.setAttribute("totalItems", totalItems);

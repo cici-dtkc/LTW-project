@@ -256,8 +256,8 @@
                 <c:if test="${not empty param.priceMax}">
                     <c:param name="priceMax" value="${param.priceMax}"/>
                 </c:if>
-                <c:if test="${not empty param.brandId}">
-                    <c:param name="brandId" value="${param.brandId}"/>
+                <c:if test="${not empty param.brandName}">
+                    <c:param name="brandName" value="${param.brandName}"/>
                 </c:if>
                 <c:if test="${not empty paramValues.memory}">
                     <c:forEach var="mem" items="${paramValues.memory}">

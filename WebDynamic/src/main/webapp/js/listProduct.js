@@ -747,44 +747,14 @@ function flyToCart(productImg) {
 
 // ===== HỆ THỐNG LOAD MORE =====
 function initLoadMore() {
+    // Hiển thị tất cả sản phẩm (tuân theo pagination backend - 12 sản phẩm/trang)
     const productCards = Array.from(document.querySelectorAll("#product-list .product-card"));
-    const loadMoreBtn = document.getElementById("loadMoreBtn");
-    const spinner = document.getElementById("loadMoreSpinner");
-    const pageSize = 8;
-    let currentIndex = 0;
-
-    if (!loadMoreBtn || productCards.length === 0) return;
-
-    function showNextProducts() {
-        spinner.style.display = "inline";
-        loadMoreBtn.disabled = true;
-
-        setTimeout(() => {
-            const nextProducts = productCards.slice(currentIndex, currentIndex + pageSize);
-            nextProducts.forEach(card => {
-                card.style.display = "flex";
-                // Re-init events for newly shown cards
-                initCapacitySelection(card);
-                initColorSelection(card);
-            });
-
-            currentIndex += nextProducts.length;
-
-            spinner.style.display = "none";
-            loadMoreBtn.disabled = false;
-
-            // Ẩn nút nếu hết sản phẩm
-            if (currentIndex >= productCards.length) {
-                loadMoreBtn.style.display = "none";
-            }
-        }, 300);
-    }
-
-    // Hiển thị sản phẩm ban đầu
-    showNextProducts();
-
-    // Event nút Xem thêm
-    loadMoreBtn.addEventListener("click", showNextProducts);
+    productCards.forEach(card => {
+        card.style.display = "flex";
+        // Re-init events for all cards
+        initCapacitySelection(card);
+        initColorSelection(card);
+    });
 }
 
 // ===== HELPER FUNCTIONS =====
