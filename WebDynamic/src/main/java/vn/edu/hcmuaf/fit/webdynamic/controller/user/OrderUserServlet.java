@@ -101,10 +101,51 @@ public class OrderUserServlet extends HttpServlet {
             orders = orderService.getUserOrders(userId);
         }
 
+        // Format dữ liệu cho JSP
+        java.text.NumberFormat currencyFormat = java.text.NumberFormat.getInstance(new java.util.Locale("vi", "VN"));
+        java.util.List<java.util.Map<String, Object>> ordersData = new java.util.ArrayList<>();
+
+        if (orders != null && !orders.isEmpty()) {
+            for (Order order : orders) {
+                java.util.Map<String, Object> orderMap = new java.util.HashMap<>();
+                orderMap.put("order", order);
+                orderMap.put("id", order.getId());
+                orderMap.put("status", order.getStatus());
+                orderMap.put("totalAmount", order.getTotalAmount());
+                orderMap.put("formattedTotal", currencyFormat.format(order.getTotalAmount()));
+
+                // Status info
+                orderMap.put("statusName", OrderService.getStatusName(order.getStatus()));
+                orderMap.put("statusIcon", OrderService.getStatusIcon(order.getStatus()));
+                orderMap.put("statusClass", OrderService.getStatusClass(order.getStatus()));
+
+                // Order details với product info
+                java.util.List<OrderDetail> orderDetails = orderDetailService.getOrderDetailsWithProduct(order.getId());
+                java.util.List<java.util.Map<String, Object>> itemsList = new java.util.ArrayList<>();
+
+                if (orderDetails != null && !orderDetails.isEmpty()) {
+                    for (OrderDetail detail : orderDetails) {
+                        java.util.Map<String, String> productInfo = orderDetailService
+                                .getProductInfoByVariantId(detail.getVariantId());
+                        java.util.Map<String, Object> itemMap = new java.util.HashMap<>();
+                        itemMap.put("detail", detail);
+                        itemMap.put("quantity", detail.getQuantity());
+                        itemMap.put("price", detail.getPrice());
+                        itemMap.put("formattedPrice", currencyFormat.format(detail.getPrice()));
+                        itemMap.put("productName", productInfo != null ? productInfo.get("productName") : "N/A");
+                        itemMap.put("variantName", productInfo != null ? productInfo.get("variantName") : "");
+                        itemMap.put("imagePath",
+                                productInfo != null ? productInfo.get("imagePath") : "assert/img/product/default.jpg");
+                        itemsList.add(itemMap);
+                    }
+                }
+                orderMap.put("items", itemsList);
+                ordersData.add(orderMap);
+            }
+        }
+
         // Đưa dữ liệu vào request
-        request.setAttribute("orders", orders);
-        request.setAttribute("orderService", orderService);
-        request.setAttribute("orderDetailService", orderDetailService);
+        request.setAttribute("ordersData", ordersData);
         request.setAttribute("currentStatus", statusParam);
 
         // Set sidebar data

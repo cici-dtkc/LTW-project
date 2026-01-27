@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     // Dữ liệu được set bởi AddressServlet
-    User user = (User) request.getAttribute("user");
+//    User user = (User) request.getAttribute("user");
 %>
 
 <html>

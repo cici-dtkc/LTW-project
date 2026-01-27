@@ -17,15 +17,24 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Hiển thị danh sách điện thoại với các bộ lọc
+ * - Lọc theo giá, bộ nhớ, màu sắc, năm, thương hiệu, tìm kiếm
+ * - Phân trang: 16 sản phẩm/trang
+ * - Hỗ trợ sắp xếp
+ */
 @WebServlet("/listproduct")
 public class ProductListServlet extends HttpServlet {
     private final ProductService productService = new ProductServiceImpl();
-    private static final int DEFAULT_PAGE_SIZE = 12;
+    private static final int DEFAULT_PAGE_SIZE = 16; // Số sản phẩm mỗi trang
 
+    /**
+     * Xử lý GET: Lấy danh sách điện thoại với filter và pagination
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Assuming category 1 is for phones
+        // Category 1 = Điện thoại
         int categoryId = 1;
 
         // Lấy các tham số lọc
@@ -44,11 +53,11 @@ public class ProductListServlet extends HttpServlet {
         if (page < 1)
             page = 1;
 
-        // 🔧 TỐI ƯU HÓA: Lấy dữ liệu với pagination ở tầng database
+        // Tối ưu: Lấy dữ liệu với pagination ở database (tránh load toàn bộ)
         List<Map<String, Object>> products;
         int totalItems;
 
-        // Kiểm tra có filter hay search không
+        // Kiểm tra có bộ lọc hoặc tìm kiếm
         boolean hasFilter = hasFilters(priceMin, priceMax, memory, colors, year, brandName, sortBy)
                 || (search != null && !search.trim().isEmpty());
 
@@ -109,6 +118,7 @@ public class ProductListServlet extends HttpServlet {
         request.getRequestDispatcher("/listproduct.jsp").forward(request, response);
     }
 
+    // Lấy tham số kiểu Double từ request
     private Double getDoubleParameter(HttpServletRequest request, String paramName) {
         String value = request.getParameter(paramName);
         if (value != null && !value.trim().isEmpty()) {
@@ -121,6 +131,7 @@ public class ProductListServlet extends HttpServlet {
         return null;
     }
 
+    // Lấy tham số kiểu Integer từ request
     private Integer getIntegerParameter(HttpServletRequest request, String paramName) {
         String value = request.getParameter(paramName);
         if (value != null && !value.trim().isEmpty()) {
@@ -133,6 +144,7 @@ public class ProductListServlet extends HttpServlet {
         return null;
     }
 
+    // Lấy danh sách tham số từ request
     private List<String> getListParameter(HttpServletRequest request, String paramName) {
         String[] values = request.getParameterValues(paramName);
         if (values != null && values.length > 0) {
@@ -141,6 +153,7 @@ public class ProductListServlet extends HttpServlet {
         return null;
     }
 
+    // Kiểm tra xem có bộ lọc nào được sử dụng không
     private boolean hasFilters(Double priceMin, Double priceMax, List<String> memory,
             List<String> colors, Integer year, String brandName, String sortBy) {
         return priceMin != null || priceMax != null || (memory != null && !memory.isEmpty()) ||
