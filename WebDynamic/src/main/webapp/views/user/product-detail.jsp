@@ -47,13 +47,15 @@
                     <div class="main">
                         <c:choose>
                             <c:when test="${not empty images}">
+                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
                                 <img class="img-feature"
-                                     src="${pageContext.request.contextPath}/${images[0].imgPath}"
+                                     src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${images[0].imgPath}"
                                      alt="${product.name}">
                             </c:when>
                             <c:otherwise>
+                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
                                 <img class="img-feature"
-                                     src="${pageContext.request.contextPath}/${product.mainImage}"
+                                     src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.mainImage}"
                                      alt="${product.name}">
                             </c:otherwise>
                         </c:choose>
@@ -64,13 +66,15 @@
                     <div class="list-image">
                         <c:choose>
                             <c:when test="${not empty images}">
+                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
                                 <c:forEach items="${images}" var="img">
-                                    <div><img src="${pageContext.request.contextPath}/${img.imgPath}"
+                                    <div><img src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${img.imgPath}"
                                               alt="${product.name}"></div>
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
-                                <div><img src="${pageContext.request.contextPath}/${product.mainImage}"
+                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
+                                <div><img src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.mainImage}"
                                           alt="${product.name}"></div>
                             </c:otherwise>
                         </c:choose>
@@ -364,7 +368,8 @@
                 <div class="product-card">
                     <a href="product-detail?id=${product.id}">
                         <div class="product-img">
-                            <img src="${pageContext.request.contextPath}/assert/img/product/${product.image}" alt="${product.name}">
+                            <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
+                            <img src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.image}" alt="${product.name}">
                             <c:if test="${product.discount > 0}">
                                 <span class="discount-badge">-${product.discount}%</span>
                             </c:if>
@@ -395,8 +400,7 @@
                                     <c:forEach var="variant" items="${product.variants}" varStatus="status">
                                         <c:if test="${not empty variant.name}">
                                             <button class="${firstActive ? 'active' : ''}"
-                                                    data-id="${variant.
-                                                id}"  <%-- THÊM DÒNG NÀY --%>
+                                                    data-id="${variant.id}"
                                                     data-price="${variant.priceNew}"
                                                     data-old-price="${variant.priceOld}">
                                                     ${variant.name}
