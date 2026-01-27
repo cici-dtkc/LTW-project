@@ -44,22 +44,24 @@
         <div class="product-info-left">
             <div class="product-detail">
                 <div class="product-gallery">
+                    <c:set var="imgFolder"
+                           value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
+
                     <div class="main">
                         <c:choose>
                             <c:when test="${not empty images}">
-                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
                                 <img class="img-feature"
                                      src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${images[0].imgPath}"
                                      alt="${product.name}">
                             </c:when>
                             <c:otherwise>
-                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
                                 <img class="img-feature"
                                      src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.mainImage}"
                                      alt="${product.name}">
                             </c:otherwise>
                         </c:choose>
-                        <div class="control prev"><i class="fas fa-angle-left"></i></div>
+
+                    <div class="control prev"><i class="fas fa-angle-left"></i></div>
                         <div class="control next"><i class="fas fa-angle-right"></i></div>
                     </div>
 
@@ -68,14 +70,16 @@
                             <c:when test="${not empty images}">
                                 <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
                                 <c:forEach items="${images}" var="img">
-                                    <div><img src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${img.imgPath}"
-                                              alt="${product.name}"></div>
+                                    <div><img
+                                            src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${img.imgPath}"
+                                            alt="${product.name}"></div>
                                 </c:forEach>
                             </c:when>
                             <c:otherwise>
                                 <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
-                                <div><img src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.mainImage}"
-                                          alt="${product.name}"></div>
+                                <div><img
+                                        src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.mainImage}"
+                                        alt="${product.name}"></div>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -101,38 +105,52 @@
                 <div class="info">
                     <!--  Giá & khuyến mãi -->
                     <h2 class="price-label">Giá sản phẩm</h2>
+
                     <div class="price-box">
                         <div class="price-content">
+
+                            <c:set var="basePrice" value="0"/>
+
+                            <!-- LẤY GIÁ GỐC -->
                             <c:choose>
                                 <c:when test="${not empty defaultVariantColor}">
-                                    <c:set var="oldPrice" value="${defaultVariantColor.price}"/>
-                                    <c:set var="newPrice" value="${oldPrice * (100 - product.discountPercentage) / 100}"/>
-                                    <span class="current-price">
-                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
-                                    </span>
-                                    <span class="old-price">
-                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
-                                    </span>
-                                    <c:if test="${product.discountPercentage > 0}">
-                                        <span class="discount">-${product.discountPercentage}%</span>
-                                    </c:if>
+                                    <c:set var="basePrice" value="${defaultVariantColor.price}"/>
                                 </c:when>
-                                <c:when test="${not empty variants and not empty variants[0]}">
-                                    <c:set var="oldPrice" value="${variants[0].basePrice}"/>
-                                    <c:set var="newPrice" value="${oldPrice * (100 - product.discountPercentage) / 100}"/>
-                                    <span class="current-price">
-                                        <fmt:formatNumber value="${newPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
-                                    </span>
-                                    <span class="old-price">
-                                        <fmt:formatNumber value="${oldPrice}" type="number" groupingUsed="true" pattern="#,###" />₫
-                                    </span>
-                                    <c:if test="${product.discountPercentage > 0}">
-                                        <span class="discount">-${product.discountPercentage}%</span>
-                                    </c:if>
+                                <c:when test="${not empty variants}">
+                                    <c:set var="basePrice" value="${variants[0].basePrice}"/>
                                 </c:when>
                             </c:choose>
+
+                            <!-- TÍNH GIÁ SAU DISCOUNT -->
+                            <c:set var="discountedPrice"
+                                   value="${basePrice * (100 - product.discountPercentage) / 100}"/>
+
+                            <!-- GIÁ MỚI -->
+                            <span class="current-price">
+            <fmt:formatNumber value="${discountedPrice}"
+                              type="number"
+                              groupingUsed="true"
+                              pattern="#,###"/>₫
+        </span>
+
+                            <!-- GIÁ CŨ (LUÔN TỒN TẠI DOM) -->
+                            <span class="old-price"
+                                  style="${product.discountPercentage > 0 ? '' : 'display:none'}">
+            <fmt:formatNumber value="${basePrice}"
+                              type="number"
+                              groupingUsed="true"
+                              pattern="#,###"/>₫
+        </span>
+
+                            <!-- DISCOUNT (LUÔN TỒN TẠI DOM) -->
+                            <span class="discount"
+                                  style="${product.discountPercentage > 0 ? '' : 'display:none'}">
+            -${product.discountPercentage}%
+        </span>
+
                         </div>
                     </div>
+
                     <h2>Chọn phiên bản</h2>
                     <div class="version-select">
                         <c:forEach items="${variants}" var="v" varStatus="st">
@@ -145,7 +163,11 @@
                     <h2>Chọn màu sắc</h2>
                     <div class="color-options">
                         <c:forEach items="${colors}" var="c" varStatus="st">
-                            <div class="color-item ${st.first ? 'active' : ''}" data-color-id="${c.color.id}" data-color-name="${c.color.name}">
+                            <div class="color-item ${st.first ? 'active' : ''}"
+                                 data-color-id="${c.color.id}"
+                                 data-color-name="${c.color.name}"
+                                 data-variant-color-id="${c.id}"
+                                 data-price="${c.price}">
         <span class="color-list"
               style="background:${c.color.colorCode}"></span>
                                 <span>${c.color.name}</span>
@@ -176,10 +198,12 @@
                                                     <p class="discount">${promo.description}</p>
                                                     <a href="#">Xem chi tiết <i class="fa-solid fa-angle-right"></i></a>
                                                 </div>
-                                                <c:set var="quantityRemain" value="${promo.quantityLimit - promo.quantityUsed}"/>
+                                                <c:set var="quantityRemain"
+                                                       value="${promo.quantityLimit - promo.quantityUsed}"/>
                                                 <c:choose>
                                                     <c:when test="${quantityRemain > 0}">
-                                                        <div class="promo-status remain">Còn ${quantityRemain} suất</div>
+                                                        <div class="promo-status remain">Còn ${quantityRemain} suất
+                                                        </div>
                                                     </c:when>
                                                     <c:otherwise>
                                                         <div class="promo-status soldout">Hết suất</div>
@@ -368,8 +392,9 @@
                 <div class="product-card">
                     <a href="product-detail?id=${product.id}">
                         <div class="product-img">
-                            <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
-                            <img src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${product.image}" alt="${product.name}">
+                            <c:set var="relatedImgPath" value="${product.categoryId == 1 ? 'product' : 'accesory'}"/>
+                            <img src="${pageContext.request.contextPath}/assert/img/${relatedImgPath}/${product.image}"
+                                 alt="${product.name}">
                             <c:if test="${product.discount > 0}">
                                 <span class="discount-badge">-${product.discount}%</span>
                             </c:if>
@@ -379,11 +404,11 @@
                         <h2>${product.name}</h2>
                         <div class="price-wrap">
             <span class="price-new">
-              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"  />₫
+              <fmt:formatNumber value="${product.priceNew}" type="number" groupingUsed="true" pattern="#,###"/>₫
             </span>
                             <c:if test="${product.priceOld > product.priceNew}">
               <span class="price-old">
-                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"  />₫
+                <fmt:formatNumber value="${product.priceOld}" type="number" groupingUsed="true" pattern="#,###"/>₫
               </span>
                             </c:if>
                         </div>
@@ -442,118 +467,31 @@
         </div>
     </section>
 </div>
-<section class="footer-section">
-    <footer id="footer">
-        <div class="container">
-            <div id="footer-content" class="footer-content">
+<jsp:include page="/views/includes/footer.jsp"/>
 
-                <!-- Company Info Section -->
-                <div id="footer-company" class="footer-section">
-                    <div id="footer-logo" class="footer-logo">
-                        <img src="../../assert/img/logo.png" alt="Logo công ty">
-                    </div>
-                    <p id="footer-description" class="company-description">
-                        Chúng tôi cam kết mang đến những sản phẩm chất lượng cao và dịch vụ tốt nhất cho khách hàng.
-                    </p>
-                    <div id="footer-social" class="social-links">
-                        <a href="#" class="social-link" title="Facebook" id="social-facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Instagram" id="social-instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="#" class="social-link" title="Twitter" id="social-twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="#" class="social-link" title="YouTube" id="social-youtube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Quick Links Section -->
-                <div id="footer-links" class="footer-section">
-                    <h3 class="footer-title">Liên kết nhanh</h3>
-                    <ul id="quick-links" class="footer-links">
-                        <li><a href="home.html" id="link-home">Trang chủ</a></li>
-                        <li><a href="cart.html" id="link-cart">Giỏ hàng</a></li>
-                        <li><a href="checkout.html" id="link-checkout">Thanh toán</a></li>
-                        <li><a href="order_detail.html" id="link-orders">Đơn hàng</a></li>
-                        <li><a href="info-user.html" id="link-user">Thông tin cá nhân</a></li>
-                    </ul>
-                </div>
-
-                <!-- Customer Service Section -->
-                <div id="footer-support" class="footer-section">
-                    <h3 class="footer-title">Hỗ trợ khách hàng</h3>
-                    <ul id="support-links" class="footer-links">
-                        <li><a href="#" id="policy-return">Chính sách đổi trả</a></li>
-                        <li><a href="#" id="policy-privacy">Chính sách bảo mật</a></li>
-                        <li><a href="#" id="policy-terms">Điều khoản sử dụng</a></li>
-                        <li><a href="#" id="policy-guide">Hướng dẫn mua hàng</a></li>
-                        <li><a href="#" id="policy-faq">Câu hỏi thường gặp</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Info Section -->
-                <div id="footer-contact" class="footer-section">
-                    <h3 class="footer-title">Thông tin liên hệ</h3>
-                    <div id="contact-info" class="contact-info">
-                        <div class="contact-item" id="contact-address">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>123 Đường ABC, Quận XYZ, TP.HCM</span>
-                        </div>
-                        <div class="contact-item" id="contact-phone">
-                            <i class="fas fa-phone"></i>
-                            <span>+84 123 456 789</span>
-                        </div>
-                        <div class="contact-item" id="contact-email">
-                            <i class="fas fa-envelope"></i>
-                            <span>info@company.com</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Bottom -->
-            <div id="footer-bottom" class="footer-bottom">
-                <div id="footer-bottom-content" class="footer-bottom-content">
-                    <p id="footer-copyright">
-                        &copy; 2024 Công ty ABC. Tất cả quyền được bảo lưu.
-                    </p>
-
-                </div>
-            </div>
-        </div>
-    </footer>
-</section>
-</body>
 <script>
-    // Dữ liệu giá theo variant và color từ backend
-    window.variantColorPrices = {};
+    window.PRODUCT_DATA = {
+        discount: ${product.discountPercentage},
+        variantBasePrices: {},
+        variantColorPrices: {},
+        variantColorIds: {}
+    };
+
+    <c:forEach items="${variants}" var="v">
+    window.PRODUCT_DATA.variantBasePrices[${v.id}] = ${v.basePrice};
+    </c:forEach>
+
     <c:forEach items="${variantColors}" var="vc">
-    const key = "${vc.variantId}_${vc.colorId}";
-    window.variantColorPrices[key] = {
+    window.PRODUCT_DATA.variantColorPrices["${vc.variantId}_${vc.colorId}"] = {
         price: ${vc.price},
         quantity: ${vc.quantity}
     };
+    window.PRODUCT_DATA.variantColorIds["${vc.variantId}_${vc.colorId}"] = ${vc.id};
     </c:forEach>
-
-    // Dữ liệu base_price của variants
-    window.variantBasePrices = {};
-    <c:forEach items="${variants}" var="v">
-    window.variantBasePrices[${v.id}] = ${v.basePrice};
-    </c:forEach>
-    // Dữ liệu variantColorIds (vcId) để thêm vào giỏ hàng
-    window.variantColorIds = {};
-    <c:forEach items="${variantColors}" var="vc">
-    window.variantColorIds["${vc.variantId}_${vc.colorId}"] = ${vc.id};
-    </c:forEach>
-    // Discount percentage từ product
-    window.productDiscount = ${product.discountPercentage};
 </script>
 <script src="${pageContext.request.contextPath}/js/header.js"></script>
 <script src="${pageContext.request.contextPath}/js/productDetail.js"></script>
 <script src="${pageContext.request.contextPath}/js/cartCount.js"></script>
 
+</body>
 </html>

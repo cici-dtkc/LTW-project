@@ -1433,6 +1433,7 @@ public class ProductDaoImpl implements ProductDao {
                 .bind("pid", productId)
                 .map((rs, ctx) -> {
                     Map<String, Object> map = new HashMap<>();
+                    map.put("id", rs.getInt("vc_id"));
                     map.put("variantId", rs.getInt("variant_id"));
                     map.put("colorId", rs.getInt("color_id"));
                     map.put("price", rs.getDouble("price"));
@@ -1453,6 +1454,7 @@ public class ProductDaoImpl implements ProductDao {
                         v.name AS variant_name,
                         col.name AS color_name,
                         p.img AS main_img,
+                        p.category_id AS categoryId,
                         vc.price AS unit_price,
                         p.discount_percentage
                     FROM variant_colors vc
