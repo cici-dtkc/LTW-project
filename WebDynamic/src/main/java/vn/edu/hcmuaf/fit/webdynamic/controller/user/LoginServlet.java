@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.webdynamic.service.UserService;
 import vn.edu.hcmuaf.fit.webdynamic.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -35,7 +36,7 @@ public class LoginServlet extends HttpServlet {
                     : (referer != null ? referer : null);
 
             // Chỉ lưu nếu URL hợp lệ (không phải trang login, logout, register)
-            if (currentUrl != null && !currentUrl.contains("/login") 
+            if (currentUrl != null && !currentUrl.contains("/login")
                     && !currentUrl.contains("/logout") && !currentUrl.contains("/register")) {
                 String contextPath = request.getContextPath();
                 String relativeUrl = extractRelativePath(currentUrl, contextPath);
@@ -71,6 +72,9 @@ public class LoginServlet extends HttpServlet {
         int role = user.getRole();
         String contextPath = request.getContextPath();
 
+        // Nếu vừa đăng xuất trước đó, buộc quay về trang home (chỉ áp dụng user)
+        boolean justLoggedOut = consumeJustLoggedOutCookie(request, response);
+
         // ===== ADMIN: luôn vào dashboard =====
         if (role == 0) {
             response.sendRedirect(contextPath + "/admin/dashboard");
@@ -80,11 +84,18 @@ public class LoginServlet extends HttpServlet {
         // ===== USER: xử lý redirect như cũ =====
         String redirectUrl = null;
 
+        // Nếu vừa logout → login lại thì đưa thẳng về home
+        if (justLoggedOut) {
+            redirectUrl = "/home";
+        }
+
         // Ưu tiên 1: Trang yêu cầu login trước đó (từ LoginFilter)
-        String savedRedirectUrl = (String) session.getAttribute("redirectUrl");
-        if (savedRedirectUrl != null) {
-            session.removeAttribute("redirectUrl");
-            redirectUrl = savedRedirectUrl;
+        if (redirectUrl == null) {
+            String savedRedirectUrl = (String) session.getAttribute("redirectUrl");
+            if (savedRedirectUrl != null) {
+                session.removeAttribute("redirectUrl");
+                redirectUrl = savedRedirectUrl;
+            }
         }
 
         // Ưu tiên 2: Trang đang xem trước khi vào login (từ doGet)
@@ -107,6 +118,36 @@ public class LoginServlet extends HttpServlet {
         }
 
         response.sendRedirect(contextPath + redirectUrl);
+    }
+
+
+    /**
+     * Kiểm tra và xóa cookie đánh dấu vừa logout.
+     */
+    private boolean consumeJustLoggedOutCookie(HttpServletRequest request, HttpServletResponse response) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return false;
+        }
+
+        String contextPath = request.getContextPath();
+        if (contextPath == null || contextPath.isEmpty()) {
+            contextPath = "/";
+        }
+
+        boolean found = false;
+        for (Cookie cookie : cookies) {
+            if ("justLoggedOut".equals(cookie.getName())) {
+                found = true;
+                // Xóa cookie sau khi sử dụng
+                cookie.setValue("");
+                cookie.setMaxAge(0);
+                cookie.setPath(contextPath);
+                response.addCookie(cookie);
+                break;
+            }
+        }
+        return found;
     }
 
 

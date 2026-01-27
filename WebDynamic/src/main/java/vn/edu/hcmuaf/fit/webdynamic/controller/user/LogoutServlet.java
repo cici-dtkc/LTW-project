@@ -1,8 +1,13 @@
 package vn.edu.hcmuaf.fit.webdynamic.controller.user;
 
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import vn.edu.hcmuaf.fit.webdynamic.model.User;
 
 @WebServlet(name = "LogoutServlet", value = "/logout")
 public class LogoutServlet extends HttpServlet {
@@ -12,6 +17,13 @@ public class LogoutServlet extends HttpServlet {
             throws IOException {
 
         HttpSession session = request.getSession(false);
+        int role = -1;
+        if (session != null) {
+            Object userObj = session.getAttribute("user");
+            if (userObj instanceof User) {
+                role = ((User) userObj).getRole();
+            }
+        }
 //
 //        if (session != null) {
 //            session.invalidate();
@@ -30,6 +42,11 @@ public class LogoutServlet extends HttpServlet {
         // Invalidate session
         if (session != null) {
             session.invalidate();
+        }
+
+        // Đánh dấu trạng thái vừa đăng xuất để buộc lần đăng nhập tiếp theo về trang home (chỉ áp dụng user)
+        if (role != 0 && role != -1) {
+            setJustLoggedOutCookie(request, response);
         }
 
         String contextPath = request.getContextPath();
@@ -74,6 +91,22 @@ public class LogoutServlet extends HttpServlet {
         }
 
         response.sendRedirect(redirectUrl);
+    }
+
+    /**
+     * Gắn cookie ngắn hạn để đánh dấu người dùng vừa đăng xuất.
+     */
+    private void setJustLoggedOutCookie(HttpServletRequest request, HttpServletResponse response) {
+        String path = request.getContextPath();
+        if (path == null || path.isEmpty()) {
+            path = "/";
+        }
+
+        Cookie logoutFlag = new Cookie("justLoggedOut", "true");
+        logoutFlag.setPath(path);
+        logoutFlag.setHttpOnly(true);
+        logoutFlag.setMaxAge(300); // 5 phút đủ để thao tác đăng nhập lại
+        response.addCookie(logoutFlag);
     }
 
     /**

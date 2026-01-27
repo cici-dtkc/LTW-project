@@ -11,7 +11,7 @@ public class User implements Serializable{
     private String lastName;
     private String avatar;
     private String email;
-    private int role;
+    private int role=1;
     private int status;
     private String provider;
     private String providerId;

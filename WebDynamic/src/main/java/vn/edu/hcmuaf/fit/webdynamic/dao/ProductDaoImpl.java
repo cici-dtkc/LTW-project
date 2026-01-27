@@ -256,7 +256,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Integer> findVariantIdsForAdmin(String keyword, Integer status, Integer categoryId, int offset,
-            int limit) {
+                                                int limit) {
 
         String sql = """
                     SELECT vc.id
@@ -396,7 +396,7 @@ public class ProductDaoImpl implements ProductDao {
         String sql = "UPDATE products SET status = ? WHERE id = ?";
 
         try (Connection conn = (Connection) DBConnect.getJdbi();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, status);
             ps.setInt(2, productId);
@@ -411,7 +411,7 @@ public class ProductDaoImpl implements ProductDao {
     public Product getProductById(int id) {
         String sql = "SELECT * FROM products WHERE id = ?";
         try (Connection conn = (Connection) DBConnect.getJdbi();
-                PreparedStatement ps = conn.prepareStatement(sql)) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -964,7 +964,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public List<Map<String, Object>> getAccessoriesWithFilters(Double priceMin, Double priceMax, Integer brandId,
-            List<String> types, String condition, String sortBy) {
+                                                               List<String> types, String condition, String sortBy) {
         return List.of();
     }
 
@@ -1196,7 +1196,7 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void updateVariant(Handle h, int variantId, String name, double basePrice) {
         h.createUpdate(
-                "UPDATE product_variants SET name = :name, base_price = :price, updated_at = NOW() WHERE id = :id")
+                        "UPDATE product_variants SET name = :name, base_price = :price, updated_at = NOW() WHERE id = :id")
                 .bind("id", variantId)
                 .bind("name", name)
                 .bind("price", basePrice)
@@ -1873,7 +1873,7 @@ public class ProductDaoImpl implements ProductDao {
 
     /**
      * Đếm tổng số products thỏa điều kiện filter
-     * 
+     *
      * @param categoryId ID danh mục
      * @param priceMin   Giá tối thiểu (null = bỏ qua)
      * @param priceMax   Giá tối đa (null = bỏ qua)
