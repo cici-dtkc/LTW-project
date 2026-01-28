@@ -85,7 +85,7 @@
                     <% for (Map<String, Object> item : items) { %>
                     <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= orderId %>">
                         <div class="order-info">
-                            <img src="<%= request.getContextPath() %>/<%= item.get("imagePath") %>"
+                            <img src="${pageContext.request.contextPath}/assert/img/product/<%= item.get("imagePath") %>"
                                  alt="<%= item.get("productName") %>">
                             <div class="order-detail">
                                 <h3><%= item.get("productName") %> <%= item.get("variantName") %></h3>
@@ -102,7 +102,7 @@
                 %>
                 <a href="<%= request.getContextPath() %>/user/order-detail?orderId=<%= orderId %>">
                     <div class="order-info">
-                        <img src="<%= request.getContextPath() %>/<%= item.get("imagePath") %>"
+                        <img src="${pageContext.request.contextPath}/assert/img/product/<%= item.get("imagePath") %>"
                              alt="<%= item.get("productName") %>">
                         <div class="order-detail">
                             <h3><%= item.get("productName") %> <%= item.get("variantName") %></h3>

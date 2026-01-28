@@ -84,7 +84,7 @@
                 <tr>
                     <td>
                         <c:choose>
-                            <c:when test="${categoryId == 1}">
+                            <c:when test="${row.c_id == 1}">
                                 <img src="${pageContext.request.contextPath}/assert/img/product/${row.p_img}"
                                 >
                             </c:when>
@@ -93,6 +93,7 @@
                                 >
                             </c:otherwise>
                         </c:choose>
+
                     </td>
 
                     <td class="text-left">${row.p_name}</td>
