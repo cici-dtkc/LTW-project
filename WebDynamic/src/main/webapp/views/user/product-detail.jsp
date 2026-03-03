@@ -45,7 +45,7 @@
             <div class="product-detail">
                 <div class="product-gallery">
                     <c:set var="imgFolder"
-                           value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
+                           value="${product.category.id == 1 ? 'product' : 'accesory'}"/>
 
                     <div class="main">
                         <c:choose>
@@ -68,7 +68,7 @@
                     <div class="list-image">
                         <c:choose>
                             <c:when test="${not empty images}">
-                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accessory'}"/>
+                                <c:set var="imgFolder" value="${product.category.id == 1 ? 'product' : 'accesory'}"/>
                                 <c:forEach items="${images}" var="img">
                                     <div><img
                                             src="${pageContext.request.contextPath}/assert/img/${imgFolder}/${img.imgPath}"

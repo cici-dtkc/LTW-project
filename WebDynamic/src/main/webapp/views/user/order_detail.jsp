@@ -49,7 +49,7 @@
             <% for (Map<String, Object> item : items) { %>
             <article class="item">
                 <div class="thumb" aria-hidden="true">
-                    <img src="${pageContext.request.contextPath}/<%= item.get("imagePath") %>"
+                    <img src="${pageContext.request.contextPath}/assert/img/product/<%= item.get("imagePath") %>"
                          alt="<%= item.get("productName") %>"
                          style="width:82px;height:82px;border-radius:8px;object-fit:cover"/>
                 </div>

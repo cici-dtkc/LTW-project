@@ -39,12 +39,14 @@ public class OrderDetailDao {
     public Map<String, String> getProductInfoByVariantId(int variantId) {
         String sql = "SELECT p.name as product_name, pv.name as variant_name, " +
                 "c.name as color_name, c.color_code, " +
-                "(SELECT img_path FROM images WHERE product_id = p.id LIMIT 1) as image_path " +
+                "COALESCE(i.img_path, p.img) as image_path " +
                 "FROM variant_colors vc " +
                 "JOIN product_variants pv ON vc.variant_id = pv.id " +
                 "JOIN products p ON pv.product_id = p.id " +
                 "JOIN colors c ON vc.color_id = c.id " +
-                "WHERE vc.id = ?";
+                "LEFT JOIN images i ON i.variant_color_id = vc.id " +
+                "WHERE vc.id = ? " +
+                "LIMIT 1";
 
         return jdbi.withHandle(handle -> handle.createQuery(sql)
                 .bind(0, variantId)
@@ -60,7 +62,6 @@ public class OrderDetailDao {
                 .findFirst()
                 .orElse(new HashMap<>()));
     }
-
     /**
      * Thêm chi tiết đơn hàng
      */
